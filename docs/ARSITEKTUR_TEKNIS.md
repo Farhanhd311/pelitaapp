@@ -32,7 +32,7 @@ Proyek ini menggunakan arsitektur **Full-Stack Monorepo** dengan **Next.js (App 
 | **Styling & UI** | Tailwind CSS + shadcn/ui | `lucide-react` | Komponen UI aksesibel dengan palet warna hangat (*teal*, *peach*, *lavender*, krem, *amber*) |
 | **Animasi & Audio** | `motion` (Framer Motion) | **Web Speech API** (`window.speechSynthesis`) | Animasi ekspresi maskot **Pijar** & fitur baca suara otomatis (`id-ID`) untuk mode ramah mata |
 | **State Management** | React State / `useReducer` | — (tanpa Zustand) | Cukup untuk *state* kuis dan interval otomatis (±1,5 detik/soal) pada **Mode Demo Asesmen**. Satu pustaka lebih sedikit untuk dijelaskan |
-| **AI & Validasi** | LLM API (Server-side) | **Vercel AI SDK (`ai`)** + **Zod** | Memaksa keluaran JSON sesuai skema, mengatur *timeout*, *fallback*, dan mencatat ke `LOG_AI` |
+| **AI & Validasi** | Claude API (Server-side), model dari `LLM_MODEL` (saat ini `claude-haiku-5-5`) | **SDK resmi `@anthropic-ai/sdk`** (structured outputs) + **Zod** | Memaksa keluaran JSON sesuai skema, mengatur *timeout*, *fallback*, dan mencatat ke `LOG_AI`. Paket `ai` (Vercel AI SDK) tidak dipakai |
 | **Visualisasi & PDF** | CSS Grid + **Recharts** | `window.print()` + `@media print` | Grid peta TP (tanpa React Flow), grafik Evaluasi AI Admin, & cetak laporan sekolah ke PDF |
 | **Pengujian (Testing)** | **Vitest** | — | Menguji fungsi murni `/lib/bkt`, `/lib/sesi`, dan `/lib/krisis` |
 | **Hosting** | **Google Cloud Platform**: **Cloud Run** (aplikasi Next.js) + **Cloud SQL for MySQL 8** | Localhost (XAMPP, database `pelita`) + Video Cadangan | Keduanya di region **Jakarta `asia-southeast2`** (paling dekat ke Padang). Cloud Run terhubung ke Cloud SQL lewat unix socket (`DB_SOCKET_PATH`), tanpa IP publik. Langkah deploy di 7.3 |
@@ -70,21 +70,36 @@ pelita-app/
 │   │   ├── evaluasi-ai/page.tsx  # Grafik Recharts (hasil_uji_asesmen.json + metrik nyata LOG_AI)
 │   │   ├── eskalasi/page.tsx     # Antrean rujukan & eskalasi darurat
 │   │   └── log-aktivitas/page.tsx# Tabel audit log + filter jenis tindakan + ekspor CSV
-│   └── api/                      # BACKEND API ROUTES (Server-side only)
-│       ├── auth/pin/route.ts     # Verifikasi pin_pendamping_hash di server
-│       ├── checkin/route.ts      # Simpan CHECKIN + hitung level sesi + cek 3x lemas beruntun
-│       ├── asesmen/route.ts      # Simpan JAWABAN diagnostik + jalankan perbaruiBKT() & putuskan()
-│       ├── sesi/route.ts         # Simpan JAWABAN formatif + update PROGRES_TP + cek kondisi
+│   └── api/                      # BACKEND API ROUTES (Server-side only). Contoh request semua route: docs/api.http
+│       ├── health/route.ts       # GET cek koneksi DB + utf8mb4
+│       ├── auth/
+│       │   ├── login/route.ts    # POST email + password
+│       │   ├── logout/route.ts   # POST hapus sesi
+│       │   ├── profil/route.ts   # GET siapa login + daftar avatar anak; POST pilih anak (mode anak)
+│       │   └── pin/route.ts      # POST verifikasi pin_pendamping_hash (percobaan dibatasi) -> mode pendamping
+│       ├── mapel/route.ts        # GET daftar mapel
+│       ├── checkin/route.ts      # GET check-in hari ini; POST simpan CHECKIN + tentukanLevel()
+│       ├── asesmen/route.ts      # POST mulai | jawab | jawab_demo (mesin BKT, keadaan dihitung ulang dari JAWABAN)
+│       ├── peta/route.ts         # GET Kelasku + Pos Dasar (susunPeta)
+│       ├── sesi/route.ts         # POST mulai | kuis | jawab | masih_kuat | selesai (kuis formatif + cek "Masih kuat?")
+│       ├── teman-cerita/route.ts # GET chip; POST skrining: cekKataKunciKrisis() dulu -> level rujukan -> SKRINING
 │       ├── ai/
-│       │   ├── tutor/route.ts    # Panggil LLM AI Tutor + fallback pembahasan soal
-│       │   ├── laporan/route.ts  # Panggil LLM Draf Laporan Sekolah Kurikulum Merdeka
-│       │   └── buat-soal/route.ts# Panggil LLM Generator Soal + validasi kunci otomatis
-│       ├── teman-cerita/route.ts # Jalankan cekKataKunciKrisis() SEBELUM LLM -> simpan SKRINING
-│       ├── pendamping/keputusan/route.ts # Setujui/tolak rujukan (hanya orang_tua/wali)
+│       │   ├── tutor/route.ts    # POST AI tutor + cadangan
+│       │   ├── laporan/route.ts  # POST draf laporan sekolah + cadangan templat
+│       │   ├── buat-soal/route.ts# POST generator soal + validasi otomatis -> antrean draf
+│       │   └── umpan-balik/route.ts # POST jempol membantu/tidak membantu
+│       ├── pendamping/
+│       │   ├── dashboard/route.ts  # GET ringkasan, tren, perlu perhatian, progres, keputusan
+│       │   ├── keputusan/route.ts  # GET daftar; POST setujui/tolak rujukan (hanya orang_tua/wali)
+│       │   ├── anak/route.ts       # GET profil; PATCH mode jeda / batas layar / fase (hanya orang_tua/wali)
+│       │   └── laporan/route.ts    # GET data halaman cetak; POST catat unduhan
 │       └── admin/
-│           ├── pengaturan/route.ts # Validasi rentang aman & simpan versi baru PENGATURAN_SISTEM
-│           ├── soal/route.ts       # Terbitkan / tolak soal di antrean tinjauan
-│           └── reset-demo/route.ts # WAJIB: Kembalikan seluruh data Raka ke kondisi awal demo
+│           ├── pengaturan/route.ts # GET + POST ubah/kembalikan (rentang aman, alasan, versi baru)
+│           ├── soal/route.ts       # GET bank soal + statistik; POST terbitkan / sunting / tolak
+│           ├── evaluasi/route.ts   # GET metrik Evaluasi AI + hasil simulasi berlabel
+│           ├── log-aktivitas/route.ts # GET log + filter + ekspor CSV
+│           ├── eskalasi/route.ts   # GET antrean; POST tandai ditangani / alarm palsu
+│           └── reset-demo/route.ts # POST kembalikan data Raka ke kondisi awal demo
 ├── components/                   # KOMPONEN UI REUSABLE
 │   ├── ui/                       # Komponen dasar shadcn/ui (Button, Card, Dialog, Badge, Tabs)
 │   ├── anak/                     # MascotPijar.tsx, TombolSpeaker.tsx, ModalMasihKuat.tsx
@@ -92,39 +107,53 @@ pelita-app/
 │   └── admin/                    # GrafikEvaluasiBKT.tsx, TabelTinjauanSoal.tsx, TombolResetDemo.tsx
 ├── lib/                          # LOGIKA INTI BACKEND & FUNGSI MURNI (Fokus Penilaian Teknis 20%)
 │   ├── bkt/                      # Algoritma BKT & penelusuran prasyarat (Zero DB dependency)
-│   │   ├── engine.ts             # perbaruiBKT(), setelahJawab(), putuskan()
-│   │   ├── graph.ts              # Cari leluhur, keturunan, & kandidat tengah rantai prasyarat
+│   │   ├── engine.ts             # perbaruiBKT(), setelahJawab(), putuskan(), putarUlangAsesmen(), jawabFormatif()
+│   │   ├── graph.ts              # Cari leluhur, keturunan, TP pertama
+│   │   ├── peta.ts               # susunPeta(): Kelasku, Pos Dasar, TP terkunci, rekomendasi
 │   │   └── bkt.test.ts           # Unit test Vitest memakai data/tes_kasus_bkt.json
 │   ├── sesi/                     # Aturan bisnis sesi harian & cek kondisi tengah sesi
-│   │   ├── aturan.ts             # tentukanLevel(), evaluasiCekMasihKuat(), cekPeringatanTigaHari()
+│   │   ├── aturan.ts             # tentukanLevel(), evaluasiCekMasihKuat(), tindakanMasihKuat(), perluPerhatian()
 │   │   └── sesi.test.ts          # Unit test Vitest
 │   ├── krisis/                   # Deteksi sinyal krisis berbasis aturan tetap (Bukan AI)
 │   │   ├── detektor.ts           # cekKataKunciKrisis(), tentukanLevelRujukan()
 │   │   └── krisis.test.ts        # Unit test Vitest
-│   ├── ai/                       # Abstraksi Pemanggilan LLM Server-Side
-│   │   ├── client.ts             # Wrapper panggilLLM(): timeout, validasi Zod, fallback, & LOG_AI
+│   ├── ai/                       # Abstraksi Pemanggilan LLM Server-Side (SDK resmi @anthropic-ai/sdk)
+│   │   ├── client.ts             # Wrapper panggilLLM(): timeout, structured output + Zod, key cadangan, fallback, LOG_AI
 │   │   ├── prompts.ts            # Template prompt + guardrail kata sensitif (tanpa jarum/RS)
 │   │   ├── schemas.ts            # Skema Zod untuk output JSON Tutor, Laporan, & Generator Soal
-│   │   └── fallbacks.ts          # Jawaban cadangan statis untuk demo (B3-D3 & laporan Raka)
+│   │   ├── validasi.ts           # Cek keluaran: jumlah kalimat, kata dihindari, 4 pilihan/1 kunci, kunci dihitung ulang
+│   │   ├── validasi.test.ts      # Unit test Vitest
+│   │   └── fallbacks.ts          # Jawaban cadangan (tutor B3-D3, templat laporan, soal B3)
 │   ├── pengaturan/               # Pembaca & Validator PENGATURAN_SISTEM
-│   │   └── index.ts              # ambilPengaturanAktif(), validasiRentangPengaturan()
+│   │   ├── index.ts              # Nilai aktif, nilai yang berlaku pada waktu tertentu (berversi), simpan/kembalikan versi
+│   │   ├── rentang.ts            # Rentang aman + kombinasi tidak logis (PANDUAN 8.4)
+│   │   └── pengaturan.test.ts    # Unit test Vitest
 │   ├── log/                      # Pencatat Audit & Telemetri AI
 │   │   └── index.ts              # catatAktivitas() (append-only), catatLogAI()
+│   ├── api/
+│   │   └── respons.ts            # tanganiApi(), bacaBody(), GalatApi: bentuk galat seragam untuk semua route
+│   ├── kontrak/                  # Kontrak API (request: skema Zod; response: tipe), dipakai server DAN frontend
+│   │   ├── umum.ts               # Bentuk galat, enum status, SoalTampil (tanpa kunci jawaban), KotakPetaTp
+│   │   ├── auth.ts, checkin.ts, asesmen.ts, peta.ts, sesi.ts, ai.ts, teman-cerita.ts, pendamping.ts, admin.ts
+│   │   └── kontrak.test.ts       # Data contoh lolos skema + cocok dengan tes_kasus_bkt.json
 │   ├── evaluasi/                 # Kalkulasi metrik halaman Evaluasi AI
-│   │   └── index.ts              # hitungMetrikLogAI(), ambilDataSimulasi()
+│   │   ├── index.ts              # hitungMetrikLogAI(), ambilDataSimulasi()
+│   │   └── evaluasi.test.ts
 │   ├── auth/                     # Login buatan sendiri
 │   │   └── sesi.ts               # ambilSesi(), masuk(), keluar(), cekPin() (bcryptjs + iron-session)
-│   └── db/                       # Koneksi Database, Skema 20 Tabel, & Otorisasi RBAC
-│       ├── index.ts              # Pool koneksi mysql2 (charset utf8mb4, connectionLimit kecil)
+│   └── db/                       # Koneksi Database, Skema 20 Tabel, Otorisasi RBAC, & query per fitur
+│       ├── index.ts              # Pool koneksi mysql2 (charset utf8mb4, connectionLimit kecil), denganTransaksi()
 │       ├── schema.sql            # Definisi 20 tabel persis sesuai Bagian 9 PANDUAN_PROYEK.md (InnoDB, utf8mb4)
-│       └── rbac.ts               # Helper cekPeranServer(), wajibOrangTuaAtauWali()
+│       ├── rbac.ts               # wajibLogin(), wajibModeAnak(), wajibModePendamping(), wajibAksesAnak(), wajibOrangTuaAtauWali()
+│       └── anak.ts, asesmen.ts, sesi-belajar.ts, pendamping.ts, soal.ts  # query berparameter per fitur
 ├── data/                         # FILE DATA AWAL & KONFIGURASI SEED
 │   ├── data_awal_matematika_fase_A_B.json
 │   ├── data_awal_bahasa_indonesia_fase_A_B.json   # cadangan, di luar lingkup 24 jam
 │   ├── tes_kasus_bkt.json        # kasus uji untuk bkt.test.ts
 │   ├── hasil_uji_asesmen.json
-│   ├── seed_pengaturan_sistem.json
-│   └── seed_demo_raka.json       # Profil Raka, Ibu Sari, Kak Dina, riwayat check-in, daftar TP yang dikuasai Raka (bukan jejak hasil), 8 soal formatif B3
+│   ├── seed_pengaturan_sistem.json  # termasuk kunci tambahan (jumlah soal kuis, kode kebutuhan, ambang kartu belajar, ...)
+│   ├── seed_layanan_dukungan.json   # layanan contoh (calon mitra), dipakai Reset demo
+│   └── seed_demo_raka.json       # Data Reset demo: TP dikuasai Raka, riwayat check-in, skrining + rujukan, konten contoh
 └── scripts/
     └── seed.mts                  # Skrip seed awal & fungsi resetDataRaka()
 ```

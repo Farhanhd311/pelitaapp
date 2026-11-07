@@ -52,6 +52,30 @@ export async function query<T = RowDataPacket[]>(
   return hasil as T;
 }
 
+// Bentuk fungsi query, supaya fungsi akses data bisa dipakai di dalam maupun di luar transaksi.
+export type JalankanKueri = <T = RowDataPacket[]>(sql: string, params?: unknown[]) => Promise<T>;
+
+// Jalankan beberapa query sebagai satu kesatuan: semua berhasil, atau semua dibatalkan (rollback).
+// Contoh: await denganTransaksi(async (kueri) => { await kueri("INSERT ..."); await kueri("UPDATE ..."); });
+export async function denganTransaksi<H>(kerja: (kueri: JalankanKueri) => Promise<H>): Promise<H> {
+  const koneksi = await ambilPool().getConnection();
+  const kueri: JalankanKueri = async <T,>(sql: string, params: unknown[] = []) => {
+    const [hasil] = await koneksi.query(sql, params);
+    return hasil as T;
+  };
+  try {
+    await koneksi.beginTransaction();
+    const hasil = await kerja(kueri);
+    await koneksi.commit();
+    return hasil;
+  } catch (galat) {
+    await koneksi.rollback();
+    throw galat;
+  } finally {
+    koneksi.release();
+  }
+}
+
 // Ubah isi kolom JSON (teks) menjadi nilai JavaScript. NULL tetap null.
 export function bacaJson<T>(nilai: unknown): T | null {
   if (nilai === null || nilai === undefined) return null;
