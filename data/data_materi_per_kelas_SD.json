@@ -314,8 +314,7 @@
       "judul": "Penjumlahan dan pengurangan dengan simbol",
       "deskripsi": "Penjumlahan dan pengurangan sampai 20 memakai simbol +, -, =, serta hubungan antara keduanya.",
       "tp_terkait": [
-        "A4",
-        "A5"
+        "A4"
       ],
       "esensial_transisi": true,
       "dasar_pembagian_kelas": "ATP Ruang GTK",

@@ -40,7 +40,7 @@ export type HasilLLM<T> = {
 type Kredensial = { apiKey: string; model: string };
 
 // API key utama dan cadangan (ARSITEKTUR 6.2). Key cadangan dicoba jika key utama kena batas kuota / gangguan.
-function daftarKredensial(): Kredensial[] {
+export function daftarKredensial(): Kredensial[] {
   const utama = { apiKey: process.env.PRIMARY_LLM_API_KEY ?? "", model: process.env.LLM_MODEL ?? "" };
   const cadangan = {
     apiKey: process.env.BACKUP_LLM_API_KEY ?? "",

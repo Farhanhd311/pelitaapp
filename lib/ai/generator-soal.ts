@@ -11,7 +11,7 @@
 // dan import TP (halaman Materi) untuk TP yang baru atau berubah.
 
 import dataMateri from "@/data/data_materi_per_kelas_SD.json";
-import { panggilLLM } from "@/lib/ai/client";
+import { daftarKredensial, panggilLLM } from "@/lib/ai/client";
 import { pesanGeneratorSoal, promptGeneratorSoal, VERSI_PROMPT } from "@/lib/ai/prompts";
 import { KeluaranSoalLLM } from "@/lib/ai/schemas";
 import { periksaSoalAI } from "@/lib/ai/validasi";
@@ -95,6 +95,17 @@ export async function jalankanGenerator(opsi: { alasan: AlasanGenerator; tp_kode
   // Sakelar demo menyala = LLM sengaja tidak dipanggil (sinyal panggung buruk).
   if (nilai["demo.pakai_cadangan"] === true) {
     return { alasan: opsi.alasan, jumlah_tp: target.length, terbit: 0, gagal: 0, dilewati: "Sakelar demo \"pakai jawaban cadangan\" menyala, jadi LLM tidak dipanggil." };
+  }
+
+  // Periksa apakah API key LLM sudah disetel di .env
+  if (daftarKredensial().length === 0) {
+    return {
+      alasan: opsi.alasan,
+      jumlah_tp: target.length,
+      terbit: 0,
+      gagal: 0,
+      dilewati: "API key LLM belum diisi di .env (PRIMARY_LLM_API_KEY dan LLM_MODEL).",
+    };
   }
 
   const perTp = Math.max(1, Number(nilai["generator_soal.soal_per_tp"] ?? 1));

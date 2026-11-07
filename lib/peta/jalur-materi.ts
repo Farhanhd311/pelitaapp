@@ -150,5 +150,24 @@ export function susunJalurMateri(m: {
   let i = jalur.findIndex(memuatRekomendasi);
   if (i === -1) i = jalur.findIndex((c) => c.tp.length > 0 && !tuntas(c));
 
-  return { pos: jalur.map(kePos), indeks_sekarang: i === -1 ? null : i };
+  const posHasil = jalur.map((c, idx): PosJalur => {
+    const statusAsli = statusPos(c);
+    // Di peta petualangan saga: pos sesudah pos aktif (idx > i) belum dilewati anak,
+    // sehingga tidak boleh bercentang tercapai sebelum giliran posnya tiba (tetap bergembok).
+    const sesudahPlay = i !== null && idx > i;
+    const status = sesudahPlay && statusAsli === "tercapai" ? "belum" : statusAsli;
+    return {
+      id: c.bagian === "tambahan" ? `${c.mat.kode}#tambahan` : c.mat.kode,
+      kode: c.mat.kode,
+      judul: c.judul,
+      kelas: c.mat.kelas,
+      elemen: c.mat.elemen,
+      bagian: c.bagian,
+      status,
+      tp_total: c.tp.length,
+      tp_tercapai: sesudahPlay ? 0 : c.tp.filter(tercapai).length,
+    };
+  });
+
+  return { pos: posHasil, indeks_sekarang: i === -1 ? null : i };
 }
