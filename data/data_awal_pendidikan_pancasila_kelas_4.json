@@ -20,7 +20,8 @@
       "PP-4-NKRI-01": [
         "PP-B5"
       ]
-    }
+    },
+    "terakhir_diekspor": "2026-11-07T18:40:34.390Z"
   },
   "mapel": [
     {
@@ -36,8 +37,8 @@
       "fase": "B",
       "kelas": 4,
       "urutan": 1,
-      "esensial_transisi": true,
-      "deskripsi": "Mengenal tokoh perumus Pancasila dan meneladani sikap mereka, yaitu bermusyawarah, cinta tanah air, dan menghargai pendapat orang lain"
+      "deskripsi": "Mengenal tokoh perumus Pancasila dan meneladani sikap mereka, yaitu bermusyawarah, cinta tanah air, dan menghargai pendapat orang lain",
+      "esensial_transisi": true
     },
     {
       "kode": "PP-B2",
@@ -46,8 +47,8 @@
       "fase": "B",
       "kelas": 4,
       "urutan": 2,
-      "esensial_transisi": true,
-      "deskripsi": "Menunjukkan rasa bangga menggunakan bahasa Indonesia sebagai bahasa persatuan dalam kehidupan sehari-hari"
+      "deskripsi": "Menunjukkan rasa bangga menggunakan bahasa Indonesia sebagai bahasa persatuan dalam kehidupan sehari-hari",
+      "esensial_transisi": true
     },
     {
       "kode": "PP-B3",
@@ -56,8 +57,8 @@
       "fase": "B",
       "kelas": 4,
       "urutan": 3,
-      "esensial_transisi": true,
-      "deskripsi": "Mengenal dan menerapkan hak dan kewajiban sebagai anggota keluarga di rumah dan sebagai warga sekolah"
+      "deskripsi": "Mengenal dan menerapkan hak dan kewajiban sebagai anggota keluarga di rumah dan sebagai warga sekolah",
+      "esensial_transisi": true
     },
     {
       "kode": "PP-B4",
@@ -66,8 +67,8 @@
       "fase": "B",
       "kelas": 4,
       "urutan": 4,
-      "esensial_transisi": true,
-      "deskripsi": "Menghargai keberagaman budaya, suku bangsa, bahasa, dan agama di lingkungan sekitar"
+      "deskripsi": "Menghargai keberagaman budaya, suku bangsa, bahasa, dan agama di lingkungan sekitar",
+      "esensial_transisi": true
     },
     {
       "kode": "PP-B5",
@@ -76,8 +77,8 @@
       "fase": "B",
       "kelas": 4,
       "urutan": 5,
-      "esensial_transisi": true,
-      "deskripsi": "Bekerja sama dengan teman yang berbeda suku, budaya, dan kebiasaan untuk mencapai tujuan bersama di rumah, sekolah, dan lingkungan sekitar"
+      "deskripsi": "Bekerja sama dengan teman yang berbeda suku, budaya, dan kebiasaan untuk mencapai tujuan bersama di rumah, sekolah, dan lingkungan sekitar",
+      "esensial_transisi": true
     }
   ],
   "prasyarat_tp": [],
@@ -88,7 +89,6 @@
       "penggunaan": "formatif",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Hari Lahir Pancasila diperingati setiap tanggal ...",
-      "bacaan": null,
       "visual": "🦅",
       "pilihan": [
         {
@@ -119,7 +119,6 @@
       "penggunaan": "formatif",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Di sidang BPUPKI tahun 1945, siapa saja yang menyampaikan gagasan tentang dasar negara?",
-      "bacaan": null,
       "visual": "🗣️📜",
       "pilihan": [
         {
@@ -150,7 +149,6 @@
       "penggunaan": "formatif",
       "tingkat_kesulitan": 2,
       "pertanyaan": "Para perumus Pancasila bekerja keras demi Indonesia karena cinta tanah air. Mana contoh sikap cinta tanah air yang bisa kamu lakukan?",
-      "bacaan": null,
       "visual": "🇮🇩❤️",
       "pilihan": [
         {
@@ -243,7 +241,6 @@
       "penggunaan": "formatif",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Pada Sumpah Pemuda, 28 Oktober 1928, para pemuda menjunjung bahasa persatuan. Bahasa apakah itu?",
-      "bacaan": null,
       "visual": "🇮🇩📜",
       "pilihan": [
         {
@@ -274,7 +271,6 @@
       "penggunaan": "formatif",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Mengapa bahasa Indonesia disebut bahasa persatuan?",
-      "bacaan": null,
       "visual": "🗺️🗨️",
       "pilihan": [
         {
@@ -336,7 +332,6 @@
       "penggunaan": "formatif",
       "tingkat_kesulitan": 2,
       "pertanyaan": "Mana sikap yang menunjukkan bangga berbahasa Indonesia?",
-      "bacaan": null,
       "visual": "🎤📖",
       "pilihan": [
         {
@@ -398,7 +393,6 @@
       "penggunaan": "formatif",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Sesuatu yang semestinya kita terima, seperti kasih sayang dan pendidikan, disebut ...",
-      "bacaan": null,
       "visual": "🎁📚",
       "pilihan": [
         {
@@ -429,7 +423,6 @@
       "penggunaan": "formatif",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Mana yang termasuk kewajiban anak di rumah?",
-      "bacaan": null,
       "visual": "🏠🧸",
       "pilihan": [
         {
@@ -460,7 +453,6 @@
       "penggunaan": "formatif",
       "tingkat_kesulitan": 2,
       "pertanyaan": "Mana yang termasuk hak murid di sekolah?",
-      "bacaan": null,
       "visual": "🏫📚",
       "pilihan": [
         {
@@ -553,7 +545,6 @@
       "penggunaan": "formatif",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Semboyan Bhinneka Tunggal Ika artinya ...",
-      "bacaan": null,
       "visual": "🦅",
       "pilihan": [
         {
@@ -708,7 +699,6 @@
       "penggunaan": "formatif",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Bekerja sama artinya ...",
-      "bacaan": null,
       "visual": "🤝",
       "pilihan": [
         {
@@ -739,7 +729,6 @@
       "penggunaan": "formatif",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Warga kampung bersama-sama membersihkan selokan pada hari Minggu. Kegiatan ini disebut ...",
-      "bacaan": null,
       "visual": "🧹🪣🏘️",
       "pilihan": [
         {
@@ -801,7 +790,6 @@
       "penggunaan": "formatif",
       "tingkat_kesulitan": 2,
       "pertanyaan": "Mengapa bekerja sama dengan teman yang berbeda suku dan budaya itu penting?",
-      "bacaan": null,
       "visual": "🇮🇩🤝",
       "pilihan": [
         {

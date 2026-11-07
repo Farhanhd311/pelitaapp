@@ -24,7 +24,8 @@
       "maks_soal_per_tp": 4,
       "berhenti_dini": true
     },
-    "catatan_parameter": "Sama dengan data Matematika. Di aplikasi, parameter dibaca dari PENGATURAN_SISTEM (berlaku untuk semua mapel)."
+    "catatan_parameter": "Sama dengan data Matematika. Di aplikasi, parameter dibaca dari PENGATURAN_SISTEM (berlaku untuk semua mapel).",
+    "terakhir_diekspor": "2026-11-07T18:40:34.361Z"
   },
   "mapel": [
     {
@@ -40,8 +41,8 @@
       "fase": "A",
       "kelas": 1,
       "urutan": 1,
-      "esensial_transisi": true,
-      "deskripsi": "Mengenal huruf dan bunyinya, termasuk huruf besar-kecil dan huruf awal sebuah kata"
+      "deskripsi": "Mengenal huruf dan bunyinya, termasuk huruf besar-kecil dan huruf awal sebuah kata",
+      "esensial_transisi": true
     },
     {
       "kode": "BI-A2",
@@ -50,8 +51,8 @@
       "fase": "A",
       "kelas": 1,
       "urutan": 2,
-      "esensial_transisi": true,
-      "deskripsi": "Membaca suku kata dan menggabungkannya menjadi kata"
+      "deskripsi": "Membaca suku kata dan menggabungkannya menjadi kata",
+      "esensial_transisi": true
     },
     {
       "kode": "BI-A3",
@@ -60,8 +61,8 @@
       "fase": "A",
       "kelas": 1,
       "urutan": 3,
-      "esensial_transisi": true,
-      "deskripsi": "Membaca kata sederhana dan memahami maknanya"
+      "deskripsi": "Membaca kata sederhana dan memahami maknanya",
+      "esensial_transisi": true
     },
     {
       "kode": "BI-A4",
@@ -70,8 +71,8 @@
       "fase": "A",
       "kelas": 1,
       "urutan": 4,
-      "esensial_transisi": true,
-      "deskripsi": "Membaca kalimat sederhana dan memahami maknanya"
+      "deskripsi": "Membaca kalimat sederhana dan memahami maknanya",
+      "esensial_transisi": true
     },
     {
       "kode": "BI-A5",
@@ -80,8 +81,8 @@
       "fase": "A",
       "kelas": 2,
       "urutan": 5,
-      "esensial_transisi": true,
-      "deskripsi": "Memahami isi tersurat bacaan pendek (siapa, apa, di mana, kapan)"
+      "deskripsi": "Memahami isi tersurat bacaan pendek (siapa, apa, di mana, kapan)",
+      "esensial_transisi": true
     },
     {
       "kode": "BI-A6",
@@ -90,8 +91,8 @@
       "fase": "A",
       "kelas": 2,
       "urutan": 6,
-      "esensial_transisi": false,
-      "deskripsi": "Memahami perasaan tokoh dan pesan sederhana dalam cerita anak"
+      "deskripsi": "Memahami perasaan tokoh dan pesan sederhana dalam cerita anak",
+      "esensial_transisi": false
     },
     {
       "kode": "BI-B1",
@@ -100,8 +101,8 @@
       "fase": "B",
       "kelas": 3,
       "urutan": 7,
-      "esensial_transisi": true,
-      "deskripsi": "Memahami makna kata baru dari konteks kalimat atau bacaan"
+      "deskripsi": "Memahami makna kata baru dari konteks kalimat atau bacaan",
+      "esensial_transisi": true
     },
     {
       "kode": "BI-B2",
@@ -110,8 +111,8 @@
       "fase": "B",
       "kelas": 3,
       "urutan": 8,
-      "esensial_transisi": true,
-      "deskripsi": "Menemukan informasi tersurat dalam teks nonsastra (pengumuman, teks informasi)"
+      "deskripsi": "Menemukan informasi tersurat dalam teks nonsastra (pengumuman, teks informasi)",
+      "esensial_transisi": true
     },
     {
       "kode": "BI-B3",
@@ -120,8 +121,8 @@
       "fase": "B",
       "kelas": 3,
       "urutan": 9,
-      "esensial_transisi": true,
-      "deskripsi": "Menentukan ide pokok paragraf"
+      "deskripsi": "Menentukan ide pokok paragraf",
+      "esensial_transisi": true
     },
     {
       "kode": "BI-B4",
@@ -130,8 +131,8 @@
       "fase": "B",
       "kelas": 4,
       "urutan": 10,
-      "esensial_transisi": true,
-      "deskripsi": "Membedakan ide pokok dan ide pendukung dalam paragraf"
+      "deskripsi": "Membedakan ide pokok dan ide pendukung dalam paragraf",
+      "esensial_transisi": true
     },
     {
       "kode": "BI-B5",
@@ -140,8 +141,8 @@
       "fase": "B",
       "kelas": 4,
       "urutan": 11,
-      "esensial_transisi": true,
-      "deskripsi": "Memahami watak tokoh dan pesan (amanat) dalam teks sastra"
+      "deskripsi": "Memahami watak tokoh dan pesan (amanat) dalam teks sastra",
+      "esensial_transisi": true
     },
     {
       "kode": "BI-B6",
@@ -150,8 +151,8 @@
       "fase": "B",
       "kelas": 4,
       "urutan": 12,
-      "esensial_transisi": false,
-      "deskripsi": "Memahami informasi dari teks multimodal sederhana (jadwal, tabel, diagram gambar)"
+      "deskripsi": "Memahami informasi dari teks multimodal sederhana (jadwal, tabel, diagram gambar)",
+      "esensial_transisi": false
     }
   ],
   "prasyarat_tp": [
@@ -215,7 +216,6 @@
       "penggunaan": "diagnostik",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Gambar ini adalah ikan. Kata \"ikan\" diawali huruf apa?",
-      "bacaan": null,
       "visual": "🐟",
       "pilihan": [
         {
@@ -246,7 +246,6 @@
       "penggunaan": "diagnostik",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Huruf kecil mana yang sama dengan huruf B besar?",
-      "bacaan": null,
       "visual": "B",
       "pilihan": [
         {
@@ -277,8 +276,6 @@
       "penggunaan": "diagnostik",
       "tingkat_kesulitan": 2,
       "pertanyaan": "Kata mana yang diawali huruf m?",
-      "bacaan": null,
-      "visual": null,
       "pilihan": [
         {
           "teks": "nasi",
@@ -308,7 +305,6 @@
       "penggunaan": "diagnostik",
       "tingkat_kesulitan": 2,
       "pertanyaan": "Gambar ini adalah bola. Huruf apa yang hilang? _ola",
-      "bacaan": null,
       "visual": "⚽",
       "pilihan": [
         {
@@ -339,7 +335,6 @@
       "penggunaan": "diagnostik",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Gabungkan suku kata ini: ba + ju = ...",
-      "bacaan": null,
       "visual": "👕",
       "pilihan": [
         {
@@ -370,7 +365,6 @@
       "penggunaan": "diagnostik",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Kata \"sapu\" dipenggal menjadi suku kata ...",
-      "bacaan": null,
       "visual": "🧹",
       "pilihan": [
         {
@@ -401,7 +395,6 @@
       "penggunaan": "diagnostik",
       "tingkat_kesulitan": 2,
       "pertanyaan": "Berapa suku kata dalam kata \"kelinci\"?",
-      "bacaan": null,
       "visual": "🐰",
       "pilihan": [
         {
@@ -432,7 +425,6 @@
       "penggunaan": "diagnostik",
       "tingkat_kesulitan": 2,
       "pertanyaan": "Suku kata mana yang melengkapi kata ini? se - ko - ...",
-      "bacaan": null,
       "visual": "🏫",
       "pilihan": [
         {
@@ -463,7 +455,6 @@
       "penggunaan": "diagnostik",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Gambar apa ini? Pilih kata yang tepat.",
-      "bacaan": null,
       "visual": "🐄",
       "pilihan": [
         {
@@ -494,7 +485,6 @@
       "penggunaan": "diagnostik",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Kata mana yang ditulis \"buku\"?",
-      "bacaan": null,
       "visual": "📗",
       "pilihan": [
         {
@@ -525,8 +515,6 @@
       "penggunaan": "diagnostik",
       "tingkat_kesulitan": 2,
       "pertanyaan": "Kata mana yang termasuk nama buah?",
-      "bacaan": null,
-      "visual": null,
       "pilihan": [
         {
           "teks": "mangga",
@@ -556,7 +544,6 @@
       "penggunaan": "diagnostik",
       "tingkat_kesulitan": 2,
       "pertanyaan": "Lawan kata \"besar\" adalah ...",
-      "bacaan": null,
       "visual": "🐘🐭",
       "pilihan": [
         {
@@ -587,7 +574,6 @@
       "penggunaan": "diagnostik",
       "tingkat_kesulitan": 1,
       "pertanyaan": "Kalimat mana yang cocok dengan gambar?",
-      "bacaan": null,
       "visual": "👦⚽",
       "pilihan": [
         {
@@ -1393,7 +1379,6 @@
       "penggunaan": "diagnostik",
       "tingkat_kesulitan": 2,
       "pertanyaan": "Ide pokok: \"Rumah gadang adalah rumah adat Minangkabau yang unik.\" Kalimat mana yang paling cocok sebagai ide pendukungnya?",
-      "bacaan": null,
       "visual": "🏠",
       "pilihan": [
         {

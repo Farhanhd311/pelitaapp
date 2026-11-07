@@ -108,21 +108,30 @@ export function susunJalurMateri(m: {
     .sort((a, b) => a.kelas - b.kelas || a.urutan - b.urutan);
   const kelasBawah = tampil.filter((mat) => mat.kelas < m.kelas_seharusnya);
 
-  // Pos Dasar: yang belum tuntas, pernah dilatih, atau direkomendasikan (supaya pos yang dituntaskan lewat latihan
-  // tetap tampil bercentang). Pos tuntas dari asesmen yang tidak pernah dilatih disembunyikan, kecuali yang
-  // terakhir: tampil sebagai pos pertama ("bekal").
-  const semuaPosDasar = urutkanMenurutTp(
-    kelasBawah
-      .map((mat) => calon(mat, "pos_dasar", mat.tp_terkait.filter((tp) => m.tp_wajib.has(tp))))
-      .filter((c) => c.tp.length > 0),
-  );
-  const tampilDiPosDasar = (c: Calon) => !tuntas(c) || dilatih(c) || memuatRekomendasi(c);
-  // Bekal = pos tuntas tersembunyi terakhir SEBELUM pos pertama yang belum tuntas, supaya bercentang di depan play
-  // (bukan TP tuntas yang urutannya sesudah pos play).
-  const pertamaBelum = semuaPosDasar.findIndex((c) => !tuntas(c));
+  // Pos Dasar: materi kelas bawah yang memuat TP prasyarat Kelasku yang perlu dikejar (belum/jembatan),
+  // pernah dilatih, atau direkomendasikan. Pos tuntas dari asesmen yang tidak pernah dilatih disembunyikan,
+  // kecuali yang terakhir sebelum pos aktif: tampil sebagai pos pertama ("bekal").
+  // TP kelas bawah yang statusnya belum_diketahui (belum pernah diuji) tidak masuk Pos Dasar (pos opsional, PANDUAN 7.3).
+  const calonPosDasar = kelasBawah
+    .map((mat) =>
+      calon(
+        mat,
+        "pos_dasar",
+        mat.tp_terkait.filter((tp) => m.tp_wajib.has(tp) && statusTp(tp) !== "belum_diketahui"),
+      ),
+    )
+    .filter((c) => c.tp.length > 0);
+  const semuaPosDasar = urutkanMenurutTp(calonPosDasar);
+
+  const tampilDiPosDasar = (c: Calon) =>
+    c.tp.some(belumAtauJembatan) || dilatih(c) || memuatRekomendasi(c);
+
+  // Bekal = pos tuntas tersembunyi terakhir SEBELUM pos pertama yang perlu dikejar / rekomendasi,
+  // supaya bercentang di depan play (bukan TP tuntas yang urutannya sesudah pos play).
+  const pertamaBelum = semuaPosDasar.findIndex((c) => tampilDiPosDasar(c));
   const bekal = semuaPosDasar
     .slice(0, pertamaBelum === -1 ? semuaPosDasar.length : pertamaBelum)
-    .filter((c) => !tampilDiPosDasar(c))
+    .filter((c) => tuntas(c) && !tampilDiPosDasar(c))
     .at(-1);
   const posDasar = semuaPosDasar.filter((c) => c === bekal || tampilDiPosDasar(c)); // tetap urut belajar
 
@@ -130,10 +139,17 @@ export function susunJalurMateri(m: {
   const kelasku = urutkanMenurutTp(semuaKelasku.filter((c) => c.tp.length > 0));
   const segeraHadir = semuaKelasku.filter((c) => c.tp.length === 0); // urutan file
 
-  // Pos tambahan mengikuti aturan file data (TP belum/jembatan), ditambah materi yang direkomendasikan atau pernah dilatih.
+  // Pos tambahan mengikuti aturan file data (TP bukan prasyarat, atau prasyarat kelas bawah yang belum_diketahui/opsional),
+  // ditambah materi yang direkomendasikan atau pernah dilatih.
   const tambahan = urutkanMenurutTp(
     kelasBawah
-      .map((mat) => calon(mat, "tambahan", mat.tp_terkait.filter((tp) => !m.tp_wajib.has(tp))))
+      .map((mat) =>
+        calon(
+          mat,
+          "tambahan",
+          mat.tp_terkait.filter((tp) => !m.tp_wajib.has(tp) || statusTp(tp) === "belum_diketahui"),
+        ),
+      )
       .filter((c) => c.tp.length > 0 && (memuatRekomendasi(c) || dilatih(c) || c.tp.some(belumAtauJembatan))),
   );
 
