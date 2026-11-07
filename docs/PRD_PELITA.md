@@ -48,7 +48,7 @@
 
 **Deskripsi singkat (±75 kata, untuk pendaftaran):** PELITA adalah platform belajar untuk anak usia sekolah dasar yang tidak dapat bersekolah rutin karena menjalani pengobatan jangka panjang. Setiap hari, PELITA menyesuaikan cara dan beban belajar dengan kondisi anak, sehingga anak tetap belajar tanpa merasa terbebani. PELITA juga membantu menemukan bagian pelajaran yang paling perlu dikejar anak, lalu menyampaikan perkembangan belajarnya kepada orang tua dan sekolah, agar anak dapat kembali ke kelasnya tanpa tertinggal.
 
-**Makna nama:** *pelita* adalah lentera kecil yang menerangi jalan saat gelap. Maskotnya lentera kecil bernama **Pijar**. Kalimat penutup: *"Pelita, agar sakit tidak memadamkan cahaya belajar mereka."*
+**Makna nama:** *pelita* adalah lentera kecil yang menerangi jalan saat gelap. Maskotnya nyala api kecil bernama **Pijar**, api dari pelita itu. Kalimat penutup: *"Pelita, agar sakit tidak memadamkan cahaya belajar mereka."*
 
 **Prinsip produk:** "**AI membantu, manusia memutuskan**" di setiap titik sensitif.
 
@@ -675,7 +675,7 @@ Catatan: benar/salah diambil dari `PILIHAN.benar`; `RUJUKAN.disetujui_oleh` hany
 ## 14. Desain dan pengalaman pengguna
 
 - **Suasana:** hangat, tenang, penuh harapan. **Tidak boleh terlihat seperti aplikasi rumah sakit.**
-- **Palet:** teal lembut (utama), peach (aksen), lavender (Teman Cerita), latar krem, amber lembut untuk "perlu perhatian" (bukan merah).
+- **Palet (tema api hangat):** latar krem `#FFF4E4`, permukaan pasir `#F9DAAC`, garis jingga `#DC895B`, aksen emas `#ECAC54`, aksi utama bata `#BF4338`, teks `#2E0B07`, merah muda `#E79CA2` (hiasan dan Teman Cerita). "Perlu perhatian" memakai emas, bukan merah; bata/merah tidak pernah menandai kesalahan. Huruf Nunito. Rincian di PANDUAN bagian 13.
 - **Dilarang:** tanda X merah, kata "Salah", timer hitung mundur, papan peringkat, perbandingan dengan anak lain, label "tertinggal".
 - **Bahasa:** semua teks antarmuka berbahasa Indonesia. Untuk anak: bingkai positif. Untuk pendamping: data detail.
 - **Maskot Pijar:** satu aset PNG, ekspresi lewat gerak tubuh (`motion`): `idle` (mengambang pelan), `senang` (melompat + bintang), `coba_lagi` (miring lembut, **bukan** menggeleng), `lelah` (turun sedikit + "Zzz").
@@ -914,7 +914,7 @@ Elemen Menyimak bisa ditambah dengan soal yang dibacakan; Berbicara dan Menulis 
 | Pendamping | Orang tua, wali, atau guru pendamping |
 | Keputusan Menunggu | Daftar hal yang butuh persetujuan orang tua/wali |
 | Teman Cerita | Chatbot penyaring dan penghubung ke dukungan |
-| Pijar | Maskot lentera PELITA |
+| Pijar | Maskot PELITA berupa nyala api kecil |
 
 ### 22.4 Daftar dokumen sumber
 `PANDUAN_PROYEK.md` · `ARSITEKTUR_TEKNIS.md` · `rencana_24_jam_pelita.md` · `hasil_uji_asesmen_pelita.md` · `peta_ai_dan_data_pelita.md` · `data_latar_belakang_pelita.md` · `judul_dan_deskripsi_pelita.md` · `naskah_presentasi_pelita.md` · `persiapan_tanya_jawab_pelita.md` · file data JSON di folder `data/`.
