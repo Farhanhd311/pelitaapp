@@ -6,8 +6,9 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { House, Map, MessagesSquare, Sparkles, Sprout, type LucideIcon } from "lucide-react";
+import { House, Map, MessagesSquare, Sprout, type LucideIcon } from "lucide-react";
 import { cn } from "cn";
+import { LogoPelita } from "@/components/LogoPelita";
 
 type Menu = { label: string; href: string; ikon: LucideIcon; aktif: (path: string, tab: string | null) => boolean };
 
@@ -37,14 +38,8 @@ function NavTampilan({ namaAnak, path, tab }: { namaAnak: string; path: string; 
     <>
       {/* Sidebar: layar lebar */}
       <aside className="sticky top-0 hidden h-dvh w-[220px] shrink-0 flex-col border-r border-garis bg-pasir-muda px-4 py-6 lg:flex">
-        <Link href="/anak" className="mb-6 flex items-center gap-2.5">
-          <span className="flex size-[38px] items-center justify-center rounded-xl bg-bata text-white">
-            <Sparkles className="size-5" strokeWidth={2.2} aria-hidden />
-          </span>
-          <span>
-            <span className="block font-heading text-xl leading-5 font-extrabold text-teks">PELITA</span>
-            <span className="block text-[9px] font-semibold tracking-wide text-teks-2 uppercase">Teman Bertumbuh</span>
-          </span>
+        <Link href="/anak" className="mb-6 flex items-center" aria-label="PELITA, ke Beranda">
+          <LogoPelita ukuran={40} />
         </Link>
 
         <nav className="flex flex-col gap-1" aria-label="Menu utama">

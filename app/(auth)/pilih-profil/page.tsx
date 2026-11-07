@@ -1,6 +1,9 @@
-// Ketuk avatar anak atau masuk mode Pendamping (wajib PIN).
-// Placeholder fondasi (H0–H2). Belum ada logika fitur.
+// Pilih profil: ketuk avatar anak (mode anak) atau "Pendamping" + PIN (mode pendamping). PANDUAN 4.
 
-export default function Halaman() {
-  return null;
+import { PilihProfil } from "@/components/auth/PilihProfil";
+
+export const metadata = { title: "Pilih profil · PELITA" };
+
+export default function HalamanPilihProfil() {
+  return <PilihProfil />;
 }

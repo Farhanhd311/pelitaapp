@@ -1,6 +1,7 @@
-// Check-in: energi, cuaca hati, keluhan -> tentukanLevel().
-// Placeholder fondasi (H0–H2). Belum ada logika fitur.
+// Check-in harian: energi -> cuaca hati -> keluhan -> level sesi dari server (PANDUAN 7.1, PRD 9.2).
 
-export default function Halaman() {
-  return null;
+import { AlurCheckin } from "@/components/anak/checkin/AlurCheckin";
+
+export default function HalamanCheckin() {
+  return <AlurCheckin />;
 }
