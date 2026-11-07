@@ -147,15 +147,39 @@ export function susunJalurMateri(m: {
 
   const jalur = [...posDasar, ...kelasku, ...tambahan, ...segeraHadir];
 
-  let i = jalur.findIndex(memuatRekomendasi);
-  if (i === -1) i = jalur.findIndex((c) => c.tp.length > 0 && !tuntas(c));
+  // Pos selesai dilewati anak dalam alur petualangan:
+  // - Pos Pos Dasar / tambahan cukup tuntas (dari asesmen atau latihan).
+  // - Pos Kelasku: harus tuntas DAN sudah pernah dilatih di sesi belajar anak,
+  //   supaya materi kelasnya tidak di-skip / melompat sebelum anak mempelajarinya.
+  const posSelesaiDilewati = (c: Calon) => (c.bagian === "kelasku" ? tuntas(c) && dilatih(c) : tuntas(c));
+
+  const semuaTuntas = m.rekomendasi_tp === null && jalur.every((c) => c.tp.length === 0 || tuntas(c));
+  let i = -1;
+  if (!semuaTuntas) {
+    i = jalur.findIndex(memuatRekomendasi);
+    if (i === -1 || (jalur[i] && posSelesaiDilewati(jalur[i]))) {
+      const belumSelesai = jalur.findIndex((c) => c.tp.length > 0 && !posSelesaiDilewati(c));
+      if (belumSelesai !== -1) i = belumSelesai;
+      else i = jalur.findIndex((c) => c.tp.length > 0 && !tuntas(c));
+    }
+  }
 
   const posHasil = jalur.map((c, idx): PosJalur => {
-    const statusAsli = statusPos(c);
-    // Di peta petualangan saga: pos sesudah pos aktif (idx > i) belum dilewati anak,
-    // sehingga tidak boleh bercentang tercapai sebelum giliran posnya tiba (tetap bergembok).
-    const sesudahPlay = i !== null && idx > i;
-    const status = sesudahPlay && statusAsli === "tercapai" ? "belum" : statusAsli;
+    // Di peta petualangan saga:
+    // - Jika semua pos sudah tuntas: semua pos ber-TP tuntas bercentang.
+    // - Jika belum: pos yang sudah dilewati (idx < i dan selesaiDilewati) bercentang.
+    // - Pos aktif (idx === i) dan pos sesudahnya (idx > i) tidak bercentang jika belum dilewati sebelum play.
+    const sesudahPlay = i !== -1 && idx >= i;
+    const selesaiDilewati = posSelesaiDilewati(c);
+    const status: StatusPos =
+      c.tp.length === 0
+        ? "bacaan"
+        : (semuaTuntas && tuntas(c)) || (selesaiDilewati && !sesudahPlay)
+          ? "tercapai"
+          : c.tp.some((tp) => statusTp(tp) === "jembatan") || (c.bagian === "kelasku" && dilatih(c))
+            ? "sedang"
+            : "belum";
+
     return {
       id: c.bagian === "tambahan" ? `${c.mat.kode}#tambahan` : c.mat.kode,
       kode: c.mat.kode,
@@ -165,7 +189,7 @@ export function susunJalurMateri(m: {
       bagian: c.bagian,
       status,
       tp_total: c.tp.length,
-      tp_tercapai: sesudahPlay ? 0 : c.tp.filter(tercapai).length,
+      tp_tercapai: status === "tercapai" ? c.tp.length : c.tp.filter(tercapai).length,
     };
   });
 

@@ -65,6 +65,7 @@ async function penempatan(anak: ProfilAnakLengkap, mapelId: number, pustaka = fa
     kelas_seharusnya: anak.kelas_seharusnya,
     fase_intensif: anak.fase_pengobatan === "intensif",
     tp_dengan_konten: berkonten,
+    tp_dilatih: tpDilatih,
   });
   // TP wajib = leluhur semua TP Kelasku menurut susunPeta. Jika data TP berhenti di bawah kelas seharusnya
   // (misalnya anak kelas 5, TP hanya sampai kelas 4), TP Kelasku versi susunPeta juga wajib.

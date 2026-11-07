@@ -56,17 +56,17 @@ type Fase = "memuat" | "pembuka" | "soal" | "pindah_mapel" | "akhir_sesi" | "has
 
 const tunggu = (ms: number) => new Promise((selesai) => setTimeout(selesai, ms));
 
-/** Kelas yang punya TP di peta semua mapel, urut naik. */
-function daftarKelas(daftarPeta: ResponsPeta[]): number[] {
-  const kelas = daftarPeta.flatMap((p) => [...p.pos_dasar, ...p.kelasku].map((t) => t.kelas));
-  return [...new Set(kelas)].sort((a, b) => a - b);
+const KELAS_SD_LENGKAP = [1, 2, 3, 4, 5, 6];
+
+/** Pilihan kelas yang bisa dipilih anak: seluruh jenjang kelas SD (1 sampai 6). */
+function daftarKelas(_daftarPeta?: ResponsPeta[]): number[] {
+  return KELAS_SD_LENGKAP;
 }
 
-/** Pilihan awal: kelas terakhir di profil; jika tidak ada di peta, kelas terdekat di bawahnya. */
+/** Pilihan awal: kelas terakhir di profil anak; jika belum ada, default kelas 2. */
 function pilihanAwal(daftarPeta: ResponsPeta[]): number | null {
-  const kelas = daftarKelas(daftarPeta);
-  const kelasProfil = daftarPeta[0]?.kelas_terakhir ?? 0;
-  return kelas.filter((k) => k <= kelasProfil).at(-1) ?? kelas[0] ?? null;
+  const kelasProfil = daftarPeta[0]?.kelas_terakhir ?? daftarPeta[0]?.kelas_seharusnya ?? 2;
+  return KELAS_SD_LENGKAP.find((k) => k === kelasProfil) ?? 2;
 }
 
 function acak<T>(daftar: T[]): T[] {

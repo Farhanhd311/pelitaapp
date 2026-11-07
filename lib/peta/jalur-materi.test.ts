@@ -186,4 +186,53 @@ describe("susunJalurMateri", () => {
     expect(j.indeks_sekarang).toBeNull();
     expect(new Set(ids(j)).size).toBe(j.pos.length);
   });
+
+  it("alur bertahap kelas 2: setelah menyelesaikan Level 3 (A6), alur lanjut ke Level 4 (MAT-2-BIL-02) bukan melompat ke bacaan", () => {
+    // A1-A3, A6-A8 tercapai dari asesmen, A4-A6 dilatih lewat sesi belajar
+    const progres = progresDari({
+      A1: "tercapai", A2: "tercapai", A3: "tercapai",
+      A4: "tercapai", A5: "tercapai", A6: "tercapai",
+      A7: "tercapai", A8: "tercapai",
+    });
+    const j = susunJalurMateri({
+      materi,
+      progres,
+      kelas_seharusnya: 2,
+      fase_intensif: false,
+      rekomendasi_tp: "A7",
+      tp_wajib: new Set(),
+      urutan_tp: URUTAN_TP,
+      tp_dilatih: new Set(["A4", "A5", "A6"]),
+    });
+    expect(j.indeks_sekarang).toBe(3);
+    expect(sekarang(j)).toMatchObject({ kode: "MAT-2-BIL-02", status: "belum" });
+    // Pos 0, 1, 2 sudah tuntas
+    expect(j.pos.slice(0, 3).every((p) => p.status === "tercapai")).toBe(true);
+    // Pos 4 (A8) belum tuntas dilewati
+    expect(j.pos[4].status).toBe("belum");
+  });
+
+  it("anak kelas 2 baru selesai asesmen: pos kelasku sesudah play tidak boleh bercentang prematur", () => {
+    // Hasil asesmen A7 dan A8 tercapai, tetapi belum pernah dilatih di sesi
+    const progres = progresDari({
+      A1: "tercapai", A2: "tercapai", A3: "tercapai",
+      A6: "tercapai", A7: "tercapai", A8: "tercapai",
+      A4: "belum", A5: "belum",
+    });
+    const j = susunJalurMateri({
+      materi,
+      progres,
+      kelas_seharusnya: 2,
+      fase_intensif: false,
+      rekomendasi_tp: "A4",
+      tp_wajib: new Set(),
+      urutan_tp: URUTAN_TP,
+      tp_dilatih: new Set(),
+    });
+    // Play ada di pos pertama (A4)
+    expect(j.indeks_sekarang).toBe(0);
+    // Semua pos di kelasku belum bercentang tercapai
+    const kelasku = j.pos.filter((p) => p.bagian === "kelasku");
+    expect(kelasku.every((p) => p.status !== "tercapai")).toBe(true);
+  });
 });

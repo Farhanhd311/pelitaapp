@@ -39,8 +39,10 @@ export function susunPeta(m: {
   kelas_seharusnya: number;
   fase_intensif: boolean;
   tp_dengan_konten: Set<string>;
+  tp_dilatih?: Set<string>;
 }): HasilPeta {
   const status = (kode: string): StatusPeta => m.progres.get(kode)?.status ?? "belum_diketahui";
+  const dilatih = (kode: string) => (m.tp_dilatih ? m.tp_dilatih.has(kode) : true);
 
   // Kelas Kelasku: kelas seharusnya, atau kelas tertinggi yang ada di data jika lebih rendah.
   const kelasAda = [...new Set(m.daftar_tp.map((t) => t.kelas))].sort((a, b) => a - b);
@@ -71,8 +73,10 @@ export function susunPeta(m: {
 
   // Rekomendasi: TP yang sedang dikejar (jembatan) dulu, lalu TP belum terendah yang tidak terkunci.
   // Pos wajib didahulukan sebelum Kelasku, dan kelas lebih rendah didahulukan sebelum kelas lebih tinggi.
+  // TP Kelasku yang tercapai dari asesmen tapi belum pernah dilatih di sesi belajar tetap direkomendasikan.
+  const sudahTuntas = (k: KotakPetaHasil) => k.status === "tercapai" && (k.kelas < kelasKelasku || dilatih(k.kode));
   const calon = [...posDasar, ...kelasku.map((k) => ({ ...k, wajib: false }))]
-    .filter((k) => k.status !== "tercapai" && !k.terkunci)
+    .filter((k) => !sudahTuntas(k) && !k.terkunci)
     .sort(
       (a, b) =>
         Number(b.status === "jembatan") - Number(a.status === "jembatan") ||

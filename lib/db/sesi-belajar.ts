@@ -129,9 +129,10 @@ function acak<T>(daftar: T[]): T[] {
 }
 
 // Soal berikutnya untuk sesi belajar. Hanya soal 'terbit' (PANDUAN 8.5). Urutan pilihan:
-//   1. jenis penggunaan sesuai urutan `penggunaan` (misalnya formatif dulu, lalu diagnostik jika formatif belum ada),
-//   2. soal yang BELUM PERNAH dilihat anak didahulukan (termasuk di asesmen),
-//   3. soal yang belum keluar di sesi ini, lalu tingkat kesulitan dan id.
+//   1. soal yang BELUM PERNAH keluar di sesi ini mutlak didahulukan (mencegah pengulangan soal yang sama),
+//   2. soal yang paling sedikit pernah dijawab anak (variasi bermacam-macam),
+//   3. jenis penggunaan sesuai urutan `penggunaan` (formatif dulu, lalu diagnostik),
+//   4. tingkat kesulitan dan variasi acak (RAND).
 export async function pilihSoalSesi(m: {
   anak_id: number;
   tp_kode: string;
@@ -144,9 +145,9 @@ export async function pilihSoalSesi(m: {
              WHERE p.soal_id = s.id AND se.anak_id = ?) AS pernah
      FROM soal s
      WHERE s.tp_kode = ? AND s.status = 'terbit' AND s.penggunaan IN (?)
-     ORDER BY FIELD(s.penggunaan, ?), (s.id IN (?)) ASC, pernah ASC, s.tingkat_kesulitan, s.id
+     ORDER BY (s.id IN (?)) ASC, pernah ASC, FIELD(s.penggunaan, ?), s.tingkat_kesulitan, RAND()
      LIMIT 1`,
-    [m.anak_id, m.tp_kode, m.penggunaan, m.penggunaan, m.dipakai_di_sesi.length > 0 ? m.dipakai_di_sesi : [""]],
+    [m.anak_id, m.tp_kode, m.penggunaan, m.dipakai_di_sesi.length > 0 ? m.dipakai_di_sesi : [""], m.penggunaan],
   );
   if (!soal[0]) throw new GalatApi("TIDAK_DITEMUKAN", "Soal untuk materi ini belum tersedia.");
 

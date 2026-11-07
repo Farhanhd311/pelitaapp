@@ -30,6 +30,7 @@ import {
   ambilJawabanSesi,
   ambilKonten,
   ambilPembahasan,
+  ambilTpPernahDilatih,
   buatSesiBelajar,
   hitungJawabanBelajarTp,
   hitungSisaBenar,
@@ -127,13 +128,14 @@ async function muatKonteks(sesi_id: number, cookie: KeadaanSesiBelajar | null, a
 async function mulai(anakId: number, mapelId: number, tpDiminta: string | undefined): Promise<ResponsSesi> {
   const checkin = await ambilCheckinHariIni(anakId);
   if (!checkin) throw new GalatApi("BENTROK", "Check-in dulu, ya, supaya Pijar tahu kondisimu hari ini.");
-  const [anak, nilai, kurikulum, daftarTp, progres, berkonten] = await Promise.all([
+  const [anak, nilai, kurikulum, daftarTp, progres, berkonten, tpDilatih] = await Promise.all([
     ambilAnak(anakId),
     ambilPengaturanAktif(),
     ambilKurikulum(mapelId),
     ambilTpMapel(mapelId),
     ambilProgres(anakId, mapelId),
     ambilTpBerkonten(mapelId),
+    ambilTpPernahDilatih(anakId),
   ]);
   const atur = keParameterSesi(nilai);
   const level = tentukanLevel(checkin, anak, atur.durasi);
@@ -154,12 +156,15 @@ async function mulai(anakId: number, mapelId: number, tpDiminta: string | undefi
         kelas_seharusnya: anak.kelas_seharusnya,
         fase_intensif: anak.fase_pengobatan === "intensif",
         tp_dengan_konten: berkonten,
+        tp_dilatih: tpDilatih,
       });
       const semua = [...peta.pos_dasar, ...peta.kelasku];
       const target = semua.find((t) => t.kode === (tpDiminta ?? peta.rekomendasi_tp));
       if (!target) throw new GalatApi("TIDAK_DITEMUKAN", "Materi ini belum tersedia.");
       if (target.terkunci) throw new GalatApi("BENTROK", "Selesaikan pos dasarnya dulu, ya. Sedikit lagi!");
-      if (target.status === "tercapai") throw new GalatApi("BENTROK", "Materi ini sudah kamu kuasai. Pilih materi lain, ya.");
+      if (target.status === "tercapai" && (target.kelas < peta.kelas_kelasku || tpDilatih.has(target.kode))) {
+        throw new GalatApi("BENTROK", "Materi ini sudah kamu kuasai. Pilih materi lain, ya.");
+      }
       tpKode = target.kode;
     }
   }
