@@ -35,7 +35,7 @@ Proyek ini menggunakan arsitektur **Full-Stack Monorepo** dengan **Next.js (App 
 | **AI & Validasi** | LLM API (Server-side) | **Vercel AI SDK (`ai`)** + **Zod** | Memaksa keluaran JSON sesuai skema, mengatur *timeout*, *fallback*, dan mencatat ke `LOG_AI` |
 | **Visualisasi & PDF** | CSS Grid + **Recharts** | `window.print()` + `@media print` | Grid peta TP (tanpa React Flow), grafik Evaluasi AI Admin, & cetak laporan sekolah ke PDF |
 | **Pengujian (Testing)** | **Vitest** | — | Menguji fungsi murni `/lib/bkt`, `/lib/sesi`, dan `/lib/krisis` |
-| **Hosting** | **Google Cloud Platform**: **Cloud Run** (aplikasi Next.js) + **Cloud SQL for MySQL 8** | Localhost (MySQL 8 di Docker) + Video Cadangan | Keduanya di region **Jakarta `asia-southeast2`** (paling dekat ke Padang). Cloud Run terhubung ke Cloud SQL lewat unix socket (`DB_SOCKET_PATH`), tanpa IP publik. Langkah deploy di 7.3 |
+| **Hosting** | **Google Cloud Platform**: **Cloud Run** (aplikasi Next.js) + **Cloud SQL for MySQL 8** | Localhost (XAMPP, database `pelita`) + Video Cadangan | Keduanya di region **Jakarta `asia-southeast2`** (paling dekat ke Padang). Cloud Run terhubung ke Cloud SQL lewat unix socket (`DB_SOCKET_PATH`), tanpa IP publik. Langkah deploy di 7.3 |
 
 > **Daftar Pustaka yang Dilarang di MVP:** `React Flow`, `@react-pdf/renderer`, modul PWA/Offline kompleks, dan gateway OTP SMS.
 
@@ -229,7 +229,7 @@ Menggunakan **Vercel AI SDK (`ai`)** sehingga pergantian model hanya membutuhkan
 Salin `.env.example` menjadi `.env` (sudah di-`.gitignore`). Di Cloud Run, nilai yang sama diisi sebagai variabel lingkungan; nilai rahasia (password DB, `SESSION_SECRET`, API key) disimpan di **Secret Manager**.
 ```env
 # Database MySQL 8 (lokal saat coding, Cloud SQL saat deploy)
-# Lokal (Docker): mysql://root:password@localhost:3307/pelita
+# Lokal (XAMPP):  mysql://root@localhost:3306/pelita  (buat dulu database `pelita` utf8mb4 di phpMyAdmin)
 # Cloud Run:      mysql://pelita_app:password@localhost/pelita  (host diabaikan karena DB_SOCKET_PATH diisi)
 DATABASE_URL="mysql://user:password@host:3306/pelita"
 
@@ -326,7 +326,8 @@ Catatan:
    - **`utf8mb4` di semua tempat** (database, tabel, koneksi). Dengan `utf8` biasa, emoji di soal (🐟, ⭐, 📘) gagal disimpan atau berubah jadi `????`.
    - Gunakan **pool** `mysql2` dengan `connectionLimit` kecil (misalnya 5). Setiap instance Cloud Run punya pool sendiri, dan instance Cloud SQL kecil membatasi jumlah koneksi; batasi juga `--max-instances` Cloud Run.
    - Selalu pakai **query berparameter** (`?`), jangan menyambung string SQL.
-   - Kolom JSON: `mysql2` mengembalikannya sebagai objek; saat menyimpan, kirim `JSON.stringify(...)`.
+   - Kolom JSON: saat menyimpan, kirim `JSON.stringify(...)`; saat membaca, pakai `bacaJson(...)` dari `lib/db`. Pool memakai `jsonStrings: true` supaya kolom JSON selalu kembali sebagai teks, baik di XAMPP maupun Cloud SQL.
+   - **Lokal memakai XAMPP, yang isinya MariaDB 10.4, bukan MySQL 8.** Skema yang sama berjalan di keduanya, tetapi jangan memakai fitur khusus MySQL 8 (misalnya `JSON_TABLE`, fungsi window tertentu, `CHECK` yang bergantung versi) tanpa mengujinya juga di Cloud SQL. Uji alur penting di Cloud Run sebelum demo.
    - Nama tabel huruf besar (`USERS`) bisa berbeda perilakunya di Windows dan Linux. Paling aman pakai **nama tabel huruf kecil** di SQL (`users`, `progres_tp`), sementara dokumen tetap menyebutnya `USERS`.
 3. **Definisi "Reset demo":** riwayat check-in Raka 3–4 minggu (termasuk 3 hari lemas berturut-turut), profil Ibu Sari dan Kak Dina, satu skrining dan satu rujukan menunggu tetap ada; **progres TP Raka dikosongkan** supaya asesmen bisa diputar ulang di panggung; log demo dibersihkan. Setelah asesmen diputar, buka/muat ulang tab dashboard supaya progres terbaru tampil.
 4. **Urutan pembuatan tabel:** satu file SQL untuk 20 tabel di H0–H2 tidak masalah, tetapi isi dan pakai dulu tabel inti (kurikulum, soal, anak, check-in, sesi, jawaban, progres). Tabel admin dipakai setelah H12.

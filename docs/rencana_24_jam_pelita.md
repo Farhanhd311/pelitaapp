@@ -101,7 +101,7 @@ Semuanya berupa **data, teks, aset, dan akun**, bukan kode aplikasi. Tetap konfi
 
 | No | Barang | Pemilik |
 |---|---|---|
-| 1 | MySQL lokal (Docker) + proyek Google Cloud dengan penagihan aktif (Cloud Run + Cloud SQL), GitHub, API key LLM (+ cadangan), dicoba sekali | Backend |
+| 1 | MySQL lokal (XAMPP, database `pelita`) + proyek Google Cloud dengan penagihan aktif (Cloud Run + Cloud SQL), GitHub, API key LLM (+ cadangan), dicoba sekali | Backend |
 | 2 | Teks prompt: tutor, laporan sekolah, generator soal (+ Teman Cerita jika dipakai), lengkap dengan skema JSON | AI |
 | 3 | Seed pengaturan sistem dan tabel aturan rujukan (JSON) | Backend |
 | 4 | Daftar kata kunci krisis (draf, ditandai "perlu tinjauan psikolog") | AI |

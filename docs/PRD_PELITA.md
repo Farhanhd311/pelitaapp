@@ -699,7 +699,7 @@ Catatan: benar/salah diambil dari `PILIHAN.benar`; `RUJUKAN.disetujui_oleh` hany
 | Grafik | Recharts (hanya Evaluasi AI); peta TP dengan CSS Grid |
 | PDF | Halaman cetak + `window.print()` |
 | Tes | Vitest |
-| Hosting | Google Cloud Platform: Cloud Run + Cloud SQL for MySQL 8 (region `asia-southeast2`, Jakarta); MySQL 8 lokal (Docker) untuk coding |
+| Hosting | Google Cloud Platform: Cloud Run + Cloud SQL for MySQL 8 (region `asia-southeast2`, Jakarta); XAMPP (MariaDB) lokal untuk coding |
 | Tidak dipakai | React Flow, @react-pdf/renderer, PWA/offline, OTP SMS, Zustand, Supabase |
 
 **Struktur folder ringkas:** `app/(auth)`, `app/anak`, `app/pendamping`, `app/admin`, `app/api/...`; `lib/bkt`, `lib/sesi`, `lib/krisis` (fungsi murni + tes), `lib/ai` (client, prompts, schemas, fallbacks), `lib/pengaturan`, `lib/log`, `lib/evaluasi`, `lib/auth`, `lib/db` (pool, schema.sql, rbac); `components/`, `data/`, `scripts/seed.mts`. Rincian lengkap dan variabel lingkungan ada di `ARSITEKTUR_TEKNIS.md`.
