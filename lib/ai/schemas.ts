@@ -20,11 +20,32 @@ export const KeluaranLaporan = z.object({
 // Variasi soal buatan AI untuk admin (PANDUAN 8.5).
 export const KeluaranSoal = z.object({
   pertanyaan: z.string(),
+  bacaan: z.string().nullable().optional(), // teks yang dibaca anak sebelum menjawab (Bahasa Indonesia)
   visual: z.string().nullable(),
   pilihan: z.array(z.object({ teks: z.string(), benar: z.boolean(), miskonsepsi: z.string().nullable() })),
   pembahasan: z.string(),
 });
+// Keluaran LLM generator soal: semua kolom wajib ada (bacaan boleh null) supaya cocok dengan mode keluaran JSON.
+export const KeluaranSoalLLM = KeluaranSoal.extend({ bacaan: z.string().nullable() });
 
 export type KeluaranTutor = z.infer<typeof KeluaranTutor>;
 export type KeluaranLaporan = z.infer<typeof KeluaranLaporan>;
 export type KeluaranSoal = z.infer<typeof KeluaranSoal>;
+
+// Keluaran AI import TP dari PDF. mapel_id tidak diminta dari AI: diisi server dari mapel yang dipilih admin.
+// Hasilnya lalu diperiksa SkemaFileTp + rencanakanImporTp (lib/kurikulum/impor-tp.ts) seperti file JSON biasa.
+export const KeluaranImporTp = z.object({
+  tujuan_pembelajaran: z.array(
+    z.object({
+      kode: z.string(),
+      elemen: z.string(),
+      fase: z.string(),
+      kelas: z.number().int(),
+      urutan: z.number().int(),
+      deskripsi: z.string(),
+      esensial_transisi: z.boolean(),
+    }),
+  ),
+  prasyarat_tp: z.array(z.object({ tp_kode: z.string(), prasyarat_kode: z.string() })),
+});
+export type KeluaranImporTp = z.infer<typeof KeluaranImporTp>;

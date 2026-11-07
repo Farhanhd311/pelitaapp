@@ -89,7 +89,7 @@ export default function HalamanAsesmen() {
   const [modeDemo, setModeDemo] = useState(false);
   const [demoBerjalan, setDemoBerjalan] = useState(false);
   const [tanyaBerhenti, setTanyaBerhenti] = useState(false);
-  const [kelasPilihan, setKelasPilihan] = useState<number | null>(null); // hanya untuk asesmen ini, tidak disimpan ke profil
+  const [kelasPilihan, setKelasPilihan] = useState<number | null>(null); // dikirim saat putaran baru dan disimpan ke ANAK.kelas_terakhir
   const [pesanGalat, setPesanGalat] = useState<string | null>(null);
   const [galatMasuk, setGalatMasuk] = useState<GalatKlien | null>(null); // belum login / belum pilih profil anak
   const mulaiSoal = useRef(0); // untuk waktu_respons_ms

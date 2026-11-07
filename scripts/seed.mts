@@ -11,10 +11,14 @@
 //      dengan bantuan AI (sumber 'ai'), diterbitkan langsung atas keputusan tim untuk demo; tetap wajib ditinjau guru.
 //   2. PENGATURAN_SISTEM versi 1 dari meta.parameter_bkt Matematika + data/seed_pengaturan_sistem.json (PANDUAN 8.4).
 //   3. Akun demo (Admin, Ibu Sari, Kak Dina) dan profil anak Raka beserta relasi pendampingannya.
+//   4. Materi per kelas (data/data_materi_per_kelas_SD.json) dan narasi kartu belajar (data/narasi_materi_*.json)
+//      ke tabel materi dan narasi_materi (migrasi 0001). Ikut di mode --impor-kurikulum.
+//   Semua migrasi di lib/db/migrasi/ dicatat sudah jalan, karena schema.sql sudah memuat isinya.
 //
 // Catatan: dijalankan langsung oleh Node (--experimental-strip-types), jadi pakai `import type`
 // untuk impor yang hanya berupa tipe.
 
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import bcrypt from "bcryptjs";
@@ -32,6 +36,12 @@ const KURIKULUM: { file: string; sumber: "manual" | "ai" }[] = [
   { file: path.join(AKAR, "data", "data_awal_pendidikan_pancasila_kelas_4.json"), sumber: "ai" },
 ];
 const FILE_PENGATURAN = path.join(AKAR, "data", "seed_pengaturan_sistem.json");
+const FILE_MATERI = path.join(AKAR, "data", "data_materi_per_kelas_SD.json");
+// Narasi kartu belajar per mapel. Menambah mapel = menambah file di sini.
+const FILE_NARASI = ["matematika", "bahasa_indonesia", "ipas", "pendidikan_pancasila"].map((m) =>
+  path.join(AKAR, "data", `narasi_materi_${m}.json`),
+);
+const FOLDER_MIGRASI = path.join(AKAR, "lib", "db", "migrasi");
 
 const HOST_LOKAL = ["localhost", "127.0.0.1", "::1", "[::1]"];
 const BCRYPT_ROUNDS = 10; // biaya hash bcrypt (keamanan), bukan aturan bisnis
@@ -206,6 +216,69 @@ async function imporKurikulum(db: Connection, data: DataKurikulum, sumber: "manu
   );
 }
 
+type MateriData = {
+  kode: string;
+  mapel_id: number;
+  fase: string;
+  kelas: number;
+  elemen: string;
+  judul: string;
+  deskripsi: string;
+  tp_terkait: string[];
+  esensial_transisi: boolean | null;
+  dasar_pembagian_kelas?: string | null;
+  urutan: number;
+};
+type NarasiData = { tp_kode: string; judul: string; adegan: unknown[] };
+
+// Materi dan narasi kartu belajar ke database (INSERT IGNORE: yang sudah ada, termasuk suntingan admin, tidak diubah).
+// Narasi untuk TP yang belum ada di database dilewati (foreign key).
+async function imporMateri(db: Connection): Promise<void> {
+  const [tabel] = await db.query<RowDataPacket[]>("SHOW TABLES LIKE 'narasi_materi'");
+  if (tabel.length === 0) {
+    console.log("! Tabel materi/narasi belum ada. Jalankan dulu: npm run migrasi");
+    return;
+  }
+  const materi = bacaJson<{ materi: MateriData[] }>(FILE_MATERI).materi;
+  let jumlahMateri = 0;
+  for (const m of materi) {
+    const [hasil] = await db.query<ResultSetHeader>(
+      `INSERT IGNORE INTO materi
+         (kode, mapel_id, fase, kelas, elemen, judul, deskripsi, tp_terkait, esensial_transisi, dasar_pembagian_kelas, urutan)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        m.kode, m.mapel_id, m.fase, m.kelas, m.elemen, m.judul, m.deskripsi, JSON.stringify(m.tp_terkait),
+        m.esensial_transisi === null ? null : m.esensial_transisi ? 1 : 0, m.dasar_pembagian_kelas ?? null, m.urutan,
+      ],
+    );
+    jumlahMateri += hasil.affectedRows;
+  }
+  let jumlahNarasi = 0;
+  for (const file of FILE_NARASI) {
+    for (const n of bacaJson<{ narasi: NarasiData[] }>(file).narasi) {
+      const [tp] = await db.query<RowDataPacket[]>("SELECT kode FROM tujuan_pembelajaran WHERE kode = ?", [n.tp_kode]);
+      if (tp.length === 0) continue;
+      const [hasil] = await db.query<ResultSetHeader>(
+        "INSERT IGNORE INTO narasi_materi (tp_kode, judul, adegan_json) VALUES (?, ?, ?)",
+        [n.tp_kode, n.judul, JSON.stringify(n.adegan)],
+      );
+      jumlahNarasi += hasil.affectedRows;
+    }
+  }
+  console.log(`✓ Materi: ${jumlahMateri} materi baru, ${jumlahNarasi} narasi kartu belajar baru`);
+}
+
+// Database baru dari schema.sql sudah memuat semua migrasi: catat sebagai sudah jalan (lihat scripts/migrasi.mts).
+async function catatSemuaMigrasi(db: Connection): Promise<void> {
+  const files = fs.readdirSync(FOLDER_MIGRASI).filter((f) => /^\d{4}_[\w-]+\.sql$/.test(f)).sort();
+  for (const nama of files) {
+    const isi = fs.readFileSync(path.join(FOLDER_MIGRASI, nama), "utf8").replace(/\r\n/g, "\n");
+    const cek = crypto.createHash("sha256").update(isi).digest("hex");
+    await db.query("INSERT IGNORE INTO riwayat_migrasi (nama, checksum) VALUES (?, ?)", [nama, cek]);
+  }
+  console.log(`✓ ${files.length} migrasi dicatat sudah termasuk di schema.sql`);
+}
+
 async function isiPengaturan(
   db: Connection,
   parameterBkt: Record<string, unknown>,
@@ -304,7 +377,9 @@ async function main(): Promise<void> {
 
     await db.beginTransaction();
     for (const k of KURIKULUM) await imporKurikulum(db, bacaJson<DataKurikulum>(k.file), k.sumber);
+    await imporMateri(db);
     if (!hanyaKurikulum) {
+      await catatSemuaMigrasi(db);
       await isiPengaturan(db, dataMatematika.meta.parameter_bkt ?? {}, dataPengaturan);
       await buatDataDemo(db, password, pin);
     }

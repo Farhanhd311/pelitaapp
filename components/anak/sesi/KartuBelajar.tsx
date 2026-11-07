@@ -2,8 +2,8 @@
 
 // Kartu belajar sebelum kuis (PANDUAN 7.2: TP baru atau p < 0,40 -> diajari dulu, baru dikuis).
 // Isi kartu dipilih dari KONTEN.url. Konten yang belum dibuat tim memakai tampilan cadangan
-// berisi deskripsi TP, supaya alur tetap jalan. TP yang punya narasi (data/narasi_materi_*.json) tampil sebagai
-// cerita bertahap dulu (NarasiMateri).
+// berisi deskripsi TP, supaya alur tetap jalan. TP yang punya narasi (tabel narasi_materi, dikirim server di
+// respons sesi dan bisa disunting admin) tampil sebagai cerita bertahap dulu (NarasiMateri).
 
 import type { ComponentType } from "react";
 import { motion } from "motion/react";
@@ -12,7 +12,7 @@ import { MascotPijar } from "@/components/anak/MascotPijar";
 import { TombolAnak } from "@/components/anak/fokus/TombolAnak";
 import type { Konten } from "@/lib/kontrak/sesi";
 import { KartuB3 } from "./konten/KartuB3";
-import { cariNarasi } from "./narasi";
+import type { Narasi } from "@/lib/kontrak/materi";
 import { NarasiMateri } from "./NarasiMateri";
 
 // Daftar konten kartu belajar yang sudah dibuat. Menambah konten = menambah satu baris di sini.
@@ -23,16 +23,17 @@ const KONTEN_KARTU: Record<string, ComponentType> = {
 export function KartuBelajar({
   tp,
   kartu,
+  narasi,
   sibuk,
   onLanjut,
 }: {
   tp: { tp_kode: string; deskripsi: string } | null;
   kartu: Konten | null;
+  narasi: Narasi | null;
   sibuk: boolean;
   onLanjut: () => void;
 }) {
   const Isi = kartu?.url ? KONTEN_KARTU[kartu.url] : undefined;
-  const narasi = tp ? cariNarasi(tp.tp_kode) : null;
 
   // Ada narasi: cerita dulu, konten interaktif (jika ada) jadi halaman "Coba sendiri" terakhir.
   if (narasi) {

@@ -1,76 +1,76 @@
 "use client";
 
-// Tombol Reset demo (memanggil POST /api/admin/reset-demo) sesuai PANDUAN 14 & ARSITEKTUR 8.
-// Mengembalikan profil Raka ke kondisi awal: asesmen kosong (siap diuji ulang), check-in hari ini kosong.
+// Tombol Reset demo (PANDUAN 5 A9): kembalikan data Raka sebelum naik panggung.
+// Juga melengkapi data awal yang belum ada di database (kurikulum Bahasa Indonesia, kunci pengaturan baru).
+// Selalu minta konfirmasi, karena progres, sesi, dan jawaban Raka dihapus.
+// Ditaruh di Beranda admin (kartu Persiapan demo), bukan di menu samping, supaya tidak tertekan tanpa sengaja.
 
 import { useState } from "react";
-import { RotateCcw, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { RotateCcw } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { KELAS_DIALOG, KELAS_KAKI_DIALOG, TombolAdmin } from "@/components/admin/dasar";
 import { panggilApi, pesanGalat } from "@/lib/api/klien";
 import type { ResponsResetDemo } from "@/lib/kontrak/admin";
 
-export function TombolResetDemo({ className }: { className?: string }) {
-  const [loading, setLoading] = useState(false);
-  const [pesan, setPesan] = useState<string | null>(null);
+export function TombolResetDemo() {
+  const [buka, setBuka] = useState(false);
+  const [sibuk, setSibuk] = useState(false);
+  const [hasil, setHasil] = useState<string | null>(null);
   const [galat, setGalat] = useState<string | null>(null);
 
-  async function handleReset() {
-    if (loading) return;
-    const konfirmasi = window.confirm(
-      "Apakah Anda yakin ingin mereset data demo Raka?\n\nSemua progres belajar dan sesi asesmen Raka akan dikosongkan agar siap asesmen ulang.",
-    );
-    if (!konfirmasi) return;
-
-    setLoading(true);
-    setPesan(null);
+  async function reset() {
+    setSibuk(true);
     setGalat(null);
-
     try {
-      await panggilApi<ResponsResetDemo>("/api/admin/reset-demo", {});
-      setPesan("Data demo Raka berhasil direset! Siap untuk asesmen ulang.");
-      setTimeout(() => setPesan(null), 5000);
-    } catch (e) {
-      setGalat(pesanGalat(e));
+      const r = await panggilApi<ResponsResetDemo>("/api/admin/reset-demo", {});
+      const tambahan = [
+        r.ringkasan.tp_ditambah ? `${r.ringkasan.tp_ditambah} TP & ${r.ringkasan.soal_ditambah} soal baru` : null,
+        r.pengaturan_ditambah.length ? `${r.pengaturan_ditambah.length} pengaturan baru` : null,
+      ].filter(Boolean);
+      setHasil(`Data demo Raka sudah kembali seperti awal.${tambahan.length ? ` Ditambahkan: ${tambahan.join(", ")}.` : ""}`);
+    } catch (g) {
+      setGalat(pesanGalat(g));
     } finally {
-      setLoading(false);
+      setSibuk(false);
     }
   }
 
   return (
-    <div className="flex flex-col items-start gap-2">
-      <button
-        type="button"
-        onClick={handleReset}
-        disabled={loading}
-        className={`flex items-center gap-2 rounded-xl bg-bata px-4 py-2.5 font-heading text-sm font-extrabold text-white shadow-sm transition hover:bg-bata-tua disabled:opacity-50 cursor-pointer ${
-          className ?? ""
-        }`}
+    <>
+      <TombolAdmin
+        varian="kedua"
+        onClick={() => {
+          setHasil(null);
+          setGalat(null);
+          setBuka(true);
+        }}
       >
-        {loading ? (
-          <>
-            <Loader2 className="size-4 animate-spin" />
-            <span>Mereset Data Demo…</span>
-          </>
-        ) : (
-          <>
-            <RotateCcw className="size-4" />
-            <span>Reset Demo Raka</span>
-          </>
-        )}
-      </button>
+        <RotateCcw aria-hidden /> Reset data demo
+      </TombolAdmin>
 
-      {pesan && (
-        <p className="flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-lg">
-          <CheckCircle2 className="size-4 text-emerald-600" />
-          <span>{pesan}</span>
-        </p>
-      )}
-
-      {galat && (
-        <p className="flex items-center gap-1.5 text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-3 py-1.5 rounded-lg">
-          <AlertCircle className="size-4 text-rose-600" />
-          <span>{galat}</span>
-        </p>
-      )}
-    </div>
+      <Dialog open={buka} onOpenChange={setBuka}>
+        <DialogContent className={`${KELAS_DIALOG} sm:max-w-md`}>
+          <DialogHeader>
+            <DialogTitle className="font-heading text-lg font-extrabold">Reset data demo?</DialogTitle>
+            <DialogDescription className="text-teks-2">
+              Progres TP, sesi, jawaban, check-in, skrining, dan log AI milik Raka dikembalikan ke data awal demo. Log aktivitas
+              tidak dihapus. Data awal yang belum ada (misalnya kurikulum mapel baru) ikut ditambahkan.
+            </DialogDescription>
+          </DialogHeader>
+          {hasil && <p className="rounded-lg bg-[#dcefd4] px-3 py-2 text-sm font-semibold text-[#24502a]">{hasil}</p>}
+          {galat && <p className="rounded-lg bg-emas/20 px-3 py-2 text-sm font-semibold">{galat}</p>}
+          <DialogFooter className={KELAS_KAKI_DIALOG}>
+            <TombolAdmin varian="kedua" onClick={() => setBuka(false)}>
+              {hasil ? "Tutup" : "Batal"}
+            </TombolAdmin>
+            {!hasil && (
+              <TombolAdmin disabled={sibuk} onClick={reset}>
+                {sibuk ? "Mereset…" : "Ya, reset sekarang"}
+              </TombolAdmin>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

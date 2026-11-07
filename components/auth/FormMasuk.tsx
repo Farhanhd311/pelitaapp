@@ -4,13 +4,15 @@
 // Admin -> halaman admin; pendamping -> pilih profil (avatar anak atau mode Pendamping dengan PIN).
 // Anak bukan akun: anak masuk dengan mengetuk avatarnya setelah pendamping masuk (PANDUAN 4).
 
-import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type FormEvent } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { ArrowRight, Eye, EyeOff, LoaderCircle, Lock, Mail, UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LogoPelita } from "@/components/LogoPelita";
 import { MascotPijar } from "@/components/anak/MascotPijar";
+import { Isian } from "@/components/auth/Isian";
 import { panggilApi, pesanGalat } from "@/lib/api/klien";
 import type { ResponsLogin, ResponsProfil } from "@/lib/kontrak/auth";
 
@@ -21,7 +23,7 @@ const AKUN_DEMO = [
   { label: "Admin", peran: "Admin", email: "admin@pelita.demo" },
 ];
 
-const tujuanSetelahMasuk = (mode: ResponsLogin["mode"]) => (mode === "admin" ? "/admin/aturan-ai" : "/pilih-profil");
+const tujuanSetelahMasuk = (mode: ResponsLogin["mode"]) => (mode === "admin" ? "/admin" : "/pilih-profil");
 
 export function FormMasuk() {
   const router = useRouter();
@@ -34,7 +36,7 @@ export function FormMasuk() {
   // Sudah masuk? Langsung lanjut, tidak perlu mengisi formulir lagi.
   useEffect(() => {
     panggilApi<ResponsProfil>("/api/auth/profil")
-      .then((p) => router.replace(p.role === "admin" ? "/admin/aturan-ai" : "/pilih-profil"))
+      .then((p) => router.replace(p.role === "admin" ? "/admin" : "/pilih-profil"))
       .catch(() => undefined);
   }, [router]);
 
@@ -157,62 +159,16 @@ export function FormMasuk() {
         </div>
       </div>
 
-      <p className="mt-5 text-[13px] sm:text-[14px] leading-relaxed text-teks-2">
+      <p className="mt-5 text-center text-[15px] font-semibold text-teks-2">
+        Belum punya akun?{" "}
+        <Link href="/daftar" className="font-extrabold text-bata underline-offset-4 hover:underline focus-visible:rounded focus-visible:ring-4 focus-visible:ring-emas/60 focus-visible:outline-none">
+          Daftar sebagai orang tua/wali
+        </Link>
+      </p>
+
+      <p className="mt-3 text-[13px] sm:text-[14px] leading-relaxed text-teks-2">
         Anak tidak perlu akun. Setelah pendamping masuk, anak cukup mengetuk avatarnya.
       </p>
     </motion.div>
-  );
-}
-
-function Isian({
-  id,
-  label,
-  ikon,
-  type,
-  autoComplete,
-  value,
-  onChange,
-  placeholder,
-  galat,
-  tambahan,
-}: {
-  id: string;
-  label: string;
-  ikon: ReactNode;
-  type: string;
-  autoComplete: string;
-  value: string;
-  onChange: (v: string) => void;
-  placeholder: string;
-  galat: boolean;
-  tambahan?: ReactNode;
-}) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-[14px] font-bold text-teks">
-        {label}
-      </label>
-      <div
-        className={cn(
-          "flex min-h-13 items-center gap-2.5 rounded-full border-2 bg-[#FCECD7]/65 pr-2 pl-4 transition-[border-color,box-shadow,background-color] focus-within:border-jingga focus-within:bg-white focus-within:ring-4 focus-within:ring-emas/35",
-          galat ? "border-emas" : "border-[#E5B97F]/80",
-        )}
-      >
-        <span className="text-bata/85">{ikon}</span>
-        <input
-          id={id}
-          name={id}
-          type={type}
-          autoComplete={autoComplete}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
-          aria-invalid={galat}
-          required
-          className="min-w-0 flex-1 bg-transparent py-2.5 text-[15px] font-semibold text-teks outline-none placeholder:font-normal placeholder:text-teks-2/60"
-        />
-        {tambahan}
-      </div>
-    </div>
   );
 }

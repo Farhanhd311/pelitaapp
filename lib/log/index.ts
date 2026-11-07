@@ -23,7 +23,13 @@ export type JenisTindakan =
   | "terbitkan_soal"
   | "tolak_soal"
   | "unduh_laporan"
-  | "reset_demo";
+  | "reset_demo"
+  | "ubah_materi" // admin menyunting materi per kelas
+  | "ubah_narasi" // admin menyimpan narasi kartu belajar
+  | "buat_soal_otomatis" // generator soal AI (jadwal mingguan, manual, atau TP baru)
+  | "hapus_soal" // admin menghapus soal yang tidak relevan (status 'ditolak', tidak dipakai lagi)
+  | "impor_tp" // admin mengimpor TP baru/berubah di halaman Materi
+  | "daftar"; // pendamping baru mendaftar (detail: apakah PIN terkirim lewat WhatsApp, tanpa data pribadi)
 
 export async function catatAktivitas(catatan: {
   user_id: number | null;
@@ -48,7 +54,7 @@ export async function catatAktivitas(catatan: {
 // Dipakai oleh lib/ai/client.ts untuk setiap panggilan LLM. Mengembalikan id log
 // (untuk tombol penilaian "membantu / tidak membantu" di UMPAN_BALIK_AI).
 export async function catatLogAI(catatan: {
-  fitur: "tutor" | "chatbot" | "laporan" | "generator_soal";
+  fitur: "tutor" | "chatbot" | "laporan" | "generator_soal" | "impor_tp";
   anak_id?: number | null;
   ringkasan_input: string; // untuk chatbot: kategori saja, bukan isi cerita
   output: unknown;

@@ -15,7 +15,7 @@ import {
   ambilVersiSebelumnya,
   simpanVersiBaru,
 } from "@/lib/pengaturan";
-import { RENTANG_AMAN, validasiPengaturan } from "@/lib/pengaturan/rentang";
+import { KETERANGAN, RENTANG_AMAN, validasiPengaturan } from "@/lib/pengaturan/rentang";
 
 async function daftarPengaturan(): Promise<ItemPengaturan[]> {
   const aktif = await ambilPengaturanAktifLengkap();
@@ -24,6 +24,7 @@ async function daftarPengaturan(): Promise<ItemPengaturan[]> {
     return {
       kunci: p.kunci,
       label: r?.label ?? null,
+      keterangan: KETERANGAN[p.kunci] ?? null,
       nilai: p.nilai,
       versi: p.versi,
       alasan: p.alasan,

@@ -1,4 +1,6 @@
-// Narasi materi (kartu belajar bercerita) per TP, dari file data. Menambah mapel = menambah file data di DAFTAR.
+// Narasi materi (kartu belajar bercerita) per TP: DATA AWAL dari file. Sejak migrasi 0001 aplikasi membaca narasi
+// dari tabel narasi_materi (lib/db/materi.ts, bisa disunting admin); daftar file ini dipakai tes struktur data
+// (narasi.test.ts). Menambah mapel = menambah file data di DAFTAR dan di lib/db/materi.ts.
 // Status isi: draf, wajib ditinjau guru SD (lihat meta di file data). Struktur dicek di narasi.test.ts.
 
 import narasiBahasaIndonesia from "@/data/narasi_materi_bahasa_indonesia.json";
@@ -24,6 +26,3 @@ export const DAFTAR_NARASI = [
   ...narasiPendidikanPancasila.narasi,
 ] as Narasi[];
 
-export function cariNarasi(tpKode: string): Narasi | null {
-  return DAFTAR_NARASI.find((n) => n.tp_kode === tpKode) ?? null;
-}

@@ -11,7 +11,7 @@
 import demoRaka from "@/data/seed_demo_raka.json";
 import { bacaBody, GalatApi, tanganiApi } from "@/lib/api/respons";
 import { mulaiAsesmen, putarUlangAsesmen, setelahJawab, type KeadaanAsesmen } from "@/lib/bkt/engine";
-import { denganTransaksi } from "@/lib/db";
+import { denganTransaksi, query } from "@/lib/db";
 import {
   ambilJawabanAsesmen,
   ambilKelasTerakhir,
@@ -79,6 +79,9 @@ function balas(
 async function mulai(anakId: number, mapelId: number, kelasPilihan: number | undefined): Promise<Response> {
   const kurikulum = await ambilKurikulum(mapelId);
   // Kelas terakhir di sekolah yang dipilih di layar; jika kosong, dari profil anak.
+  // Pilihan itu juga DISIMPAN ke profil (keputusan tim: halaman daftar tidak menanyakan kelas terakhir,
+  // jadi ANAK.kelas_terakhir diisi dari asesmen). Layar hanya mengirimnya untuk putaran baru.
+  if (kelasPilihan !== undefined) await query("UPDATE anak SET kelas_terakhir = ? WHERE id = ?", [kelasPilihan, anakId]);
   const kelasBaru = kelasPilihan ?? (await ambilKelasTerakhir(anakId));
 
   // Pakai sesi asesmen yang masih terbuka; jika batas soal per sesi sudah tercapai, tutup dan buka yang baru.

@@ -14,6 +14,7 @@ import { GalatApi, tanganiApi } from "@/lib/api/respons";
 import { denganTransaksi, query } from "@/lib/db";
 import { geserTanggal, tanggalLokal } from "@/lib/db/anak";
 import { lengkapiKurikulumAwal } from "@/lib/db/kurikulum-awal";
+import { lengkapiMateriAwal } from "@/lib/db/materi";
 import { wajibAdmin } from "@/lib/db/rbac";
 import type { ResponsResetDemo } from "@/lib/kontrak/admin";
 import { catatAktivitas } from "@/lib/log";
@@ -34,6 +35,7 @@ export const POST = tanganiApi(async () => {
   const ringkasan = await denganTransaksi(async (kueri) => {
     // ---- Lengkapi data awal yang belum ada (tidak mengubah yang sudah ada).
     const kurikulum = await lengkapiKurikulumAwal(kueri);
+    const materiAwal = await lengkapiMateriAwal(kueri); // materi + narasi kartu belajar (migrasi 0001)
     for (const l of seedLayanan.layanan) {
       const ada = await kueri<{ id: number }[]>("SELECT id FROM layanan_dukungan WHERE LOWER(nama) = LOWER(?)", [l.nama]);
       if (!ada[0]) await kueri("INSERT INTO layanan_dukungan (nama, jenis, kontak) VALUES (?, ?, ?)", [l.nama, l.jenis, l.kontak]);
@@ -86,6 +88,8 @@ export const POST = tanganiApi(async () => {
       konten_contoh: demo.konten_contoh.length,
       tp_ditambah: kurikulum.tp,
       soal_ditambah: kurikulum.soal,
+      materi_ditambah: materiAwal.materi,
+      narasi_ditambah: materiAwal.narasi,
     };
   });
 

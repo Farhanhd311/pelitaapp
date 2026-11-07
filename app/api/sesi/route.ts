@@ -24,6 +24,7 @@ import {
   type ProfilAnakLengkap,
 } from "@/lib/db/anak";
 import { ambilKurikulum, ambilPilihan, ambilTpBerkonten, simpanJawaban } from "@/lib/db/asesmen";
+import { ambilNarasi } from "@/lib/db/materi";
 import { wajibModeAnak } from "@/lib/db/rbac";
 import {
   ambilJawabanSesi,
@@ -73,6 +74,7 @@ function respons(k: Konteks, isi: Partial<ResponsSesi> & Pick<ResponsSesi, "stat
     durasi_menit: k.level.durasi_menit,
     tp: null,
     kartu_belajar: null,
+    narasi: null,
     konten: [],
     soal: null,
     nomor_soal: 0,
@@ -203,7 +205,8 @@ async function mulai(anakId: number, mapelId: number, tpDiminta: string | undefi
     if (tpBaru || p < atur.ambang_kartu_belajar) {
       const kartu = await ambilKonten(tpKode, ["baru", "jembatan"], level.mode_audio);
       await perbaruiSesi({ sesi_belajar: keadaan });
-      return respons(k, { status: "kartu_belajar", tp, kartu_belajar: kartu[0] ?? null, konten: kartu, pesan: PESAN.kartu });
+      const narasi = await ambilNarasi(tpKode); // cerita kartu belajar dari database (bisa disunting admin)
+      return respons(k, { status: "kartu_belajar", tp, kartu_belajar: kartu[0] ?? null, narasi, konten: kartu, pesan: PESAN.kartu });
     }
   }
 

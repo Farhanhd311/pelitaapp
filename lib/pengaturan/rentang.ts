@@ -48,6 +48,50 @@ export const RENTANG_AMAN: Record<string, Aturan & { label: string }> = {
   "demo.pakai_cadangan": { jenis: "boolean", label: "Pakai jawaban cadangan (demo)" },
 };
 
+// Penjelasan singkat setiap kunci untuk admin (halaman Aturan AI): apa artinya dan apa akibat menaikkannya.
+// Teks tampilan saja; tidak dipakai untuk keputusan apa pun.
+export const KETERANGAN: Record<string, string> = {
+  "bkt.peluang_awal": "Keyakinan awal bahwa anak sudah menguasai TP sebelum menjawab soal apa pun.",
+  "bkt.tebakan": "Peluang anak menjawab benar karena menebak. Untuk pilihan ganda 4 opsi sekitar 0,25.",
+  "bkt.ceroboh": "Peluang anak menjawab keliru padahal sebenarnya paham.",
+  "bkt.ceroboh_lelah": "Dipakai setelah anak memilih \"Agak capek\": kekeliruan tidak terlalu menurunkan peluang.",
+  "bkt.belajar_saat_asesmen": "Harus 0: tidak ada pengajaran di antara soal asesmen. Tidak bisa diubah.",
+  "bkt.belajar_saat_sesi": "Peluang anak menjadi paham setelah satu soal latihan di sesi belajar.",
+  "bkt.ambang_tercapai": "Asesmen: TP dinyatakan tercapai jika peluang setidaknya sebesar ini. Lebih tinggi = lebih ketat, soal lebih banyak.",
+  "bkt.ambang_tercapai_sesi": "Sesi belajar: TP lulus jika peluang setidaknya sebesar ini.",
+  "bkt.ambang_belum": "Asesmen: TP dinyatakan belum jika peluang turun sampai sebesar ini.",
+  "bkt.min_soal_tercapai": "Minimal soal sebelum TP boleh dinyatakan tercapai (2 soal terbukti terlalu cepat).",
+  "bkt.min_soal_per_tp": "Minimal soal sebelum TP boleh dinyatakan belum.",
+  "bkt.maks_soal_per_tp": "Setelah soal sebanyak ini, TP wajib diputuskan. Jangan diturunkan ke 3.",
+  "asesmen.berhenti_dini": "Asesmen selesai begitu titik mulai sudah pasti, supaya anak tidak mengerjakan soal yang tidak perlu.",
+  "asesmen.maks_soal_per_sesi": "Setelah soal sebanyak ini, anak diajak istirahat; asesmen dilanjutkan di sesi berikutnya.",
+  "asesmen.maks_soal_per_mapel": "Batas soal satu asesmen untuk setiap mata pelajaran. Jika tercapai, asesmen mapel itu selesai.",
+  "sesi.durasi_ringan": "Lama sesi level ringan (menit). Perlu divalidasi tenaga kesehatan.",
+  "sesi.durasi_normal": "Lama sesi level normal (menit).",
+  "sesi.durasi_penuh": "Lama sesi level penuh (menit), dengan jeda.",
+  "sesi.hari_mood_turun_pemicu_chatbot": "Jika cuaca hati hujan/badai sekian hari berturut-turut, Teman Cerita menyapa lebih dulu.",
+  "sesi.hari_lemas_pemicu_perhatian": "Jika lemas/berkeluhan sekian hari berturut-turut, muncul kartu \"perlu perhatian\" untuk pendamping.",
+  "sesi.salah_beruntun_pemicu_cek": "Setelah kekeliruan beruntun sebanyak ini, anak ditanya \"Masih kuat?\".",
+  "sesi.ambang_kartu_belajar": "TP dengan peluang di bawah ini ditampilkan kartu belajar dulu sebelum kuis.",
+  "kuis.gagal_sebelum_ditinjau_guru": "Setelah kuis gagal sekian kali, TP ditandai untuk ditinjau guru (anak tidak dipaksa mengulang).",
+  "kuis.jumlah_soal_ringan": "Jumlah soal santai di sesi ringan (tidak memengaruhi status TP).",
+  "kuis.jumlah_soal_normal": "Jumlah soal formatif di sesi normal.",
+  "kuis.jumlah_soal_penuh": "Jumlah soal di kuis lengkap sesi penuh.",
+  "krisis.daftar_kata_kunci": "Kata/pola yang memicu eskalasi darurat. Hanya boleh ditambah atau direvisi, tidak boleh dikosongkan.",
+  "rujukan.aturan_level": "Tabel level rujukan Teman Cerita (level 1-3) dan layanan tujuannya.",
+  "rujukan.kode_kebutuhan": "Pilihan kebutuhan anak di Teman Cerita dan level rujukan yang dipicunya.",
+  "rujukan.hari_tindak_lanjut": "Berapa hari setelah rujukan disetujui sebelum ditindaklanjuti.",
+  "llm.batas_waktu_detik": "Jika LLM lebih lama dari ini, sistem memakai jawaban cadangan.",
+  "llm.maks_kalimat_tutor": "Panjang maksimal penjelasan AI tutor untuk anak.",
+  "generator_soal.maks_kata_per_kalimat": "Soal buatan AI dengan kalimat lebih panjang dari ini ditolak otomatis.",
+  "generator_soal.ambang_kemiripan": "Soal buatan AI yang kemiripannya dengan soal lama di atas ini ditolak otomatis.",
+  "generator_soal.interval_hari": "Soal latihan baru dibuat AI otomatis untuk semua TP setiap sekian hari.",
+  "generator_soal.soal_per_tp": "Banyaknya soal baru per TP setiap kali generator berjalan.",
+  "impor_tp.batas_waktu_detik": "Batas waktu AI membaca PDF kurikulum saat import TP (lebih lama dari panggilan AI biasa).",
+  "impor_tp.maks_mb": "Ukuran maksimal file PDF untuk import TP (batas permintaan API 32 MB setelah dienkode).",
+  "demo.pakai_cadangan": "Jika Ya, semua fitur LLM langsung memakai jawaban cadangan (untuk sinyal panggung yang buruk).",
+};
+
 function periksaJenis(aturan: Aturan, nilai: unknown): string | null {
   switch (aturan.jenis) {
     case "angka":

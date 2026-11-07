@@ -2,6 +2,7 @@
 // Kontrak: lib/kontrak/beranda.ts. mapel_id opsional; default mapel utama (mapel pertama yang punya TP).
 //   Mapel dengan TP di database dan asesmen selesai -> Pos Dasar, Kelasku, Pos tambahan (lib/peta/jalur-materi.ts).
 //   Mapel tanpa penempatan (pustaka, atau belum diimpor/diasesmen) -> materi Kelasku saja.
+// Materi dibaca dari tabel materi (migrasi 0001). Daftar mapel + jenisnya (adaptif/pustaka) tetap dari file data.
 // Pos bertombol play = TP rekomendasi susunPeta, sama dengan yang dibuka sesi belajar "hari ini".
 
 import { z } from "zod";
@@ -20,6 +21,7 @@ import {
   type ProfilAnakLengkap,
 } from "@/lib/db/anak";
 import { ambilKurikulum, ambilTpBerkonten, statusAsesmen } from "@/lib/db/asesmen";
+import { ambilMateriMapel } from "@/lib/db/materi";
 import { wajibModeAnak } from "@/lib/db/rbac";
 import { ambilTpPernahDilatih, hitungSisaBenar } from "@/lib/db/sesi-belajar";
 import type { MapelBeranda, ResponsBeranda } from "@/lib/kontrak/beranda";
@@ -122,7 +124,7 @@ export const GET = tanganiApi(async (req: Request) => {
         : TANPA_PENEMPATAN;
 
   const jalur = susunJalurMateri({
-    materi: dataMateri.materi.filter((m) => m.mapel_id === mapel.mapel_id),
+    materi: await ambilMateriMapel(mapel.mapel_id), // dari tabel materi (bisa disunting admin)
     progres: p.progres,
     kelas_seharusnya: anak.kelas_seharusnya,
     fase_intensif: anak.fase_pengobatan === "intensif",

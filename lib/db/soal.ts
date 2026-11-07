@@ -1,7 +1,7 @@
 // Akses database bank soal untuk admin (PANDUAN 8.5). Admin boleh melihat kunci jawaban dan miskonsepsi.
 
 import { query, type JalankanKueri } from "@/lib/db";
-import type { ItemSoalAdmin } from "@/lib/kontrak/admin";
+import type { ItemSoalAdmin, TpAdmin } from "@/lib/kontrak/admin";
 import type { KeluaranSoal } from "@/lib/ai/schemas";
 
 type Filter = { tp_kode?: string; penggunaan?: string; tingkat_kesulitan?: number; sumber?: string; status?: string };
@@ -63,21 +63,22 @@ export async function daftarSoalAdmin(f: Filter): Promise<ItemSoalAdmin[]> {
 
 // Teks pertanyaan soal lain di TP yang sama (kecuali yang ditolak), untuk cek kemiripan soal AI.
 export async function pertanyaanTp(tpKode: string, kecualiId?: string): Promise<string[]> {
-  const baris = await query<{ pertanyaan: string }[]>(
-    "SELECT pertanyaan FROM soal WHERE tp_kode = ? AND status <> 'ditolak' AND id <> ?",
+  const baris = await query<{ pertanyaan: string; bacaan: string | null }[]>(
+    "SELECT pertanyaan, bacaan FROM soal WHERE tp_kode = ? AND status <> 'ditolak' AND id <> ?",
     [tpKode, kecualiId ?? ""],
   );
-  return baris.map((b) => b.pertanyaan);
+  return baris.map((b) => [b.bacaan ?? "", b.pertanyaan].join(" ").trim());
 }
 
 export async function simpanSoalAI(
   kueri: JalankanKueri,
-  m: { soal_id: string; tp_kode: string; penggunaan: string; tingkat_kesulitan: number; soal: KeluaranSoal; dibuat_oleh: number },
+  m: { soal_id: string; tp_kode: string; penggunaan: string; tingkat_kesulitan: number; soal: KeluaranSoal; dibuat_oleh: number | null },
 ): Promise<void> {
+  // Langsung 'terbit' (keputusan tim): pemanggil HANYA menyimpan soal yang lolos pemeriksaan otomatis (periksaSoalAI).
   await kueri(
-    `INSERT INTO soal (id, tp_kode, penggunaan, tingkat_kesulitan, pertanyaan, visual, pembahasan, sumber, status, dibuat_oleh)
-     VALUES (?, ?, ?, ?, ?, ?, ?, 'ai', 'draf', ?)`,
-    [m.soal_id, m.tp_kode, m.penggunaan, m.tingkat_kesulitan, m.soal.pertanyaan, m.soal.visual, m.soal.pembahasan, m.dibuat_oleh],
+    `INSERT INTO soal (id, tp_kode, penggunaan, tingkat_kesulitan, pertanyaan, bacaan, visual, pembahasan, sumber, status, dibuat_oleh)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'ai', 'terbit', ?)`,
+    [m.soal_id, m.tp_kode, m.penggunaan, m.tingkat_kesulitan, m.soal.pertanyaan, m.soal.bacaan ?? null, m.soal.visual, m.soal.pembahasan, m.dibuat_oleh],
   );
   for (const p of m.soal.pilihan) {
     await kueri("INSERT INTO pilihan (soal_id, teks, benar, miskonsepsi) VALUES (?, ?, ?, ?)", [
@@ -87,4 +88,12 @@ export async function simpanSoalAI(
       p.benar ? null : p.miskonsepsi,
     ]);
   }
+}
+
+// Semua TP untuk saringan bank soal admin, urut mapel lalu urutan.
+export async function daftarTpAdmin(): Promise<TpAdmin[]> {
+  return query<TpAdmin[]>(
+    `SELECT t.kode, m.nama AS mapel, t.kelas, t.deskripsi
+     FROM tujuan_pembelajaran t JOIN mapel m ON m.id = t.mapel_id ORDER BY t.mapel_id, t.urutan`,
+  );
 }

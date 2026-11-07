@@ -232,7 +232,7 @@ export function AlurSesi({ params }: { params: Promise<{ tpKode: string }> }) {
       )}
 
       {sesi && sesi.status === "kartu_belajar" && (
-        <KartuBelajar tp={sesi.tp} kartu={sesi.kartu_belajar} sibuk={sibuk} onLanjut={async () => terapkan(await kirim({ aksi: "kuis", sesi_id: sesi.sesi_id }))} />
+        <KartuBelajar tp={sesi.tp} kartu={sesi.kartu_belajar} narasi={sesi.narasi} sibuk={sibuk} onLanjut={async () => terapkan(await kirim({ aksi: "kuis", sesi_id: sesi.sesi_id }))} />
       )}
 
       {sesi && (sesi.status === "kuis" || umpan) && (

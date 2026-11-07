@@ -143,6 +143,7 @@ export function keParameterSesi(nilai: NilaiPengaturan) {
 
 export type ParameterSesiLengkap = ReturnType<typeof keParameterSesi>;
 
+
 // ---------- Akses database ----------
 
 // Semua versi semua kunci. Tabelnya kecil (puluhan baris), jadi cukup dibaca sekaligus.

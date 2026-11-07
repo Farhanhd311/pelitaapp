@@ -104,7 +104,7 @@ Aturan memilih fitur: **(A)** tampil di demo ±130 detik → bangun penuh; **(B)
 ### B. Versi sederhana (untuk tanya jawab)
 11. Teman Cerita: skrining chip → deteksi krisis aturan tetap → level rujukan → masuk **Keputusan Menunggu** orang tua; eskalasi muncul di antrean admin. LLM hanya jika sempat.
 12. Admin **Aturan AI**: ubah parameter BKT dalam rentang aman + alasan + tercatat (riwayat versi; tombol kembalikan jika sempat).
-13. Admin **bank soal + "Buat variasi soal dengan AI" + antrean tinjauan** (draf → terbit/ditolak) dengan validasi kunci otomatis.
+13. Admin **bank soal**: soal semua mapel dibuat AI otomatis (mingguan + saat TP baru), terbit jika lolos pemeriksaan otomatis; admin bisa menghapus soal yang tidak relevan. *(Keputusan tim 2026-11-08, menggantikan antrean tinjauan; lihat 8.5.)*
 14. Admin **Evaluasi AI**: hasil uji siswa virtual dari `hasil_uji_asesmen.json` (berlabel "hasil simulasi") + hitungan nyata dari `LOG_AI`.
 15. Admin log aktivitas (tabel + filter) dan antrean eskalasi.
 16. Onboarding: data Raka di-seed; formulir survei satu halaman hanya jika sempat.
@@ -239,7 +239,7 @@ fungsi putuskan(tp, hasil):
 ```
 
 Aturan asesmen:
-- Sebelum asesmen, anak (didampingi pendamping) ditanya **"Kamu terakhir sekolah di kelas berapa?"**. Pilihan awal diisi dari `ANAK.kelas_terakhir`; jawaban hanya dipakai untuk asesmen itu dan **tidak mengubah profil**. Asesmen yang sedang berjalan dilanjutkan tanpa bertanya lagi. *(Disetujui tim, menggantikan aturan `kelas_seharusnya − 1`.)*
+- Sebelum asesmen, anak (didampingi pendamping) ditanya **"Kamu terakhir sekolah di kelas berapa?"**. Pilihan awal diisi dari `ANAK.kelas_terakhir`; jawaban **disimpan ke `ANAK.kelas_terakhir`** saat putaran baru dimulai, karena halaman daftar tidak menanyakan kelas terakhir (keputusan tim 2026-11-08; saat daftar, nilainya sementara `kelas_seharusnya − 1`). Asesmen yang sedang berjalan dilanjutkan tanpa bertanya lagi. *(Disetujui tim, menggantikan aturan `kelas_seharusnya − 1`.)*
 - TP pertama yang diuji: TP kunci di **kelas terakhir yang dipilih** (atau kelas terdekat di bawahnya yang punya TP), yaitu TP di tengah daftar TP kelas itu yang diurutkan menurut `urutan` (indeks `floor(jumlah / 2)`, mulai dari 0). Untuk Raka (kelas terakhir 3) hasilnya B3.
 - **Batas atas:** asesmen tidak menguji TP di atas kelas pilihan. TP kelas di atasnya hanya bisa *disimpulkan belum* (dari prasyarat yang belum), selebihnya `belum_diketahui`. Jika semua TP sampai kelas pilihan tercapai, titik mulai = TP kelas berikutnya dengan urutan terendah yang tidak punya prasyarat berstatus `belum`.
 - **Kelas di bawah kelas pilihan** *(disetujui tim)*: TP kelas bawah **hanya diuji jika menjadi prasyarat (langsung/tidak langsung) TP yang diuji dan ternyata belum dikuasai**, untuk mencari dari mana anak mulai di Pos Dasar. Jika anak lancar di kelas pilihannya, tidak ada soal dari kelas bawah. TP kelas bawah yang tidak perlu diuji tetap `belum_diketahui` (pos opsional, lihat 7.3).
@@ -333,6 +333,7 @@ Semua angka dan daftar yang mengendalikan perilaku sistem disimpan di tabel `PEN
 | BKT | `bkt.ambang_belum` | 0,30 | 0,05–0,5 |
 | BKT | `bkt.min_soal_per_tp` / `bkt.maks_soal_per_tp` | 2 / 4 | 1–3 / 3–8 |
 | Asesmen | `asesmen.maks_soal_per_sesi` | 12 | 5–20 |
+| Generator soal | `generator_soal.mapel_diizinkan` | [1] (Matematika) | tetap (tidak diubah lewat admin) |
 | Asesmen | `asesmen.maks_soal_per_mapel` | {"1": 18, "2": 12} (kunci = `mapel_id`) | 5–40 per mapel |
 | Sesi | `sesi.durasi_ringan` / `normal` / `penuh` (menit) | 10 / 20 / 30 | 3–15 / 10–30 / 15–45 |
 | Sesi | `sesi.hari_mood_turun_pemicu_chatbot` | 3 | 1–7 |
@@ -354,8 +355,16 @@ Aturan pengaman:
 
 ### 8.5 Bank soal dan tinjauan soal buatan AI (admin)
 
+> **Keputusan tim (2026-11-08), menggantikan alur tinjauan di bawah:**
+> - AI membuat soal untuk **semua mapel** secara otomatis: setiap `generator_soal.interval_hari` (7) hari lewat penjadwal (`GET /api/cron/soal-mingguan`, Cloud Scheduler), saat admin menekan "Buat soal sekarang", dan saat admin mengimpor TP baru/berubah di halaman Materi.
+> - Soal **langsung terbit jika lolos pemeriksaan otomatis** (4 pilihan, 1 kunci, miskonsepsi tiap pengecoh, kunci soal hitungan dihitung ulang program, kalimat pendek, tanpa kata yang dihindari atau kata "salah", tidak mirip soal lama). Yang tidak lolos dibuang, tidak pernah ke anak. Tidak ada lagi antrean terima/tolak.
+> - Soal otomatis berjenis **latihan (formatif)**; soal **asesmen (diagnostik)** hanya dibuat untuk TP mapel adaptif yang kekurangan (TP baru), supaya asesmen penempatan dan demo Raka tetap stabil.
+> - Admin bisa **menghapus** soal yang tidak relevan (status `ditolak` + alasan, tercatat di log; soal tidak dihapus dari database karena jawaban lama masih merujuknya).
+> - Risiko yang diterima tim: untuk soal non-hitungan, kunci tidak bisa dicek program. Mitigasi: label "Dibuat AI", statistik persen benar per soal, dan tombol hapus.
+> - Kode: `lib/ai/generator-soal.ts`, `app/api/admin/soal`, `app/api/cron/soal-mingguan`.
+
 Alur soal buatan AI:
-1. Admin memilih TP lalu menekan **"Buat variasi soal dengan AI"**. Input ke LLM: deskripsi TP, contoh soal terbit, jenis penggunaan, tingkat kesulitan. Output JSON: pertanyaan, 4 pilihan, kunci, `miskonsepsi` setiap pengecoh, `pembahasan`.
+1. Admin memilih TP lalu menekan **"Buat variasi soal dengan AI"**. *(Keputusan tim: hanya untuk mapel di `generator_soal.mapel_diizinkan`, saat ini Matematika, karena kunci soal hitungan bisa dicek ulang program. Server menolak mapel lain.)* Input ke LLM: deskripsi TP, contoh soal terbit, jenis penggunaan, tingkat kesulitan. Output JSON: pertanyaan, 4 pilihan, kunci, `miskonsepsi` setiap pengecoh, `pembahasan`.
 2. Server memvalidasi otomatis sebelum masuk antrean:
    - tepat 4 pilihan, tepat 1 kunci, tidak ada pilihan ganda;
    - setiap pengecoh punya `miskonsepsi`;
@@ -407,7 +416,7 @@ Aturan:
 
 ---
 
-## 9. Model data (20 tabel)
+## 9. Model data (20 tabel + 3 tabel tambahan)
 
 Gunakan nama tabel dan kolom berikut. **Jangan mengubah skema tanpa persetujuan tim.**
 
@@ -433,6 +442,18 @@ Tabel untuk fitur admin (bagian 8.4–8.7):
 - `LOG_AKTIVITAS` (id, user_id, jenis_tindakan, entitas, entitas_id, detail_json tanpa data sensitif, created_at). Hanya bisa ditambah.
 - `LOG_AI` (id, fitur: tutor|chatbot|laporan|generator_soal, anak_id opsional, ringkasan_input, output_json, valid, pakai_fallback, waktu_respons_ms, versi_prompt, created_at). Untuk chatbot, simpan **kategori saja**, bukan isi cerita anak.
 - `UMPAN_BALIK_AI` (id, log_ai_id, user_id, nilai: membantu|tidak_membantu, komentar, created_at)
+
+Tabel tambahan (disetujui tim, 2026-11-08, migrasi `lib/db/migrasi/0001_materi_narasi.sql`):
+- `MATERI` (kode, mapel_id, fase, kelas, elemen, judul, deskripsi, tp_terkait JSON, esensial_transisi, dasar_pembagian_kelas, urutan, diubah_oleh, diubah_at). Materi per kelas 4 mapel untuk peta petualangan anak; isi awal dari `data/data_materi_per_kelas_SD.json`.
+- `NARASI_MATERI` (tp_kode, judul, adegan_json, diubah_oleh, diubah_at). Kartu belajar bercerita per TP; isi awal dari `data/narasi_materi_*.json`.
+- `RIWAYAT_MIGRASI` (nama, checksum, dijalankan_at). Catatan migrasi skema.
+- Migrasi `0002_log_ai_impor_tp.sql`: nilai `impor_tp` pada `LOG_AI.fitur` (AI membaca PDF kurikulum saat admin mengimpor TP).
+
+**Import TP dari PDF (halaman Materi):** admin mengunggah PDF kurikulum (CP/ATP/modul ajar) dan memilih mapel; AI (`POST /api/admin/materi/pdf`) membaca PDF langsung dan menyusun daftar TP berformat `data_awal`, memakai kode lama untuk TP yang sama. Hasilnya **tidak langsung disimpan**: masuk pratinjau (TP baru/berubah/prasyarat), lalu admin menekan "Terapkan & buat soal". Batas waktu dan ukuran PDF di `PENGATURAN_SISTEM` (`impor_tp.*`).
+
+Admin menyunting materi dan narasi di halaman **Materi**; halaman anak memuatnya dari database. Narasi diperiksa server (skema + kata terlarang PANDUAN 8) sebelum disimpan.
+
+**Perubahan skema berikutnya wajib lewat file migrasi** (`lib/db/migrasi/NNNN_keterangan.sql`, lalu `npm run migrasi`), bukan seed ulang, supaya data anggota tim tidak hilang. File migrasi yang sudah dijalankan tidak boleh diubah.
 
 Catatan desain:
 - **MySQL:** buat database dan semua tabel dengan `CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`, dan set `charset: 'utf8mb4'` di koneksi. Kolom `*_json` bertipe `JSON`, kolom ya/tidak bertipe `TINYINT(1)`, pilihan nilai (enum) boleh `ENUM` atau `VARCHAR`. Simpan waktu dalam UTC.
@@ -552,7 +573,7 @@ Tab cadangan untuk tanya jawab: **Aturan AI**, **Evaluasi AI** (hasil uji siswa 
 - Jangan mengubah skema database, aturan BKT, atau aturan level sesi tanpa persetujuan.
 - **Jangan menulis angka ambang, durasi, atau daftar kata kunci langsung di kode.** Selalu baca dari `PENGATURAN_SISTEM` melalui `/lib/pengaturan`.
 - Setiap pemanggilan LLM wajib dicatat di `LOG_AI`, dan setiap tindakan penting dicatat di `LOG_AKTIVITAS`.
-- Soal buatan AI tidak boleh pernah tampil ke anak sebelum berstatus `terbit`.
+- Soal buatan AI tidak boleh pernah tampil ke anak sebelum berstatus `terbit`; sejak keputusan tim 2026-11-08 soal AI terbit otomatis HANYA jika lolos pemeriksaan otomatis (8.5).
 - Logika BKT, penelusuran prasyarat, aturan level sesi, dan deteksi krisis ditulis sebagai **fungsi murni** dan diberi **tes unit**.
 - Beri nama variabel dan fungsi yang jelas dan konsisten dengan istilah di dokumen ini (misalnya `tentukanLevel`, `perbaruiBKT`, `p_menguasai`).
 - Tambahkan komentar singkat pada logika penting supaya tim bisa menjelaskannya ke juri.

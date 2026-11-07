@@ -1,4 +1,6 @@
--- Skema database PELITA: 20 tabel sesuai PANDUAN_PROYEK.md bagian 9.
+-- Skema database PELITA: 20 tabel sesuai PANDUAN_PROYEK.md bagian 9, ditambah materi, narasi_materi
+-- (migrasi 0001, disetujui tim) dan riwayat_migrasi.
+-- Database yang sudah ada diperbarui lewat `npm run migrasi` (lib/db/migrasi/), BUKAN seed ulang.
 -- MySQL 8, InnoDB, utf8mb4 (wajib, karena soal memakai emoji).
 -- Nama tabel huruf kecil; dokumen tetap menyebutnya USERS, ANAK, dst.
 -- Waktu disimpan dalam UTC: koneksi selalu memakai time_zone '+00:00' (lihat lib/db/index.ts),
@@ -31,6 +33,7 @@ CREATE TABLE anak (
   kelas_terakhir       TINYINT UNSIGNED NOT NULL,
   kelas_seharusnya     TINYINT UNSIGNED NOT NULL,
   tgl_berhenti_sekolah DATE         NULL,
+  asal_sekolah         VARCHAR(150) NULL,             -- migrasi 0003; diisi saat pendaftaran
   pin_hash             VARCHAR(255) NULL,             -- PIN anak opsional (hash bcrypt)
   fase_pengobatan      ENUM('intensif','pemeliharaan','pemulihan') NOT NULL,
   mode_jeda            TINYINT(1)   NOT NULL DEFAULT 0,
@@ -269,7 +272,7 @@ CREATE TABLE log_aktivitas (
 -- Setiap panggilan LLM. Untuk chatbot hanya kategori, bukan isi cerita anak.
 CREATE TABLE log_ai (
   id               BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  fitur            ENUM('tutor','chatbot','laporan','generator_soal') NOT NULL,
+  fitur            ENUM('tutor','chatbot','laporan','generator_soal','impor_tp') NOT NULL,  -- impor_tp: migrasi 0002
   anak_id          INT UNSIGNED NULL,
   ringkasan_input  TEXT         NULL,
   output_json      JSON         NULL,
@@ -294,4 +297,53 @@ CREATE TABLE umpan_balik_ai (
   KEY idx_umpan_balik_log (log_ai_id),
   CONSTRAINT fk_umpan_balik_log FOREIGN KEY (log_ai_id) REFERENCES log_ai (id) ON DELETE CASCADE,
   CONSTRAINT fk_umpan_balik_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================================
+-- Materi dan narasi kartu belajar (migrasi 0001)
+-- ============================================================
+
+-- Materi per kelas untuk peta petualangan anak (4 mapel). tp_terkait = TP adaptif yang dihitung di pos itu.
+CREATE TABLE materi (
+  kode                  VARCHAR(30)       NOT NULL,          -- misalnya MAT-1-BIL-01
+  mapel_id              INT UNSIGNED      NOT NULL,
+  fase                  VARCHAR(2)        NOT NULL,
+  kelas                 TINYINT UNSIGNED  NOT NULL,
+  elemen                VARCHAR(100)      NOT NULL,
+  judul                 VARCHAR(200)      NOT NULL,
+  deskripsi             TEXT              NOT NULL,
+  tp_terkait            JSON              NOT NULL,          -- daftar kode TP, boleh kosong []
+  esensial_transisi     TINYINT(1)        NULL,              -- null = belum diketahui
+  dasar_pembagian_kelas VARCHAR(255)      NULL,
+  urutan                SMALLINT UNSIGNED NOT NULL,
+  diubah_oleh           INT UNSIGNED      NULL,              -- null = dari data awal
+  diubah_at             DATETIME          NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (kode),
+  KEY idx_materi_mapel_kelas (mapel_id, kelas, urutan),
+  CONSTRAINT fk_materi_mapel FOREIGN KEY (mapel_id) REFERENCES mapel (id) ON DELETE CASCADE,
+  CONSTRAINT fk_materi_user FOREIGN KEY (diubah_oleh) REFERENCES users (id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Narasi kartu belajar bercerita: satu per TP, berisi adegan Pijar (lihat lib/kontrak/materi.ts).
+CREATE TABLE narasi_materi (
+  tp_kode     VARCHAR(20)  NOT NULL,
+  judul       VARCHAR(200) NOT NULL,
+  adegan_json JSON         NOT NULL,
+  diubah_oleh INT UNSIGNED NULL,                             -- null = dari data awal
+  diubah_at   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (tp_kode),
+  CONSTRAINT fk_narasi_tp FOREIGN KEY (tp_kode) REFERENCES tujuan_pembelajaran (kode) ON DELETE CASCADE,
+  CONSTRAINT fk_narasi_user FOREIGN KEY (diubah_oleh) REFERENCES users (id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================================
+-- Migrasi skema (scripts/migrasi.mts)
+-- ============================================================
+
+-- Migrasi yang sudah dijalankan. Seed mengisinya dengan semua migrasi (skema ini sudah termasuk isinya).
+CREATE TABLE riwayat_migrasi (
+  nama          VARCHAR(200) NOT NULL,
+  checksum      CHAR(64)     NOT NULL,                     -- sha256 isi file (baris dinormalkan ke LF)
+  dijalankan_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (nama)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
