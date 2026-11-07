@@ -45,6 +45,7 @@ export type ModeSesi = "admin" | "pendamping" | "anak" | "pilih_profil";
 // sesi: menghapus cookie berarti logout, dan login ulang tetap butuh password.
 const BATAS_PIN_SALAH = 5;
 const LAMA_KUNCI_PIN_MS = 5 * 60 * 1000;
+const DURASI_SESI_DETIK = 24 * 60 * 60; // 1 hari (86.400 detik)
 
 function opsiSesi() {
   const rahasia = process.env.SESSION_SECRET;
@@ -54,10 +55,12 @@ function opsiSesi() {
   return {
     password: rahasia,
     cookieName: "pelita_sesi",
+    ttl: DURASI_SESI_DETIK,
     cookieOptions: {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // localhost memakai http
       sameSite: "lax" as const,
+      maxAge: DURASI_SESI_DETIK,
     },
   };
 }

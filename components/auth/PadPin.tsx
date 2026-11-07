@@ -6,7 +6,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { motion, useAnimationControls } from "motion/react";
 import { Delete, LoaderCircle } from "lucide-react";
-import { cn } from "cn";
+import { cn } from "@/lib/utils";
 
 const PANJANG_MIN = 4;
 const PANJANG_MAKS = 8;
