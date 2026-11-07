@@ -1,0 +1,255 @@
+# Contoh request SEMUA API PELITA untuk ekstensi VS Code "REST Client" (Huachao Mao).
+# Cara pakai:
+#   1. Jalankan `npm run dev`.
+#   2. Klik "Send Request" di atas setiap request. Cookie login tersimpan otomatis.
+#   3. Ganti @password dan @pin dengan DEMO_PASSWORD dan DEMO_PIN dari .env (JANGAN commit nilai asli).
+# Bentuk request/response setiap endpoint ada di lib/kontrak/*.ts.
+# Galat selalu berbentuk { "galat": "pesan ramah", "kode": "BELUM_LOGIN" | "TIDAK_BERHAK" | ... }.
+#
+# Mode yang dibutuhkan:
+#   [anak]       login pendamping -> POST /api/auth/profil (pilih anak)
+#   [pendamping] login pendamping -> POST /api/auth/pin
+#   [admin]      login admin@pelita.demo
+
+@host = http://localhost:3000
+@password = ISI_DEMO_PASSWORD
+@pin = ISI_DEMO_PIN
+@anak = 1
+@mapel = 1
+
+### Cek database + utf8mb4 (harus {"ok":true,...,"teks":"🐟📘"})
+GET {{host}}/api/health
+
+############################################################
+# 1. LOGIN DAN PROFIL (lib/kontrak/auth.ts)
+############################################################
+
+### Login Ibu Sari (orang tua Raka). Kak Dina (guru): dina@pelita.demo. Admin: admin@pelita.demo
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "sari@pelita.demo", "password": "{{password}}" }
+
+### Siapa yang login + mode + daftar avatar anak
+GET {{host}}/api/auth/profil
+
+### Ketuk avatar anak -> mode anak
+POST {{host}}/api/auth/profil
+Content-Type: application/json
+
+{ "anak_id": {{anak}} }
+
+### PIN pendamping -> mode pendamping
+POST {{host}}/api/auth/pin
+Content-Type: application/json
+
+{ "pin": "{{pin}}" }
+
+### Logout
+POST {{host}}/api/auth/logout
+
+### Daftar mata pelajaran (mapel_id untuk asesmen, peta, sesi, laporan)
+GET {{host}}/api/mapel
+
+############################################################
+# 2. MODE ANAK
+############################################################
+
+### [anak] Check-in hari ini (null jika belum)
+GET {{host}}/api/checkin
+
+### [anak] Check-in (demo: lemas + mata lelah + berawan -> ringan, mode audio)
+POST {{host}}/api/checkin
+Content-Type: application/json
+
+{ "energi": "lemas", "cuaca_hati": "berawan", "keluhan": ["mata_lelah"] }
+
+### [anak] Asesmen: mulai / lanjutkan
+# @name asesmen
+POST {{host}}/api/asesmen
+Content-Type: application/json
+
+{ "aksi": "mulai", "mapel_id": {{mapel}} }
+
+### [anak] Asesmen: jawab (pilihan_id dari soal di respons sebelumnya)
+POST {{host}}/api/asesmen
+Content-Type: application/json
+
+{
+  "aksi": "jawab",
+  "sesi_id": {{asesmen.response.body.sesi_id}},
+  "soal_id": "{{asesmen.response.body.soal.soal_id}}",
+  "pilihan_id": {{asesmen.response.body.soal.pilihan.0.pilihan_id}},
+  "waktu_respons_ms": 4200
+}
+
+### [anak] Asesmen mode demo "putar otomatis": server menjawab sebagai Raka. Ulangi sampai status "selesai";
+# jika status "batas_sesi", kirim "mulai" lagi.
+POST {{host}}/api/asesmen
+Content-Type: application/json
+
+{ "aksi": "jawab_demo", "sesi_id": {{asesmen.response.body.sesi_id}}, "soal_id": "{{asesmen.response.body.soal.soal_id}}" }
+
+### [anak] Peta TP: Kelasku + Pos Dasar
+GET {{host}}/api/peta?mapel_id={{mapel}}
+
+### [anak] Sesi belajar: mulai (tp_kode opsional; kosong = rekomendasi peta)
+# @name sesi
+POST {{host}}/api/sesi
+Content-Type: application/json
+
+{ "aksi": "mulai", "mapel_id": {{mapel}} }
+
+### [anak] Sesi: setelah kartu belajar -> soal pertama
+# @name kuis
+POST {{host}}/api/sesi
+Content-Type: application/json
+
+{ "aksi": "kuis", "sesi_id": {{sesi.response.body.sesi_id}} }
+
+### [anak] Sesi: jawab soal
+POST {{host}}/api/sesi
+Content-Type: application/json
+
+{
+  "aksi": "jawab",
+  "sesi_id": {{sesi.response.body.sesi_id}},
+  "soal_id": "{{kuis.response.body.soal.soal_id}}",
+  "pilihan_id": {{kuis.response.body.soal.pilihan.0.pilihan_id}},
+  "waktu_respons_ms": 5000
+}
+
+### [anak] Sesi: jawaban cek "Masih kuat?" (masih_kuat | agak_capek | istirahat | pusing)
+POST {{host}}/api/sesi
+Content-Type: application/json
+
+{ "aksi": "masih_kuat", "sesi_id": {{sesi.response.body.sesi_id}}, "pilihan": "agak_capek" }
+
+### [anak] Sesi: selesai
+POST {{host}}/api/sesi
+Content-Type: application/json
+
+{ "aksi": "selesai", "sesi_id": {{sesi.response.body.sesi_id}} }
+
+### [anak] AI tutor untuk jawaban yang belum tepat (pilihan yang dijawab di sesi itu)
+POST {{host}}/api/ai/tutor
+Content-Type: application/json
+
+{ "sesi_id": {{sesi.response.body.sesi_id}}, "soal_id": "B3-D3", "pilihan_id": 0 }
+
+### [anak] Teman Cerita: sapaan + pilihan chip
+GET {{host}}/api/teman-cerita
+
+### [anak] Teman Cerita: skrining (kebutuhan: teman | cerita | tidak_ada | tidak_aman)
+POST {{host}}/api/teman-cerita
+Content-Type: application/json
+
+{ "perasaan": "hujan", "sumber": "teman", "kebutuhan": "teman" }
+
+############################################################
+# 3. MODE PENDAMPING (masukkan PIN dulu)
+############################################################
+
+### [pendamping] Dashboard
+GET {{host}}/api/pendamping/dashboard?anak_id={{anak}}
+
+### [pendamping] Keputusan Menunggu + riwayat rujukan
+GET {{host}}/api/pendamping/keputusan?anak_id={{anak}}
+
+### [pendamping] Setujui / tolak rujukan (HANYA orang tua/wali)
+POST {{host}}/api/pendamping/keputusan
+Content-Type: application/json
+
+{ "rujukan_id": 1, "keputusan": "setujui" }
+
+### [pendamping] Profil anak
+GET {{host}}/api/pendamping/anak?anak_id={{anak}}
+
+### [pendamping] Ubah mode jeda / batas layar / fase pengobatan (HANYA orang tua/wali)
+PATCH {{host}}/api/pendamping/anak
+Content-Type: application/json
+
+{ "anak_id": {{anak}}, "mode_jeda": false, "batas_layar_menit": null }
+
+### [pendamping] Draf laporan sekolah buatan AI
+# @name draf
+POST {{host}}/api/ai/laporan
+Content-Type: application/json
+
+{ "anak_id": {{anak}}, "mapel_id": {{mapel}} }
+
+### [pendamping] Data halaman cetak laporan
+GET {{host}}/api/pendamping/laporan?anak_id={{anak}}&mapel_id={{mapel}}
+
+### [pendamping] Catat unduhan/cetak laporan (sebelum window.print())
+POST {{host}}/api/pendamping/laporan
+Content-Type: application/json
+
+{ "anak_id": {{anak}}, "mapel_id": {{mapel}}, "log_ai_id": {{draf.response.body.log_ai_id}}, "diubah": false, "besar_suntingan": 0 }
+
+### [pendamping / admin] Penilaian jempol keluaran AI
+POST {{host}}/api/ai/umpan-balik
+Content-Type: application/json
+
+{ "log_ai_id": {{draf.response.body.log_ai_id}}, "nilai": "membantu" }
+
+############################################################
+# 4. ADMIN (login admin@pelita.demo)
+############################################################
+
+### [admin] Reset demo (tekan sebelum naik panggung)
+POST {{host}}/api/admin/reset-demo
+
+### [admin] Aturan AI: semua pengaturan + rentang aman
+GET {{host}}/api/admin/pengaturan
+
+### [admin] Riwayat versi satu kunci
+GET {{host}}/api/admin/pengaturan?kunci=bkt.ambang_tercapai
+
+### [admin] Ubah pengaturan (wajib alasan; divalidasi rentang aman)
+POST {{host}}/api/admin/pengaturan
+Content-Type: application/json
+
+{ "aksi": "ubah", "kunci": "demo.pakai_cadangan", "nilai": true, "alasan": "Sinyal panggung buruk" }
+
+### [admin] Kembalikan ke versi sebelumnya
+POST {{host}}/api/admin/pengaturan
+Content-Type: application/json
+
+{ "aksi": "kembalikan", "kunci": "demo.pakai_cadangan", "alasan": "Sinyal sudah normal" }
+
+### [admin] Bank soal + statistik (filter opsional: tp_kode, penggunaan, tingkat_kesulitan, sumber, status)
+GET {{host}}/api/admin/soal?tp_kode=B3
+
+### [admin] Antrean tinjauan soal AI
+GET {{host}}/api/admin/soal?sumber=ai&status=draf
+
+### [admin] Buat variasi soal dengan AI -> antrean draf
+POST {{host}}/api/ai/buat-soal
+Content-Type: application/json
+
+{ "tp_kode": "B3", "penggunaan": "formatif", "tingkat_kesulitan": 2 }
+
+### [admin] Tinjau soal: terbitkan | sunting_terbitkan (dengan "data") | tolak (dengan "alasan")
+POST {{host}}/api/admin/soal
+Content-Type: application/json
+
+{ "aksi": "tolak", "soal_id": "ISI_ID_SOAL", "alasan": "Pengecoh kurang masuk akal" }
+
+### [admin] Evaluasi AI
+GET {{host}}/api/admin/evaluasi
+
+### [admin] Log aktivitas (filter: user_id, jenis, dari, sampai)
+GET {{host}}/api/admin/log-aktivitas?jenis=ubah_pengaturan
+
+### [admin] Ekspor CSV log aktivitas
+GET {{host}}/api/admin/log-aktivitas?format=csv
+
+### [admin] Antrean rujukan & eskalasi
+GET {{host}}/api/admin/eskalasi
+
+### [admin] Tandai ditangani / alarm palsu + catatan tindak lanjut
+POST {{host}}/api/admin/eskalasi
+Content-Type: application/json
+
+{ "rujukan_id": 1, "alarm_palsu": false, "catatan": "Sudah menghubungi orang tua" }

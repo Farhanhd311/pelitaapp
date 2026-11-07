@@ -1,185 +1,188 @@
-// Aturan sesi harian (PANDUAN 7.1). Semua fungsi di sini MURNI: tidak membaca database, tidak memanggil LLM.
-// Angka ambang (durasi, jumlah hari, salah beruntun) dikirim lewat parameter `pengaturan`, yang diisi
-// dari PENGATURAN_SISTEM oleh pemanggil (API route). Jadi fungsi ini mudah dites dan mudah dijelaskan.
+// Aturan sesi harian (PANDUAN 7.1). Semua fungsi MURNI: tanpa database, tanpa LLM.
+// Angka durasi, jumlah soal, dan batas hari dikirim pemanggil dari PENGATURAN_SISTEM.
+// Keputusan di sini memakai ATURAN TETAP, bukan keputusan LLM (prinsip "AI membantu, manusia memutuskan").
 
+export type Level = "istirahat" | "ringan" | "normal" | "penuh";
+export type JenisIsi = "santai" | "ulang" | "baru";
 export type Energi = "lemas" | "lumayan" | "semangat";
 export type CuacaHati = "cerah" | "berawan" | "hujan" | "badai";
-export type FasePengobatan = "intensif" | "pemeliharaan" | "pemulihan";
-export type Level = "istirahat" | "ringan" | "normal" | "penuh";
-
-/** Keluhan yang punya aturan khusus. Keluhan lain (misalnya "pusing") tetap dihitung "ada keluhan". */
-export const KELUHAN_SAKIT_SEKALI = "sakit sekali";
-export const KELUHAN_MATA_LELAH = "mata lelah";
-
-export type Checkin = { energi: Energi; cuaca_hati: CuacaHati; keluhan: string | null };
-export type ProfilAnak = { mode_jeda: boolean; fase_pengobatan: FasePengobatan; batas_layar_menit: number | null };
-
-/** Nilai dari PENGATURAN_SISTEM yang dipakai aturan sesi (kunci aslinya di komentar). */
-export type PengaturanSesi = {
-  durasi: Record<Exclude<Level, "istirahat">, number>; // sesi.durasi_ringan / _normal / _penuh (menit)
-  salahBeruntunPemicuCek: number; // sesi.salah_beruntun_pemicu_cek
-  hariLemasPemicuPerhatian: number; // sesi.hari_lemas_pemicu_perhatian
-  hariMoodTurunPemicuChatbot: number; // sesi.hari_mood_turun_pemicu_chatbot
-};
-
-/** Isi sesi: materi baru HANYA di level normal dan penuh (PANDUAN 7.1). */
-export type IsiSesi = "santai" | "ulang_tercapai" | "materi_baru";
-
-export type HasilLevel = {
-  level: Level;
-  durasiMenit: number;
-  isi: IsiSesi;
-  /** Keluhan "mata lelah": sajikan materi dalam format audio/video pendek. */
-  modeAudio: boolean;
-  tawarkanTemanCerita: boolean;
-  tawarkanBeriTahuPendamping: boolean;
-  /** Daftar aturan yang terpakai, untuk ditampilkan/dijelaskan (mis. ke juri atau di log). */
-  alasan: string[];
-};
 
 const URUTAN_LEVEL: Level[] = ["istirahat", "ringan", "normal", "penuh"];
 const LEVEL_DARI_ENERGI: Record<Energi, Level> = { lemas: "ringan", lumayan: "normal", semangat: "penuh" };
+const CUACA_TURUN: CuacaHati[] = ["hujan", "badai"];
 
-const lebihRendah = (a: Level, b: Level): Level => (URUTAN_LEVEL.indexOf(a) <= URUTAN_LEVEL.indexOf(b) ? a : b);
+export type DataCheckin = { energi: Energi; cuaca_hati: CuacaHati; keluhan: string[] };
+export type DataAnak = {
+  mode_jeda: boolean;
+  fase_pengobatan: "intensif" | "pemeliharaan" | "pemulihan";
+  batas_layar_menit: number | null; // null = tanpa batas dari orang tua
+};
+export type DurasiLevel = { durasi_ringan: number; durasi_normal: number; durasi_penuh: number };
 
-// Turun satu tingkat, tetapi tidak sampai "istirahat": istirahat hanya lewat mode jeda atau
-// keluhan "sakit sekali". Dengan begitu skenario demo (lemas + hujan + mata lelah) tetap "ringan".
-function turunSatuTingkat(level: Level): Level {
-  const i = URUTAN_LEVEL.indexOf(level);
-  return URUTAN_LEVEL[Math.max(i - 1, URUTAN_LEVEL.indexOf("ringan"))];
+export type HasilLevel = {
+  level: Level;
+  jenis_isi: JenisIsi;
+  durasi_menit: number;
+  mode_audio: boolean;
+  tawarkan_teman_cerita: boolean;
+  tawarkan_beri_tahu_pendamping: boolean;
+  alasan: string[]; // jejak aturan yang terpakai, untuk penjelasan ke pendamping/juri
+};
+
+function lebihRendah(a: Level, b: Level): Level {
+  return URUTAN_LEVEL.indexOf(a) <= URUTAN_LEVEL.indexOf(b) ? a : b;
 }
 
-/**
- * Menentukan level sesi hari ini dari check-in dan profil anak. Aturan yang lebih atas menang:
- * 1. mode jeda → istirahat
- * 2. keluhan "sakit sekali" → istirahat (+ tawarkan memberi tahu pendamping)
- * 3. level awal dari energi: lemas → ringan, lumayan → normal, semangat → penuh
- * 4. ada keluhan → paling tinggi ringan; "mata lelah" → mode audio
- * 5. fase pengobatan intensif → turun satu tingkat
- * 6. cuaca hati hujan/badai → turun satu tingkat, isi diganti TP yang sudah dikuasai, tawarkan Teman Cerita
- * Durasi = durasi standar level, dibatasi batas layar dari orang tua.
- */
-export function tentukanLevel(checkin: Checkin, anak: ProfilAnak, pengaturan: PengaturanSesi): HasilLevel {
-  const istirahat = (alasan: string, beriTahu = false): HasilLevel => ({
-    level: "istirahat",
-    durasiMenit: 0,
-    isi: "santai",
-    modeAudio: false,
-    tawarkanTemanCerita: false,
-    tawarkanBeriTahuPendamping: beriTahu,
-    alasan: [alasan],
+function turunkanSatu(level: Level): Level {
+  return URUTAN_LEVEL[Math.max(0, URUTAN_LEVEL.indexOf(level) - 1)];
+}
+
+function durasiStandar(level: Level, durasi: DurasiLevel): number {
+  if (level === "istirahat") return 0; // PANDUAN 7.1: istirahat = 0 menit
+  return { ringan: durasi.durasi_ringan, normal: durasi.durasi_normal, penuh: durasi.durasi_penuh }[level];
+}
+
+// tentukanLevel (PANDUAN 7.1). Aturan yang lebih atas menang.
+export function tentukanLevel(checkin: DataCheckin, anak: DataAnak, durasi: DurasiLevel): HasilLevel {
+  const alasan: string[] = [];
+  const hasil = (level: Level, ubah: Partial<HasilLevel> = {}): HasilLevel => ({
+    level,
+    jenis_isi: level === "istirahat" ? "santai" : level === "ringan" ? "ulang" : "baru",
+    durasi_menit: 0,
+    mode_audio: false,
+    tawarkan_teman_cerita: false,
+    tawarkan_beri_tahu_pendamping: false,
+    alasan,
+    ...ubah,
   });
 
-  if (anak.mode_jeda) return istirahat("Mode jeda aktif");
-  if (checkin.keluhan === KELUHAN_SAKIT_SEKALI) return istirahat("Keluhan sakit sekali", true);
+  if (anak.mode_jeda) {
+    alasan.push("mode jeda aktif");
+    return hasil("istirahat");
+  }
+  if (checkin.keluhan.includes("sakit_sekali")) {
+    alasan.push("keluhan sakit sekali");
+    return hasil("istirahat", { tawarkan_beri_tahu_pendamping: true });
+  }
 
-  const alasan: string[] = [];
   let level = LEVEL_DARI_ENERGI[checkin.energi];
-  alasan.push(`Energi ${checkin.energi} → ${level}`);
+  alasan.push(`energi ${checkin.energi}`);
 
-  let modeAudio = false;
-  if (checkin.keluhan) {
+  const modeAudio = checkin.keluhan.includes("mata_lelah");
+  if (checkin.keluhan.length > 0) {
     level = lebihRendah(level, "ringan");
-    alasan.push(`Ada keluhan (${checkin.keluhan}) → paling tinggi ringan`);
-    if (checkin.keluhan === KELUHAN_MATA_LELAH) {
-      modeAudio = true;
-      alasan.push("Mata lelah → mode audio");
-    }
+    alasan.push("ada keluhan: paling tinggi ringan");
   }
-
   if (anak.fase_pengobatan === "intensif") {
-    level = turunSatuTingkat(level);
-    alasan.push(`Fase intensif → turun satu tingkat (${level})`);
+    level = turunkanSatu(level);
+    alasan.push("fase intensif: turun satu tingkat");
   }
 
-  const moodTurun = checkin.cuaca_hati === "hujan" || checkin.cuaca_hati === "badai";
-  if (moodTurun) {
-    level = turunSatuTingkat(level);
-    alasan.push(`Cuaca hati ${checkin.cuaca_hati} → turun satu tingkat (${level}), ulang materi yang sudah dikuasai`);
+  const cuacaTurun = CUACA_TURUN.includes(checkin.cuaca_hati);
+  if (cuacaTurun) {
+    level = turunkanSatu(level);
+    alasan.push(`cuaca hati ${checkin.cuaca_hati}: turun satu tingkat, isi diganti materi yang sudah dikuasai`);
   }
 
-  const durasiStandar = pengaturan.durasi[level as Exclude<Level, "istirahat">];
-  const durasiMenit = anak.batas_layar_menit == null ? durasiStandar : Math.min(durasiStandar, anak.batas_layar_menit);
+  let durasiMenit = durasiStandar(level, durasi);
+  if (anak.batas_layar_menit !== null && anak.batas_layar_menit < durasiMenit) {
+    durasiMenit = anak.batas_layar_menit;
+    alasan.push("dibatasi batas layar dari orang tua");
+  }
 
-  // Materi baru hanya di normal/penuh, dan tidak saat hati sedang hujan/badai.
-  const isi: IsiSesi = level === "ringan" || moodTurun ? "ulang_tercapai" : "materi_baru";
+  // Materi baru hanya di normal/penuh, dan tidak saat cuaca hati hujan/badai.
+  const jenisIsi: JenisIsi = level === "istirahat" ? "santai" : level === "ringan" || cuacaTurun ? "ulang" : "baru";
 
-  return {
-    level,
-    durasiMenit,
-    isi,
-    modeAudio,
-    tawarkanTemanCerita: moodTurun,
-    tawarkanBeriTahuPendamping: false,
-    alasan,
-  };
+  return hasil(level, {
+    jenis_isi: jenisIsi,
+    durasi_menit: durasiMenit,
+    mode_audio: modeAudio && level !== "istirahat",
+    tawarkan_teman_cerita: cuacaTurun,
+  });
 }
 
-/* ---------- Cek "Masih kuat?" selama sesi ---------- */
+// ---------- Pola check-in beberapa hari ----------
 
-export type KeadaanSesi = {
+export type RingkasCheckin = { tanggal: string; energi: Energi; cuaca_hati: CuacaHati; keluhan: string[] };
+
+// Berapa check-in TERAKHIR berturut-turut yang memenuhi syarat (dihitung dari yang paling baru).
+export function hitungBeruntun(riwayat: RingkasCheckin[], syarat: (c: RingkasCheckin) => boolean): number {
+  const urut = [...riwayat].sort((a, b) => b.tanggal.localeCompare(a.tanggal));
+  let jumlah = 0;
+  for (const c of urut) {
+    if (!syarat(c)) break;
+    jumlah++;
+  }
+  return jumlah;
+}
+
+// Kartu "perlu perhatian" (PANDUAN 7.1): N check-in berturut-turut lemas atau berkeluhan.
+export function perluPerhatian(riwayat: RingkasCheckin[], hariPemicu: number): boolean {
+  return hitungBeruntun(riwayat, (c) => c.energi === "lemas" || c.keluhan.length > 0) >= hariPemicu;
+}
+
+// Teman Cerita menyapa proaktif (PANDUAN 7.1): cuaca hati hujan/badai N hari berturut-turut.
+export function cuacaTurunBeruntun(riwayat: RingkasCheckin[], hariPemicu: number): boolean {
+  return hitungBeruntun(riwayat, (c) => CUACA_TURUN.includes(c.cuaca_hati)) >= hariPemicu;
+}
+
+// ---------- Cek "Masih kuat?" ----------
+
+export type KeadaanCekKuat = {
   level: Level;
-  menitBerjalan: number;
-  durasiMenit: number;
-  salahBeruntun: number;
-  /** Sesi penuh: cek di tengah sesi cukup sekali. */
-  sudahCekTengah: boolean;
+  menit_berjalan: number;
+  durasi_menit: number;
+  salah_beruntun: number;
+  batas_salah_beruntun: number; // sesi.salah_beruntun_pemicu_cek
+  sudah_cek_durasi: boolean;
+  sudah_cek_tengah: boolean;
 };
 
-/**
- * Kapan menampilkan cek "Masih kuat?" (aturan tetap, bukan keputusan LLM):
- * durasi level tercapai, ATAU salah beruntun mencapai ambang, ATAU di tengah sesi penuh.
- */
-export function perluCekMasihKuat(sesi: KeadaanSesi, pengaturan: Pick<PengaturanSesi, "salahBeruntunPemicuCek">): boolean {
-  if (sesi.menitBerjalan >= sesi.durasiMenit) return true;
-  if (sesi.salahBeruntun >= pengaturan.salahBeruntunPemicuCek) return true;
-  if (sesi.level === "penuh" && !sesi.sudahCekTengah && sesi.menitBerjalan >= sesi.durasiMenit / 2) return true;
-  return false;
+export type AlasanCekKuat = "durasi_tercapai" | "salah_beruntun" | "tengah_sesi_penuh";
+
+// Kapan cek "Masih kuat?" muncul (PANDUAN 7.1). null = tidak perlu muncul sekarang.
+export function evaluasiCekMasihKuat(k: KeadaanCekKuat): AlasanCekKuat | null {
+  if (k.salah_beruntun >= k.batas_salah_beruntun) return "salah_beruntun";
+  if (!k.sudah_cek_durasi && k.durasi_menit > 0 && k.menit_berjalan >= k.durasi_menit) return "durasi_tercapai";
+  if (k.level === "penuh" && !k.sudah_cek_tengah && k.menit_berjalan >= k.durasi_menit / 2) return "tengah_sesi_penuh";
+  return null;
 }
 
-export type PilihanMasihKuat = "masih_kuat" | "agak_capek" | "mau_istirahat" | "pusing";
+export type PilihanKuat = "masih_kuat" | "agak_capek" | "istirahat" | "pusing";
 
-export type TindakanMasihKuat = {
-  lanjut: boolean;
-  /** Masih kuat tetapi durasi sudah tercapai: tawarkan selesai dengan pujian. */
-  tawarkanSelesai: boolean;
-  /** Agak capek: lanjut tanpa materi baru, dan kuis memakai bkt.ceroboh_lelah. */
-  tanpaMateriBaru: boolean;
-  pakaiCerobohLelah: boolean;
-  /** Pusing: tampilkan kartu "perlu perhatian" di dashboard pendamping. */
-  kartuUntukPendamping: boolean;
+export type TindakanKuat = {
+  berhenti: boolean; // sesi dihentikan, progres tersimpan, TIDAK dihitung gagal
+  tawarkan_selesai: boolean; // masih kuat tapi durasi sudah tercapai: tawarkan selesai dengan pujian
+  tanpa_materi_baru: boolean;
+  pakai_ceroboh_lelah: boolean; // sisa sesi memakai bkt.ceroboh_lelah
+  kabari_pendamping: boolean; // "pusing" -> kartu di dashboard pendamping
 };
 
-/** Tindakan sistem untuk pilihan anak. Sesi yang dihentikan di tengah TIDAK dihitung gagal. */
-export function tindakanMasihKuat(pilihan: PilihanMasihKuat, durasiTercapai: boolean): TindakanMasihKuat {
-  const dasar = { lanjut: true, tawarkanSelesai: false, tanpaMateriBaru: false, pakaiCerobohLelah: false, kartuUntukPendamping: false };
+export function tindakanMasihKuat(pilihan: PilihanKuat, durasiTercapai: boolean): TindakanKuat {
+  const dasar: TindakanKuat = {
+    berhenti: false,
+    tawarkan_selesai: false,
+    tanpa_materi_baru: false,
+    pakai_ceroboh_lelah: false,
+    kabari_pendamping: false,
+  };
   switch (pilihan) {
     case "masih_kuat":
-      return { ...dasar, tawarkanSelesai: durasiTercapai };
+      return { ...dasar, tawarkan_selesai: durasiTercapai };
     case "agak_capek":
-      return { ...dasar, tanpaMateriBaru: true, pakaiCerobohLelah: true };
-    case "mau_istirahat":
-      return { ...dasar, lanjut: false };
+      return { ...dasar, tanpa_materi_baru: true, pakai_ceroboh_lelah: true };
+    case "istirahat":
+      return { ...dasar, berhenti: true };
     case "pusing":
-      return { ...dasar, lanjut: false, kartuUntukPendamping: true };
+      return { ...dasar, berhenti: true, kabari_pendamping: true };
   }
 }
 
-/* ---------- Pola check-in beberapa hari ---------- */
-
-/**
- * Kartu "perlu perhatian": N check-in terakhir berturut-turut berenergi lemas atau berkeluhan.
- * `riwayat` diurutkan dari yang TERBARU.
- */
-export function perluPerhatian(riwayat: Checkin[], pengaturan: Pick<PengaturanSesi, "hariLemasPemicuPerhatian">): boolean {
-  const n = pengaturan.hariLemasPemicuPerhatian;
-  if (riwayat.length < n) return false;
-  return riwayat.slice(0, n).every((c) => c.energi === "lemas" || Boolean(c.keluhan));
-}
-
-/** Teman Cerita menyapa proaktif: N check-in terakhir berturut-turut cuaca hati hujan/badai. */
-export function temanCeritaMenyapa(riwayat: Checkin[], pengaturan: Pick<PengaturanSesi, "hariMoodTurunPemicuChatbot">): boolean {
-  const n = pengaturan.hariMoodTurunPemicuChatbot;
-  if (riwayat.length < n) return false;
-  return riwayat.slice(0, n).every((c) => c.cuaca_hati === "hujan" || c.cuaca_hati === "badai");
+// Jumlah soal kuis per level (PANDUAN 7.1 / PRD F-SESI-3), dari PENGATURAN_SISTEM kuis.jumlah_soal_*.
+export function jumlahSoalKuis(
+  level: Level,
+  atur: { jumlah_soal_ringan: number; jumlah_soal_normal: number; jumlah_soal_penuh: number },
+): number {
+  if (level === "istirahat") return 0;
+  return { ringan: atur.jumlah_soal_ringan, normal: atur.jumlah_soal_normal, penuh: atur.jumlah_soal_penuh }[level];
 }

@@ -1,0 +1,43 @@
+{
+  "keterangan": "Data demo Raka (nama samaran) untuk Reset demo (PANDUAN 14, ARSITEKTUR 8 no. 3). DRAF dari tim backend; tim Data boleh merevisi isinya. Tanggal ditulis sebagai 'hari_lalu' (0 = hari ini) supaya riwayat selalu terlihat baru setiap kali Reset demo ditekan. Hari ini sengaja TIDAK ada check-in, supaya check-in bisa dilakukan langsung di panggung.",
+  "nama_panggilan": "Raka",
+  "profil": { "fase_pengobatan": "pemeliharaan", "mode_jeda": false, "batas_layar_menit": null },
+  "konten_contoh": [
+    { "tp_kode": "B3", "jenis": "baru", "format": "interaktif", "durasi_menit": 5, "butuh_layar": true, "url": "/konten/B3-kartu-belajar" },
+    { "tp_kode": "A4", "jenis": "ulang", "format": "audio", "durasi_menit": 5, "butuh_layar": false, "url": "/konten/A4-ulang-audio" },
+    { "tp_kode": "A1", "jenis": "santai", "format": "audio", "durasi_menit": 5, "butuh_layar": false, "url": "/konten/cerita-pijar" }
+  ],
+  "catatan_konten_contoh": "Baris KONTEN contoh supaya alur demo jalan (B3 'tersedia' di peta, sesi ringan punya audio pengulangan, sesi istirahat punya cerita). 'url' menunjuk halaman/aset yang dibuat tim frontend/Data. Hanya ditambahkan oleh Reset demo jika baris dengan TP dan jenis yang sama belum ada.",
+  "tp_dikuasai": ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "B1", "B2", "B6"],
+  "catatan_tp_dikuasai": "Mode demo 'putar otomatis' asesmen: server menjawab benar jika TP ada di daftar ini, salah jika tidak (PRD F-ASM-7). Yang di-skrip HANYA jawabannya. Sama dengan asesmen_raka.menguasai di tes_kasus_bkt.json.",
+  "riwayat_checkin": [
+    { "hari_lalu": 24, "energi": "semangat", "cuaca_hati": "cerah", "keluhan": [] },
+    { "hari_lalu": 23, "energi": "lumayan", "cuaca_hati": "cerah", "keluhan": [] },
+    { "hari_lalu": 22, "energi": "lumayan", "cuaca_hati": "berawan", "keluhan": [] },
+    { "hari_lalu": 20, "energi": "semangat", "cuaca_hati": "cerah", "keluhan": [] },
+    { "hari_lalu": 19, "energi": "lumayan", "cuaca_hati": "cerah", "keluhan": [] },
+    { "hari_lalu": 17, "energi": "lemas", "cuaca_hati": "berawan", "keluhan": ["mual"] },
+    { "hari_lalu": 16, "energi": "lumayan", "cuaca_hati": "berawan", "keluhan": [] },
+    { "hari_lalu": 15, "energi": "semangat", "cuaca_hati": "cerah", "keluhan": [] },
+    { "hari_lalu": 13, "energi": "lumayan", "cuaca_hati": "cerah", "keluhan": [] },
+    { "hari_lalu": 12, "energi": "semangat", "cuaca_hati": "cerah", "keluhan": [] },
+    { "hari_lalu": 10, "energi": "lumayan", "cuaca_hati": "hujan", "keluhan": [] },
+    { "hari_lalu": 9, "energi": "lumayan", "cuaca_hati": "berawan", "keluhan": [] },
+    { "hari_lalu": 8, "energi": "semangat", "cuaca_hati": "cerah", "keluhan": [] },
+    { "hari_lalu": 6, "energi": "lumayan", "cuaca_hati": "cerah", "keluhan": [] },
+    { "hari_lalu": 5, "energi": "lumayan", "cuaca_hati": "berawan", "keluhan": [] },
+    { "hari_lalu": 4, "energi": "semangat", "cuaca_hati": "cerah", "keluhan": [] },
+    { "hari_lalu": 3, "energi": "lemas", "cuaca_hati": "berawan", "keluhan": ["pusing"] },
+    { "hari_lalu": 2, "energi": "lemas", "cuaca_hati": "hujan", "keluhan": ["mata_lelah"] },
+    { "hari_lalu": 1, "energi": "lemas", "cuaca_hati": "berawan", "keluhan": [] }
+  ],
+  "catatan_riwayat_checkin": "3 hari terakhir lemas berturut-turut -> kartu 'perlu perhatian' muncul di dashboard Ibu Sari dan Kak Dina.",
+  "skrining": [
+    { "hari_lalu": 2, "perasaan": "hujan", "sumber": "teman", "kebutuhan": "teman", "rujukan_menunggu": true }
+  ],
+  "catatan_skrining": "Satu skrining dengan rujukan level 1 (grup sebaya) yang menunggu persetujuan Ibu Sari di 'Keputusan Menunggu'.",
+  "catatan_belum_diisi": {
+    "soal_formatif_b3": "8 soal formatif TP B3 dengan miskonsepsi dan pembahasan (pemilik: Data). Selama belum ada, sesi belajar memakai soal diagnostik B3 yang berstatus terbit (termasuk B3-D3 untuk demo AI tutor).",
+    "kartu_belajar_b3": "1 kartu belajar perkalian (pemilik: Data), disimpan sebagai baris KONTEN (jenis 'baru', tp_kode B3, url ke aset)."
+  }
+}

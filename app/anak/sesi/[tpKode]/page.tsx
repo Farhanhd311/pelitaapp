@@ -1,6 +1,13 @@
-// Sesi TP: kartu belajar -> kuis formatif -> AI tutor -> cek "Masih kuat?".
-// Placeholder fondasi (H0–H2). Belum ada logika fitur.
+// Sesi belajar satu TP: kartu belajar -> kuis formatif -> AI tutor -> cek "Masih kuat?" (PANDUAN 7.1-7.4).
+// Segmen "hari-ini" berarti server yang memilih TP (lihat components/anak/sesi/jalur.ts).
 
-export default function Halaman() {
-  return null;
+import { Suspense } from "react";
+import { AlurSesi } from "@/components/anak/sesi/AlurSesi";
+
+export default function HalamanSesi({ params }: PageProps<"/anak/sesi/[tpKode]">) {
+  return (
+    <Suspense>
+      <AlurSesi params={params} />
+    </Suspense>
+  );
 }

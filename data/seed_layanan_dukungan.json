@@ -1,0 +1,9 @@
+{
+  "keterangan": "Data awal LAYANAN_DUKUNGAN untuk demo. Nama sengaja umum dan berlabel contoh: lembaga di Sumatera Barat masih CALON mitra (PANDUAN 16). Kolom 'nama' sama dengan teks 'rujukan' di PENGATURAN_SISTEM rujukan.aturan_level, supaya level rujukan bisa dihubungkan ke layanan tanpa kolom tambahan. Layanan darurat dipakai saat sinyal krisis.",
+  "layanan": [
+    { "nama": "grup sebaya termoderasi", "jenis": "komunitas", "kontak": "Contoh - calon mitra komunitas orang tua anak dengan penyakit kronis" },
+    { "nama": "relawan pendamping terlatih", "jenis": "komunitas", "kontak": "Contoh - calon mitra relawan pendamping" },
+    { "nama": "psikolog atau konselor mitra", "jenis": "konseling", "kontak": "Contoh - calon mitra psikolog/konselor" },
+    { "nama": "layanan darurat", "jenis": "darurat", "kontak": "Contoh - petugas eskalasi PELITA (admin) menghubungi orang tua" }
+  ]
+}
