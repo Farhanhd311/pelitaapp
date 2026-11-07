@@ -7,10 +7,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-nunito), var(--font-jakarta), var(--font-geist-sans), sans-serif;
-  --font-serif: var(--font-fraunces), Georgia, serif;
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-nunito), var(--font-fraunces), sans-serif;
+  --font-sans: var(--font-nunito), sans-serif;
+  --font-serif: var(--font-nunito), sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+  --font-heading: var(--font-nunito), sans-serif;
 
   /* Palet PELITA, tema api hangat (PANDUAN bagian 13). Dipakai sebagai bg-krem, text-bata, dll.
      Bata/merah hanya untuk tombol aksi, ikon, dan hiasan; tidak pernah untuk menandai kesalahan. */
@@ -66,24 +66,6 @@
 }
 
 :root {
-  /* Color Palette: Api Merah Keemasan (Cerah Keemasan Dominant) */
-  --merah-marun: #7F1D2B;
-  --merah-tua: #8E1F2E;
-  --merah-krimson: #A82535;
-  --merah-terang: #D93A45;
-  --merah-koral: #E4545A;
-  --salmon: #EE7A7A;
-  --pink-peach: #F3A08F;
-  --krem: #FBD9B5;
-  --krem-emas: #F8C99A;
-  --oranye-api: #F4813A;
-  --emas: #EDB664;
-
-  /* Varian Cerah Keemasan untuk Latar & Permukaan */
-  --latar-cerah: #FFFBF4;
-  --latar-emas-lembut: #FFF4DF;
-  --latar-krem-hangat: #FDEBD0;
-
   --background: #fff4e4;
   --foreground: #2e0b07;
   --card: #ffffff;
@@ -108,14 +90,14 @@
   --chart-4: #8E1F2E;
   --chart-5: #F3A08F;
   --radius: 0.875rem;
-  --sidebar: #FFFBF4;
-  --sidebar-foreground: #7F1D2B;
-  --sidebar-primary: #8E1F2E;
-  --sidebar-primary-foreground: #FFFBF4;
-  --sidebar-accent: #FBD9B5;
-  --sidebar-accent-foreground: #7F1D2B;
-  --sidebar-border: #F2D5B0;
-  --sidebar-ring: #EDB664;
+  --sidebar: #fff4e4;
+  --sidebar-foreground: #2e0b07;
+  --sidebar-primary: #bf4338;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f9daac;
+  --sidebar-accent-foreground: #2e0b07;
+  --sidebar-border: #efc9a2;
+  --sidebar-ring: #ecac54;
 }
 
 .dark {
@@ -157,12 +139,14 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
-  h1, h2, h3, h4 {
+  h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
   }
 }

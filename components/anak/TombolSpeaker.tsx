@@ -6,7 +6,6 @@
 
 import { useEffect, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
-import { cn } from "cn";
 
 export interface TombolSpeakerProps {
   teks: string;
@@ -64,16 +63,15 @@ export function TombolSpeaker({
         type="button"
         onClick={bacakan}
         title="Bacakan dengan suara Bahasa Indonesia"
-        className={cn(
-          "inline-flex items-center gap-1.5 rounded-full font-medium transition-all cursor-pointer",
+        className={`inline-flex items-center gap-1.5 rounded-full font-medium transition-all cursor-pointer ${
           ukuran === "md"
             ? "min-h-[44px] px-4 py-2 text-sm"
-            : "px-3 py-1.5 text-xs",
+            : "px-3 py-1.5 text-xs"
+        } ${
           bicara
             ? "bg-[#F4813A] text-[#FFFBF4] shadow-sm"
-            : "bg-[#FFF4DF] text-[#7F1D2B] border border-[#EDB664]/70 hover:bg-[#FBD9B5]/70",
-          className,
-        )}
+            : "bg-[#FFF4DF] text-[#7F1D2B] border border-[#EDB664]/70 hover:bg-[#FBD9B5]/70"
+        } ${className ?? ""}`}
       >
         {bicara ? (
           <VolumeX className="h-3.5 w-3.5 shrink-0 animate-pulse" aria-hidden />
@@ -91,11 +89,9 @@ export function TombolSpeaker({
       type="button"
       onClick={bacakan}
       aria-label="Dengarkan"
-      className={cn(
-        "inline-flex size-14 shrink-0 items-center justify-center rounded-full border border-garis bg-pasir text-bata transition hover:bg-bata hover:text-white focus-visible:ring-3 focus-visible:ring-emas/60 focus-visible:outline-none cursor-pointer",
-        bicara && "bg-bata text-white",
-        className,
-      )}
+      className={`inline-flex size-14 shrink-0 items-center justify-center rounded-full border border-garis bg-pasir text-bata transition hover:bg-bata hover:text-white focus-visible:ring-3 focus-visible:ring-emas/60 focus-visible:outline-none cursor-pointer ${
+        bicara ? "bg-bata text-white" : ""
+      } ${className ?? ""}`}
     >
       <Volume2 className="size-6" aria-hidden />
     </button>

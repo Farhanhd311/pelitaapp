@@ -1,32 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Fraunces, Plus_Jakarta_Sans, Nunito } from "next/font/google";
+import { Nunito, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Nunito: huruf utama yang ramah, bulat, dan konsisten di seluruh aplikasi PELITA (PANDUAN bagian 13).
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const plusJakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-// Nunito: huruf bulat yang ramah anak, dipakai untuk judul dan isi di mode anak (PANDUAN bagian 13).
-const nunito = Nunito({
-  variable: "--font-nunito",
   subsets: ["latin"],
 });
 
@@ -40,9 +24,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="id"
-      className={`${nunito.variable} ${geistSans.variable} ${geistMono.variable} ${fraunces.variable} ${plusJakarta.variable} h-full scroll-smooth antialiased`}
+      className={`${nunito.variable} ${geistMono.variable} h-full scroll-smooth antialiased font-sans`}
     >
-      <body className="min-h-full flex flex-col bg-[#FFFBF4] text-[#4A1520]">{children}</body>
+      <body className="min-h-full flex flex-col bg-krem text-teks font-sans">{children}</body>
     </html>
   );
 }

@@ -5,7 +5,6 @@
 
 import Image from "next/image";
 import { motion, useReducedMotion, type TargetAndTransition } from "motion/react";
-import { cn } from "cn";
 
 export type EkspresiGambarPijar =
   | "sambut"
@@ -89,7 +88,7 @@ export function MascotPijar({
 
   return (
     <motion.div
-      className={cn("relative shrink-0 inline-flex items-center justify-center select-none", className)}
+      className={`relative shrink-0 inline-flex items-center justify-center select-none ${className ?? ""}`}
       style={{ width: px, height: px }}
       animate={kurangiGerak ? undefined : GERAK[gerakAktif]}
       aria-label={`Maskot Pijar (${ekspresi})`}

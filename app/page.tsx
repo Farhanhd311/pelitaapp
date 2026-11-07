@@ -1,791 +1,788 @@
 import Link from "next/link";
 import {
-  Sparkles,
   ArrowRight,
-  Compass,
-  HeartHandshake,
-  Sun,
-  Award,
-  BookOpen,
-  Printer,
-  Edit3,
   Scale,
   EyeOff,
   Sliders,
+  CheckCircle2,
+  FileText,
+  Sun,
+  Compass,
+  BookOpen,
 } from "lucide-react";
 import { MascotPijar } from "@/components/anak/MascotPijar";
 import {
-  KartuCheckinInteraktif,
+  RevealSection,
+  HoverCard,
+  BintangKilau,
+  SapuanCahayaEmas,
+  ScrollProgressBar,
+  HeroLangitParallax,
+  DekorasiLangitCerah,
+  RoadmapAlurBelajar,
   ShowcaseBelajarAnak,
   AccordionFaq,
 } from "@/components/landing/InteraktifLanding";
 
 export default function Beranda() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#FCEBD4] text-[#2E0B07] selection:bg-[#E3AA52]/40 selection:text-[#2E0B07]">
+    <div className="min-h-dvh w-full flex flex-col bg-[#FCEBD4] text-teks font-sans selection:bg-emas/40 selection:text-teks overflow-x-hidden">
+      <ScrollProgressBar />
+
       {/* =====================================================================
-          NAVBAR
+          SECTION 1: FULL-VIEWPORT HERO (Menyatu Tanpa Garis ke Section Bawah)
       ===================================================================== */}
-      <header className="sticky top-0 z-50 border-b border-[#E2B378]/70 bg-[#F7D7AD]/95 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
-          {/* Logo PELITA */}
-          <Link href="/" className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E3AA52] text-[#2E0B07] shadow-2xs">
-              <Sparkles className="h-4 w-4 text-[#7F1D2B]" />
-            </span>
-            <div className="flex flex-col">
-              <span className="font-serif text-lg font-extrabold tracking-tight text-[#2E0B07] leading-none">
-                PELITA
+      <section className="relative min-h-dvh w-full flex flex-col justify-between bg-[linear-gradient(to_bottom,#F7D7AD_0%,#F9DFBA_52%,#FCEBD4_85%,#FCEBD4_100%)] pt-10 sm:pt-14 pb-10 sm:pb-14">
+        <HeroLangitParallax />
+
+        {/* Konten Utama Hero */}
+        <div className="relative z-10 flex-1 flex items-center mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center w-full">
+            {/* Kolom Kiri Hero */}
+            <RevealSection className="lg:col-span-6 space-y-6">
+              <span className="inline-flex items-center rounded-full bg-emas px-4 py-1.5 text-xs font-extrabold uppercase tracking-wider text-teks shadow-2xs">
+                Pendidikan Adaptif Anak
               </span>
-              <span className="text-[9px] font-bold tracking-wider uppercase text-[#7A4335]">
-                Teman Bertumbuh
-              </span>
-            </div>
-          </Link>
 
-          {/* Menu Tengah */}
-          <nav className="hidden md:flex items-center gap-7 text-xs font-semibold text-[#5C2B1E]">
-            <a
-              href="#adaptif-kondisi"
-              className="hover:text-[#2E0B07] transition-colors"
-            >
-              Kondisi Harian
-            </a>
-            <a
-              href="#cara-kerja"
-              className="hover:text-[#2E0B07] transition-colors"
-            >
-              Cara Kerja
-            </a>
-            <a
-              href="#ruang-belajar"
-              className="hover:text-[#2E0B07] transition-colors"
-            >
-              Ruang Belajar
-            </a>
-            <a
-              href="#pendamping"
-              className="hover:text-[#2E0B07] transition-colors"
-            >
-              Pendamping & Sekolah
-            </a>
-          </nav>
-
-          {/* Tombol Aksi Kanan */}
-          <div className="flex items-center gap-2.5">
-            <Link
-              href="/login"
-              className="inline-flex items-center gap-1.5 rounded-[10px] bg-[#E3AA52] px-4 py-2 text-xs font-extrabold text-[#2E0B07] hover:bg-[#D89B3E] transition-colors"
-            >
-              <span>Masuk Aplikasi</span>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      <main className="flex-1">
-        {/* =====================================================================
-            SECTION 1: HERO ("Cahaya belajar, tetap menyala.")
-        ===================================================================== */}
-        <section className="bg-[#F7D7AD] pt-10 pb-0 sm:pt-14">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pb-12">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-              {/* Kolom Kiri Hero */}
-              <div className="lg:col-span-6 space-y-5">
-                <span className="inline-flex items-center rounded-full bg-[#E3AA52] px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#2E0B07]">
-                  Pendidikan Adaptif Anak
+              <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-[64px] font-extrabold tracking-tight leading-[1.08]">
+                <span className="block text-teks">Cahaya belajar,</span>
+                <span className="block text-[#EA7B30] mt-1.5">
+                  tetap menyala.
                 </span>
+              </h1>
 
-                <h1 className="font-serif text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-tight leading-[1.08]">
-                  <span className="block text-[#4A1520]">Cahaya belajar,</span>
-                  <span className="block text-[#EA7B30] mt-1">
-                    tetap menyala.
-                  </span>
-                </h1>
+              <p className="text-base sm:text-lg text-teks-2 leading-relaxed max-w-2xl font-medium">
+                Ruang belajar yang hangat untuk anak usia sekolah dasar yang
+                sedang menjalani pengobatan jangka panjang. Cara dan durasi
+                belajar menyesuaikan tenaga anak setiap hari, sambil menjaga
+                hubungannya dengan sekolah asal.
+              </p>
 
-                <p className="text-sm sm:text-base text-[#6E3B2E] leading-relaxed max-w-lg">
-                  Platform belajar adaptif untuk anak usia sekolah dasar dengan
-                  penyakit kronis yang menyesuaikan cara dan beban belajar dengan
-                  kondisi fisiknya hari itu, serta menjembatani progresnya
-                  kembali ke sekolah asal.
+              <div className="flex flex-wrap items-center gap-3.5 pt-1">
+                <Link
+                  href="/login"
+                  className="inline-flex items-center gap-2 rounded-[14px] bg-emas px-6 py-3.5 text-sm font-extrabold text-teks hover:bg-[#D89B3E] transition-colors shadow-2xs"
+                >
+                  <span>Mulai Bersama PELITA</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <a
+                  href="#cara-kerja"
+                  className="inline-flex items-center gap-2 rounded-[14px] border border-[#DFB074] bg-[#FFFDF9]/90 px-6 py-3.5 text-sm font-bold text-teks hover:bg-[#FCECD7] transition-colors shadow-2xs"
+                >
+                  <span>Lihat Alur Belajar</span>
+                </a>
+              </div>
+
+              {/* Penjelasan Tanpa Simbol Bintang atau Titik */}
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <span className="rounded-full bg-[#FFFDF9]/90 border border-[#E2B378] px-3.5 py-1 text-xs font-bold text-teks-2 shadow-2xs">
+                  Mengikuti ritme pemulihan anak
+                </span>
+                <span className="rounded-full bg-[#FFFDF9]/90 border border-[#E2B378] px-3.5 py-1 text-xs font-bold text-teks-2 shadow-2xs">
+                  Selaras dengan Kurikulum Merdeka
+                </span>
+              </div>
+            </RevealSection>
+
+            {/* Kolom Kanan Hero: Kartu Ringkasan Hangat + Pijar */}
+            <RevealSection delay={0.12} className="lg:col-span-6 relative">
+              <BintangKilau
+                varian={2}
+                ukuran={42}
+                delay={0.2}
+                className="absolute -top-5 -right-4 hidden sm:block z-20"
+              />
+              <BintangKilau
+                varian={3}
+                ukuran={34}
+                delay={1.1}
+                className="absolute -bottom-4 -left-4 hidden sm:block z-20"
+              />
+              <HoverCard className="relative rounded-[28px] bg-[#FFFDF9]/95 backdrop-blur-xs p-6 sm:p-9 border-2 border-[#E5B97F] shadow-[0_22px_50px_rgba(74,21,32,0.10)]">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                  <div>
+                    <span className="inline-flex items-center rounded-full bg-emas px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-teks">
+                      Pendampingan Harian
+                    </span>
+                    <h2 className="mt-3.5 font-heading text-xl sm:text-2xl lg:text-[26px] font-extrabold text-teks leading-snug">
+                      PELITA membantu anak menemukan langkah belajar yang ramah
+                      hari itu.
+                    </h2>
+                  </div>
+                  <MascotPijar
+                    ekspresi="sambut"
+                    gerak="idle"
+                    ukuran={96}
+                    className="shrink-0"
+                  />
+                </div>
+
+                <p className="mt-3.5 text-sm text-teks-2 leading-relaxed font-medium">
+                  Saat energi sedang turun atau mata lelah sehabis berobat, anak
+                  tetap dapat mendengarkan cerita pendek yang menenangkan tanpa
+                  tekanan tugas yang menumpuk.
                 </p>
 
-                <div className="flex flex-wrap items-center gap-3 pt-1">
-                  <Link
-                    href="/login"
-                    className="inline-flex items-center gap-2 rounded-[12px] bg-[#E3AA52] px-5 py-3 text-xs sm:text-sm font-extrabold text-[#2E0B07] hover:bg-[#D89B3E] transition-colors"
-                  >
-                    <span>Mulai Belajar</span>
-                  </Link>
-                  <Link
-                    href="/pilih-profil"
-                    className="inline-flex items-center gap-2 rounded-[12px] border border-[#DFB074] bg-[#FCECD7] px-5 py-3 text-xs sm:text-sm font-bold text-[#2E0B07] hover:bg-[#F9DFBE] transition-colors"
-                  >
-                    <span>Pilih Profil Demo</span>
-                  </Link>
-                </div>
-
-                <div className="flex items-center gap-2 text-xs font-semibold text-[#7A4335] pt-1">
-                  <span className="text-[#EA7B30]">✦</span>
-                  <span>
-                    Mengikuti ritme pemulihan anak • Dipetakan ke Kurikulum
-                    Merdeka
-                  </span>
-                </div>
-              </div>
-
-              {/* Kolom Kanan Hero: Kartu Ringkasan Hangat + Pijar (Persis Gambar Referensi) */}
-              <div className="lg:col-span-6">
-                <div className="rounded-[24px] bg-[#FCECD7] p-6 sm:p-8 border border-[#E5B97F]/70 shadow-[0_14px_36px_rgba(74,21,32,0.07)]">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <span className="inline-flex items-center rounded-full bg-[#E3AA52] px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#2E0B07]">
-                        Pendampingan Harian
-                      </span>
-                      <h2 className="mt-3 font-serif text-xl sm:text-2xl font-bold text-[#2E0B07] leading-snug">
-                        PELITA membantu anak menemukan langkah belajar yang
-                        ramah hari itu.
-                      </h2>
-                    </div>
-                    <MascotPijar
-                      ekspresi="sambut"
-                      gerak="idle"
-                      ukuran={84}
-                      className="shrink-0"
-                    />
+                <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="rounded-[14px] bg-[#FCECD7] p-3.5 text-xs font-bold text-teks border border-[#E5B97F]/60">
+                    Menyesuaikan tenaga dan kenyamanan harian anak
                   </div>
-
-                  <p className="mt-3 text-xs sm:text-sm text-[#7A4335] leading-relaxed">
-                    Saat energi sedang turun atau mata lelah sehabis terapi,
-                    sistem otomatis beralih ke sesi ringan bersuara tanpa
-                    memutus keaktifan mingguan anak.
-                  </p>
-
-                  <ul className="mt-4 space-y-2 text-xs sm:text-sm font-semibold text-[#4A1520]">
-                    <li className="flex items-center gap-2.5">
-                      <span className="h-2 w-2 rounded-full bg-[#EA7B30]" />
-                      <span>
-                        Beban dan format sesi mengikuti check-in kondisi harian
-                      </span>
-                    </li>
-                    <li className="flex items-center gap-2.5">
-                      <span className="h-2 w-2 rounded-full bg-[#EA7B30]" />
-                      <span>
-                        Asesmen adaptif BKT menemukan titik mulai di Pos Dasar
-                      </span>
-                    </li>
-                    <li className="flex items-center gap-2.5">
-                      <span className="h-2 w-2 rounded-full bg-[#EA7B30]" />
-                      <span>
-                        Laporan capaian per TP siap dibagikan ke sekolah asal
-                      </span>
-                    </li>
-                  </ul>
+                  <div className="rounded-[14px] bg-[#FCECD7] p-3.5 text-xs font-bold text-teks border border-[#E5B97F]/60">
+                    Mulai dari materi dasar yang paling dibutuhkan
+                  </div>
+                  <div className="rounded-[14px] bg-[#FCECD7] p-3.5 text-xs font-bold text-teks border border-[#E5B97F]/60">
+                    Merangkum kemajuan belajar untuk wali kelas
+                  </div>
                 </div>
-              </div>
+              </HoverCard>
+            </RevealSection>
+          </div>
+        </div>
+
+        {/* DOCK 3 PILAR KEUNGGULAN DI BAWAH HERO (Kartu Melayang Elegan Tanpa Garis Pembatas Kaku) */}
+        <RevealSection
+          delay={0.18}
+          className="relative z-20 mt-10 sm:mt-12 mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44"
+        >
+          <div className="relative rounded-[26px] bg-[#FFFDF9]/82 backdrop-blur-md p-3 sm:p-4 shadow-[0_18px_48px_rgba(74,21,32,0.08)] border border-[#E5B97F]/65">
+            <BintangKilau
+              varian={2}
+              ukuran={30}
+              delay={0.4}
+              className="hidden md:block absolute -top-4 left-8"
+            />
+            <BintangKilau
+              varian={3}
+              ukuran={26}
+              delay={1.2}
+              className="hidden md:block absolute -top-3.5 right-10"
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+              {[
+                {
+                  no: "01",
+                  judul: "Menyesuaikan kondisi kesehatan harian",
+                  sub: "Durasi dan bentuk materi mengikuti tenaga anak setiap hari",
+                  ikon: Sun,
+                  aksen: "#EA7B30",
+                },
+                {
+                  no: "02",
+                  judul: "Menemukan titik mulai belajar tanpa beban",
+                  sub: "Memperkuat materi dasar secara bertahap dan menenangkan",
+                  ikon: Compass,
+                  aksen: "#D96B27",
+                },
+                {
+                  no: "03",
+                  judul: "Jembatan kemajuan kembali ke sekolah asal",
+                  sub: "Rangkuman belajar selaras Kurikulum Merdeka untuk wali kelas",
+                  ikon: BookOpen,
+                  aksen: "#BF4338",
+                },
+              ].map((pilar) => {
+                const Ikon = pilar.ikon;
+                return (
+                  <HoverCard
+                    key={pilar.no}
+                    className="group relative flex items-start gap-3.5 rounded-[20px] bg-gradient-to-br from-[#FCECD7]/90 to-[#F9DFBE]/75 p-4 sm:p-5 border border-[#E5B97F]/60 shadow-2xs"
+                  >
+                    <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FFFDF9] border border-[#E2B378] shadow-2xs">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-emas text-teks">
+                        <Ikon className="h-4 w-4 text-teks" />
+                      </span>
+                      <span
+                        className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-extrabold text-white"
+                        style={{ backgroundColor: pilar.aksen }}
+                      >
+                        {pilar.no}
+                      </span>
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="font-heading text-xs sm:text-sm font-extrabold text-teks leading-snug">
+                        {pilar.judul}
+                      </div>
+                      <p className="mt-1 text-[11px] sm:text-xs text-teks-2 leading-relaxed font-medium">
+                        {pilar.sub}
+                      </p>
+                    </div>
+                  </HoverCard>
+                );
+              })}
             </div>
           </div>
+        </RevealSection>
+      </section>
 
-          {/* Strip 3 Poin Bawah Hero */}
-          <div className="border-y border-[#E2B378] bg-[#F1C895]">
-            <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-3.5 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-bold text-[#4A1520]">
-              <div className="flex items-center gap-2">
-                <span className="text-[#BF4338]">✦</span>
-                <span>Menyesuaikan kondisi harian</span>
-              </div>
-              <div className="flex items-center gap-2 sm:justify-center">
-                <span className="text-[#BF4338]">✦</span>
-                <span>Menemukan akar prasyarat</span>
-              </div>
-              <div className="flex items-center gap-2 sm:justify-end">
-                <span className="text-[#BF4338]">✦</span>
-                <span>Jembatan kembali ke sekolah asal</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
+      <main className="flex-1 w-full">
         {/* =====================================================================
             SECTION 2: EMPATI & KONTEKS ("Rutinitas boleh berubah. Rasa ingin tahu tetap punya tempat.")
         ===================================================================== */}
-        <section className="bg-[#FCEBD4] py-14 sm:py-20">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        <section className="relative w-full py-16 sm:py-24">
+          <RevealSection className="mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
               <div className="lg:col-span-5">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#7A4335]">
+                <span className="text-xs font-extrabold uppercase tracking-widest text-teks-2">
                   MENGAPA PELITA HADIR
                 </span>
-                <h2 className="mt-2 font-serif text-2xl sm:text-3xl font-extrabold text-[#2E0B07] leading-snug">
+                <h2 className="mt-2.5 font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold text-teks leading-snug">
                   Rutinitas boleh berubah. Rasa ingin tahu tetap punya tempat.
                 </h2>
               </div>
 
-              <div className="lg:col-span-7 space-y-4 text-xs sm:text-sm text-[#7A4335] leading-relaxed">
+              <div className="lg:col-span-7 space-y-4 text-sm sm:text-base text-teks-2 leading-relaxed font-medium">
                 <p>
-                  Pengobatan penyakit kronis seperti leukemia anak berlangsung 2
-                  hingga 3 tahun dengan siklus rawat inap berulang. Tugas
-                  sekolah sering kali diberikan tanpa melihat kondisi fisik anak
-                  hari itu, sementara satu konsep dasar yang terlewat membuat
-                  anak kesulitan mengejar pelajaran saat kembali ke kelas.
+                  Pengobatan penyakit kronis pada anak dapat berlangsung dua
+                  hingga tiga tahun dengan jadwal istirahat dan perawatan yang
+                  berulang. Sering kali tugas sekolah diberikan begitu saja
+                  tanpa melihat apakah hari itu anak sedang bugar atau sedang
+                  lelah, sementara satu materi dasar yang terlewat membuat anak
+                  kurang percaya diri saat kembali ke kelas.
                 </p>
 
-                <div className="flex items-center gap-2.5 pt-1 text-xs sm:text-sm font-extrabold text-[#2E0B07]">
-                  <span className="text-[#EA7B30]">→</span>
-                  <span>
-                    Setiap anak yang berhasil diselamatkan nyawanya juga harus
-                    diselamatkan masa sekolahnya.
-                  </span>
+                <div className="pt-2">
+                  <p className="rounded-[16px] bg-[#F7DEC0] px-5 py-3.5 text-sm sm:text-base font-extrabold text-teks border border-[#E5B97F]/70">
+                    Setiap anak yang sedang berjuang memulihkan kesehatannya
+                    juga berhak dijaga semangat dan masa sekolahnya.
+                  </p>
                 </div>
               </div>
             </div>
-          </div>
+          </RevealSection>
         </section>
 
         {/* =====================================================================
-            SECTION 3: CHECK-IN KONDISI HARIAN ("Yang disesuaikan adalah langkahnya. Bukan harapannya.")
+            SECTION 3: ADAPTIF KONDISI HARIAN ("Yang disesuaikan adalah langkahnya. Bukan harapannya.")
         ===================================================================== */}
-        <section id="adaptif-kondisi" className="bg-[#F5CFA2] py-16 sm:py-22">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            {/* Header 2 Kolom */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end mb-12">
-              <div className="lg:col-span-6">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#7A4335]">
-                  BELAJAR ADAPTIF KONDISI HARIAN
-                </span>
-                <h2 className="mt-2 font-serif text-2xl sm:text-4xl font-extrabold text-[#2E0B07] leading-tight">
-                  Yang disesuaikan adalah langkahnya. Bukan harapannya.
-                </h2>
-              </div>
-              <div className="lg:col-span-6">
-                <p className="text-xs sm:text-sm text-[#6E3B2E] leading-relaxed">
-                  Sebelum sesi dimulai, anak memilih kondisi tenaganya hari itu.
-                  Sistem menyesuaikan durasi, format suara, dan tingkat beban
-                  secara otomatis.
-                </p>
-              </div>
-            </div>
-
-            {/* Konten 2 Kolom: 3 Poin Bernomor Tanpa Kotak di Kiri + Kartu Check-in di Kanan */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              <div className="lg:col-span-6 space-y-6">
-                <div className="flex items-start gap-4">
-                  <span className="font-mono text-xs font-extrabold text-[#7A4335] pt-1">
-                    01
-                  </span>
-                  <div>
-                    <h3 className="font-serif text-base font-extrabold text-[#2E0B07]">
-                      Beban belajar mengikuti tenaga hari itu
-                    </h3>
-                    <p className="mt-1 text-xs sm:text-sm text-[#6E3B2E] leading-relaxed">
-                      Saat anak memilih lemas atau mata lelah, fungsi aturan
-                      tetap menurunkan sesi ke mode audio singkat mengulang TP
-                      yang sudah tercapai.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <span className="font-mono text-xs font-extrabold text-[#7A4335] pt-1">
-                    02
-                  </span>
-                  <div>
-                    <h3 className="font-serif text-base font-extrabold text-[#2E0B07]">
-                      Hari istirahat tidak pernah dihukum
-                    </h3>
-                    <p className="mt-1 text-xs sm:text-sm text-[#6E3B2E] leading-relaxed">
-                      Target belajar dihitung per minggu tanpa streak harian
-                      yang bisa putus. Hari istirahat yang dilaporkan lewat
-                      check-in tetap dihitung aktif.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <span className="font-mono text-xs font-extrabold text-[#7A4335] pt-1">
-                    03
-                  </span>
-                  <div>
-                    <h3 className="font-serif text-base font-extrabold text-[#2E0B07]">
-                      Sinyal perhatian dini untuk pendamping
-                    </h3>
-                    <p className="mt-1 text-xs sm:text-sm text-[#6E3B2E] leading-relaxed">
-                      Tiga kali check-in berturut-turut berenergi lemas atau
-                      berkeluhan menyalakan kartu Perlu Perhatian berwarna emas
-                      di dashboard orang tua dan guru.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="lg:col-span-6">
-                <KartuCheckinInteraktif />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* =====================================================================
-            SECTION 4: 5 LANGKAH PERJALANAN ("Satu perjalanan kecil. Selalu ada yang menemani.")
-        ===================================================================== */}
-        <section id="cara-kerja" className="bg-[#FCEBD4] py-16 sm:py-22">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div className="max-w-xl">
-              <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#7A4335]">
-                ALUR BELAJAR HARIAN
+        <section
+          id="adaptif-kondisi"
+          className="relative w-full py-16 sm:py-24"
+        >
+          <DekorasiLangitCerah varian="satu" />
+          <div className="relative z-10 mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44">
+            {/* Header Terpusat (Center-Aligned) */}
+            <RevealSection className="relative mx-auto max-w-3xl text-center mb-12 space-y-3.5">
+              <BintangKilau
+                varian={2}
+                ukuran={34}
+                delay={0.3}
+                className="absolute -top-3 left-4 hidden sm:block"
+              />
+              <BintangKilau
+                varian={3}
+                ukuran={28}
+                delay={1.2}
+                className="absolute top-6 right-4 hidden sm:block"
+              />
+              <span className="inline-block text-xs font-extrabold uppercase tracking-widest text-teks-2">
+                BELAJAR ADAPTIF KONDISI HARIAN
               </span>
-              <h2 className="mt-2 font-serif text-2xl sm:text-4xl font-extrabold text-[#2E0B07] leading-tight">
-                Satu perjalanan kecil. Selalu ada yang menemani.
+              <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-teks leading-tight">
+                Yang disesuaikan adalah langkahnya. Bukan harapannya.
               </h2>
-            </div>
+              <p className="mx-auto max-w-2xl text-sm sm:text-base text-teks-2 leading-relaxed font-medium">
+                Durasi belajar, tampilan materi, dan pembacaan suara
+                menyesuaikan tenaga serta suasana hati anak pada hari itu agar
+                belajar terasa menenangkan.
+              </p>
+            </RevealSection>
 
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            {/* 3 Pilar Informasi Adaptif Kondisi Harian */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 {
-                  judul: "Kenali kondisi hari ini",
-                  isi: "Check-in energi, cuaca hati, dan keluhan fisik sebelum mulai belajar.",
-                  ikon: Sun,
+                  no: "01",
+                  judul: "Durasi mengikuti tenaga anak hari itu",
+                  isi: "Ketika anak sedang bersemangat, ia dapat mempelajari materi baru. Namun saat sedang lemas atau mata lelah, kegiatan belajar beralih ke cerita suara singkat selama 5 hingga 10 menit.",
+                  tag: "Empat pilihan ritme belajar harian",
                 },
                 {
-                  judul: "Temukan titik mulai",
-                  isi: "Asesmen BKT menelusuri prasyarat agar anak mulai di pos yang tepat.",
-                  ikon: Compass,
+                  no: "02",
+                  judul: "Hari istirahat tidak pernah dihukum",
+                  isi: "Target belajar dihitung secara mingguan dan fleksibel. Ketika anak membutuhkan waktu istirahat penuh, kemajuannya tetap terjaga dengan aman tanpa beban ketertinggalan.",
+                  tag: "Belajar tenang tanpa tekanan",
                 },
                 {
-                  judul: "Pelajari sedikit demi sedikit",
-                  isi: "Kartu belajar bersuara dilanjutkan kuis formatif singkat sesuai level sesi.",
-                  ikon: BookOpen,
+                  no: "03",
+                  judul: "Kabar perhatian untuk orang tua dan guru",
+                  isi: "Apabila anak merasa lemas atau kurang nyaman selama beberapa hari berturut-turut, dashboard pendamping menampilkan pengingat hangat agar keluarga dapat menyesuaikan pendampingan.",
+                  tag: "Komunikasi hangat bersama keluarga",
                 },
-                {
-                  judul: "Dibantu saat keliru",
-                  isi: "AI Tutor menjelaskan letak miskonsepsi dengan kalimat pendek yang ramah.",
-                  ikon: HeartHandshake,
-                },
-                {
-                  judul: "Terhubung ke sekolah",
-                  isi: "Progres tiap TP dirangkum menjadi laporan Kurikulum Merdeka untuk wali kelas.",
-                  ikon: Award,
-                },
-              ].map((step, i) => {
-                const Ikon = step.ikon;
-                return (
-                  <div key={step.judul} className="flex flex-col">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E3AA52] text-[#2E0B07]">
-                        <Ikon className="h-4 w-4" />
+              ].map((item, idx) => (
+                <RevealSection key={item.no} delay={idx * 0.08}>
+                  <HoverCard className="h-full rounded-[22px] bg-[#FCECD7] p-6 sm:p-7 border border-[#E5B97F]/70 flex flex-col justify-between">
+                    <div>
+                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-emas font-heading text-xs font-extrabold text-teks">
+                        {item.no}
                       </span>
-                      <span className="text-xs font-bold text-[#7A4335]">
-                        {i < 4 ? "→" : "✦"}
-                      </span>
+                      <h3 className="mt-4 font-heading text-lg font-extrabold text-teks leading-snug">
+                        {item.judul}
+                      </h3>
+                      <p className="mt-2 text-xs sm:text-sm text-teks-2 leading-relaxed">
+                        {item.isi}
+                      </p>
                     </div>
-                    <h3 className="font-serif text-sm sm:text-base font-extrabold text-[#2E0B07] leading-snug">
-                      {step.judul}
-                    </h3>
-                    <p className="mt-1.5 text-xs text-[#7A4335] leading-relaxed">
-                      {step.isi}
-                    </p>
-                  </div>
-                );
-              })}
+                    <div className="mt-5 pt-3 border-t border-[#E5B97F]/50 text-xs font-extrabold text-teks">
+                      {item.tag}
+                    </div>
+                  </HoverCard>
+                </RevealSection>
+              ))}
             </div>
+          </div>
+        </section>
+
+        {/* =====================================================================
+            SECTION 4: ROADMAP ALUR BELAJAR HARIAN ("Satu perjalanan kecil. Selalu ada yang menemani.")
+        ===================================================================== */}
+        <section
+          id="cara-kerja"
+          className="relative w-full py-16 sm:py-24"
+        >
+          <DekorasiLangitCerah varian="dua" />
+          <div className="relative z-10 mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44">
+            <RevealSection className="relative mx-auto max-w-3xl text-center space-y-3.5">
+              <BintangKilau
+                varian={1}
+                ukuran={32}
+                delay={0.2}
+                className="absolute -top-3 left-6 hidden sm:block"
+              />
+              <BintangKilau
+                varian={3}
+                ukuran={28}
+                delay={1.0}
+                className="absolute top-4 right-6 hidden sm:block"
+              />
+              <span className="inline-block text-xs font-extrabold uppercase tracking-widest text-teks-2">
+                ALUR BELAJAR HARIAN
+              </span>
+              <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-teks leading-tight">
+                Satu perjalanan kecil. Selalu ada yang menemani.
+              </h2>
+              <p className="mx-auto max-w-2xl text-sm sm:text-base text-teks-2 leading-relaxed font-medium">
+                Lima langkah terhubung yang mendampingi anak dari awal membuka
+                aplikasi hingga kemajuannya siap diteruskan ke sekolah asal.
+              </p>
+            </RevealSection>
+
+            <RoadmapAlurBelajar />
           </div>
         </section>
 
         {/* =====================================================================
             SECTION 5: PENGALAMAN BELAJAR ANAK ("Bisa dilihat. Bisa didengar. Bisa dibaca pelan-pelan.")
         ===================================================================== */}
-        <section id="ruang-belajar" className="bg-[#F5CFA2] py-16 sm:py-22">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end mb-8">
-              <div className="lg:col-span-6">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#7A4335]">
-                  RUANG BELAJAR RAMAH ANAK
-                </span>
-                <h2 className="mt-2 font-serif text-2xl sm:text-4xl font-extrabold text-[#2E0B07] leading-tight">
-                  Bisa dilihat. Bisa didengar. Bisa dibaca pelan-pelan.
-                </h2>
-              </div>
-              <div className="lg:col-span-6">
-                <p className="text-xs sm:text-sm text-[#6E3B2E] leading-relaxed">
-                  Setiap instruksi dilengkapi pembaca suara Bahasa Indonesia,
-                  visualisasi benda konkret, dan maskot Pijar yang menemani
-                  tanpa tekanan waktu.
-                </p>
-              </div>
-            </div>
+        <section
+          id="ruang-belajar"
+          className="relative w-full py-16 sm:py-24"
+        >
+          <DekorasiLangitCerah varian="tiga" />
+          <div className="relative z-10 mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44">
+            {/* Header Terpusat (Center-Aligned) */}
+            <RevealSection className="relative mx-auto max-w-3xl text-center mb-10 space-y-3.5">
+              <BintangKilau
+                varian={2}
+                ukuran={34}
+                delay={0.4}
+                className="absolute -top-2 left-2 hidden sm:block"
+              />
+              <BintangKilau
+                varian={4}
+                ukuran={26}
+                delay={1.3}
+                className="absolute top-6 right-2 hidden sm:block"
+              />
+              <span className="inline-block text-xs font-extrabold uppercase tracking-widest text-teks-2">
+                RUANG BELAJAR RAMAH ANAK
+              </span>
+              <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-teks leading-tight">
+                Bisa dilihat. Bisa didengar. Bisa dibaca pelan-pelan.
+              </h2>
+              <p className="mx-auto max-w-2xl text-sm sm:text-base text-teks-2 leading-relaxed font-medium">
+                Setiap materi disajikan lewat cerita bergambar, pembaca suara
+                Bahasa Indonesia, dan pendampingan Pijar yang sabar membangun
+                rasa percaya diri anak.
+              </p>
+            </RevealSection>
 
-            <ShowcaseBelajarAnak />
+            <RevealSection delay={0.1}>
+              <ShowcaseBelajarAnak />
+            </RevealSection>
           </div>
         </section>
 
         {/* =====================================================================
-            SECTION 6: PETA PRASYARAT ("Setiap anak punya peta. Tak harus punya tempo yang sama.")
+            SECTION 6: PETA BELAJAR ("Setiap anak punya peta. Tak harus punya tempo yang sama.")
         ===================================================================== */}
-        <section id="peta-tp" className="bg-[#FCEBD4] py-16 sm:py-22">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            {/* Header 2 Kolom */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end mb-10">
-              <div className="lg:col-span-6 space-y-2">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#7A4335]">
-                  PETA PRASYARAT & POS DASAR
-                </span>
-                <h2 className="font-serif text-2xl sm:text-4xl font-extrabold text-[#2E0B07] leading-tight">
-                  Setiap anak punya peta. Tak harus punya tempo yang sama.
-                </h2>
-                <p className="text-xs sm:text-sm text-[#7A4335] leading-relaxed pt-1">
-                  Jika ada prasyarat kelas sebelumnya yang belum kuat, PELITA
-                  menyisipkan modul jembatan di Pos Dasar sebelum lanjut ke
-                  materi Kelasku.
-                </p>
-              </div>
-              <div className="lg:col-span-6">
-                <p className="text-xs sm:text-sm text-[#7A4335] leading-relaxed">
-                  Bayesian Knowledge Tracing (BKT) menyimpulkan penguasaan
-                  leluhur dan keturunan pada graf prasyarat, sehingga titik
-                  mulai ditemukan hanya dalam rata-rata 18 soal.
-                </p>
-              </div>
-            </div>
-
-            {/* Kotak Peta 3 Kartu (Persis Gambar Referensi) */}
-            <div className="rounded-[24px] border border-[#E2B378] bg-[#F9E3C4] p-5 sm:p-7">
-              <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
-                <span className="inline-flex items-center rounded-full bg-[#E3AA52] px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#2E0B07]">
-                  Jalur Transisi Raka
-                </span>
-                <span className="rounded-full bg-[#FCECD7] px-3 py-1 text-[10px] font-bold text-[#7A4335] border border-[#E2B378]">
-                  Matematika Fase A–B
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="rounded-[16px] bg-[#FCECD7] p-5 border border-[#E5B97F]/60">
-                  <div className="font-serif text-base font-extrabold text-[#2E0B07]">
-                    Operasi Dasar
-                  </div>
-                  <p className="mt-1 text-xs text-[#7A4335]">
-                    Penjumlahan & Pengurangan (TP A4 & B2)
-                  </p>
-                  <span className="mt-3 inline-block rounded-full bg-[#F2C995] px-2.5 py-0.5 text-[10px] font-bold text-[#4A1520]">
-                    Tercapai ✓
-                  </span>
-                </div>
-
-                <div className="rounded-[16px] bg-[#FCECD7] p-5 border-2 border-[#E3AA52]">
-                  <div className="font-serif text-base font-extrabold text-[#2E0B07]">
-                    Perkalian B3
-                  </div>
-                  <p className="mt-1 text-xs text-[#7A4335]">
-                    Perkalian Bilangan Cacah s.d. 100
-                  </p>
-                  <span className="mt-3 inline-block rounded-full bg-[#E3AA52] px-2.5 py-0.5 text-[10px] font-extrabold text-[#2E0B07]">
-                    Titik Mulai
-                  </span>
-                </div>
-
-                <div className="rounded-[16px] bg-[#FCECD7] p-5 border border-[#E5B97F]/60">
-                  <div className="font-serif text-base font-extrabold text-[#2E0B07]">
-                    Pecahan Dasar
-                  </div>
-                  <p className="mt-1 text-xs text-[#7A4335]">
-                    Pecahan Senilai di Kelasku (TP B7)
-                  </p>
-                  <span className="mt-3 inline-block rounded-full bg-[#F2C995]/70 px-2.5 py-0.5 text-[10px] font-bold text-[#7A4335]">
-                    3 Pos Lagi
-                  </span>
-                </div>
-              </div>
-
-              <p className="mt-4 text-[11px] text-[#7A4335]">
-                Saat fase pengobatan intensif, peta otomatis menyaring hanya TP
-                berlabel <em>esensial_transisi</em> (mengadopsi prinsip ATP
-                Transisi Kemendikdasmen).
+        <section
+          id="peta-tp"
+          className="relative w-full py-16 sm:py-24"
+        >
+          <DekorasiLangitCerah varian="satu" />
+          <div className="relative z-10 mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44">
+            {/* Header Terpusat (Center-Aligned) */}
+            <RevealSection className="mx-auto max-w-3xl text-center mb-12 space-y-3.5">
+              <span className="inline-block text-xs font-extrabold uppercase tracking-widest text-teks-2">
+                PETA BELAJAR & POS DASAR
+              </span>
+              <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-teks leading-tight">
+                Setiap anak punya peta. Tak harus punya tempo yang sama.
+              </h2>
+              <p className="mx-auto max-w-2xl text-sm sm:text-base text-teks-2 leading-relaxed font-medium pt-1">
+                Jika ada materi dari kelas sebelumnya yang belum kuat, PELITA
+                menyiapkan jembatan belajar di Pos Dasar sebelum anak
+                melanjutkan materi kelasnya.
               </p>
-            </div>
+              <p className="mx-auto max-w-2xl text-sm sm:text-base text-teks-2 leading-relaxed font-medium">
+                Anak yang kesulitan di materi Pecahan bisa jadi hanya perlu
+                menguatkan kembali konsep Perkalian. Dengan mengenali bagian
+                dasar yang terlewat, anak dapat mengejar pelajaran dengan
+                langkah yang ringan.
+              </p>
+            </RevealSection>
 
-            {/* Banner Emas Bawah Peta dengan Kotak Pijar Kiri & Tombol Bata Kanan */}
-            <div className="mt-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-[20px] bg-[#E3AA52] p-4 sm:p-5">
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[14px] bg-[#FCECD7]">
-                  <MascotPijar ekspresi="semangat" ukuran={44} />
+            {/* Kotak Peta 3 Kartu */}
+            <RevealSection delay={0.08}>
+              <div className="rounded-[24px] border border-[#E2B378] bg-[#F9E3C4] p-6 sm:p-8">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
+                  <span className="inline-flex items-center rounded-full bg-emas px-3.5 py-1 text-xs font-extrabold uppercase tracking-wider text-teks">
+                    Contoh Peta Belajar Raka
+                  </span>
+                  <span className="rounded-full bg-[#FCECD7] px-3.5 py-1 text-xs font-bold text-teks-2 border border-[#E2B378]">
+                    Matematika Sekolah Dasar
+                  </span>
                 </div>
-                <div>
-                  <h4 className="font-serif text-sm sm:text-base font-extrabold text-[#2E0B07]">
-                    Tidak ada label &ldquo;tertinggal&rdquo; di ruang belajar
-                    anak.
-                  </h4>
-                  <p className="text-xs text-[#2E0B07]/80">
-                    Progres dibingkai positif bersama Pijar: &ldquo;3 pos lagi
-                    menuju Pecahan!&rdquo;
-                  </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                  <HoverCard className="rounded-[18px] bg-[#FCECD7] p-5 border border-[#E5B97F]/60">
+                    <div className="font-heading text-base sm:text-lg font-extrabold text-teks">
+                      Operasi Dasar
+                    </div>
+                    <p className="mt-1 text-xs sm:text-sm text-teks-2">
+                      Penjumlahan dan Pengurangan Bilangan
+                    </p>
+                    <span className="mt-3.5 inline-block rounded-full bg-[#F2C995] px-3 py-1 text-xs font-extrabold text-teks">
+                      Sudah Dikuasai
+                    </span>
+                  </HoverCard>
+
+                  <HoverCard className="rounded-[18px] bg-[#FCECD7] p-5 border-2 border-emas">
+                    <div className="font-heading text-base sm:text-lg font-extrabold text-teks">
+                      Perkalian Dasar
+                    </div>
+                    <p className="mt-1 text-xs sm:text-sm text-teks-2">
+                      Perkalian lewat Kelompok Benda Nyata
+                    </p>
+                    <span className="mt-3.5 inline-block rounded-full bg-emas px-3 py-1 text-xs font-extrabold text-teks">
+                      Sedang Dipelajari di Pos Dasar
+                    </span>
+                  </HoverCard>
+
+                  <HoverCard className="rounded-[18px] bg-[#FCECD7] p-5 border border-[#E5B97F]/60">
+                    <div className="font-heading text-base sm:text-lg font-extrabold text-teks">
+                      Pecahan Dasar
+                    </div>
+                    <p className="mt-1 text-xs sm:text-sm text-teks-2">
+                      Mengenal Pecahan Senilai di Kelas 4
+                    </p>
+                    <span className="mt-3.5 inline-block rounded-full bg-[#F2C995]/70 px-3 py-1 text-xs font-bold text-teks-2">
+                      Tujuan Berikutnya
+                    </span>
+                  </HoverCard>
                 </div>
+
+                <p className="mt-5 text-xs text-teks-2 font-medium">
+                  Selama masa perawatan intensif, peta belajar otomatis
+                  menampilkan materi-materi inti yang paling penting agar anak
+                  tidak terbebani.
+                </p>
               </div>
+            </RevealSection>
 
-              <Link
-                href="/anak"
-                className="shrink-0 inline-flex items-center gap-1.5 rounded-[12px] bg-[#BF4338] px-4 py-2.5 text-xs font-extrabold text-white hover:bg-[#8C2B29] transition-colors"
-              >
-                <span>Lihat Peta Anak</span>
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
+            {/* Banner Emas Bawah Peta */}
+            <RevealSection delay={0.14}>
+              <div className="mt-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-[20px] bg-emas p-5 sm:p-6">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[16px] bg-[#FCECD7]">
+                    <MascotPijar ekspresi="semangat" gerak="idle" ukuran={48} />
+                  </div>
+                  <div>
+                    <h4 className="font-heading text-base sm:text-lg font-extrabold text-teks">
+                      Tidak ada label &ldquo;tertinggal&rdquo; di ruang belajar
+                      anak.
+                    </h4>
+                    <p className="text-xs sm:text-sm text-teks/85 font-medium">
+                      Setiap langkah dibingkai dengan kalimat penyemangat:
+                      &ldquo;Tiga pos lagi menuju materi Pecahan!&rdquo;
+                    </p>
+                  </div>
+                </div>
+
+                <span className="inline-flex items-center rounded-full bg-[#FCECD7] px-4 py-1.5 text-xs font-extrabold text-teks">
+                  Menu Kelasku & Pos Dasar
+                </span>
+              </div>
+            </RevealSection>
           </div>
         </section>
 
         {/* =====================================================================
             SECTION 7: PENDAMPING & SEKOLAH ("Kemajuan kecil, lebih mudah dipahami bersama.")
         ===================================================================== */}
-        <section id="pendamping" className="bg-[#F5CFA2] py-16 sm:py-22">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <section
+          id="pendamping"
+          className="relative w-full py-16 sm:py-24"
+        >
+          <DekorasiLangitCerah varian="tiga" />
+          <div className="relative z-10 mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
               {/* Kolom Kiri */}
-              <div className="lg:col-span-5 space-y-5">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#7A4335]">
+              <RevealSection className="lg:col-span-5 space-y-5">
+                <span className="text-xs font-extrabold uppercase tracking-widest text-teks-2">
                   PENDAMPING & SEKOLAH ASAL
                 </span>
-                <h2 className="font-serif text-2xl sm:text-4xl font-extrabold text-[#2E0B07] leading-tight">
+                <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-teks leading-tight">
                   Kemajuan kecil, lebih mudah dipahami bersama.
                 </h2>
-                <p className="text-xs sm:text-sm text-[#6E3B2E] leading-relaxed">
-                  Orang tua memantau tren kondisi harian dan menyetujui rujukan
-                  di menu Keputusan Menunggu, sementara progres per TP
-                  ditampilkan sebagai status kurikulum yang jelas—bukan angka
-                  persentase yang membingungkan.
+                <p className="text-sm sm:text-base text-teks-2 leading-relaxed font-medium">
+                  Orang tua tidak perlu menebak materi apa yang harus diajarkan
+                  di rumah. Perkembangan anak dirangkum dengan status yang
+                  mudah dipahami oleh keluarga maupun guru di sekolah.
                 </p>
 
                 {/* Kartu Ringkasan Belajar Raka */}
-                <div className="rounded-[20px] bg-[#FCECD7] p-5 border border-[#E5B97F]/70">
+                <HoverCard className="rounded-[20px] bg-[#FCECD7] p-6 border border-[#E5B97F]/70">
                   <div className="flex items-center justify-between pb-3 border-b border-[#E5B97F]/50">
-                    <span className="text-xs font-extrabold text-[#2E0B07]">
+                    <span className="font-heading text-sm font-extrabold text-teks">
                       Ringkasan Belajar Raka
                     </span>
-                    <span className="rounded-full bg-[#F2C995] px-2.5 py-0.5 text-[10px] font-bold text-[#4A1520]">
+                    <span className="rounded-full bg-[#F2C995] px-3 py-0.5 text-xs font-extrabold text-teks">
                       Data Contoh
                     </span>
                   </div>
 
-                  <div className="mt-3 space-y-2.5 text-xs">
+                  <div className="mt-3.5 space-y-3 text-xs sm:text-sm font-semibold">
                     <div className="flex items-center justify-between py-1">
-                      <span className="text-[#6E3B2E]">Operasi Hitung A4–B2</span>
-                      <span className="rounded-full bg-[#F2C995] px-2.5 py-0.5 text-[10px] font-bold text-[#2E0B07]">
+                      <span className="text-teks-2">
+                        Penjumlahan & Pengurangan
+                      </span>
+                      <span className="rounded-full bg-[#F2C995] px-3 py-0.5 text-xs font-extrabold text-teks">
                         Tercapai
                       </span>
                     </div>
                     <div className="flex items-center justify-between py-1">
-                      <span className="text-[#6E3B2E]">Perkalian TP B3</span>
-                      <span className="rounded-full bg-[#E3AA52] px-2.5 py-0.5 text-[10px] font-extrabold text-[#2E0B07]">
-                        Jembatan
+                      <span className="text-teks-2">Perkalian Dasar</span>
+                      <span className="rounded-full bg-emas px-3 py-0.5 text-xs font-extrabold text-teks">
+                        Jembatan Belajar
                       </span>
                     </div>
                     <div className="flex items-center justify-between py-1">
-                      <span className="text-[#6E3B2E]">Tren Check-in</span>
-                      <span className="rounded-full bg-[#F2C995] px-2.5 py-0.5 text-[10px] font-bold text-[#7A4335]">
+                      <span className="text-teks-2">Kondisi Minggu Ini</span>
+                      <span className="rounded-full bg-[#F2C995] px-3 py-0.5 text-xs font-extrabold text-teks-2">
                         Perlu Perhatian
                       </span>
                     </div>
                   </div>
-                </div>
+                </HoverCard>
 
-                <div className="flex items-start gap-2 text-[11px] text-[#6E3B2E]">
-                  <span className="text-[#EA7B30] font-bold">✦</span>
-                  <span>
-                    Masuk ke mode pendamping dari mode anak wajib menggunakan
-                    PIN Pendamping yang diverifikasi di server.
-                  </span>
-                </div>
-              </div>
+                <p className="text-xs text-teks-2 font-semibold leading-relaxed">
+                  Halaman orang tua dilindungi dengan kode PIN khusus agar
+                  pengaturan waktu layar dan laporan tetap berada di bawah
+                  kendali keluarga.
+                </p>
+              </RevealSection>
 
               {/* Kolom Kanan: Kartu Draf Laporan Sekolah */}
-              <div className="lg:col-span-7">
-                <span className="inline-flex items-center rounded-full bg-[#E3AA52] px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#2E0B07] mb-3">
+              <RevealSection delay={0.1} className="lg:col-span-7">
+                <span className="inline-flex items-center rounded-full bg-emas px-3.5 py-1 text-xs font-extrabold uppercase tracking-wider text-teks mb-3">
                   Jembatan ke Sekolah
                 </span>
 
-                <div className="rounded-[24px] bg-[#FCECD7] p-6 sm:p-7 border border-[#E5B97F]/70 shadow-[0_12px_32px_rgba(74,21,32,0.06)]">
-                  <h3 className="font-serif text-lg sm:text-xl font-extrabold text-[#2E0B07]">
-                    Draf Laporan untuk Sekolah
+                <HoverCard className="rounded-[24px] bg-[#FCECD7] p-6 sm:p-8 border border-[#E5B97F]/70 shadow-[0_12px_32px_rgba(74,21,32,0.06)]">
+                  <h3 className="font-heading text-xl sm:text-2xl font-extrabold text-teks">
+                    Draf Laporan untuk Sekolah Asal
                   </h3>
 
                   {/* Bar Emas: Label Wajib */}
-                  <div className="mt-3 rounded-[10px] bg-[#E3AA52] px-3.5 py-2 text-xs font-extrabold text-[#2E0B07]">
-                    Draf dibuat AI — periksa sebelum dikirim
+                  <div className="mt-3.5 rounded-[12px] bg-emas px-4 py-2.5 text-xs sm:text-sm font-extrabold text-teks">
+                    Draf laporan disusun otomatis dan diperiksa orang tua
+                    sebelum dikirim
                   </div>
 
                   {/* Field Tujuan Pembelajaran */}
                   <div className="mt-4">
-                    <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#7A4335]">
-                      Tujuan Pembelajaran
+                    <div className="text-[11px] font-extrabold uppercase tracking-wider text-teks-2">
+                      Materi Pembelajaran
                     </div>
-                    <div className="mt-1 rounded-[10px] bg-white px-3.5 py-2 text-xs font-bold text-[#2E0B07] border border-[#E5B97F]">
-                      TP B3 • Perkalian Bilangan Cacah s.d. 100 (Fase B)
+                    <div className="mt-1.5 rounded-[12px] bg-white px-4 py-2.5 text-xs sm:text-sm font-bold text-teks border border-[#E5B97F]">
+                      Perkalian Bilangan Cacah sampai 100 (Kelas 3–4)
                     </div>
                   </div>
 
                   {/* Field Deskripsi Capaian */}
                   <div className="mt-4">
-                    <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#7A4335]">
+                    <div className="text-[11px] font-extrabold uppercase tracking-wider text-teks-2">
                       Deskripsi Capaian Kurikulum Merdeka
                     </div>
-                    <div className="mt-1 rounded-[12px] border border-[#C87D4B]/60 bg-[#FDF6EC] p-3.5 text-xs text-[#2E0B07] leading-relaxed">
+                    <div className="mt-1.5 rounded-[14px] border border-[#C87D4B]/60 bg-[#FDF6EC] p-4 text-xs sm:text-sm text-teks leading-relaxed font-medium">
                       Ananda Raka menunjukkan penguasaan yang baik pada operasi
-                      penjumlahan dan pengurangan bilangan cacah (TP A1–A8, B1,
-                      B2). Saat ini ananda sedang memperkuat konsep perkalian
-                      sebagai penjumlahan berulang pada modul jembatan (TP B3)
-                      dengan penyesuaian durasi belajar harian selama masa
-                      pemeliharaan.
+                      penjumlahan dan pengurangan bilangan cacah. Saat ini
+                      ananda sedang memperkuat konsep perkalian menggunakan
+                      bantuan kelompok benda nyata dengan penyesuaian durasi
+                      belajar harian selama masa pemulihan.
                     </div>
                   </div>
 
-                  <p className="mt-3 text-[11px] text-[#7A4335]">
-                    Dapat disunting pendamping sebelum dicetak atau disimpan
-                    sebagai PDF.
-                  </p>
-
-                  <div className="mt-3 flex flex-wrap items-center gap-2.5">
-                    <Link
-                      href="/pendamping/laporan"
-                      className="inline-flex items-center gap-1.5 rounded-[10px] border border-[#DFB074] bg-[#F7DEC0] px-3.5 py-2 text-xs font-bold text-[#2E0B07] hover:bg-[#F2C995] transition-colors"
-                    >
-                      <Edit3 className="h-3.5 w-3.5" />
-                      <span>Sunting Draf</span>
-                    </Link>
-                    <Link
-                      href="/pendamping/laporan"
-                      className="inline-flex items-center gap-1.5 rounded-[10px] bg-[#BF4338] px-4 py-2 text-xs font-extrabold text-white hover:bg-[#8C2B29] transition-colors"
-                    >
-                      <Printer className="h-3.5 w-3.5" />
-                      <span>Simpan PDF</span>
-                    </Link>
+                  {/* Informasi Fitur Laporan */}
+                  <div className="mt-4 pt-3 border-t border-[#E5B97F]/50 flex flex-wrap items-center gap-3 text-xs font-bold text-teks-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F7DEC0] px-3.5 py-1 text-teks">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-bata" />
+                      Dapat disunting orang tua dan guru pendamping
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F7DEC0] px-3.5 py-1 text-teks">
+                      <FileText className="h-3.5 w-3.5 text-bata" />
+                      Siap dicetak atau disimpan sebagai PDF
+                    </span>
                   </div>
-                </div>
+                </HoverCard>
 
-                <p className="mt-2.5 text-[11px] text-[#6E3B2E]">
-                  Aplikasi menghasilkan laporan capaian belajar yang dipetakan
-                  ke CP dan TP Kurikulum Merdeka sehingga dapat digunakan
-                  sekolah asal sebagai bukti asesmen.
+                <p className="mt-3 text-xs text-teks-2 font-medium">
+                  Laporan capaian belajar disusun mengikuti panduan Kurikulum
+                  Merdeka sehingga dapat digunakan wali kelas sebagai bukti
+                  perkembangan belajar anak.
                 </p>
-              </div>
+              </RevealSection>
             </div>
           </div>
         </section>
 
         {/* =====================================================================
-            SECTION 8: PRINSIP AI ("AI membantu, manusia memutuskan.")
-            Latar Krem-Emas Terang Sesuai Gambar Referensi
+            SECTION 8: PRINSIP PENDAMPINGAN ("AI membantu, manusia memutuskan.")
         ===================================================================== */}
-        <section id="prinsip-ai" className="bg-[#FAE4C4] py-16 sm:py-22">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            {/* Header 2 Kolom */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-12">
-              <div className="lg:col-span-6 space-y-2">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#7A4335]">
-                  PRINSIP & TATA KELOLA AI
-                </span>
-                <h2 className="font-serif text-2xl sm:text-4xl font-extrabold text-[#2E0B07] leading-tight">
-                  AI membantu, manusia memutuskan.
-                </h2>
-                <p className="text-xs sm:text-sm text-[#7A4335] leading-relaxed pt-1">
-                  Keputusan keselamatan, level sesi, dan rujukan dukungan
-                  dikendalikan oleh aturan tetap yang teruji—bukan diserahkan
-                  pada model bahasa.
-                </p>
-              </div>
-              <div className="lg:col-span-6">
-                <p className="text-xs sm:text-sm text-[#7A4335] leading-relaxed">
-                  Seluruh ambang batas BKT dan daftar kata kunci krisis disimpan
-                  berversi di pengaturan sistem, dapat diaudit oleh admin, dan
-                  dilengkapi jawaban cadangan jika koneksi lambat.
-                </p>
-              </div>
+        <section
+          id="prinsip-ai"
+          className="relative w-full py-16 sm:py-24"
+        >
+          <DekorasiLangitCerah varian="dua" />
+          <div className="relative z-10 mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44">
+            {/* Header Terpusat (Center-Aligned) */}
+            <RevealSection className="relative mx-auto max-w-3xl text-center mb-12 space-y-3.5">
+              <BintangKilau
+                varian={2}
+                ukuran={34}
+                delay={0.2}
+                className="absolute -top-2 left-4 hidden sm:block"
+              />
+              <BintangKilau
+                varian={3}
+                ukuran={28}
+                delay={1.1}
+                className="absolute top-6 right-4 hidden sm:block"
+              />
+              <span className="inline-block text-xs font-extrabold uppercase tracking-widest text-teks-2">
+                PRINSIP KEAMANAN & ETIKA
+              </span>
+              <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-teks leading-tight">
+                AI membantu, manusia memutuskan.
+              </h2>
+              <p className="mx-auto max-w-2xl text-sm sm:text-base text-teks-2 leading-relaxed font-medium pt-1">
+                Teknologi hadir untuk meringankan langkah belajar anak dan
+                memudahkan orang tua, sementara setiap keputusan penting tetap
+                berada di tangan keluarga dan pendidik.
+              </p>
+              <p className="mx-auto max-w-2xl text-sm sm:text-base text-teks-2 leading-relaxed font-medium">
+                Seluruh materi soal yang tampil kepada anak telah melalui
+                peninjauan pendidik, dan setiap dukungan pendampingan
+                memerlukan persetujuan langsung dari orang tua.
+              </p>
+            </RevealSection>
+
+            {/* 3 Kolom Prinsip Bersih */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  ikon: Scale,
+                  judul: "Kenyamanan anak selalu diutamakan",
+                  isi: "Penyesuaian durasi belajar harian dan jeda istirahat bekerja secara konsisten untuk menjaga agar anak tidak pernah kelelahan.",
+                },
+                {
+                  ikon: Sliders,
+                  judul: "Ditinjau dan disetujui manusia",
+                  isi: "Setiap materi latihan ditinjau terlebih dahulu oleh pendidik sebelum diberikan kepada anak, dan rujukan dukungan selalu meminta izin orang tua.",
+                },
+                {
+                  ikon: EyeOff,
+                  judul: "Menjaga privasi keluarga",
+                  isi: "Tidak pernah menyimpan diagnosis penyakit, catatan medis, ataupun isi percakapan pribadi anak di dalam aplikasi.",
+                },
+              ].map((item, idx) => {
+                const Ikon = item.ikon;
+                return (
+                  <RevealSection key={item.judul} delay={idx * 0.08}>
+                    <HoverCard className="h-full rounded-[22px] bg-[#FCECD7] p-6 border border-[#E5B97F]/70 text-center flex flex-col items-center">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F7DEC0] border border-[#E2B378]">
+                        <Ikon className="h-6 w-6 text-bata" />
+                      </div>
+                      <h3 className="mt-4 font-heading text-lg font-extrabold text-teks">
+                        {item.judul}
+                      </h3>
+                      <p className="mt-2 text-xs sm:text-sm text-teks-2 leading-relaxed">
+                        {item.isi}
+                      </p>
+                    </HoverCard>
+                  </RevealSection>
+                );
+              })}
             </div>
 
-            {/* 3 Kolom Tata Kelola Bersih */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div>
-                <Scale className="h-5 w-5 text-[#BF4338]" />
-                <h3 className="mt-3 font-serif text-base font-extrabold text-[#2E0B07]">
-                  Aturan tetap yang menentukan
-                </h3>
-                <p className="mt-1.5 text-xs sm:text-sm text-[#7A4335] leading-relaxed">
-                  Level sesi harian, pemicu cek &ldquo;Masih kuat?&rdquo;, dan
-                  deteksi sinyal krisis dijalankan oleh algoritma aturan tetap
-                  sebelum menyentuh LLM.
-                </p>
-              </div>
-
-              <div>
-                <Sliders className="h-5 w-5 text-[#BF4338]" />
-                <h3 className="mt-3 font-serif text-base font-extrabold text-[#2E0B07]">
-                  Manusia yang menyetujui
-                </h3>
-                <p className="mt-1.5 text-xs sm:text-sm text-[#7A4335] leading-relaxed">
-                  Soal buatan AI wajib lolos validasi kunci otomatis dan
-                  disetujui peninjau manusia sebelum terbit. Rujukan komunitas
-                  wajib disetujui orang tua.
-                </p>
-              </div>
-
-              <div>
-                <EyeOff className="h-5 w-5 text-[#BF4338]" />
-                <h3 className="mt-3 font-3 font-serif text-base font-extrabold text-[#2E0B07]">
-                  Ruang aman & minim data
-                </h3>
-                <p className="mt-1.5 text-xs sm:text-sm text-[#7A4335] leading-relaxed">
-                  Tidak menyimpan diagnosis medis, data obat, maupun transkrip
-                  percakapan Teman Cerita. Pemanggilan AI dilakukan tanpa
-                  mengirim nama atau ID anak.
-                </p>
-              </div>
-            </div>
-
-            {/* Banner Emas dengan Kotak Pijar di Kiri (Persis Gambar Referensi) */}
-            <div className="mt-10 rounded-[22px] bg-[#E3AA52] p-6 sm:p-7">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                <div className="lg:col-span-6 flex items-center gap-4">
-                  <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[18px] bg-[#FCECD7]">
-                    <MascotPijar ekspresi="tenang" ukuran={68} />
+            {/* Banner Emas dengan Kotak Pijar di Kiri */}
+            <RevealSection delay={0.14}>
+              <div className="mt-10 rounded-[24px] bg-emas p-6 sm:p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                  <div className="lg:col-span-6 flex items-center gap-4">
+                    <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[18px] bg-[#FCECD7]">
+                      <MascotPijar ekspresi="tenang" gerak="idle" ukuran={68} />
+                    </div>
+                    <div>
+                      <h3 className="font-heading text-lg sm:text-2xl font-extrabold text-teks">
+                        Ketenangan untuk yang mendampingi.
+                      </h3>
+                      <p className="mt-1 text-xs sm:text-sm text-teks/85 leading-relaxed font-medium">
+                        Dirancang bersama prinsip perlindungan anak agar orang
+                        tua dan guru dapat mendampingi dengan tenang.
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-serif text-lg sm:text-xl font-extrabold text-[#2E0B07]">
-                      Ketenangan untuk yang mendampingi.
-                    </h3>
-                    <p className="mt-1 text-xs text-[#2E0B07]/85 leading-relaxed">
-                      Setiap keluaran AI dicatat di log audit dan dievaluasi
-                      berkala pada panel Evaluasi AI.
-                    </p>
+
+                  <div className="lg:col-span-6 text-xs sm:text-sm text-teks/90 leading-relaxed font-medium">
+                    Anak dapat belajar sesuai kondisinya hari itu, orang tua
+                    memegang kendali penuh atas pengaturan keluarga, dan sekolah
+                    asal menerima gambaran capaian belajar yang utuh.
                   </div>
                 </div>
-
-                <div className="lg:col-span-6 text-xs text-[#2E0B07]/90 leading-relaxed">
-                  Hasil simulasi pada 10.000 siswa virtual menunjukkan akurasi
-                  penempatan status TP sebesar <strong>95,4%</strong> dengan
-                  rata-rata hanya <strong>18 soal</strong> per mata pelajaran,
-                  dilengkapi batas waktu 8 detik dan jawaban cadangan otomatis.
-                </div>
               </div>
-            </div>
-
-            <p className="mt-3 text-[11px] text-[#7A4335]">
-              ✦ Lihat metrik lengkap di halaman Admin: Aturan AI, Bank Soal, dan
-              Evaluasi Kinerja AI.
-            </p>
+            </RevealSection>
           </div>
         </section>
 
         {/* =====================================================================
             SECTION 9: FAQ ("Hal yang mungkin ingin Anda tanyakan.")
         ===================================================================== */}
-        <section id="faq" className="bg-[#FCEBD4] py-16 sm:py-22">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <section id="faq" className="relative w-full py-16 sm:py-24">
+          <RevealSection className="mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
               <div className="lg:col-span-4">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#7A4335]">
+                <span className="text-xs font-extrabold uppercase tracking-widest text-teks-2">
                   TANYA JAWAB
                 </span>
-                <h2 className="mt-2 font-serif text-2xl sm:text-4xl font-extrabold text-[#2E0B07] leading-tight">
+                <h2 className="mt-2.5 font-heading text-2xl sm:text-4xl font-extrabold text-teks leading-tight">
                   Hal yang mungkin ingin Anda tanyakan.
                 </h2>
-                <p className="mt-3 text-xs sm:text-sm text-[#7A4335] leading-relaxed">
+                <p className="mt-3 text-xs sm:text-sm text-teks-2 leading-relaxed font-medium">
                   Penjelasan singkat mengenai cara kerja adaptif, privasi
                   keluarga, dan hubungan dengan sekolah asal.
                 </p>
@@ -795,190 +792,171 @@ export default function Beranda() {
                 <AccordionFaq />
               </div>
             </div>
-          </div>
+          </RevealSection>
         </section>
 
         {/* =====================================================================
-            SECTION 10: PRE-FOOTER CTA ORANYE ("Temani langkah kecilnya. Jaga cahaya belajarnya.")
-            Kotak Krem Besar di Kiri Berisi Pijar (Menggantikan Placeholder 'P')
+            SECTION 10: PRE-FOOTER CTA ("Temani langkah kecilnya. Jaga cahaya belajarnya.")
         ===================================================================== */}
-        <section className="bg-[#EA7B30] py-14 sm:py-20">
-          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-              {/* Kotak Krem Besar dengan Asset Pijar */}
-              <div className="md:col-span-4 flex justify-center">
-                <div className="flex h-48 w-48 sm:h-52 sm:w-52 items-center justify-center rounded-[24px] bg-[#F7DFC2] shadow-sm">
-                  <MascotPijar ekspresi="senang" gerak="senang" ukuran={148} />
+        <section className="relative w-full py-12 sm:py-20">
+          {/* Pendaran cahaya blur di belakang kartu agar menyatu tanpa garis */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-24 -bottom-24 inset-x-0"
+            style={{
+              background:
+                "radial-gradient(ellipse 75% 50% at 50% 50%, rgba(234,123,48,0.28) 0%, rgba(243,180,72,0.14) 50%, rgba(252,235,212,0) 80%)",
+            }}
+          />
+
+          <RevealSection className="relative z-10 mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44">
+            <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-[#F08C3E] via-[#EA7B30] to-[#D86522] p-8 sm:p-12 lg:p-14 shadow-[0_24px_60px_rgba(216,101,34,0.22)]">
+              {/* Ornamen Awan & Bintang di Dalam Kartu CTA */}
+              <img
+                src="/dekorasi/awan-11.webp"
+                alt=""
+                aria-hidden
+                className="pointer-events-none select-none absolute -bottom-6 -left-6 w-48 sm:w-64 opacity-35"
+              />
+              <img
+                src="/dekorasi/awan-12.webp"
+                alt=""
+                aria-hidden
+                className="pointer-events-none select-none absolute -bottom-6 -right-6 w-48 sm:w-64 opacity-35"
+              />
+              <BintangKilau
+                varian={2}
+                ukuran={40}
+                delay={0.2}
+                className="absolute top-6 left-[8%] hidden md:block"
+              />
+              <BintangKilau
+                varian={3}
+                ukuran={34}
+                delay={1.0}
+                className="absolute bottom-8 right-[8%] hidden md:block"
+              />
+              <SapuanCahayaEmas
+                lebar={110}
+                delay={0.5}
+                className="hidden lg:block absolute top-8 right-[14%]"
+              />
+
+              <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                {/* Kotak Krem Besar dengan Asset Pijar (Animasi Tenang, Tidak Bouncy) */}
+                <div className="md:col-span-4 flex justify-center">
+                  <div className="relative flex h-48 w-48 sm:h-56 sm:w-56 items-center justify-center rounded-[28px] bg-[#FFF5E6] shadow-[0_14px_34px_rgba(74,21,32,0.12)]">
+                    <BintangKilau
+                      varian={1}
+                      ukuran={30}
+                      delay={0.5}
+                      className="absolute -top-3 -right-3"
+                    />
+                    <MascotPijar ekspresi="senang" gerak="idle" ukuran={156} />
+                  </div>
                 </div>
-              </div>
 
-              {/* Teks & Tombol CTA */}
-              <div className="md:col-span-8 space-y-4">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#2E0B07]/80">
-                  MULAI BERSAMA PELITA
-                </span>
-                <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-[#2E0B07] leading-tight">
-                  Temani langkah kecilnya. Jaga cahaya belajarnya.
-                </h2>
-                <p className="text-xs sm:text-sm text-[#2E0B07]/85 max-w-xl leading-relaxed">
-                  Coba langsung alur belajar Raka, pantau progres dan draf
-                  laporan sekolah di dashboard Ibu Sari, atau tinjau parameter
-                  tata kelola AI di halaman Admin.
-                </p>
+                {/* Teks & Tombol Masuk Utama */}
+                <div className="md:col-span-8 space-y-4">
+                  <span className="text-xs font-extrabold uppercase tracking-widest text-teks/85">
+                    MULAI BERSAMA PELITA
+                  </span>
+                  <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-teks leading-tight">
+                    Temani langkah kecilnya. Jaga cahaya belajarnya.
+                  </h2>
+                  <p className="text-sm sm:text-base text-teks/90 max-w-2xl leading-relaxed font-medium">
+                    PELITA menyatukan pembelajaran yang peka terhadap kondisi
+                    harian anak, pemetaan materi Kurikulum Merdeka, serta
+                    kendali penuh di tangan orang tua dan sekolah asal.
+                  </p>
 
-                <div className="pt-2 flex flex-wrap items-center gap-4">
-                  <Link
-                    href="/login"
-                    className="inline-flex items-center gap-2 rounded-[12px] bg-[#FCECD7] px-5 py-3 text-xs sm:text-sm font-extrabold text-[#2E0B07] hover:bg-white transition-colors"
-                  >
-                    <span>Masuk Akun Demo</span>
-                  </Link>
-                  <Link
-                    href="/pilih-profil"
-                    className="text-xs font-extrabold text-[#2E0B07] hover:underline"
-                  >
-                    Langsung ke Pilih Profil (Raka / Pendamping) →
-                  </Link>
+                  <div className="pt-2 flex flex-wrap items-center gap-4">
+                    <Link
+                      href="/login"
+                      className="inline-flex items-center gap-2 rounded-[14px] bg-[#FFFDF9] px-6 py-3.5 text-sm font-extrabold text-teks hover:bg-[#FCECD7] transition-colors shadow-sm"
+                    >
+                      <span>Masuk ke PELITA</span>
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </RevealSection>
         </section>
       </main>
 
       {/* =====================================================================
-          FOOTER
+           FOOTER (Menyatu Tanpa Garis Pembatas, Tanpa Icon PELITA & Tanpa Copyright Bawah)
       ===================================================================== */}
-      <footer className="bg-[#FCEBD4] py-12 text-xs text-[#7A4335]">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-[#E2B378]">
+      <footer className="relative w-full pt-8 pb-14 text-xs text-teks-2">
+        <div className="mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
             <div className="md:col-span-5 space-y-2.5">
-              <div className="flex items-center gap-2.5">
-                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#E3AA52]">
-                  <Sparkles className="h-4 w-4 text-[#2E0B07]" />
-                </span>
-                <span className="font-serif text-lg font-extrabold text-[#2E0B07]">
-                  PELITA
-                </span>
-              </div>
-              <p className="font-serif text-sm font-bold text-[#2E0B07]">
+              <span className="block font-heading text-xl font-extrabold text-teks">
+                PELITA
+              </span>
+              <p className="font-heading text-sm font-extrabold text-teks">
                 Pelita, agar sakit tidak memadamkan cahaya belajar mereka.
               </p>
-              <p className="max-w-sm text-[11px] leading-relaxed text-[#7A4335]">
-                Platform belajar adaptif berbasis AI yang menyesuaikan kondisi
-                kesehatan harian untuk menjaga keberlanjutan pendidikan anak
-                dengan penyakit kronis.
+              <p className="max-w-md text-xs leading-relaxed text-teks-2">
+                Platform belajar adaptif yang menyesuaikan kondisi kesehatan
+                harian untuk menjaga keberlanjutan pendidikan anak dengan
+                penyakit kronis.
               </p>
             </div>
 
             <div className="md:col-span-2 space-y-2">
-              <div className="font-extrabold text-[#2E0B07]">Ruang Anak</div>
-              <ul className="space-y-1.5 text-[11px]">
+              <div className="font-heading font-extrabold text-teks">
+                Navigasi Halaman
+              </div>
+              <ul className="space-y-1.5 text-xs font-semibold">
                 <li>
-                  <Link href="/anak" className="hover:text-[#2E0B07]">
-                    Beranda Anak
-                  </Link>
+                  <a href="#adaptif-kondisi" className="hover:text-teks">
+                    Kondisi Harian
+                  </a>
                 </li>
                 <li>
-                  <Link href="/anak/checkin" className="hover:text-[#2E0B07]">
-                    Check-in Harian
-                  </Link>
+                  <a href="#cara-kerja" className="hover:text-teks">
+                    Alur Belajar
+                  </a>
                 </li>
                 <li>
-                  <Link href="/anak/asesmen" className="hover:text-[#2E0B07]">
-                    Asesmen Adaptif
-                  </Link>
+                  <a href="#ruang-belajar" className="hover:text-teks">
+                    Ruang Belajar
+                  </a>
                 </li>
                 <li>
-                  <Link href="/anak/peta" className="hover:text-[#2E0B07]">
+                  <a href="#peta-tp" className="hover:text-teks">
                     Peta Belajar
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/anak/sesi/B3" className="hover:text-[#2E0B07]">
-                    Sesi TP B3
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
 
             <div className="md:col-span-3 space-y-2">
-              <div className="font-extrabold text-[#2E0B07]">
-                Pendamping & Sekolah
+              <div className="font-heading font-extrabold text-teks">
+                Fokus Utama
               </div>
-              <ul className="space-y-1.5 text-[11px]">
-                <li>
-                  <Link href="/login" className="hover:text-[#2E0B07]">
-                    Masuk Akun Demo
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/pilih-profil" className="hover:text-[#2E0B07]">
-                    Pilih Profil & PIN
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/pendamping/dashboard"
-                    className="hover:text-[#2E0B07]"
-                  >
-                    Dashboard Pendamping
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/pendamping/laporan"
-                    className="hover:text-[#2E0B07]"
-                  >
-                    Laporan Kurikulum Merdeka
-                  </Link>
-                </li>
+              <ul className="space-y-1.5 text-xs">
+                <li>Penyesuaian Belajar Harian</li>
+                <li>Jembatan Materi di Pos Dasar</li>
+                <li>Pendamping Belajar Ramah Anak</li>
+                <li>Laporan Capaian Kurikulum Merdeka</li>
               </ul>
             </div>
 
             <div className="md:col-span-2 space-y-2">
-              <div className="font-extrabold text-[#2E0B07]">Tata Kelola</div>
-              <ul className="space-y-1.5 text-[11px]">
-                <li>
-                  <Link
-                    href="/admin/aturan-ai"
-                    className="hover:text-[#2E0B07]"
-                  >
-                    Aturan AI
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/admin/bank-soal"
-                    className="hover:text-[#2E0B07]"
-                  >
-                    Bank Soal AI
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/admin/evaluasi-ai"
-                    className="hover:text-[#2E0B07]"
-                  >
-                    Evaluasi AI
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/admin/log-aktivitas"
-                    className="hover:text-[#2E0B07]"
-                  >
-                    Log Aktivitas
-                  </Link>
-                </li>
+              <div className="font-heading font-extrabold text-teks">
+                Prinsip Keamanan
+              </div>
+              <ul className="space-y-1.5 text-xs">
+                <li>Menjaga Privasi Data Anak</li>
+                <li>Tanpa Simpan Catatan Medis</li>
+                <li>Persetujuan Penuh Orang Tua</li>
+                <li>Materi Terkurasi Pendidik</li>
               </ul>
             </div>
-          </div>
-
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#7A4335]">
-            <span>© 2026 Tim PELITA</span>
-            <span>AI membantu, manusia memutuskan</span>
-            <span>Hackathon FIRETECH 2026</span>
           </div>
         </div>
       </footer>
