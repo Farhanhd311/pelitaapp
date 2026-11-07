@@ -1,6 +1,5 @@
-// Teman Cerita: skrining chip 3 dimensi + deteksi krisis aturan tetap.
-// Placeholder fondasi (H0–H2). Belum ada logika fitur.
+import { redirect } from "next/navigation";
 
-export default function Halaman() {
-  return null;
+export default function HalamanTemanCerita() {
+  redirect("/anak");
 }

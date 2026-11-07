@@ -5,7 +5,7 @@
 
 import type { ReactNode } from "react";
 import { motion } from "motion/react";
-import { BookOpen, Clock, Headphones, HeartHandshake, MessageCircleHeart, RotateCcw } from "lucide-react";
+import { Headphones, HeartHandshake, RotateCcw } from "lucide-react";
 import { MascotPijar, type EkspresiPijar, type GerakPijar } from "@/components/anak/MascotPijar";
 import { TautanAnak, TombolAnak } from "@/components/anak/fokus/TombolAnak";
 import { denganMapel, HREF_PETA, HREF_SESI_HARI_INI } from "@/components/anak/sesi/jalur";
@@ -39,8 +39,6 @@ const TEMA: Record<LevelSesi, { ekspresi: EkspresiPijar; gerak: GerakPijar; judu
   },
 };
 
-const LABEL_ISI = { santai: "Santai", ulang: "Mengulang yang sudah dikuasai", baru: "Materi baru" } as const;
-
 export function HasilCheckin({
   hasil,
   sudahSebelumnya,
@@ -69,31 +67,15 @@ export function HasilCheckin({
       <h1 className="mt-2 text-[28px] leading-tight font-extrabold text-balance sm:text-[32px]">{tema.judul}</h1>
       <p className="mt-2 max-w-md text-[17px] leading-relaxed text-teks-2">{isi}</p>
 
-      {!istirahat && (
+      {!istirahat && hasil.mode_audio && (
         <ul className="mt-5 flex flex-wrap justify-center gap-2" aria-label="Rencana sesi hari ini">
-          <Info ikon={<Clock className="size-4.5" aria-hidden />}>Sekitar {hasil.durasi_menit} menit</Info>
-          <Info ikon={<BookOpen className="size-4.5" aria-hidden />}>{LABEL_ISI[hasil.jenis_isi]}</Info>
-          {hasil.mode_audio && <Info ikon={<Headphones className="size-4.5" aria-hidden />}>Lebih banyak mendengar, matamu istirahat</Info>}
+          <Info ikon={<Headphones className="size-4.5" aria-hidden />}>Lebih banyak mendengar, matamu istirahat</Info>
         </ul>
       )}
 
       {hasil.tawarkan_beri_tahu_pendamping && (
         <KartuAjakan warna="emas" ikon={<HeartHandshake className="size-6 text-bata" aria-hidden />}>
           Panggil Ayah, Ibu, atau kakak pendampingmu, ya. Bilang badanmu sedang sakit sekali.
-        </KartuAjakan>
-      )}
-
-      {(hasil.tawarkan_teman_cerita || hasil.teman_cerita_menyapa) && (
-        <KartuAjakan
-          warna="merah-muda"
-          ikon={<MessageCircleHeart className="size-6 text-bata" aria-hidden />}
-          aksi={
-            <TautanAnak varian="kedua" href="/anak/teman-cerita" className="mt-3 w-full sm:w-auto">
-              Mau cerita ke Pijar
-            </TautanAnak>
-          }
-        >
-          Hatimu sedang mendung? Pijar siap mendengar ceritamu.
         </KartuAjakan>
       )}
 

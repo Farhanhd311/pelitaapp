@@ -259,7 +259,6 @@ export function AlurSesi({ params }: { params: Promise<{ tpKode: string }> }) {
             <KartuSoal
               key={`${soalTampil.soal_id}-${sesi.nomor_soal}`}
               soal={soalTampil}
-              label={labelIsi(sesi)}
               terkunci={umpan !== null}
               pilihanAwal={umpan?.pilihanId ?? null}
               sibuk={sibuk}
@@ -303,8 +302,6 @@ export function AlurSesi({ params }: { params: Promise<{ tpKode: string }> }) {
     </LayarFokus>
   );
 }
-
-const labelIsi = (sesi: ResponsSesi) => (sesi.jenis_isi === "ulang" ? "Mengulang materi" : "Materi baru");
 
 // Konfirmasi lembut sebelum keluar di tengah sesi. Berhenti tidak dihitung gagal; progres tersimpan.
 function DialogBerhenti({ onLanjut, onBerhenti, sibuk }: { onLanjut: () => void; onBerhenti: () => void; sibuk: boolean }) {
