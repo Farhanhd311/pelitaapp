@@ -136,6 +136,23 @@ describe("susunJalurMateri", () => {
     expect(j.pos.slice(k).filter((p) => p.bagian === "pos_dasar").every((p) => p.status !== "tercapai")).toBe(true);
   });
 
+  it("prasyarat belum_diketahui (tidak diuji asesmen) adalah pos opsional: tidak muncul sebelum pos play", () => {
+    // Keadaan Raka setelah asesmen "kelas terakhir": A5, A8, B6 tidak diuji.
+    const progres = progresDari({
+      A1: "tercapai", A2: "tercapai", A3: "tercapai", A4: "tercapai", A5: "belum_diketahui", A6: "tercapai", A7: "tercapai",
+      A8: "belum_diketahui", B1: "tercapai", B2: "tercapai", B3: "belum", B4: "belum", B5: "belum", B6: "belum_diketahui",
+      B7: "belum", B8: "belum",
+    });
+    const j = jalurRaka({ progres, rekomendasi_tp: "B3" });
+    const k = j.indeks_sekarang!;
+    expect(j.pos[k]).toMatchObject({ kode: "MAT-3-BIL-03", bagian: "pos_dasar" });
+    expect(j.pos.slice(0, k).every((p) => p.status === "tercapai")).toBe(true);
+    // A8 (pecahan setengah) tidak menjadi Pos Dasar; baru muncul jika direkomendasikan setelah Kelasku.
+    expect(j.pos.some((p) => p.bagian === "pos_dasar" && p.kode === "MAT-1-BIL-06")).toBe(false);
+    const nanti = jalurRaka({ progres, rekomendasi_tp: "A8" });
+    expect(nanti.pos[nanti.indeks_sekarang!]).toMatchObject({ kode: "MAT-1-BIL-06", bagian: "tambahan" });
+  });
+
   it("pos dengan 2 TP yang dihitung: satu tercapai belum tuntas", () => {
     const j = jalurRaka({
       progres: progresDari({ ...STATUS_RAKA, B3: "tercapai" }),

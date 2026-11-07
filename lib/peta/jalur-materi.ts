@@ -3,7 +3,9 @@
 // Peta TETAP seperti peta saga: semua pos tampil di tempatnya, yang tuntas bercentang, tombol play pindah
 // ke pos berikutnya setiap pos tuntas. Supaya play selalu maju, urutan mengikuti urutan rekomendasi susunPeta
 // (PANDUAN 7.3):
-//   1. Pos Dasar  = materi kelas bawah yang memuat TP prasyarat Kelasku (tp_wajib). Yang dihitung hanya TP wajibnya.
+//   1. Pos Dasar  = materi kelas bawah yang memuat TP prasyarat Kelasku (tp_wajib) yang statusnya sudah diketahui.
+//      Yang dihitung hanya TP wajibnya. Prasyarat belum_diketahui (tidak diuji asesmen) = pos opsional, sama seperti
+//      lib/bkt/peta.ts: tidak mengunci dan tidak didahulukan, jadi ikut bagian Pos tambahan.
 //   2. Kelasku    = materi kelas seharusnya yang punya TP adaptif.
 //   3. Pos tambahan = materi kelas bawah dengan TP bukan-prasyarat (opsional, dikerjakan setelah Kelasku).
 //   4. Segera hadir = materi Kelasku tanpa TP adaptif (status bacaan): belum punya soal, jadi tidak pernah bisa
@@ -63,6 +65,8 @@ export function susunJalurMateri(m: {
   const statusTp = (kode: string): StatusPeta => m.progres.get(kode)?.status ?? "belum_diketahui";
   const tercapai = (tp: string) => statusTp(tp) === "tercapai";
   const belumAtauJembatan = (tp: string) => statusTp(tp) === "belum" || statusTp(tp) === "jembatan";
+  // Prasyarat wajib Pos Dasar: prasyarat Kelasku yang statusnya sudah diketahui (bukan belum_diketahui).
+  const wajibPosDasar = (tp: string) => m.tp_wajib.has(tp) && statusTp(tp) !== "belum_diketahui";
 
   // tp = TP yang dihitung di pos ini; judul bisa gabungan beberapa materi (lihat gabungKembar).
   type Calon = { mat: MateriKelas; bagian: BagianPos; tp: string[]; judul: string };
@@ -113,7 +117,7 @@ export function susunJalurMateri(m: {
   // terakhir: tampil sebagai pos pertama ("bekal").
   const semuaPosDasar = urutkanMenurutTp(
     kelasBawah
-      .map((mat) => calon(mat, "pos_dasar", mat.tp_terkait.filter((tp) => m.tp_wajib.has(tp))))
+      .map((mat) => calon(mat, "pos_dasar", mat.tp_terkait.filter(wajibPosDasar)))
       .filter((c) => c.tp.length > 0),
   );
   const tampilDiPosDasar = (c: Calon) => !tuntas(c) || dilatih(c) || memuatRekomendasi(c);
@@ -133,7 +137,7 @@ export function susunJalurMateri(m: {
   // Pos tambahan mengikuti aturan file data (TP belum/jembatan), ditambah materi yang direkomendasikan atau pernah dilatih.
   const tambahan = urutkanMenurutTp(
     kelasBawah
-      .map((mat) => calon(mat, "tambahan", mat.tp_terkait.filter((tp) => !m.tp_wajib.has(tp))))
+      .map((mat) => calon(mat, "tambahan", mat.tp_terkait.filter((tp) => !wajibPosDasar(tp))))
       .filter((c) => c.tp.length > 0 && (memuatRekomendasi(c) || dilatih(c) || c.tp.some(belumAtauJembatan))),
   );
 
