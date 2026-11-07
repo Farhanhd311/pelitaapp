@@ -12,6 +12,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "seed": "node --env-file=.env --experimental-strip-types scripts/seed.mts",
+    "migrasi": "node --env-file=.env --experimental-strip-types scripts/migrasi.mts",
     "impor-kurikulum": "node --env-file=.env --experimental-strip-types scripts/seed.mts --impor-kurikulum",
     "ekspor-kurikulum": "node --env-file=.env --experimental-strip-types scripts/ekspor-kurikulum.mts",
     "reset-demo": "node --env-file=.env --experimental-strip-types scripts/reset-demo.mts"

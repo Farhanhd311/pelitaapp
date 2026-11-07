@@ -18,7 +18,7 @@ export function kataDihindariDalam(teks: string): string[] {
   return KATA_DIHINDARI.filter((k) => kata.includes(` ${normalisasiTeks(k)} `));
 }
 
-function adaKataSalah(teks: string): boolean {
+export function adaKataSalah(teks: string): boolean {
   return ` ${normalisasiTeks(teks)} `.includes(" salah ");
 }
 
@@ -104,16 +104,20 @@ export function periksaSoalAI(
     if (angkaKunci !== hasilHitung) galat.push(`kunci tidak cocok dengan perhitungan program (${hasilHitung})`);
   }
 
-  const kalimatPanjang = soal.pertanyaan
+  const kalimatPanjang = [soal.pertanyaan, soal.bacaan ?? ""]
+    .join(". ")
     .split(/[.!?]+/)
     .some((k) => k.trim().split(/\s+/).filter(Boolean).length > atur.maks_kata_per_kalimat);
   if (kalimatPanjang) galat.push(`ada kalimat lebih dari ${atur.maks_kata_per_kalimat} kata`);
 
-  const semuaTeks = [soal.pertanyaan, soal.pembahasan, ...pilihan.map((p) => p.teks)].join(" ");
+  const semuaTeks = [soal.bacaan ?? "", soal.pertanyaan, soal.pembahasan, ...pilihan.map((p) => p.teks)].join(" ");
   const dihindari = kataDihindariDalam(semuaTeks);
   if (dihindari.length > 0) galat.push(`memakai kata yang dihindari: ${dihindari.join(", ")}`);
+  if (adaKataSalah(semuaTeks)) galat.push('memakai kata "salah"');
 
-  const mirip = atur.soal_ada.find((lain) => kemiripan(lain, soal.pertanyaan) >= atur.ambang_kemiripan);
+  // Soal berbacaan dibandingkan bersama bacaannya (pertanyaan "Siapa tokohnya?" boleh sama jika bacaannya beda).
+  const teksSoal = [soal.bacaan ?? "", soal.pertanyaan].join(" ").trim();
+  const mirip = atur.soal_ada.find((lain) => kemiripan(lain, teksSoal) >= atur.ambang_kemiripan);
   if (mirip !== undefined) galat.push("terlalu mirip dengan soal yang sudah ada");
 
   return { galat, kunci_dicek_program: kunciDicek };

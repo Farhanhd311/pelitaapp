@@ -1,6 +1,7 @@
 // Pembungkus LLM satu pintu: panggilLLM() (PANDUAN 8, ARSITEKTUR 4.3). SEMUA fitur AI lewat sini.
 //   1. Hanya di server. API key dari environment variable, tidak pernah ke browser.
-//   2. Batas waktu dari PENGATURAN_SISTEM llm.batas_waktu_detik; sakelar demo.pakai_cadangan dihormati.
+//   2. Batas waktu dari PENGATURAN_SISTEM llm.batas_waktu_detik (atau batas_detik dari pemanggil, juga dari
+//      PENGATURAN_SISTEM, untuk tugas panjang seperti membaca PDF); sakelar demo.pakai_cadangan dihormati.
 //   3. Keluaran JSON lewat structured outputs Claude + skema Zod, lalu diperiksa program (`periksa`).
 //   4. Gagal / timeout / ditolak / tidak valid -> jawaban cadangan.
 //   5. Setiap panggilan dicatat di LOG_AI (termasuk yang memakai cadangan).
@@ -12,7 +13,7 @@ import type { z } from "zod";
 import { catatLogAI } from "@/lib/log";
 import { ambilPengaturanAktif } from "@/lib/pengaturan";
 
-type Fitur = "tutor" | "laporan" | "generator_soal";
+type Fitur = "tutor" | "laporan" | "generator_soal" | "impor_tp";
 
 export type OpsiLLM<S extends z.ZodType> = {
   fitur: Fitur;
@@ -21,6 +22,8 @@ export type OpsiLLM<S extends z.ZodType> = {
   versi_prompt: string;
   system: string;
   pesan: string;
+  pdf_base64?: string; // lampiran PDF (dibaca langsung oleh model), dikirim sebelum teks pesan
+  batas_detik?: number; // menggantikan llm.batas_waktu_detik; pemanggil membacanya dari PENGATURAN_SISTEM
   skema: S;
   max_tokens: number;
   periksa?: (hasil: z.infer<S>) => string | null; // null = lolos
@@ -59,7 +62,13 @@ function layakCobaKeyLain(galat: unknown): boolean {
 export async function panggilLLM<S extends z.ZodType>(opsi: OpsiLLM<S>): Promise<HasilLLM<z.infer<S>>> {
   const mulai = Date.now();
   const atur = await ambilPengaturanAktif();
-  const batasMs = Number(atur["llm.batas_waktu_detik"]) * 1000;
+  const batasMs = (opsi.batas_detik ?? Number(atur["llm.batas_waktu_detik"])) * 1000;
+  const isi: Anthropic.ContentBlockParam[] | string = opsi.pdf_base64
+    ? [
+        { type: "document", source: { type: "base64", media_type: "application/pdf", data: opsi.pdf_base64 } },
+        { type: "text", text: opsi.pesan },
+      ]
+    : opsi.pesan;
 
   let hasil: z.infer<S> | null = null;
   let alasan: string | null = null;
@@ -81,7 +90,7 @@ export async function panggilLLM<S extends z.ZodType>(opsi: OpsiLLM<S>): Promise
         model: k.model,
         max_tokens: opsi.max_tokens,
         system: opsi.system,
-        messages: [{ role: "user", content: opsi.pesan }],
+        messages: [{ role: "user", content: isi }],
         output_config: { effort: "low", format: zodOutputFormat(opsi.skema) },
       });
 

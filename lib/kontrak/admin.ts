@@ -2,7 +2,7 @@
 //   GET  /api/admin/pengaturan[?kunci=...]  -> semua pengaturan aktif + rentang aman [+ riwayat versi satu kunci]
 //   POST /api/admin/pengaturan              -> ubah (dengan alasan) / kembalikan ke versi sebelumnya
 //   GET  /api/admin/soal?tp_kode=&penggunaan=&tingkat_kesulitan=&sumber=&status= -> bank soal + statistik
-//   POST /api/admin/soal                    -> terbitkan / sunting lalu terbitkan / tolak dengan alasan
+//   POST /api/admin/soal                    -> hapus soal yang tidak relevan / buat soal AI sekarang
 //   GET  /api/admin/evaluasi                -> metrik Evaluasi AI (+ hasil simulasi berlabel)
 //   GET  /api/admin/log-aktivitas?user_id=&jenis=&dari=&sampai=[&format=csv] -> log + ekspor CSV
 //   GET  /api/admin/eskalasi                -> antrean rujukan & eskalasi
@@ -16,6 +16,7 @@ import { z } from "zod";
 export type ItemPengaturan = {
   kunci: string;
   label: string | null; // null = tidak bisa diubah lewat admin
+  keterangan: string | null; // arti pengaturan, untuk admin
   nilai: unknown;
   versi: number;
   alasan: string | null;
@@ -59,19 +60,24 @@ export type ItemSoalAdmin = {
   pilihan: { pilihan_id: number; teks: string; benar: boolean; miskonsepsi: string | null }[]; // admin boleh melihat kunci
   statistik: { kali_dijawab: number; persen_benar: number | null; pengecoh_terbanyak: string | null };
 };
-export type ResponsSoal = { soal: ItemSoalAdmin[] };
+export type TpAdmin = { kode: string; mapel: string; kelas: number; deskripsi: string };
 
-const DataSuntingSoal = z.object({
-  pertanyaan: z.string().min(1),
-  visual: z.string().nullable(),
-  pembahasan: z.string().min(1),
-  pilihan: z.array(z.object({ teks: z.string().min(1), benar: z.boolean(), miskonsepsi: z.string().nullable() })).length(4),
-});
+// Generator soal otomatis (lib/ai/generator-soal.ts): kapan terakhir dan berikutnya berjalan.
+export type StatusGeneratorSoal = { terakhir: string | null; berikutnya: string | null; interval_hari: number };
+export type RingkasanGeneratorSoal = { alasan: string; jumlah_tp: number; terbit: number; gagal: number; dilewati: string | null };
 
+export type ResponsSoal = {
+  soal: ItemSoalAdmin[]; // hanya soal berstatus terbit (yang dipakai anak)
+  daftar_tp: TpAdmin[];
+  generator: StatusGeneratorSoal;
+  hasil_generator?: RingkasanGeneratorSoal; // terisi setelah aksi buat_sekarang
+};
+
+// Tidak ada lagi antrean tinjauan (keputusan tim): soal AI terbit otomatis jika lolos pemeriksaan.
+// Admin bisa menghapus soal yang tidak relevan, dan menjalankan generator sekarang (tanpa menunggu jadwal).
 export const PermintaanSoal = z.discriminatedUnion("aksi", [
-  z.object({ aksi: z.literal("terbitkan"), soal_id: z.string() }),
-  z.object({ aksi: z.literal("sunting_terbitkan"), soal_id: z.string(), data: DataSuntingSoal }),
-  z.object({ aksi: z.literal("tolak"), soal_id: z.string(), alasan: z.string().trim().min(3) }),
+  z.object({ aksi: z.literal("hapus"), soal_id: z.string(), alasan: z.string().trim().min(3).max(300) }),
+  z.object({ aksi: z.literal("buat_sekarang") }),
 ]);
 export type PermintaanSoal = z.infer<typeof PermintaanSoal>;
 

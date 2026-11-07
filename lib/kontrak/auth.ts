@@ -57,6 +57,34 @@ export const ResponsPin = z.object({
 export type ModeSesi = z.infer<typeof ModeSesi>;
 export type Hubungan = z.infer<typeof Hubungan>;
 export type PermintaanLogin = z.infer<typeof PermintaanLogin>;
+
+// ---------- Pendaftaran (POST /api/auth/daftar) ----------
+// Hanya orang tua/wali (keputusan tim; guru pendamping butuh verifikasi admin, PANDUAN 12).
+// PIN pendamping DIBUAT SISTEM dan dikirim ke WhatsApp. Fase pengobatan awal "pemeliharaan" (diubah di dashboard).
+// Kelas terakhir tidak ditanya di sini: diambil dari pilihan kelas saat asesmen pertama.
+export const PermintaanDaftar = z.object({
+  nama: z.string().trim().min(2, "Nama minimal 2 huruf").max(100),
+  email: z.string().trim().toLowerCase().email("Format email belum benar"),
+  no_wa: z.string().trim().min(8, "Nomor WhatsApp belum benar").max(20),
+  password: z.string().min(8, "Password minimal 8 karakter").max(72), // bcrypt membaca maksimal 72 byte
+  hubungan: z.enum(["orang_tua", "wali"]),
+  anak: z.object({
+    nama_panggilan: z.string().trim().min(1, "Nama panggilan wajib diisi").max(50),
+    tgl_lahir: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Tanggal lahir belum benar"),
+    kelas_seharusnya: z.number().int().min(1).max(6),
+    asal_sekolah: z.string().trim().max(150).optional(),
+    tgl_berhenti_sekolah: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  }),
+  setuju_data: z.literal(true, { message: "Persetujuan data wajib dicentang" }),
+});
+export type PermintaanDaftar = z.infer<typeof PermintaanDaftar>;
+
+export type ResponsDaftar = {
+  nama: string;
+  no_wa_tersamar: string; // misalnya 0812•••••890
+  pin_terkirim_wa: boolean;
+  pin: string | null; // HANYA terisi jika WhatsApp gagal terkirim, supaya akun tetap bisa dipakai (tampil sekali)
+};
 export type ResponsLogin = z.infer<typeof ResponsLogin>;
 export type ProfilAnak = z.infer<typeof ProfilAnak>;
 export type ResponsProfil = z.infer<typeof ResponsProfil>;

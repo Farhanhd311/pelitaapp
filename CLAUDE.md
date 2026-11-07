@@ -13,8 +13,9 @@ Pedoman lengkap ada di file berikut. Baca seluruhnya sebelum menulis kode, dan i
 - Logika BKT, penelusuran prasyarat, aturan level sesi, dan deteksi krisis ditulis sebagai **fungsi murni** di `/lib`, dengan tes unit (Vitest). Kasus uji ada di `data/tes_kasus_bkt.json`.
 - **Jangan menulis angka ambang, durasi, kata kunci, `mapel_id`, atau kode TP langsung di kode.** Baca dari `PENGATURAN_SISTEM` dan dari data.
 - LLM hanya dipanggil dari server, keluarannya JSON yang divalidasi, selalu ada cadangan, dan dicatat di `LOG_AI`. LLM tidak pernah mengambil keputusan sistem.
-- Soal untuk anak selalu dari bank soal berstatus `terbit`. Acak urutan pilihan saat ditampilkan.
+- Soal untuk anak selalu dari bank soal berstatus `terbit`. Acak urutan pilihan saat ditampilkan. Soal AI terbit otomatis HANYA jika lolos pemeriksaan otomatis (keputusan tim, PANDUAN 8.5; `lib/ai/generator-soal.ts`).
 - **Database MySQL 8 (`utf8mb4`), bukan Supabase/Postgres.** Login buatan sendiri (`bcryptjs` + `iron-session`). Hak akses dicek di setiap API route lewat `lib/db/rbac.ts`, karena MySQL tidak punya Row Level Security. Selalu pakai query berparameter. Anak bukan akun.
+- **Perubahan skema lewat migrasi**: file baru `lib/db/migrasi/NNNN_keterangan.sql`, lalu `npm run migrasi`. Jangan seed ulang database yang berisi data, dan jangan ubah file migrasi yang sudah dijalankan.
 - **Hosting di Google Cloud Platform** (Cloud Run + Cloud SQL for MySQL 8, region `asia-southeast2`), bukan Vercel. Langkah deploy: `docs/ARSITEKTUR_TEKNIS.md` bagian 7.3.
 - Skill desain di `.claude/skills/` (misalnya UI/UX Pro Max) **hanya referensi**. Jika bertentangan, PANDUAN yang berlaku: palet dan larangan UI di bagian 13, teknologi di bagian 11. Jangan menambah pustaka dari saran skill (misalnya GSAP atau Chart.js; animasi pakai `motion`, grafik pakai Recharts).
 - Semua teks antarmuka dalam Bahasa Indonesia. Ikuti prinsip UI di PANDUAN bagian 13 (tanpa tanda X merah, tanpa kata "Salah", tanpa timer hitung mundur).
@@ -27,8 +28,8 @@ Pedoman lengkap ada di file berikut. Baca seluruhnya sebelum menulis kode, dan i
 | `data/data_awal_matematika_fase_A_B.json` | 16 TP, 19 prasyarat, 64 soal diagnostik, parameter BKT awal. **Dipakai di MVP** |
 | `data/data_awal_bahasa_indonesia_fase_A_B.json` | 12 TP, 13 prasyarat, 48 soal (ada kolom `bacaan`). Dipakai untuk asesmen dan sesi belajar (keputusan tim, PANDUAN bagian 5) |
 | `data/data_awal_ipas_kelas_4.json`, `data/data_awal_pendidikan_pancasila_kelas_4.json` | Mapel pustaka kelas 4 (tanpa asesmen), draf ditulis dengan bantuan AI, wajib ditinjau guru |
-| `data/narasi_materi_*.json` | Kartu belajar bercerita per TP (draf, ditinjau guru) |
-| `data/data_materi_per_kelas_SD.json` | Materi per kelas 4 mapel untuk peta Beranda (`tp_terkait` = TP yang dipakai sesi) |
+| `data/narasi_materi_*.json` | Kartu belajar bercerita per TP (draf, ditinjau guru). **Data awal** tabel `narasi_materi`; aplikasi membaca dari database |
+| `data/data_materi_per_kelas_SD.json` | Materi per kelas 4 mapel untuk peta Beranda (`tp_terkait` = TP yang dipakai sesi). **Data awal** tabel `materi`; aplikasi membaca dari database |
 | `data/tes_kasus_bkt.json` | Kasus uji untuk `/lib/bkt` |
 | `data/hasil_uji_asesmen.json` | Hasil uji siswa virtual untuk halaman Evaluasi AI (berlabel "hasil simulasi") |
 

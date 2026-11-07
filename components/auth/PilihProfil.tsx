@@ -94,7 +94,7 @@ export function PilihProfil() {
   useEffect(() => {
     panggilApi<ResponsProfil>("/api/auth/profil")
       .then((p) =>
-        p.role === "admin" ? router.replace("/admin/aturan-ai") : setProfil(p),
+        p.role === "admin" ? router.replace("/admin") : setProfil(p),
       )
       .catch((e) =>
         e instanceof GalatKlien && e.kode === "BELUM_LOGIN"

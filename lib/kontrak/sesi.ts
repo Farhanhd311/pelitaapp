@@ -8,6 +8,7 @@
 // Status di respons memberi tahu UI layar apa yang ditampilkan.
 
 import { z } from "zod";
+import type { Narasi } from "./materi";
 import type { LevelSesi, SoalTampil } from "./umum";
 
 export const PilihanMasihKuat = z.enum(["masih_kuat", "agak_capek", "istirahat", "pusing"]);
@@ -64,6 +65,7 @@ export type ResponsSesi = {
   durasi_menit: number;
   tp: { tp_kode: string; deskripsi: string } | null;
   kartu_belajar: Konten | null; // terisi saat status kartu_belajar (null jika konten belum disiapkan tim)
+  narasi: Narasi | null; // cerita kartu belajar dari tabel narasi_materi (status kartu_belajar); null -> kartu cadangan
   konten: Konten[]; // konten santai / ulang yang bisa diputar
   soal: SoalTampil | null;
   nomor_soal: number; // soal ke berapa di sesi ini (mulai 1)

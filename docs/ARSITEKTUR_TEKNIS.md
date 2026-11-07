@@ -278,6 +278,13 @@ LLM_MODEL="(isi nama model terbaru dari dokumentasi penyedia)"
 BACKUP_LLM_API_KEY="..."
 BACKUP_LLM_MODEL="..."
 
+# Token gateway WhatsApp Fonnte (lib/wa/kirim.ts) untuk mengirim PIN pendamping saat daftar. HANYA di server.
+# Jika kosong atau gagal, halaman daftar menampilkan PIN sekali di layar.
+FONNTE_TOKEN="..."
+
+# Rahasia penjadwal soal mingguan (GET /api/cron/soal-mingguan)
+CRON_SECRET="..."
+
 # Mode cadangan demo TIDAK disimpan di .env (mengubah env di Cloud Run membuat revisi baru).
 # Simpan sebagai pengaturan `demo.pakai_cadangan` (true/false) di PENGATURAN_SISTEM,
 # supaya bisa dinyalakan dari halaman Aturan AI dalam hitungan detik saat sinyal panggung buruk.
@@ -337,6 +344,8 @@ curl https://URL-CLOUD-RUN/api/health
 cloud-sql-proxy --port 3308 PROJECT_ID:asia-southeast2:pelita-mysql
 # Terminal 2: variabel yang di-set di terminal mengalahkan nilai di .env
 DATABASE_URL="mysql://pelita_app:PASSWORD_KUAT@127.0.0.1:3308/pelita" npm run seed
+# Database yang SUDAH berisi data: jangan seed ulang. Perbarui skema dengan migrasi, lalu Reset demo di admin:
+DATABASE_URL="mysql://pelita_app:PASSWORD_KUAT@127.0.0.1:3308/pelita" npm run migrasi
 ```
 > **Perhatian:** lewat proxy, host database terlihat `127.0.0.1`, jadi pengaman "bukan database lokal" di skrip seed tidak aktif. Seed **menghapus semua data**; jalankan hanya saat memang ingin mengembalikan Cloud SQL ke kondisi awal.
 
@@ -346,6 +355,15 @@ Catatan:
 - Cloud SQL ditagih per jam walau tidak dipakai. Setelah lomba: `gcloud sql instances patch pelita-mysql --activation-policy=NEVER` (mematikan) atau hapus instance.
 
 ---
+
+#### Penjadwal soal mingguan (Cloud Scheduler)
+Generator soal AI (`lib/ai/generator-soal.ts`) dipanggil penjadwal lewat `GET /api/cron/soal-mingguan`. Isi `CRON_SECRET` (teks acak panjang) di environment Cloud Run, lalu buat job yang memanggil endpoint itu setiap hari; generator sendiri hanya berjalan jika sudah lewat `generator_soal.interval_hari` (7) hari.
+
+```bash
+gcloud scheduler jobs create http pelita-soal-mingguan --location=asia-southeast2   --schedule="0 2 * * *" --time-zone="Asia/Jakarta"   --uri="https://URL-CLOUD-RUN/api/cron/soal-mingguan" --http-method=GET   --headers="Authorization=Bearer CRON_SECRET_YANG_SAMA"
+```
+
+Di laptop tidak ada penjadwal: pakai tombol **Buat soal sekarang** di admin Bank Soal.
 
 ## 8. Catatan Tambahan Penting
 

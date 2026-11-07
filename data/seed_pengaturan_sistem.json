@@ -31,6 +31,10 @@
     "rujukan.hari_tindak_lanjut": 7,
     "generator_soal.maks_kata_per_kalimat": 20,
     "generator_soal.ambang_kemiripan": 0.8,
+    "generator_soal.interval_hari": 7,
+    "generator_soal.soal_per_tp": 1,
+    "impor_tp.batas_waktu_detik": 120,
+    "impor_tp.maks_mb": 20,
     "sesi.ambang_kartu_belajar": 0.4
   },
   "catatan_kunci_tambahan": {
@@ -39,6 +43,8 @@
     "rujukan.kode_kebutuhan": "Chip 'kebutuhan' di Teman Cerita -> level di rujukan.aturan_level. Level 3 tidak dipilih anak: ditentukan dari distres berulang (cuaca hati turun sesi.hari_mood_turun_pemicu_chatbot hari berturut-turut).",
     "rujukan.hari_tindak_lanjut": "PANDUAN 8.2 langkah 6: tindak lanjut seminggu kemudian.",
     "sesi.ambang_kartu_belajar": "PANDUAN 7.2: TP baru atau p_menguasai < 0,40 -> tampilkan kartu belajar dulu, baru kuis.",
+    "generator_soal.interval_hari": "Keputusan tim: soal latihan baru dibuat AI otomatis untuk semua TP semua mapel setiap 7 hari (lib/ai/generator-soal.ts), dan langsung terbit jika lolos pemeriksaan otomatis.",
+    "generator_soal.soal_per_tp": "Banyaknya soal baru per TP setiap putaran generator.",
     "generator_soal.*": "PANDUAN 8.5: bahasa sesuai usia (kalimat pendek) dan tidak mirip berlebihan dengan soal yang ada (kemiripan kata 0-1)."
   },
   "catatan_belum_diisi": {
