@@ -6,7 +6,7 @@
 
 import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
-import { cn } from "cn";
+import { cn } from "@/lib/utils";
 import { MascotPijar, type EkspresiPijar } from "@/components/anak/MascotPijar";
 import type { PilihanMasihKuat } from "@/lib/kontrak/sesi";
 

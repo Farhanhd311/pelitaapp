@@ -6,9 +6,6 @@ import {
   Sliders,
   CheckCircle2,
   FileText,
-  Sun,
-  Compass,
-  BookOpen,
 } from "lucide-react";
 import { MascotPijar } from "@/components/anak/MascotPijar";
 import {
@@ -19,6 +16,8 @@ import {
   ScrollProgressBar,
   HeroLangitParallax,
   DekorasiLangitCerah,
+  HeroEditorialBawah,
+  TombolKembaliKeAtas,
   RoadmapAlurBelajar,
   ShowcaseBelajarAnak,
   AccordionFaq,
@@ -28,37 +27,52 @@ export default function Beranda() {
   return (
     <div className="min-h-dvh w-full flex flex-col bg-[#FCEBD4] text-teks font-sans selection:bg-emas/40 selection:text-teks overflow-x-hidden">
       <ScrollProgressBar />
+      <TombolKembaliKeAtas />
 
       {/* =====================================================================
-          SECTION 1: FULL-VIEWPORT HERO (Menyatu Tanpa Garis ke Section Bawah)
+          SECTION 1: FULL-VIEWPORT HERO (Tanpa Header, Tanpa Angka Kanan, Tanpa URL Anchor)
       ===================================================================== */}
-      <section className="relative min-h-dvh w-full flex flex-col justify-between bg-[linear-gradient(to_bottom,#F7D7AD_0%,#F9DFBA_52%,#FCEBD4_85%,#FCEBD4_100%)] pt-10 sm:pt-14 pb-10 sm:pb-14">
+      <section className="relative min-h-dvh w-full flex flex-col justify-between pt-10 sm:pt-14 pb-10 sm:pb-14">
         <HeroLangitParallax />
 
-        {/* Konten Utama Hero */}
-        <div className="relative z-10 flex-1 flex items-center mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center w-full">
-            {/* Kolom Kiri Hero */}
-            <RevealSection className="lg:col-span-6 space-y-6">
-              <span className="inline-flex items-center rounded-full bg-emas px-4 py-1.5 text-xs font-extrabold uppercase tracking-wider text-teks shadow-2xs">
-                Pendidikan Adaptif Anak
-              </span>
+        {/* AREA TENGAH HERO: MASKOT BESAR JAUH DI TEPI KIRI & KANAN, TULISAN TENGAH LEGA TANPA TERHIMPIT */}
+        <div className="relative z-10 flex-1 flex items-center justify-center mx-auto w-full max-w-[1720px] px-4 sm:px-8 lg:px-12 xl:px-16 py-8 sm:py-12">
+          <RevealSection className="relative w-full flex items-center justify-center text-center">
+            {/* Maskot Kiri Jauh di Tepi Kiri Layar */}
+            <div className="hidden lg:flex pointer-events-none absolute left-0 xl:left-4 2xl:left-8 top-1/2 -translate-y-1/2 items-center justify-center">
+              <MascotPijar
+                ekspresi="sambut"
+                gerak="idle"
+                ukuran={220}
+                className="scale-90 xl:scale-100 drop-shadow-[0_18px_34px_rgba(234,123,48,0.24)]"
+              />
+            </div>
 
-              <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-[64px] font-extrabold tracking-tight leading-[1.08]">
-                <span className="block text-teks">Cahaya belajar,</span>
-                <span className="block text-[#EA7B30] mt-1.5">
-                  tetap menyala.
+            {/* Blok Tulisan Tengah Hero Section (Bebas Penuh di Tengah Tanpa Terhimpit) */}
+            <div className="relative z-10 mx-auto max-w-4xl flex flex-col items-center text-center space-y-5 sm:space-y-6 px-2">
+              {/* Baris Maskot Ringkas untuk Layar Mobile/Tablet (<1024px) */}
+              <div className="flex lg:hidden items-center justify-center gap-6">
+                <MascotPijar ekspresi="sambut" gerak="idle" ukuran={88} />
+                <MascotPijar ekspresi="semangat" gerak="idle" ukuran={88} />
+              </div>
+
+              <h1 className="font-heading text-4xl sm:text-6xl md:text-7xl lg:text-[72px] xl:text-[80px] font-extrabold uppercase tracking-tight leading-[1.03]">
+                <span className="block text-teks sm:whitespace-nowrap">
+                  CAHAYA BELAJAR,
+                </span>
+                <span className="block bg-gradient-to-r from-[#EA7B30] via-[#D85C2A] to-[#BF4338] bg-clip-text text-transparent mt-1 sm:whitespace-nowrap">
+                  TETAP MENYALA.
                 </span>
               </h1>
 
-              <p className="text-base sm:text-lg text-teks-2 leading-relaxed max-w-2xl font-medium">
-                Ruang belajar yang hangat untuk anak usia sekolah dasar yang
-                sedang menjalani pengobatan jangka panjang. Cara dan durasi
-                belajar menyesuaikan tenaga anak setiap hari, sambil menjaga
-                hubungannya dengan sekolah asal.
+              {/* Paragraf Pengantar Singkat & Terpusat */}
+              <p className="mx-auto max-w-xl text-sm sm:text-base md:text-lg text-teks-2 leading-relaxed font-medium">
+                Ruang belajar ramah untuk anak SD dalam masa pemulihan yang
+                menyesuaikan tenaga harian dan terhubung ke sekolah asal.
               </p>
 
-              <div className="flex flex-wrap items-center gap-3.5 pt-1">
+              {/* Tombol Aksi Utama Terpusat */}
+              <div className="flex flex-wrap items-center justify-center gap-3.5 pt-1">
                 <Link
                   href="/login"
                   className="inline-flex items-center gap-2 rounded-[14px] bg-emas px-6 py-3.5 text-sm font-extrabold text-teks hover:bg-[#D89B3E] transition-colors shadow-2xs"
@@ -66,154 +80,24 @@ export default function Beranda() {
                   <span>Mulai Bersama PELITA</span>
                   <ArrowRight className="h-4 w-4" />
                 </Link>
-                <a
-                  href="#cara-kerja"
-                  className="inline-flex items-center gap-2 rounded-[14px] border border-[#DFB074] bg-[#FFFDF9]/90 px-6 py-3.5 text-sm font-bold text-teks hover:bg-[#FCECD7] transition-colors shadow-2xs"
-                >
-                  <span>Lihat Alur Belajar</span>
-                </a>
               </div>
+            </div>
 
-              {/* Penjelasan Tanpa Simbol Bintang atau Titik */}
-              <div className="flex flex-wrap items-center gap-2 pt-1">
-                <span className="rounded-full bg-[#FFFDF9]/90 border border-[#E2B378] px-3.5 py-1 text-xs font-bold text-teks-2 shadow-2xs">
-                  Mengikuti ritme pemulihan anak
-                </span>
-                <span className="rounded-full bg-[#FFFDF9]/90 border border-[#E2B378] px-3.5 py-1 text-xs font-bold text-teks-2 shadow-2xs">
-                  Selaras dengan Kurikulum Merdeka
-                </span>
-              </div>
-            </RevealSection>
-
-            {/* Kolom Kanan Hero: Kartu Ringkasan Hangat + Pijar */}
-            <RevealSection delay={0.12} className="lg:col-span-6 relative">
-              <BintangKilau
-                varian={2}
-                ukuran={42}
-                delay={0.2}
-                className="absolute -top-5 -right-4 hidden sm:block z-20"
+            {/* Maskot Kanan Jauh di Tepi Kanan Layar */}
+            <div className="hidden lg:flex pointer-events-none absolute right-0 xl:right-4 2xl:right-8 top-1/2 -translate-y-1/2 items-center justify-center">
+              <MascotPijar
+                ekspresi="semangat"
+                gerak="idle"
+                ukuran={220}
+                className="scale-90 xl:scale-100 drop-shadow-[0_18px_34px_rgba(234,123,48,0.24)]"
               />
-              <BintangKilau
-                varian={3}
-                ukuran={34}
-                delay={1.1}
-                className="absolute -bottom-4 -left-4 hidden sm:block z-20"
-              />
-              <HoverCard className="relative rounded-[28px] bg-[#FFFDF9]/95 backdrop-blur-xs p-6 sm:p-9 border-2 border-[#E5B97F] shadow-[0_22px_50px_rgba(74,21,32,0.10)]">
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                  <div>
-                    <span className="inline-flex items-center rounded-full bg-emas px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-teks">
-                      Pendampingan Harian
-                    </span>
-                    <h2 className="mt-3.5 font-heading text-xl sm:text-2xl lg:text-[26px] font-extrabold text-teks leading-snug">
-                      PELITA membantu anak menemukan langkah belajar yang ramah
-                      hari itu.
-                    </h2>
-                  </div>
-                  <MascotPijar
-                    ekspresi="sambut"
-                    gerak="idle"
-                    ukuran={96}
-                    className="shrink-0"
-                  />
-                </div>
-
-                <p className="mt-3.5 text-sm text-teks-2 leading-relaxed font-medium">
-                  Saat energi sedang turun atau mata lelah sehabis berobat, anak
-                  tetap dapat mendengarkan cerita pendek yang menenangkan tanpa
-                  tekanan tugas yang menumpuk.
-                </p>
-
-                <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <div className="rounded-[14px] bg-[#FCECD7] p-3.5 text-xs font-bold text-teks border border-[#E5B97F]/60">
-                    Menyesuaikan tenaga dan kenyamanan harian anak
-                  </div>
-                  <div className="rounded-[14px] bg-[#FCECD7] p-3.5 text-xs font-bold text-teks border border-[#E5B97F]/60">
-                    Mulai dari materi dasar yang paling dibutuhkan
-                  </div>
-                  <div className="rounded-[14px] bg-[#FCECD7] p-3.5 text-xs font-bold text-teks border border-[#E5B97F]/60">
-                    Merangkum kemajuan belajar untuk wali kelas
-                  </div>
-                </div>
-              </HoverCard>
-            </RevealSection>
-          </div>
+            </div>
+          </RevealSection>
         </div>
 
-        {/* DOCK 3 PILAR KEUNGGULAN DI BAWAH HERO (Kartu Melayang Elegan Tanpa Garis Pembatas Kaku) */}
-        <RevealSection
-          delay={0.18}
-          className="relative z-20 mt-10 sm:mt-12 mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44"
-        >
-          <div className="relative rounded-[26px] bg-[#FFFDF9]/82 backdrop-blur-md p-3 sm:p-4 shadow-[0_18px_48px_rgba(74,21,32,0.08)] border border-[#E5B97F]/65">
-            <BintangKilau
-              varian={2}
-              ukuran={30}
-              delay={0.4}
-              className="hidden md:block absolute -top-4 left-8"
-            />
-            <BintangKilau
-              varian={3}
-              ukuran={26}
-              delay={1.2}
-              className="hidden md:block absolute -top-3.5 right-10"
-            />
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-              {[
-                {
-                  no: "01",
-                  judul: "Menyesuaikan kondisi kesehatan harian",
-                  sub: "Durasi dan bentuk materi mengikuti tenaga anak setiap hari",
-                  ikon: Sun,
-                  aksen: "#EA7B30",
-                },
-                {
-                  no: "02",
-                  judul: "Menemukan titik mulai belajar tanpa beban",
-                  sub: "Memperkuat materi dasar secara bertahap dan menenangkan",
-                  ikon: Compass,
-                  aksen: "#D96B27",
-                },
-                {
-                  no: "03",
-                  judul: "Jembatan kemajuan kembali ke sekolah asal",
-                  sub: "Rangkuman belajar selaras Kurikulum Merdeka untuk wali kelas",
-                  ikon: BookOpen,
-                  aksen: "#BF4338",
-                },
-              ].map((pilar) => {
-                const Ikon = pilar.ikon;
-                return (
-                  <HoverCard
-                    key={pilar.no}
-                    className="group relative flex items-start gap-3.5 rounded-[20px] bg-gradient-to-br from-[#FCECD7]/90 to-[#F9DFBE]/75 p-4 sm:p-5 border border-[#E5B97F]/60 shadow-2xs"
-                  >
-                    <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FFFDF9] border border-[#E2B378] shadow-2xs">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-emas text-teks">
-                        <Ikon className="h-4 w-4 text-teks" />
-                      </span>
-                      <span
-                        className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-extrabold text-white"
-                        style={{ backgroundColor: pilar.aksen }}
-                      >
-                        {pilar.no}
-                      </span>
-                    </div>
-
-                    <div className="min-w-0 flex-1">
-                      <div className="font-heading text-xs sm:text-sm font-extrabold text-teks leading-snug">
-                        {pilar.judul}
-                      </div>
-                      <p className="mt-1 text-[11px] sm:text-xs text-teks-2 leading-relaxed font-medium">
-                        {pilar.sub}
-                      </p>
-                    </div>
-                  </HoverCard>
-                );
-              })}
-            </div>
-          </div>
+        {/* BARIS BAWAH HERO: 3 KOLOM EDITORIAL TERBUKA + GARIS PROGRES HORIZONTAL */}
+        <RevealSection delay={0.14}>
+          <HeroEditorialBawah />
         </RevealSection>
       </section>
 
@@ -269,13 +153,13 @@ export default function Beranda() {
                 varian={2}
                 ukuran={34}
                 delay={0.3}
-                className="absolute -top-3 left-4 hidden sm:block"
+                className="absolute -top-3 left-2 sm:left-4 scale-75 sm:scale-100"
               />
               <BintangKilau
                 varian={3}
                 ukuran={28}
                 delay={1.2}
-                className="absolute top-6 right-4 hidden sm:block"
+                className="absolute top-6 right-2 sm:right-4 scale-75 sm:scale-100"
               />
               <span className="inline-block text-xs font-extrabold uppercase tracking-widest text-teks-2">
                 BELAJAR ADAPTIF KONDISI HARIAN
@@ -349,13 +233,13 @@ export default function Beranda() {
                 varian={1}
                 ukuran={32}
                 delay={0.2}
-                className="absolute -top-3 left-6 hidden sm:block"
+                className="absolute -top-3 left-2 sm:left-6 scale-75 sm:scale-100"
               />
               <BintangKilau
                 varian={3}
                 ukuran={28}
                 delay={1.0}
-                className="absolute top-4 right-6 hidden sm:block"
+                className="absolute top-4 right-2 sm:right-6 scale-75 sm:scale-100"
               />
               <span className="inline-block text-xs font-extrabold uppercase tracking-widest text-teks-2">
                 ALUR BELAJAR HARIAN
@@ -388,13 +272,13 @@ export default function Beranda() {
                 varian={2}
                 ukuran={34}
                 delay={0.4}
-                className="absolute -top-2 left-2 hidden sm:block"
+                className="absolute -top-2 left-2 scale-75 sm:scale-100"
               />
               <BintangKilau
                 varian={4}
                 ukuran={26}
                 delay={1.3}
-                className="absolute top-6 right-2 hidden sm:block"
+                className="absolute top-6 right-2 scale-75 sm:scale-100"
               />
               <span className="inline-block text-xs font-extrabold uppercase tracking-widest text-teks-2">
                 RUANG BELAJAR RAMAH ANAK
@@ -675,13 +559,13 @@ export default function Beranda() {
                 varian={2}
                 ukuran={34}
                 delay={0.2}
-                className="absolute -top-2 left-4 hidden sm:block"
+                className="absolute -top-2 left-2 sm:left-4 scale-75 sm:scale-100"
               />
               <BintangKilau
                 varian={3}
                 ukuran={28}
                 delay={1.1}
-                className="absolute top-6 right-4 hidden sm:block"
+                className="absolute top-6 right-2 sm:right-4 scale-75 sm:scale-100"
               />
               <span className="inline-block text-xs font-extrabold uppercase tracking-widest text-teks-2">
                 PRINSIP KEAMANAN & ETIKA
@@ -816,30 +700,30 @@ export default function Beranda() {
                 src="/dekorasi/awan-11.webp"
                 alt=""
                 aria-hidden
-                className="pointer-events-none select-none absolute -bottom-6 -left-6 w-48 sm:w-64 opacity-35"
+                className="pointer-events-none select-none absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 w-32 sm:w-64 opacity-35"
               />
               <img
                 src="/dekorasi/awan-12.webp"
                 alt=""
                 aria-hidden
-                className="pointer-events-none select-none absolute -bottom-6 -right-6 w-48 sm:w-64 opacity-35"
+                className="pointer-events-none select-none absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 w-32 sm:w-64 opacity-35"
               />
               <BintangKilau
                 varian={2}
                 ukuran={40}
                 delay={0.2}
-                className="absolute top-6 left-[8%] hidden md:block"
+                className="absolute top-4 left-[6%] sm:top-6 sm:left-[8%] scale-75 sm:scale-100"
               />
               <BintangKilau
                 varian={3}
                 ukuran={34}
                 delay={1.0}
-                className="absolute bottom-8 right-[8%] hidden md:block"
+                className="absolute bottom-6 right-[6%] sm:bottom-8 sm:right-[8%] scale-75 sm:scale-100"
               />
               <SapuanCahayaEmas
                 lebar={110}
                 delay={0.5}
-                className="hidden lg:block absolute top-8 right-[14%]"
+                className="absolute top-6 right-[10%] sm:top-8 sm:right-[14%] scale-75 sm:scale-100"
               />
 
               <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
@@ -887,12 +771,12 @@ export default function Beranda() {
       </main>
 
       {/* =====================================================================
-           FOOTER (Menyatu Tanpa Garis Pembatas, Tanpa Icon PELITA & Tanpa Copyright Bawah)
+           FOOTER (Menyatu Tanpa Garis Pembatas, Tanpa Navigasi Halaman, Tanpa Icon PELITA & Tanpa Copyright Bawah)
       ===================================================================== */}
       <footer className="relative w-full pt-8 pb-14 text-xs text-teks-2">
         <div className="mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-            <div className="md:col-span-5 space-y-2.5">
+            <div className="md:col-span-6 space-y-2.5">
               <span className="block font-heading text-xl font-extrabold text-teks">
                 PELITA
               </span>
@@ -904,34 +788,6 @@ export default function Beranda() {
                 harian untuk menjaga keberlanjutan pendidikan anak dengan
                 penyakit kronis.
               </p>
-            </div>
-
-            <div className="md:col-span-2 space-y-2">
-              <div className="font-heading font-extrabold text-teks">
-                Navigasi Halaman
-              </div>
-              <ul className="space-y-1.5 text-xs font-semibold">
-                <li>
-                  <a href="#adaptif-kondisi" className="hover:text-teks">
-                    Kondisi Harian
-                  </a>
-                </li>
-                <li>
-                  <a href="#cara-kerja" className="hover:text-teks">
-                    Alur Belajar
-                  </a>
-                </li>
-                <li>
-                  <a href="#ruang-belajar" className="hover:text-teks">
-                    Ruang Belajar
-                  </a>
-                </li>
-                <li>
-                  <a href="#peta-tp" className="hover:text-teks">
-                    Peta Belajar
-                  </a>
-                </li>
-              </ul>
             </div>
 
             <div className="md:col-span-3 space-y-2">
@@ -946,7 +802,7 @@ export default function Beranda() {
               </ul>
             </div>
 
-            <div className="md:col-span-2 space-y-2">
+            <div className="md:col-span-3 space-y-2">
               <div className="font-heading font-extrabold text-teks">
                 Prinsip Keamanan
               </div>

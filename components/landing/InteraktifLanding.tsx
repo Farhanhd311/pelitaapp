@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   AnimatePresence,
   motion,
@@ -17,6 +17,7 @@ import {
   BookOpen,
   HeartHandshake,
   Award,
+  ArrowUp,
 } from "lucide-react";
 import { MascotPijar } from "@/components/anak/MascotPijar";
 
@@ -119,6 +120,7 @@ export function SapuanCahayaEmas({
 
 /**
  * Latar Langit Hero Berlapis dengan Multi-Layer Scroll Parallax & Aset Awan 1–13 + Bintang 1–6
+ * Responsif penuh di layar handphone (<640px) dan dilengkapi Mask-Image Bawah agar 100% Tanpa Garis Bocor
  */
 export function HeroLangitParallax() {
   const { scrollY } = useScroll();
@@ -129,21 +131,34 @@ export function HeroLangitParallax() {
   });
 
   // Lapisan parallax dengan kecepatan berbeda saat pengguna menggulir halaman
-  const bgY = useTransform(smoothScrollY, [0, 800], [0, 45]);
-  const bgScale = useTransform(smoothScrollY, [0, 800], [1.04, 1.1]);
-  const awanAtasY = useTransform(smoothScrollY, [0, 800], [0, -55]);
-  const awanTengahY = useTransform(smoothScrollY, [0, 800], [0, -30]);
-  const awanBawahY = useTransform(smoothScrollY, [0, 800], [0, -18]);
+  const bgY = useTransform(smoothScrollY, [0, 800], [0, 36]);
+  const bgScale = useTransform(smoothScrollY, [0, 800], [1.03, 1.08]);
+  const awanAtasY = useTransform(smoothScrollY, [0, 800], [0, -50]);
+  const awanTengahY = useTransform(smoothScrollY, [0, 800], [0, -28]);
+  const awanBawahY = useTransform(smoothScrollY, [0, 800], [0, -16]);
 
   return (
     <div
       aria-hidden
-      className="pointer-events-none absolute inset-0 select-none z-0"
+      className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
+      style={{
+        WebkitMaskImage:
+          "linear-gradient(to bottom, black 0%, black 66%, rgba(0,0,0,0.42) 84%, transparent 99%)",
+        maskImage:
+          "linear-gradient(to bottom, black 0%, black 66%, rgba(0,0,0,0.42) 84%, transparent 99%)",
+      }}
     >
-      {/* LAYER 0: Gambar Background Langit Hasil Generate dengan Scroll Parallax */}
+      {/* LAYER 0: Gambar Background Langit Hasil Generate dengan Scroll Parallax & Mask Bawah */}
       <motion.div
-        style={{ y: bgY, scale: bgScale }}
-        className="absolute inset-x-0 top-0 bottom-16"
+        style={{
+          y: bgY,
+          scale: bgScale,
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 0%, black 55%, rgba(0,0,0,0.3) 78%, transparent 94%)",
+          maskImage:
+            "linear-gradient(to bottom, black 0%, black 55%, rgba(0,0,0,0.3) 78%, transparent 94%)",
+        }}
+        className="absolute inset-x-0 top-0 bottom-20 overflow-hidden"
       >
         <img
           src="/dekorasi/bg-langit-pelita.webp"
@@ -157,127 +172,127 @@ export function HeroLangitParallax() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 80% 65% at 50% 40%, rgba(255,248,235,0.88) 0%, rgba(250,225,190,0.72) 55%, rgba(252,235,212,0.95) 100%)",
+            "radial-gradient(ellipse 82% 62% at 50% 42%, rgba(255,248,235,0.88) 0%, rgba(250,225,190,0.72) 55%, rgba(252,235,212,0.96) 100%)",
         }}
       />
 
-      {/* LAYER 1: Awan Atas (Awan 1 di Kiri Atas & Awan 3 di Kanan Atas) */}
+      {/* LAYER 1: Awan Atas (Awan 1 di Kiri Atas, Awan 3 di Kanan Atas, Awan 2 di Tengah Atas) - Responsif Handphone */}
       <motion.div style={{ y: awanAtasY }} className="absolute inset-0">
         <motion.img
           src="/dekorasi/awan-1.webp"
           alt=""
-          animate={{ x: [0, 18, 0], y: [0, -5, 0] }}
+          animate={{ x: [0, 14, 0], y: [0, -4, 0] }}
           transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-3 -left-8 w-52 sm:w-72 lg:w-88 opacity-80"
+          className="absolute -top-1 -left-4 sm:-top-3 sm:-left-8 w-32 sm:w-64 md:w-72 lg:w-88 opacity-75 sm:opacity-80"
         />
         <motion.img
           src="/dekorasi/awan-3.webp"
           alt=""
-          animate={{ x: [0, -16, 0], y: [0, 6, 0] }}
+          animate={{ x: [0, -14, 0], y: [0, 5, 0] }}
           transition={{ duration: 12.5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-2 -right-6 w-52 sm:w-72 lg:w-88 opacity-80"
+          className="absolute -top-1 -right-4 sm:-top-2 sm:-right-6 w-32 sm:w-64 md:w-72 lg:w-88 opacity-75 sm:opacity-80"
         />
         <motion.img
           src="/dekorasi/awan-2.webp"
           alt=""
-          animate={{ x: [0, 14, 0] }}
+          animate={{ x: [0, 12, 0] }}
           transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-          className="hidden md:block absolute top-8 left-[36%] w-48 lg:w-60 opacity-45"
+          className="absolute top-12 sm:top-8 left-[32%] sm:left-[36%] w-24 sm:w-44 lg:w-60 opacity-35 sm:opacity-45"
         />
       </motion.div>
 
-      {/* LAYER 2: Awan Tengah & Taburan Bintang 1–6 */}
+      {/* LAYER 2: Awan Tengah & Taburan Bintang 1–6 - Responsif Handphone */}
       <motion.div style={{ y: awanTengahY }} className="absolute inset-0">
         <motion.img
           src="/dekorasi/awan-6.webp"
           alt=""
-          animate={{ x: [0, -14, 0], y: [0, -4, 0] }}
+          animate={{ x: [0, -12, 0], y: [0, -4, 0] }}
           transition={{ duration: 9.5, repeat: Infinity, ease: "easeInOut" }}
-          className="hidden lg:block absolute top-[32%] left-[44%] w-36 opacity-45"
+          className="absolute top-[28%] sm:top-[32%] left-[2%] sm:left-[14%] lg:left-[22%] w-20 sm:w-32 lg:w-36 opacity-40 sm:opacity-45"
         />
         <motion.img
           src="/dekorasi/awan-9.webp"
           alt=""
-          animate={{ x: [0, 15, 0] }}
+          animate={{ x: [0, 14, 0] }}
           transition={{ duration: 10.5, repeat: Infinity, ease: "easeInOut" }}
-          className="hidden sm:block absolute top-[22%] right-[32%] w-40 opacity-55"
+          className="absolute top-[22%] right-[2%] sm:right-[16%] lg:right-[24%] w-24 sm:w-36 lg:w-40 opacity-45 sm:opacity-55"
         />
 
-        {/* Bintang-bintang keemasan di langit Hero */}
+        {/* Bintang-bintang keemasan di langit Hero (Muncul juga di tampilan handphone dengan skala proporsional) */}
         <BintangKilau
           varian={2}
-          ukuran={44}
+          ukuran={42}
           delay={0.1}
-          className="absolute top-14 left-[28%] hidden sm:block"
+          className="absolute top-16 left-[14%] sm:top-20 sm:left-[22%] scale-75 sm:scale-100"
         />
         <BintangKilau
           varian={3}
           ukuran={36}
           delay={0.8}
-          className="absolute top-20 right-[26%] hidden sm:block"
+          className="absolute top-20 right-[14%] sm:top-24 sm:right-[22%] scale-75 sm:scale-100"
         />
         <BintangKilau
           varian={1}
-          ukuran={30}
+          ukuran={28}
           delay={1.4}
-          className="absolute top-[42%] left-[3%] hidden md:block"
+          className="absolute top-[44%] left-[4%] sm:left-[6%] scale-75 sm:scale-100"
         />
         <BintangKilau
           varian={5}
-          ukuran={26}
+          ukuran={24}
           delay={0.5}
-          className="absolute top-12 left-[52%]"
+          className="absolute top-14 left-[52%] scale-75 sm:scale-100"
         />
         <BintangKilau
           varian={4}
           ukuran={26}
           delay={1.9}
-          className="absolute bottom-36 right-[46%] hidden lg:block"
+          className="absolute bottom-44 right-[10%] sm:right-[28%] scale-75 sm:scale-100"
         />
         <SapuanCahayaEmas
-          lebar={96}
+          lebar={92}
           delay={0.4}
-          className="hidden lg:block absolute bottom-28 left-[38%]"
+          className="absolute bottom-36 left-[12%] sm:left-[28%] scale-75 sm:scale-100"
         />
       </motion.div>
 
-      {/* LAYER 3: Bingkai Awan Cakrawala Bawah (Awan 11 Kiri, Awan 12 Kanan, Awan 13 Tengah) */}
+      {/* LAYER 3: Bingkai Awan Cakrawala Bawah (Awan 11 Kiri, Awan 12 Kanan, Awan 13 Tengah) - Responsif Handphone */}
       <motion.div
         style={{ y: awanBawahY }}
-        className="absolute inset-x-0 bottom-8 sm:bottom-10 h-44 sm:h-56 pointer-events-none"
+        className="absolute inset-x-0 bottom-10 sm:bottom-12 h-32 sm:h-52 pointer-events-none"
       >
         {/* Awan 13 (Bawah Full) di sepanjang cakrawala tengah */}
         <motion.img
           src="/dekorasi/awan-13.webp"
           alt=""
-          animate={{ x: [0, 10, 0] }}
+          animate={{ x: [0, 8, 0] }}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[540px] sm:w-[760px] lg:w-[980px] max-w-none opacity-55"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[115%] sm:w-[760px] lg:w-[980px] max-w-none opacity-45 sm:opacity-55"
         />
         {/* Awan 11 (Bawah Kiri) */}
         <motion.img
           src="/dekorasi/awan-11.webp"
           alt=""
-          animate={{ x: [0, 8, 0], y: [0, -4, 0] }}
+          animate={{ x: [0, 7, 0], y: [0, -3, 0] }}
           transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-0 -left-6 w-52 sm:w-72 lg:w-92 opacity-75"
+          className="absolute bottom-0 -left-3 sm:-left-6 w-32 sm:w-64 md:w-72 lg:w-92 opacity-65 sm:opacity-75"
         />
         {/* Awan 12 (Bawah Kanan) */}
         <motion.img
           src="/dekorasi/awan-12.webp"
           alt=""
-          animate={{ x: [0, -8, 0], y: [0, -4, 0] }}
+          animate={{ x: [0, -7, 0], y: [0, -3, 0] }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-0 -right-6 w-52 sm:w-72 lg:w-92 opacity-75"
+          className="absolute bottom-0 -right-3 sm:-right-6 w-32 sm:w-64 md:w-72 lg:w-92 opacity-65 sm:opacity-75"
         />
       </motion.div>
 
-      {/* LAYER 4: Gradasi Ekstra Tebal (Multi-Stop S-Curve Feather) di Bawah Hero agar 100% Tanpa Garis */}
+      {/* LAYER 4: Gradasi Ekstra Tebal (Multi-Stop S-Curve Feather) di Bawah Hero agar Menyatu ke #FCEBD4 */}
       <div
-        className="pointer-events-none absolute inset-x-0 -bottom-2 h-64 sm:h-80 lg:h-96"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-56 sm:h-72 lg:h-88"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(252,235,212,0) 0%, rgba(252,235,212,0.18) 22%, rgba(252,235,212,0.52) 48%, rgba(252,235,212,0.84) 74%, #FCEBD4 94%, #FCEBD4 100%)",
+            "linear-gradient(to bottom, rgba(252,235,212,0) 0%, rgba(252,235,212,0.28) 28%, rgba(252,235,212,0.68) 60%, rgba(252,235,212,0.94) 85%, #FCEBD4 100%)",
         }}
       />
     </div>
@@ -285,7 +300,7 @@ export function HeroLangitParallax() {
 }
 
 /**
- * Ornamen Awan & Bintang dengan Scroll-Linked Parallax Tanpa Pemotongan (Zero Clipping)
+ * Ornamen Awan & Bintang dengan Scroll-Linked Parallax Tanpa Pemotongan & Responsif Handphone (<640px)
  */
 export function DekorasiLangitCerah({
   varian = "satu",
@@ -303,9 +318,9 @@ export function DekorasiLangitCerah({
     restDelta: 0.001,
   });
 
-  const yKiri = useTransform(smoothProgress, [0, 1], [36, -36]);
-  const yKanan = useTransform(smoothProgress, [0, 1], [-32, 32]);
-  const xDrift = useTransform(smoothProgress, [0, 1], [-18, 18]);
+  const yKiri = useTransform(smoothProgress, [0, 1], [28, -28]);
+  const yKanan = useTransform(smoothProgress, [0, 1], [-24, 24]);
+  const xDrift = useTransform(smoothProgress, [0, 1], [-12, 12]);
 
   const awanKiri =
     varian === "satu"
@@ -330,117 +345,252 @@ export function DekorasiLangitCerah({
     <div
       ref={ref}
       aria-hidden
-      className="pointer-events-none absolute inset-0 select-none z-0"
+      className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
+      style={{
+        WebkitMaskImage:
+          "linear-gradient(to bottom, transparent 0%, black 16%, black 84%, transparent 100%)",
+        maskImage:
+          "linear-gradient(to bottom, transparent 0%, black 16%, black 84%, transparent 100%)",
+      }}
     >
-      {/* Kabut Pendaran Hangat di Tengah Section (Tanpa Menyentuh Tepi Atas/Bawah agar Tidak Pernah Membentuk Garis) */}
+      {/* Kabut Pendaran Hangat di Tengah Section (Tanpa Menyentuh Tepi Atas/Bawah) */}
       <div
-        className="absolute inset-x-0 -top-32 -bottom-32"
+        className="absolute inset-0"
         style={{
           background:
             varian === "dua"
-              ? "radial-gradient(ellipse 75% 42% at 50% 50%, rgba(255,248,236,0.55) 0%, rgba(252,235,212,0) 75%)"
-              : "radial-gradient(ellipse 80% 45% at 50% 50%, rgba(243,198,143,0.48) 0%, rgba(245,207,162,0.22) 45%, rgba(252,235,212,0) 78%)",
+              ? "radial-gradient(ellipse 75% 42% at 50% 50%, rgba(255,248,236,0.52) 0%, rgba(252,235,212,0) 74%)"
+              : "radial-gradient(ellipse 80% 45% at 50% 50%, rgba(243,198,143,0.44) 0%, rgba(245,207,162,0.2) 45%, rgba(252,235,212,0) 76%)",
         }}
       />
 
-      {/* Cahaya pendar matahari hangat di tengah-kanan & tengah-kiri (Tidak terpotong batas section) */}
+      {/* Cahaya pendar matahari hangat di tengah-kanan & tengah-kiri */}
       <motion.div
-        animate={{ scale: [1, 1.06, 1], opacity: [0.28, 0.44, 0.28] }}
+        animate={{ scale: [1, 1.06, 1], opacity: [0.26, 0.42, 0.26] }}
         transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 -right-24 h-96 w-96 rounded-full blur-3xl"
+        className="absolute top-1/4 -right-20 sm:-right-24 h-64 w-64 sm:h-96 sm:w-96 rounded-full blur-3xl"
         style={{
           background:
-            "radial-gradient(circle, rgba(255,253,248,0.8) 0%, rgba(236,172,84,0.38) 45%, rgba(252,235,212,0) 72%)",
+            "radial-gradient(circle, rgba(255,253,248,0.8) 0%, rgba(236,172,84,0.36) 45%, rgba(252,235,212,0) 72%)",
         }}
       />
       <motion.div
-        animate={{ scale: [1, 1.08, 1], opacity: [0.22, 0.38, 0.22] }}
+        animate={{ scale: [1, 1.08, 1], opacity: [0.2, 0.36, 0.2] }}
         transition={{
           duration: 7.5,
           delay: 1.2,
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute bottom-1/4 -left-24 h-96 w-96 rounded-full blur-3xl"
+        className="absolute bottom-1/4 -left-20 sm:-left-24 h-64 w-64 sm:h-96 sm:w-96 rounded-full blur-3xl"
         style={{
           background:
-            "radial-gradient(circle, rgba(249,218,172,0.75) 0%, rgba(234,123,48,0.28) 45%, rgba(252,235,212,0) 72%)",
+            "radial-gradient(circle, rgba(249,218,172,0.72) 0%, rgba(234,123,48,0.26) 45%, rgba(252,235,212,0) 72%)",
         }}
       />
 
-      {/* Awan Kiri dengan Scroll Parallax + Floating */}
+      {/* Awan Kiri dengan Scroll Parallax + Floating (Tampil di Handphone & Desktop) */}
       <motion.div
         style={{ y: yKiri, x: xDrift }}
-        className="hidden sm:block absolute top-6 -left-6 lg:left-2"
+        className="absolute top-3 -left-3 sm:top-6 sm:-left-6 lg:left-2"
       >
         <motion.img
           src={awanKiri}
           alt=""
-          animate={{ x: [0, 14, 0], y: [0, -4, 0] }}
+          animate={{ x: [0, 12, 0], y: [0, -4, 0] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="w-44 md:w-56 lg:w-64 opacity-55"
+          className="w-24 sm:w-44 md:w-56 lg:w-64 opacity-45 sm:opacity-55"
         />
       </motion.div>
 
-      {/* Awan Kanan dengan Scroll Parallax + Floating */}
+      {/* Awan Kanan dengan Scroll Parallax + Floating (Tampil di Handphone & Desktop) */}
       <motion.div
         style={{ y: yKanan }}
-        className="hidden sm:block absolute top-10 -right-6 lg:right-2"
+        className="absolute top-6 -right-3 sm:top-10 sm:-right-6 lg:right-2"
       >
         <motion.img
           src={awanKanan}
           alt=""
-          animate={{ x: [0, -16, 0], y: [0, 5, 0] }}
+          animate={{ x: [0, -14, 0], y: [0, 5, 0] }}
           transition={{ duration: 11.5, repeat: Infinity, ease: "easeInOut" }}
-          className="w-44 md:w-56 lg:w-64 opacity-55"
+          className="w-24 sm:w-44 md:w-56 lg:w-64 opacity-45 sm:opacity-55"
         />
       </motion.div>
 
       {/* Awan Aksen Bawah */}
       <motion.div
         style={{ y: yKiri }}
-        className="hidden lg:block absolute bottom-6 right-[12%]"
+        className=" absolute bottom-6 right-[6%] sm:right-[12%]"
       >
         <motion.img
           src={awanAksen}
           alt=""
-          animate={{ x: [0, 12, 0] }}
+          animate={{ x: [0, 10, 0] }}
           transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-          className="w-40 opacity-45"
+          className="w-20 sm:w-32 lg:w-40 opacity-35 sm:opacity-45"
         />
       </motion.div>
 
-      {/* Bintang-bintang keemasan dari aset referensi */}
+      {/* Bintang-bintang keemasan dari aset referensi (Tampil di Handphone & Desktop) */}
       <BintangKilau
         varian={2}
-        ukuran={38}
+        ukuran={36}
         delay={0.2}
-        className="hidden md:block absolute top-12 left-[22%]"
+        className="absolute top-8 left-[14%] sm:top-12 sm:left-[22%] scale-75 sm:scale-100"
       />
       <BintangKilau
         varian={3}
-        ukuran={34}
+        ukuran={32}
         delay={0.9}
-        className="hidden md:block absolute top-16 right-[22%]"
+        className="absolute top-12 right-[14%] sm:top-16 sm:right-[22%] scale-75 sm:scale-100"
       />
       <BintangKilau
         varian={1}
-        ukuran={28}
+        ukuran={26}
         delay={1.5}
-        className="hidden sm:block absolute bottom-14 left-[8%]"
+        className="absolute bottom-10 left-[6%] sm:bottom-14 sm:left-[8%] scale-75 sm:scale-100"
       />
       <BintangKilau
         varian={5}
-        ukuran={24}
+        ukuran={22}
         delay={2.0}
-        className="hidden sm:block absolute bottom-16 right-[8%]"
+        className="absolute bottom-12 right-[6%] sm:bottom-16 sm:right-[8%] scale-75 sm:scale-100"
       />
       <SapuanCahayaEmas
-        lebar={90}
+        lebar={86}
         delay={0.7}
-        className="hidden xl:block absolute bottom-10 left-[26%]"
+        className="hidden md:block absolute bottom-10 left-[26%]"
       />
     </div>
+  );
+}
+
+const daftarPilarHeroBawah = [
+  {
+    no: "01",
+    judul: "Menyesuaikan kondisi kesehatan harian",
+    sub: "Durasi dan bentuk materi mengikuti tenaga anak setiap hari agar kegiatan belajar tetap menenangkan.",
+    ikon: Sun,
+  },
+  {
+    no: "02",
+    judul: "Menemukan titik mulai belajar tanpa beban",
+    sub: "Memperkuat materi dasar secara bertahap di Pos Dasar sebelum melanjutkan materi kelasnya.",
+    ikon: Compass,
+  },
+  {
+    no: "03",
+    judul: "Jembatan kemajuan kembali ke sekolah asal",
+    sub: "Rangkuman capaian belajar selaras Kurikulum Merdeka yang siap dibagikan untuk wali kelas.",
+    ikon: BookOpen,
+  },
+];
+
+/**
+ * Baris 3 Kolom Editorial Terbuka + Garis Progres Tipis di Bawah Hero (Tanpa URL Anchor)
+ */
+export function HeroEditorialBawah() {
+  const [aktifIdx, setAktifIdx] = useState(0);
+
+  return (
+    <div className="relative z-20 mx-auto w-full max-w-[1480px] px-6 sm:px-12 md:px-20 lg:px-28 xl:px-36 2xl:px-44 pt-8 sm:pt-10">
+      {/* 3 Kolom Editorial Tanpa Kotak Kaku & Tanpa Tautan URL Anchor */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-7 md:gap-10 lg:gap-14 pb-6 sm:pb-8">
+        {daftarPilarHeroBawah.map((pilar, idx) => {
+          const Ikon = pilar.ikon;
+          const aktif = idx === aktifIdx;
+          return (
+            <div
+              key={pilar.no}
+              onMouseEnter={() => setAktifIdx(idx)}
+              onFocus={() => setAktifIdx(idx)}
+              onClick={() => setAktifIdx(idx)}
+              className="group flex flex-col justify-between text-center md:text-left cursor-default"
+            >
+              <div>
+                {/* Ikon Garis (Line-Art Icon) */}
+                <div className="mb-3 flex items-center justify-center md:justify-start gap-2.5">
+                  <Ikon
+                    strokeWidth={1.9}
+                    className={`h-6 w-6 transition-colors duration-300 ${
+                      aktif
+                        ? "text-[#EA7B30]"
+                        : "text-teks-2/70 group-hover:text-[#EA7B30]"
+                    }`}
+                  />
+                  <span
+                    className={`font-heading text-[11px] font-extrabold tracking-widest uppercase transition-colors duration-300 ${
+                      aktif ? "text-[#EA7B30]" : "text-teks-2/60"
+                    }`}
+                  >
+                    {pilar.no}
+                  </span>
+                </div>
+
+                <h2 className="font-heading text-sm sm:text-base font-extrabold text-teks leading-snug group-hover:text-bata transition-colors">
+                  {pilar.judul}
+                </h2>
+                <p className="mt-1.5 text-xs sm:text-[13px] text-teks-2 leading-relaxed font-medium">
+                  {pilar.sub}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Garis Horizontal Tipis dengan Indikator Aktif Oranye-Merah (1/3 Lebar) */}
+      <div className="relative h-[2px] w-full bg-[#D8A86C]/45 overflow-hidden rounded-full">
+        <motion.div
+          initial={false}
+          animate={{ x: `${aktifIdx * 100}%` }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="h-full w-1/3 rounded-full bg-gradient-to-r from-[#EA7B30] via-[#D95B2B] to-[#BF4338] shadow-[0_0_10px_rgba(234,123,48,0.65)]"
+        />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Tombol Melayang Kanan Bawah (Panah ke Atas) untuk Otomatis Kembali ke Hero Section Paling Atas
+ */
+export function TombolKembaliKeAtas() {
+  const [tampil, setTampil] = useState(false);
+
+  useEffect(() => {
+    const cekScroll = () => {
+      setTampil(window.scrollY > 300);
+    };
+    cekScroll();
+    window.addEventListener("scroll", cekScroll, { passive: true });
+    return () => window.removeEventListener("scroll", cekScroll);
+  }, []);
+
+  const kembaliKeAtas = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  return (
+    <AnimatePresence>
+      {tampil && (
+        <motion.button
+          type="button"
+          onClick={kembaliKeAtas}
+          aria-label="Kembali ke bagian paling atas"
+          title="Kembali ke atas"
+          initial={{ opacity: 0, scale: 0.75, y: 16 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.75, y: 16 }}
+          whileHover={{ y: -3, scale: 1.06 }}
+          whileTap={{ scale: 0.94 }}
+          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          className="fixed bottom-5 right-5 sm:bottom-7 sm:right-7 z-50 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#F3B448] via-[#EA7B30] to-[#BF4338] text-[#FFFDF9] border-2 border-[#FFFDF9]/90 shadow-[0_10px_26px_rgba(191,67,56,0.32)] cursor-pointer"
+        >
+          <ArrowUp className="h-5 w-5 stroke-[2.5]" />
+        </motion.button>
+      )}
+    </AnimatePresence>
   );
 }
 
