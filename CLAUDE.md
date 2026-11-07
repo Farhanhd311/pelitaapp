@@ -15,6 +15,7 @@ Pedoman lengkap ada di file berikut. Baca seluruhnya sebelum menulis kode, dan i
 - LLM hanya dipanggil dari server, keluarannya JSON yang divalidasi, selalu ada cadangan, dan dicatat di `LOG_AI`. LLM tidak pernah mengambil keputusan sistem.
 - Soal untuk anak selalu dari bank soal berstatus `terbit`. Acak urutan pilihan saat ditampilkan.
 - **Database MySQL 8 (`utf8mb4`), bukan Supabase/Postgres.** Login buatan sendiri (`bcryptjs` + `iron-session`). Hak akses dicek di setiap API route lewat `lib/db/rbac.ts`, karena MySQL tidak punya Row Level Security. Selalu pakai query berparameter. Anak bukan akun.
+- **Hosting di Google Cloud Platform** (Cloud Run + Cloud SQL for MySQL 8, region `asia-southeast2`), bukan Vercel. Langkah deploy: `docs/ARSITEKTUR_TEKNIS.md` bagian 7.3.
 - Semua teks antarmuka dalam Bahasa Indonesia. Ikuti prinsip UI di PANDUAN bagian 13 (tanpa tanda X merah, tanpa kata "Salah", tanpa timer hitung mundur).
 - Jangan mengubah skema database atau aturan bisnis tanpa persetujuan tim. Jika PANDUAN tidak mengatur sesuatu, tanya dulu.
 

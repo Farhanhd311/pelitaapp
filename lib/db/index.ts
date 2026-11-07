@@ -16,8 +16,11 @@ function buatPool(): Pool {
 
   const pool = mysql.createPool({
     uri: url,
+    // Di Cloud Run, Cloud SQL dihubungi lewat unix socket /cloudsql/PROJECT:REGION:INSTANCE.
+    // Jika kosong (lokal/Docker), koneksi memakai host dan port dari DATABASE_URL.
+    socketPath: process.env.DB_SOCKET_PATH || undefined,
     charset: "utf8mb4", // wajib: emoji di soal (🐟, ⭐, 📘)
-    connectionLimit: 5, // MySQL gratisan membatasi koneksi; tiap fungsi Vercel punya pool sendiri
+    connectionLimit: 5, // setiap instance Cloud Run punya pool sendiri; Cloud SQL kecil membatasi koneksi
     timezone: "Z", // nilai Date dibaca/ditulis sebagai UTC
   });
 

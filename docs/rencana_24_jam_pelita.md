@@ -91,7 +91,7 @@ Keterangan: **A** = bangun penuh (tampil di demo) · **B** = versi sederhana (un
 
 ## 4. Teknologi final
 
-Next.js (App Router) + TypeScript · Tailwind + shadcn/ui · MySQL 8 (`utf8mb4`) + login buatan sendiri (`bcryptjs` + `iron-session`) · satu penyedia LLM dengan mode JSON (cek kuota gratis, siapkan API key cadangan) · `motion` (Framer Motion) untuk maskot · Recharts hanya di Evaluasi AI · Vitest · Vercel.
+Next.js (App Router) + TypeScript · Tailwind + shadcn/ui · MySQL 8 (`utf8mb4`) + login buatan sendiri (`bcryptjs` + `iron-session`) · satu penyedia LLM dengan mode JSON (cek kuota gratis, siapkan API key cadangan) · `motion` (Framer Motion) untuk maskot · Recharts hanya di Evaluasi AI · Vitest · Google Cloud (Cloud Run + Cloud SQL, region Jakarta).
 
 **Tidak dipakai di MVP:** React Flow, @react-pdf/renderer, PWA/offline, OTP SMS. Setiap pustaka tambahan butuh waktu untuk dipelajari dan dijelaskan.
 
@@ -101,7 +101,7 @@ Semuanya berupa **data, teks, aset, dan akun**, bukan kode aplikasi. Tetap konfi
 
 | No | Barang | Pemilik |
 |---|---|---|
-| 1 | MySQL lokal + MySQL terkelola untuk deploy, akun Vercel, GitHub, API key LLM (+ cadangan), dicoba sekali | Backend |
+| 1 | MySQL lokal (Docker) + proyek Google Cloud dengan penagihan aktif (Cloud Run + Cloud SQL), GitHub, API key LLM (+ cadangan), dicoba sekali | Backend |
 | 2 | Teks prompt: tutor, laporan sekolah, generator soal (+ Teman Cerita jika dipakai), lengkap dengan skema JSON | AI |
 | 3 | Seed pengaturan sistem dan tabel aturan rujukan (JSON) | Backend |
 | 4 | Daftar kata kunci krisis (draf, ditandai "perlu tinjauan psikolog") | AI |

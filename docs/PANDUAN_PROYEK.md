@@ -453,7 +453,8 @@ Mata pelajaran:
 
 ## 11. Teknologi (final untuk hackathon)
 
-- **Framework:** Next.js (App Router) + TypeScript, deploy di Vercel.
+- **Framework:** Next.js (App Router) + TypeScript.
+- **Hosting:** **Google Cloud Platform**: aplikasi di **Cloud Run**, database di **Cloud SQL for MySQL 8**, keduanya di region Jakarta (`asia-southeast2`). Tidak memakai Vercel. Langkah deploy di `docs/ARSITEKTUR_TEKNIS.md` bagian 7.3.
 - **Database:** **MySQL 8** dengan charset **`utf8mb4`** (wajib, karena soal memakai emoji). Akses lewat `mysql2` + satu file SQL skema; Drizzle (mysql) boleh jika ada anggota yang familiar.
 - **Login:** buatan sendiri, sederhana: password dan PIN di-hash dengan `bcryptjs`, sesi disimpan di cookie terenkripsi `httpOnly` (`iron-session`). Tidak ada Row Level Security di MySQL, jadi hak akses **wajib dicek di setiap API route** berdasarkan peran dan `PENDAMPINGAN` (`/lib/db/rbac.ts`).
 - **UI:** Tailwind CSS + shadcn/ui. Desain referensi dari Google Stitch.

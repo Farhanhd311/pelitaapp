@@ -1,6 +1,6 @@
 # DOKUMENTASI ARSITEKTUR, STRUKTUR FOLDER, & TECH STACK: PELITA
 
-> Versi direvisi 7 November 2026: **database diganti ke MySQL 8** (tanpa Supabase), login buatan sendiri, region Vercel, nama model LLM, Zustand dihapus, URL folder halaman, mode demo memakai mesin BKT sungguhan, dan catatan tambahan di bagian 8. Jika bertentangan dengan `PANDUAN_PROYEK.md`, PANDUAN yang berlaku.
+> Versi direvisi 7 November 2026: **database diganti ke MySQL 8** (tanpa Supabase), login buatan sendiri, **hosting diganti ke Google Cloud Platform** (Cloud Run + Cloud SQL, region Jakarta `asia-southeast2`, tanpa Vercel), nama model LLM, Zustand dihapus, URL folder halaman, mode demo memakai mesin BKT sungguhan, dan catatan tambahan di bagian 8. Jika bertentangan dengan `PANDUAN_PROYEK.md`, PANDUAN yang berlaku.
 
 Dokumen ini adalah panduan teknis implementasi untuk proyek **PELITA** pada Hackathon FIRETECH 2026. Dokumen ini menyelaraskan aturan pada `PANDUAN_PROYEK.md`, `peta_ai_dan_data_pelita.md`, dan `rencana_24_jam_pelita.md`, serta menyaring konsep awal pada `dokumentasi_alur_sistem_aplikasi_edukasi_adaptif.md` agar siap dieksekusi dalam waktu 24 jam.
 
@@ -35,7 +35,7 @@ Proyek ini menggunakan arsitektur **Full-Stack Monorepo** dengan **Next.js (App 
 | **AI & Validasi** | LLM API (Server-side) | **Vercel AI SDK (`ai`)** + **Zod** | Memaksa keluaran JSON sesuai skema, mengatur *timeout*, *fallback*, dan mencatat ke `LOG_AI` |
 | **Visualisasi & PDF** | CSS Grid + **Recharts** | `window.print()` + `@media print` | Grid peta TP (tanpa React Flow), grafik Evaluasi AI Admin, & cetak laporan sekolah ke PDF |
 | **Pengujian (Testing)** | **Vitest** | — | Menguji fungsi murni `/lib/bkt`, `/lib/sesi`, dan `/lib/krisis` |
-| **Hosting** | **Vercel** + **MySQL terkelola** | Localhost (MySQL lokal, misalnya Laragon/XAMPP/Docker) + Video Cadangan | Vercel tidak menyediakan MySQL, jadi butuh MySQL di internet yang bisa dihubungi Vercel (lihat 7.1). Pilih server MySQL di **Singapura** dan atur **region fungsi Vercel ke `sin1`** (bawaannya Amerika Serikat) |
+| **Hosting** | **Google Cloud Platform**: **Cloud Run** (aplikasi Next.js) + **Cloud SQL for MySQL 8** | Localhost (MySQL 8 di Docker) + Video Cadangan | Keduanya di region **Jakarta `asia-southeast2`** (paling dekat ke Padang). Cloud Run terhubung ke Cloud SQL lewat unix socket (`DB_SOCKET_PATH`), tanpa IP publik. Langkah deploy di 7.3 |
 
 > **Daftar Pustaka yang Dilarang di MVP:** `React Flow`, `@react-pdf/renderer`, modul PWA/Offline kompleks, dan gateway OTP SMS.
 
@@ -126,7 +126,7 @@ pelita-app/
 │   ├── seed_pengaturan_sistem.json
 │   └── seed_demo_raka.json       # Profil Raka, Ibu Sari, Kak Dina, riwayat check-in, daftar TP yang dikuasai Raka (bukan jejak hasil), 8 soal formatif B3
 └── scripts/
-    └── seed.ts                   # Skrip seed awal & fungsi resetDataRaka()
+    └── seed.mts                  # Skrip seed awal & fungsi resetDataRaka()
 ```
 
 ---
@@ -225,13 +225,20 @@ Menggunakan **Vercel AI SDK (`ai`)** sehingga pergantian model hanya membutuhkan
 
 ## 7. Hosting, Variabel Lingkungan (`.env`), & Pembagian Kerja Tim
 
-### 7.1. Konfigurasi `.env.local` & Vercel Environment Variables
+### 7.1. Konfigurasi `.env` & variabel lingkungan Cloud Run
+Salin `.env.example` menjadi `.env` (sudah di-`.gitignore`). Di Cloud Run, nilai yang sama diisi sebagai variabel lingkungan; nilai rahasia (password DB, `SESSION_SECRET`, API key) disimpan di **Secret Manager**.
 ```env
-# Database MySQL 8 (lokal saat coding, terkelola saat deploy)
-# Lokal:  mysql://root:password@localhost:3306/pelita
-# Deploy: pakai MySQL terkelola yang bisa diakses dari internet (cek pilihan gratis yang tersedia hari ini,
-#         misalnya Aiven, Railway, atau TiDB Cloud yang kompatibel MySQL). Biasanya wajib SSL.
+# Database MySQL 8 (lokal saat coding, Cloud SQL saat deploy)
+# Lokal (Docker): mysql://root:password@localhost:3307/pelita
+# Cloud Run:      mysql://pelita_app:password@localhost/pelita  (host diabaikan karena DB_SOCKET_PATH diisi)
 DATABASE_URL="mysql://user:password@host:3306/pelita"
+
+# Hanya di Cloud Run: unix socket Cloud SQL. Kosongkan untuk lokal.
+DB_SOCKET_PATH="/cloudsql/PROJECT_ID:asia-southeast2:pelita-mysql"
+
+# Password dan PIN akun demo, dipakai scripts/seed.mts (disimpan sebagai hash bcrypt)
+DEMO_PASSWORD="..."
+DEMO_PIN="...."
 
 # Kunci enkripsi cookie sesi (iron-session), minimal 32 karakter acak. HANYA di server.
 SESSION_SECRET="ganti-dengan-32-karakter-acak-atau-lebih"
@@ -242,7 +249,7 @@ LLM_MODEL="(isi nama model terbaru dari dokumentasi penyedia)"
 BACKUP_LLM_API_KEY="..."
 BACKUP_LLM_MODEL="..."
 
-# Mode cadangan demo TIDAK disimpan di .env (mengubah env di Vercel butuh deploy ulang).
+# Mode cadangan demo TIDAK disimpan di .env (mengubah env di Cloud Run membuat revisi baru).
 # Simpan sebagai pengaturan `demo.pakai_cadangan` (true/false) di PENGATURAN_SISTEM,
 # supaya bisa dinyalakan dari halaman Aturan AI dalam hitungan detik saat sinyal panggung buruk.
 ```
@@ -252,9 +259,62 @@ Sesuai aturan hackathon, setiap anggota tim wajib memahami dan mampu menjelaskan
 
 | Peran Anggota | Area Folder yang Dikuasai | Tanggung Jawab Utama & Pertanyaan Juri yang Dijawab |
 |---|---|---|
-| **Anggota 1: Backend & Algoritma** | `/lib/bkt`, `/lib/sesi`, `/lib/krisis`, `/lib/db`, `/scripts/seed.ts` | Menjelaskan rumus BKT, penelusuran graf prasyarat, aturan `tentukanLevel`, deteksi krisis aturan tetap, skema 20 tabel, & menjalankan *unit test* Vitest di depan juri. |
+| **Anggota 1: Backend & Algoritma** | `/lib/bkt`, `/lib/sesi`, `/lib/krisis`, `/lib/db`, `/scripts/seed.mts` | Menjelaskan rumus BKT, penelusuran graf prasyarat, aturan `tentukanLevel`, deteksi krisis aturan tetap, skema 20 tabel, & menjalankan *unit test* Vitest di depan juri. |
 | **Anggota 2: Frontend Anak & Interaksi** | `/app/anak`, `/components/anak` | Membangun alur Check-in, Mode Demo Putar Otomatis Asesmen, Peta TP (Kelasku/Pos Dasar), Sesi Belajar B3, cek "Masih kuat?", Web Speech API, & animasi Maskot Pijar. |
 | **Anggota 3: Pendamping, Admin & AI** | `/app/pendamping`, `/app/admin`, `/lib/ai`, `/lib/evaluasi`, `/data` | Membangun Dashboard Ibu Sari, cetak PDF Laporan Sekolah, integrasi prompt LLM + Zod + `LOG_AI`, halaman Admin (Aturan AI, Bank Soal, Evaluasi AI), & tombol **Reset Demo**. |
+
+### 7.3. Deploy ke Google Cloud (Cloud Run + Cloud SQL)
+Kerjakan di H0–H2. Ganti `PROJECT_ID` dengan ID proyek GCP tim. Perintah memakai `gcloud` (Google Cloud CLI) di terminal bash.
+
+```bash
+# 0. Sekali per laptop / proyek
+gcloud auth login
+gcloud config set project PROJECT_ID
+gcloud services enable run.googleapis.com sqladmin.googleapis.com cloudbuild.googleapis.com \
+  artifactregistry.googleapis.com secretmanager.googleapis.com
+
+# 1. Cloud SQL MySQL 8 di Jakarta (±10 menit). db-f1-micro cukup untuk demo.
+gcloud sql instances create pelita-mysql --database-version=MYSQL_8_0 --edition=enterprise \
+  --tier=db-f1-micro --region=asia-southeast2 --database-flags=character_set_server=utf8mb4
+gcloud sql databases create pelita --instance=pelita-mysql --charset=utf8mb4 --collation=utf8mb4_unicode_ci
+gcloud sql users create pelita_app --instance=pelita-mysql --password="PASSWORD_KUAT"
+
+# 2. Simpan nilai rahasia di Secret Manager
+printf "%s" "mysql://pelita_app:PASSWORD_KUAT@localhost/pelita" | gcloud secrets create DATABASE_URL --data-file=-
+printf "%s" "$(node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")" | gcloud secrets create SESSION_SECRET --data-file=-
+printf "%s" "API_KEY_UTAMA"   | gcloud secrets create PRIMARY_LLM_API_KEY --data-file=-
+printf "%s" "API_KEY_CADANGAN" | gcloud secrets create BACKUP_LLM_API_KEY --data-file=-
+
+# 3. Izinkan service account Cloud Run membaca secret dan memakai Cloud SQL
+PROJECT_NUMBER=$(gcloud projects describe PROJECT_ID --format="value(projectNumber)")
+SA="$PROJECT_NUMBER-compute@developer.gserviceaccount.com"
+gcloud projects add-iam-policy-binding PROJECT_ID --member="serviceAccount:$SA" --role=roles/secretmanager.secretAccessor
+gcloud projects add-iam-policy-binding PROJECT_ID --member="serviceAccount:$SA" --role=roles/cloudsql.client
+
+# 4. Deploy dari folder proyek (buildpack Node 22 menjalankan npm run build lalu npm start; tanpa Dockerfile).
+#    File yang diunggah mengikuti .gcloudignore (semua .env* tidak ikut).
+gcloud run deploy pelita --source . --region=asia-southeast2 --allow-unauthenticated --max-instances=3 \
+  --add-cloudsql-instances=PROJECT_ID:asia-southeast2:pelita-mysql \
+  --set-env-vars="DB_SOCKET_PATH=/cloudsql/PROJECT_ID:asia-southeast2:pelita-mysql,LLM_MODEL=NAMA_MODEL,BACKUP_LLM_MODEL=NAMA_MODEL_CADANGAN" \
+  --set-secrets="DATABASE_URL=DATABASE_URL:latest,SESSION_SECRET=SESSION_SECRET:latest,PRIMARY_LLM_API_KEY=PRIMARY_LLM_API_KEY:latest,BACKUP_LLM_API_KEY=BACKUP_LLM_API_KEY:latest"
+
+# 5. Cek: harus mengembalikan {"ok":true,...,"teks":"🐟📘"}
+curl https://URL-CLOUD-RUN/api/health
+```
+
+**Seed Cloud SQL dari laptop** lewat [Cloud SQL Auth Proxy](https://cloud.google.com/sql/docs/mysql/sql-proxy):
+```bash
+# Terminal 1: buka terowongan ke Cloud SQL di port 3308
+cloud-sql-proxy --port 3308 PROJECT_ID:asia-southeast2:pelita-mysql
+# Terminal 2: variabel yang di-set di terminal mengalahkan nilai di .env
+DATABASE_URL="mysql://pelita_app:PASSWORD_KUAT@127.0.0.1:3308/pelita" npm run seed
+```
+> **Perhatian:** lewat proxy, host database terlihat `127.0.0.1`, jadi pengaman "bukan database lokal" di skrip seed tidak aktif. Seed **menghapus semua data**; jalankan hanya saat memang ingin mengembalikan Cloud SQL ke kondisi awal.
+
+Catatan:
+- Jika build gagal karena izin, beri service account `$SA` peran `roles/cloudbuild.builds.builder` lalu ulangi langkah 4.
+- Deploy ulang setelah perubahan kode: ulangi langkah 4 (variabel dan secret tetap tersimpan, cukup `gcloud run deploy pelita --source . --region=asia-southeast2`).
+- Cloud SQL ditagih per jam walau tidak dipakai. Setelah lomba: `gcloud sql instances patch pelita-mysql --activation-policy=NEVER` (mematikan) atau hapus instance.
 
 ---
 
@@ -264,7 +324,7 @@ Sesuai aturan hackathon, setiap anggota tim wajib memahami dan mampu menjelaskan
 2. **MySQL tidak punya Row Level Security.** Satu-satunya penjaga akses adalah `rbac.ts`, jadi wajib dipanggil di **setiap** route yang menyentuh data anak.
 5. **Hal teknis MySQL yang sering bikin macet:**
    - **`utf8mb4` di semua tempat** (database, tabel, koneksi). Dengan `utf8` biasa, emoji di soal (🐟, ⭐, 📘) gagal disimpan atau berubah jadi `????`.
-   - Gunakan **pool** `mysql2` dengan `connectionLimit` kecil (misalnya 5). Di Vercel setiap fungsi membuka koneksi sendiri; MySQL gratisan biasanya membatasi jumlah koneksi.
+   - Gunakan **pool** `mysql2` dengan `connectionLimit` kecil (misalnya 5). Setiap instance Cloud Run punya pool sendiri, dan instance Cloud SQL kecil membatasi jumlah koneksi; batasi juga `--max-instances` Cloud Run.
    - Selalu pakai **query berparameter** (`?`), jangan menyambung string SQL.
    - Kolom JSON: `mysql2` mengembalikannya sebagai objek; saat menyimpan, kirim `JSON.stringify(...)`.
    - Nama tabel huruf besar (`USERS`) bisa berbeda perilakunya di Windows dan Linux. Paling aman pakai **nama tabel huruf kecil** di SQL (`users`, `progres_tp`), sementara dokumen tetap menyebutnya `USERS`.
@@ -275,7 +335,7 @@ Sesuai aturan hackathon, setiap anggota tim wajib memahami dan mampu menjelaskan
 
 ## 9. Daftar Periksa Teknis Sesuai Titik Cek 24 Jam
 
-- [ ] **H0–H2:** Repo GitHub aktif, MySQL terkelola sudah dibuat dan berhasil dihubungi dari Vercel (region `sin1`), emoji tersimpan benar (uji `utf8mb4`), login + cookie sesi jalan, satu panggilan LLM uji berhasil, suara `id-ID` tersedia di laptop demo, `CLAUDE.md` terpasang, 20 tabel terbuat di MySQL, skrip `seed.ts` & endpoint `/api/admin/reset-demo` berhasil memasukkan data awal Matematika Fase A–B dan profil Raka, serta aplikasi ter-deploy pertama kali di Vercel.
+- [ ] **H0–H2:** Repo GitHub aktif, Cloud SQL (MySQL 8, `asia-southeast2`) sudah dibuat dan berhasil dihubungi dari Cloud Run (`/api/health` mengembalikan 🐟📘), emoji tersimpan benar (uji `utf8mb4`), login + cookie sesi jalan, satu panggilan LLM uji berhasil, suara `id-ID` tersedia di laptop demo, `CLAUDE.md` terpasang, 20 tabel terbuat di MySQL, skrip `seed.mts` & endpoint `/api/admin/reset-demo` berhasil memasukkan data awal Matematika Fase A–B dan profil Raka, serta aplikasi ter-deploy pertama kali di Cloud Run.
 - [ ] **H7 (Titik Cek 1):** Alur `Check-in` $\rightarrow$ `Asesmen Adaptif (Mode Putar Otomatis)` $\rightarrow$ `Peta TP` berjalan mulus dari awal sampai akhir; *unit test* `/lib/bkt` dan `/lib/sesi` lulus di Vitest.
 - [ ] **H12 (Titik Cek 2):** Seluruh skenario demo 130 detik Raka berjalan utuh (Sesi B3 $\rightarrow$ salah di soal B3-D3 $\rightarrow$ AI Tutor menjelaskan miskonsepsi $\rightarrow$ Dashboard Ibu Sari $\rightarrow$ Cetak PDF Laporan).
 - [ ] **H17 (Fitur Dibekukan):** Halaman Admin Kelas B (Aturan AI, Tinjauan Soal AI, Evaluasi AI dari `hasil_uji_asesmen.json` + `LOG_AI`) selesai. Tidak ada penambahan fitur baru setelah H17.

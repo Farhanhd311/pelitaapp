@@ -655,7 +655,7 @@ Catatan: benar/salah diambil dari `PILIHAN.benar`; `RUJUKAN.disetujui_oleh` hany
 
 ### 13.3 Kinerja dan keandalan
 - Panggilan LLM berbatas waktu 8 detik, lalu cadangan.
-- Server Vercel di region `sin1`, database di Singapura.
+- Aplikasi di Cloud Run dan database di Cloud SQL, keduanya di region Jakarta (`asia-southeast2`).
 - Pool koneksi MySQL kecil (±5).
 - Demo tetap jalan tanpa internet: aplikasi lokal + video cadangan + sakelar `demo.pakai_cadangan`.
 
@@ -699,10 +699,10 @@ Catatan: benar/salah diambil dari `PILIHAN.benar`; `RUJUKAN.disetujui_oleh` hany
 | Grafik | Recharts (hanya Evaluasi AI); peta TP dengan CSS Grid |
 | PDF | Halaman cetak + `window.print()` |
 | Tes | Vitest |
-| Hosting | Vercel (region `sin1`) + MySQL terkelola di Singapura; MySQL lokal untuk coding |
+| Hosting | Google Cloud Platform: Cloud Run + Cloud SQL for MySQL 8 (region `asia-southeast2`, Jakarta); MySQL 8 lokal (Docker) untuk coding |
 | Tidak dipakai | React Flow, @react-pdf/renderer, PWA/offline, OTP SMS, Zustand, Supabase |
 
-**Struktur folder ringkas:** `app/(auth)`, `app/anak`, `app/pendamping`, `app/admin`, `app/api/...`; `lib/bkt`, `lib/sesi`, `lib/krisis` (fungsi murni + tes), `lib/ai` (client, prompts, schemas, fallbacks), `lib/pengaturan`, `lib/log`, `lib/evaluasi`, `lib/auth`, `lib/db` (pool, schema.sql, rbac); `components/`, `data/`, `scripts/seed.ts`. Rincian lengkap dan variabel lingkungan ada di `ARSITEKTUR_TEKNIS.md`.
+**Struktur folder ringkas:** `app/(auth)`, `app/anak`, `app/pendamping`, `app/admin`, `app/api/...`; `lib/bkt`, `lib/sesi`, `lib/krisis` (fungsi murni + tes), `lib/ai` (client, prompts, schemas, fallbacks), `lib/pengaturan`, `lib/log`, `lib/evaluasi`, `lib/auth`, `lib/db` (pool, schema.sql, rbac); `components/`, `data/`, `scripts/seed.mts`. Rincian lengkap dan variabel lingkungan ada di `ARSITEKTUR_TEKNIS.md`.
 
 **Alur data utama:** API route membaca pengaturan aktif dari `PENGATURAN_SISTEM` → memanggil fungsi murni (`perbaruiBKT`, `putuskan`, `tentukanLevel`, `cekKataKunciKrisis`) → menyimpan hasil ke MySQL → mencatat log.
 
@@ -779,7 +779,7 @@ Tab cadangan: **Aturan AI**, **Evaluasi AI**, **antrean tinjauan soal AI**, dan 
 
 | Jam | Fokus |
 |---|---|
-| H0–H2 | Inisialisasi proyek, `schema.sql`, seed, akun demo, login + sesi, deploy pertama; MySQL terkelola terhubung dari Vercel (`sin1`), uji `utf8mb4`, satu panggilan LLM uji, cek suara `id-ID` |
+| H0–H2 | Inisialisasi proyek, `schema.sql`, seed, akun demo, login + sesi, deploy pertama; Cloud SQL terhubung dari Cloud Run (`asia-southeast2`), uji `utf8mb4`, satu panggilan LLM uji, cek suara `id-ID` |
 | H2–H7 | `/lib/bkt` + tes, `/lib/sesi` + tes, API asesmen; check-in, layar asesmen + mode demo, peta TP; dashboard dasar |
 | **H7 · cek 1** | **Alur check-in → asesmen → peta jalan** |
 | H7–H12 | API sesi + update BKT, `/lib/krisis` + tes; sesi B3, kartu belajar, "Masih kuat?", maskot; laporan AI + halaman cetak, kartu perlu perhatian; AI tutor + cadangan, `LOG_AI` |
@@ -808,7 +808,7 @@ Giliran tidur 2–3 jam per orang di antara H12 dan H20. Prioritas jika waktu se
 |---|---|
 | API LLM lambat atau mati saat demo | Batas waktu 8 detik, jawaban cadangan, sakelar `demo.pakai_cadangan` |
 | Internet panggung bermasalah | Aplikasi lokal + video demo cadangan |
-| MySQL terkelola tidak bisa dihubungi Vercel | Uji di H0–H2; cadangan demo dari localhost (konfirmasi ke panitia untuk tautan prototipe) |
+| Cloud SQL tidak bisa dihubungi Cloud Run | Uji di H0–H2; cadangan demo dari localhost (konfirmasi ke panitia untuk tautan prototipe) |
 | Emoji rusak di database | `utf8mb4` di database, tabel, dan koneksi; diuji di jam pertama |
 | Fitur melebar dan tidak selesai | Titik cek H7, H12; fitur dibekukan H17 |
 | Kode buatan AI tidak dipahami tim | Satu pemilik per modul, bedah kode H20–H22 |
@@ -839,7 +839,7 @@ Giliran tidur 2–3 jam per orang di antara H12 dan H20. Prioritas jika waktu se
 
 **Asumsi:** pendamping punya satu perangkat dan koneksi internet; anak SD kelas 1–4 di Fase A–B; konten dan soal draf cukup untuk demo; parameter BKT dari literatur memadai untuk MVP.
 
-**Ketergantungan:** penyedia LLM dan kuotanya; MySQL terkelola yang bisa diakses Vercel; aset maskot dan desain Stitch; tinjauan guru, psikolog, dan perawat (setelah lomba).
+**Ketergantungan:** penyedia LLM dan kuotanya; proyek Google Cloud dengan penagihan aktif (Cloud SQL berbayar per jam); aset maskot dan desain Stitch; tinjauan guru, psikolog, dan perawat (setelah lomba).
 
 **Pertanyaan ke panitia:**
 1. Durasi presentasi yang berlaku (5 + 10 atau 7 + 13 menit)?

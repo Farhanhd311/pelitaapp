@@ -1,0 +1,8 @@
+# File yang TIDAK ikut diunggah saat `gcloud run deploy --source .`
+# Mengikuti .gitignore (termasuk semua .env*, node_modules, .next), ditambah beberapa file lokal.
+#!include:.gitignore
+.git
+.gitignore
+.gcloudignore
+docs/
+desain/
