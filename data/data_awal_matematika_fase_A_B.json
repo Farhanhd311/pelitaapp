@@ -1,0 +1,2199 @@
+{
+  "meta": {
+    "judul": "Data awal TP dan soal diagnostik Matematika Fase A dan B, elemen Bilangan",
+    "versi": "0.2-draf",
+    "acuan_cp": "Keputusan Kepala BSKAP No. 046/H/KR/2025, Lampiran CP Matematika Fase A dan Fase B",
+    "acuan_atp": [
+      "Inspirasi ATP Matematika Fase A (Joko Kiswanto, Bintang A. Permana, Arif Budiman) - pembagian per kelas",
+      "Inspirasi ATP Transisi Matematika Fase A dan Fase B - pembagian kelas Fase B dan label esensial jalur transisi",
+      "Inspirasi ATP Fase A dan B lain dari Ruang GTK - pencocokan urutan dan kesesuaian dengan CP 2025"
+    ],
+    "status": "Draf. Wajib ditinjau guru SD sebelum dipakai di luar demo.",
+    "catatan_soal": "Soal ditulis baru (tidak disalin dari buku). Kolom 'visual' berisi emoji sebagai pengganti gambar sementara; ganti dengan ilustrasi saat produksi. Semua soal sebaiknya bisa dibacakan (text-to-speech) karena murid Fase A belum lancar membaca.",
+    "parameter_bkt": {
+      "peluang_awal": 0.5,
+      "tebakan": 0.25,
+      "ceroboh": 0.1,
+      "ceroboh_lelah": 0.3,
+      "belajar_saat_asesmen": 0,
+      "belajar_saat_sesi": 0.15,
+      "ambang_tercapai": 0.85,
+      "ambang_tercapai_sesi": 0.95,
+      "ambang_belum": 0.3,
+      "min_soal_per_tp": 2,
+      "min_soal_tercapai": 3,
+      "maks_soal_per_tp": 4,
+      "berhenti_dini": true
+    }
+  },
+  "mapel": [
+    {
+      "id": 1,
+      "nama": "Matematika"
+    }
+  ],
+  "tujuan_pembelajaran": [
+    {
+      "kode": "A1",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "A",
+      "kelas": 1,
+      "urutan": 1,
+      "esensial_transisi": true,
+      "deskripsi": "Membilang banyak benda, membaca, dan menulis lambang bilangan 0 sampai 20"
+    },
+    {
+      "kode": "A2",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "A",
+      "kelas": 1,
+      "urutan": 2,
+      "esensial_transisi": true,
+      "deskripsi": "Membandingkan dan mengurutkan bilangan cacah sampai 20"
+    },
+    {
+      "kode": "A3",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "A",
+      "kelas": 1,
+      "urutan": 3,
+      "esensial_transisi": true,
+      "deskripsi": "Menyusun dan mengurai bilangan serta menentukan nilai tempat (puluhan, satuan) sampai 20"
+    },
+    {
+      "kode": "A4",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "A",
+      "kelas": 1,
+      "urutan": 4,
+      "esensial_transisi": true,
+      "deskripsi": "Melakukan penjumlahan dan pengurangan sampai 20 dengan bantuan benda konkret atau gambar"
+    },
+    {
+      "kode": "A5",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "A",
+      "kelas": 1,
+      "urutan": 5,
+      "esensial_transisi": true,
+      "deskripsi": "Memahami makna simbol '=' dan menyelesaikan soal cerita penjumlahan dan pengurangan sampai 20"
+    },
+    {
+      "kode": "A6",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "A",
+      "kelas": 2,
+      "urutan": 6,
+      "esensial_transisi": true,
+      "deskripsi": "Membaca, menulis, membandingkan, dan mengurutkan bilangan cacah sampai 100"
+    },
+    {
+      "kode": "A7",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "A",
+      "kelas": 2,
+      "urutan": 7,
+      "esensial_transisi": true,
+      "deskripsi": "Menentukan nilai tempat serta menyusun dan mengurai bilangan cacah sampai 100"
+    },
+    {
+      "kode": "A8",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "A",
+      "kelas": 2,
+      "urutan": 8,
+      "esensial_transisi": false,
+      "deskripsi": "Memahami pecahan setengah dan seperempat sebagai bagian dari keseluruhan",
+      "catatan_transisi": "Pada jalur transisi diintegrasikan ke konteks kegiatan berbagi, tidak berdiri sendiri"
+    },
+    {
+      "kode": "B1",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "B",
+      "kelas": 3,
+      "urutan": 9,
+      "esensial_transisi": true,
+      "deskripsi": "Membaca, menulis, membandingkan, dan mengurutkan bilangan cacah sampai 10.000 serta menentukan nilai tempat dan menyusun-mengurai bilangan"
+    },
+    {
+      "kode": "B2",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "B",
+      "kelas": 3,
+      "urutan": 10,
+      "esensial_transisi": true,
+      "deskripsi": "Melakukan dan menyelesaikan masalah penjumlahan dan pengurangan bilangan cacah sampai 1.000"
+    },
+    {
+      "kode": "B3",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "B",
+      "kelas": 3,
+      "urutan": 11,
+      "esensial_transisi": true,
+      "deskripsi": "Melakukan dan menyelesaikan masalah perkalian bilangan cacah sampai 100 dengan bantuan benda konkret, gambar, dan simbol"
+    },
+    {
+      "kode": "B4",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "B",
+      "kelas": 3,
+      "urutan": 12,
+      "esensial_transisi": true,
+      "deskripsi": "Melakukan dan menyelesaikan masalah pembagian bilangan cacah sampai 100 dengan bantuan benda konkret, gambar, dan simbol"
+    },
+    {
+      "kode": "B5",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "B",
+      "kelas": 3,
+      "urutan": 13,
+      "esensial_transisi": false,
+      "deskripsi": "Mengenal kelipatan dan faktor bilangan cacah",
+      "catatan_transisi": "Tidak dimuat sebagai TP tersendiri pada ATP Transisi Fase B"
+    },
+    {
+      "kode": "B6",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "B",
+      "kelas": 4,
+      "urutan": 14,
+      "esensial_transisi": true,
+      "deskripsi": "Membandingkan dan mengurutkan pecahan berpembilang satu dan pecahan berpenyebut sama"
+    },
+    {
+      "kode": "B7",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "B",
+      "kelas": 4,
+      "urutan": 15,
+      "esensial_transisi": true,
+      "deskripsi": "Mengenal dan menerapkan pecahan senilai menggunakan gambar dan simbol"
+    },
+    {
+      "kode": "B8",
+      "mapel_id": 1,
+      "elemen": "Bilangan",
+      "fase": "B",
+      "kelas": 4,
+      "urutan": 16,
+      "esensial_transisi": true,
+      "deskripsi": "Memiliki intuisi pecahan dan desimal serta menyatakan pecahan sebagai desimal dan persen"
+    }
+  ],
+  "prasyarat_tp": [
+    {
+      "tp_kode": "A2",
+      "prasyarat_kode": "A1"
+    },
+    {
+      "tp_kode": "A3",
+      "prasyarat_kode": "A1"
+    },
+    {
+      "tp_kode": "A4",
+      "prasyarat_kode": "A3"
+    },
+    {
+      "tp_kode": "A5",
+      "prasyarat_kode": "A4"
+    },
+    {
+      "tp_kode": "A6",
+      "prasyarat_kode": "A2"
+    },
+    {
+      "tp_kode": "A7",
+      "prasyarat_kode": "A3"
+    },
+    {
+      "tp_kode": "A7",
+      "prasyarat_kode": "A6"
+    },
+    {
+      "tp_kode": "A8",
+      "prasyarat_kode": "A1"
+    },
+    {
+      "tp_kode": "B1",
+      "prasyarat_kode": "A7"
+    },
+    {
+      "tp_kode": "B2",
+      "prasyarat_kode": "A4"
+    },
+    {
+      "tp_kode": "B2",
+      "prasyarat_kode": "B1"
+    },
+    {
+      "tp_kode": "B3",
+      "prasyarat_kode": "A4"
+    },
+    {
+      "tp_kode": "B4",
+      "prasyarat_kode": "B3"
+    },
+    {
+      "tp_kode": "B5",
+      "prasyarat_kode": "B3"
+    },
+    {
+      "tp_kode": "B5",
+      "prasyarat_kode": "B4"
+    },
+    {
+      "tp_kode": "B6",
+      "prasyarat_kode": "A8"
+    },
+    {
+      "tp_kode": "B7",
+      "prasyarat_kode": "B6"
+    },
+    {
+      "tp_kode": "B7",
+      "prasyarat_kode": "B3"
+    },
+    {
+      "tp_kode": "B8",
+      "prasyarat_kode": "B7"
+    }
+  ],
+  "soal": [
+    {
+      "id": "A1-D1",
+      "tp_kode": "A1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Ada berapa bintang?",
+      "visual": "⭐⭐⭐⭐⭐⭐⭐",
+      "pilihan": [
+        {
+          "teks": "6",
+          "benar": false,
+          "miskonsepsi": "Ada benda yang terlewat saat membilang"
+        },
+        {
+          "teks": "7",
+          "benar": true
+        },
+        {
+          "teks": "8",
+          "benar": false,
+          "miskonsepsi": "Ada benda yang terhitung dua kali"
+        },
+        {
+          "teks": "9",
+          "benar": false,
+          "miskonsepsi": "Menebak tanpa membilang satu per satu"
+        }
+      ],
+      "pembahasan": "Tunjuk bintang satu per satu sambil membilang: 1, 2, 3, 4, 5, 6, 7. Ada 7 bintang."
+    },
+    {
+      "id": "A1-D2",
+      "tp_kode": "A1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Lambang bilangan dari \"dua belas\" adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "21",
+          "benar": false,
+          "miskonsepsi": "Urutan angka puluhan dan satuan tertukar"
+        },
+        {
+          "teks": "12",
+          "benar": true
+        },
+        {
+          "teks": "2",
+          "benar": false,
+          "miskonsepsi": "Hanya menulis angka dari kata \"dua\""
+        },
+        {
+          "teks": "10",
+          "benar": false,
+          "miskonsepsi": "Belum mengenal bilangan belasan"
+        }
+      ],
+      "pembahasan": "\"Dua belas\" artinya sepuluh ditambah dua, ditulis 12: angka 1 di depan, angka 2 di belakang."
+    },
+    {
+      "id": "A1-D3",
+      "tp_kode": "A1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Ada berapa bola biru? Satu baris penuh berisi 10 bola.",
+      "visual": "🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵\n🔵🔵🔵",
+      "pilihan": [
+        {
+          "teks": "3",
+          "benar": false,
+          "miskonsepsi": "Hanya menghitung baris kedua"
+        },
+        {
+          "teks": "10",
+          "benar": false,
+          "miskonsepsi": "Hanya menghitung baris pertama"
+        },
+        {
+          "teks": "13",
+          "benar": true
+        },
+        {
+          "teks": "31",
+          "benar": false,
+          "miskonsepsi": "Urutan angka tertukar saat menulis hasil"
+        }
+      ],
+      "pembahasan": "Baris pertama ada 10 bola, baris kedua ada 3 bola. Mulai dari 10 lalu lanjutkan: 11, 12, 13. Jadi ada 13 bola."
+    },
+    {
+      "id": "A1-D4",
+      "tp_kode": "A1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Keranjang ini kosong, tidak ada buah sama sekali. Berapa banyak buah di keranjang?",
+      "visual": "🧺",
+      "pilihan": [
+        {
+          "teks": "0",
+          "benar": true
+        },
+        {
+          "teks": "1",
+          "benar": false,
+          "miskonsepsi": "Menghitung keranjangnya, bukan isinya"
+        },
+        {
+          "teks": "10",
+          "benar": false,
+          "miskonsepsi": "Mengira angka 0 sendiri adalah 10"
+        },
+        {
+          "teks": "Tidak ada bilangannya",
+          "benar": false,
+          "miskonsepsi": "Belum memahami nol sebagai bilangan"
+        }
+      ],
+      "pembahasan": "Kalau tidak ada benda sama sekali, banyaknya adalah nol, ditulis 0."
+    },
+    {
+      "id": "A2-D1",
+      "tp_kode": "A2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Mana yang lebih banyak, apel atau pisang?",
+      "visual": "🍎🍎🍎🍎🍎\n🍌🍌🍌",
+      "pilihan": [
+        {
+          "teks": "Apel",
+          "benar": true
+        },
+        {
+          "teks": "Pisang",
+          "benar": false,
+          "miskonsepsi": "Membandingkan ukuran gambar, bukan banyaknya"
+        },
+        {
+          "teks": "Sama banyak",
+          "benar": false,
+          "miskonsepsi": "Belum memasangkan benda satu per satu"
+        },
+        {
+          "teks": "Tidak bisa dibandingkan",
+          "benar": false,
+          "miskonsepsi": "Mengira benda berbeda jenis tidak bisa dibandingkan banyaknya"
+        }
+      ],
+      "pembahasan": "Ada 5 apel dan 3 pisang. Pasangkan satu apel dengan satu pisang, masih tersisa 2 apel. Jadi apel lebih banyak."
+    },
+    {
+      "id": "A2-D2",
+      "tp_kode": "A2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Bilangan yang lebih besar dari 14 adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "9",
+          "benar": false,
+          "miskonsepsi": "Membandingkan angka 9 dengan angka 4 saja, bukan bilangannya"
+        },
+        {
+          "teks": "12",
+          "benar": false,
+          "miskonsepsi": "Belum memahami urutan bilangan belasan"
+        },
+        {
+          "teks": "14",
+          "benar": false,
+          "miskonsepsi": "Belum membedakan 'lebih besar' dengan 'sama dengan'"
+        },
+        {
+          "teks": "17",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Saat membilang, 17 datang sesudah 14: 14, 15, 16, 17. Jadi 17 lebih besar dari 14."
+    },
+    {
+      "id": "A2-D3",
+      "tp_kode": "A2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Urutkan dari yang terkecil: 8, 3, 11",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "3, 8, 11",
+          "benar": true
+        },
+        {
+          "teks": "11, 8, 3",
+          "benar": false,
+          "miskonsepsi": "Mengurutkan dari yang terbesar"
+        },
+        {
+          "teks": "8, 3, 11",
+          "benar": false,
+          "miskonsepsi": "Tidak mengubah urutan soal"
+        },
+        {
+          "teks": "3, 11, 8",
+          "benar": false,
+          "miskonsepsi": "Mengira 11 lebih kecil dari 8 karena angkanya 1"
+        }
+      ],
+      "pembahasan": "Yang paling kecil 3, lalu 8, lalu 11. Jadi urutannya 3, 8, 11."
+    },
+    {
+      "id": "A2-D4",
+      "tp_kode": "A2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Bilangan di antara 15 dan 17 adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "14",
+          "benar": false,
+          "miskonsepsi": "Mengambil bilangan sebelum 15"
+        },
+        {
+          "teks": "15",
+          "benar": false,
+          "miskonsepsi": "Memilih salah satu bilangan di soal"
+        },
+        {
+          "teks": "16",
+          "benar": true
+        },
+        {
+          "teks": "18",
+          "benar": false,
+          "miskonsepsi": "Mengambil bilangan sesudah 17"
+        }
+      ],
+      "pembahasan": "Bilang maju: 15, 16, 17. Bilangan yang ada di tengah adalah 16."
+    },
+    {
+      "id": "A3-D1",
+      "tp_kode": "A3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "5 kelereng dan 3 kelereng digabung menjadi ... kelereng",
+      "visual": "🟣🟣🟣🟣🟣  🟢🟢🟢",
+      "pilihan": [
+        {
+          "teks": "7",
+          "benar": false,
+          "miskonsepsi": "Ada kelereng yang terlewat saat membilang"
+        },
+        {
+          "teks": "8",
+          "benar": true
+        },
+        {
+          "teks": "9",
+          "benar": false,
+          "miskonsepsi": "Ada kelereng yang terhitung dua kali"
+        },
+        {
+          "teks": "53",
+          "benar": false,
+          "miskonsepsi": "Menggabungkan angka, bukan banyak benda"
+        }
+      ],
+      "pembahasan": "Mulai dari 5, lanjutkan 3 kali: 6, 7, 8. Jadi semuanya 8 kelereng."
+    },
+    {
+      "id": "A3-D2",
+      "tp_kode": "A3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "10 dapat diurai menjadi 6 dan ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "3",
+          "benar": false,
+          "miskonsepsi": "Kurang tepat menghitung pasangan bilangan"
+        },
+        {
+          "teks": "4",
+          "benar": true
+        },
+        {
+          "teks": "5",
+          "benar": false,
+          "miskonsepsi": "Mengira 10 selalu dibagi menjadi 5 dan 5"
+        },
+        {
+          "teks": "16",
+          "benar": false,
+          "miskonsepsi": "Menjumlahkan 10 dan 6, bukan mengurai"
+        }
+      ],
+      "pembahasan": "6 dan berapa supaya menjadi 10? Bilang dari 6 sampai 10: 7, 8, 9, 10, ada 4 langkah. Jadi 10 diurai menjadi 6 dan 4."
+    },
+    {
+      "id": "A3-D3",
+      "tp_kode": "A3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Bilangan 14 terdiri dari ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "1 puluhan dan 4 satuan",
+          "benar": true
+        },
+        {
+          "teks": "4 puluhan dan 1 satuan",
+          "benar": false,
+          "miskonsepsi": "Nilai tempat puluhan dan satuan tertukar"
+        },
+        {
+          "teks": "14 puluhan",
+          "benar": false,
+          "miskonsepsi": "Belum memahami makna puluhan"
+        },
+        {
+          "teks": "1 puluhan dan 0 satuan",
+          "benar": false,
+          "miskonsepsi": "Mengabaikan angka satuan"
+        }
+      ],
+      "pembahasan": "14 adalah 10 ditambah 4. Angka 1 menunjukkan 1 puluhan (sepuluh), angka 4 menunjukkan 4 satuan."
+    },
+    {
+      "id": "A3-D4",
+      "tp_kode": "A3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Ada 1 ikat berisi 10 lidi dan 6 lidi lepas. Berapa semua lidi?",
+      "visual": "[ikat 10 lidi] | | | | | |",
+      "pilihan": [
+        {
+          "teks": "7",
+          "benar": false,
+          "miskonsepsi": "Menghitung ikatan sebagai 1 lidi"
+        },
+        {
+          "teks": "16",
+          "benar": true
+        },
+        {
+          "teks": "61",
+          "benar": false,
+          "miskonsepsi": "Urutan puluhan dan satuan tertukar"
+        },
+        {
+          "teks": "106",
+          "benar": false,
+          "miskonsepsi": "Menulis 10 dan 6 berdampingan"
+        }
+      ],
+      "pembahasan": "1 ikat = 10 lidi. Ditambah 6 lidi lepas: 10 dan 6 menjadi 16 lidi."
+    },
+    {
+      "id": "A4-D1",
+      "tp_kode": "A4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "4 + 2 = ...",
+      "visual": "🐟🐟🐟🐟 + 🐟🐟",
+      "pilihan": [
+        {
+          "teks": "5",
+          "benar": false,
+          "miskonsepsi": "Ada ikan yang terlewat saat membilang"
+        },
+        {
+          "teks": "6",
+          "benar": true
+        },
+        {
+          "teks": "7",
+          "benar": false,
+          "miskonsepsi": "Ikut menghitung bilangan awal saat menghitung maju"
+        },
+        {
+          "teks": "42",
+          "benar": false,
+          "miskonsepsi": "Menuliskan angka berdampingan"
+        }
+      ],
+      "pembahasan": "Mulai dari 4, hitung maju 2 kali: 5, 6. Jadi 4 + 2 = 6."
+    },
+    {
+      "id": "A4-D2",
+      "tp_kode": "A4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "9 − 4 = ...",
+      "visual": "🍪🍪🍪🍪🍪🍪🍪🍪🍪 (4 kue dimakan)",
+      "pilihan": [
+        {
+          "teks": "4",
+          "benar": false,
+          "miskonsepsi": "Menuliskan bilangan pengurang"
+        },
+        {
+          "teks": "5",
+          "benar": true
+        },
+        {
+          "teks": "6",
+          "benar": false,
+          "miskonsepsi": "Kurang satu langkah saat menghitung mundur"
+        },
+        {
+          "teks": "13",
+          "benar": false,
+          "miskonsepsi": "Menjumlahkan, bukan mengurangkan"
+        }
+      ],
+      "pembahasan": "Ada 9 kue, dimakan 4. Hitung mundur 4 kali dari 9: 8, 7, 6, 5. Sisa 5 kue."
+    },
+    {
+      "id": "A4-D3",
+      "tp_kode": "A4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "8 + 7 = ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "14",
+          "benar": false,
+          "miskonsepsi": "Kurang satu saat melewati 10"
+        },
+        {
+          "teks": "15",
+          "benar": true
+        },
+        {
+          "teks": "16",
+          "benar": false,
+          "miskonsepsi": "Lebih satu saat melewati 10"
+        },
+        {
+          "teks": "1",
+          "benar": false,
+          "miskonsepsi": "Mengurangkan, bukan menjumlahkan"
+        }
+      ],
+      "pembahasan": "Buat 10 dulu: 8 + 2 = 10. Sisa dari 7 adalah 5. Lalu 10 + 5 = 15."
+    },
+    {
+      "id": "A4-D4",
+      "tp_kode": "A4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "17 − 9 = ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "7",
+          "benar": false,
+          "miskonsepsi": "Lebih satu langkah saat menghitung mundur"
+        },
+        {
+          "teks": "8",
+          "benar": true
+        },
+        {
+          "teks": "9",
+          "benar": false,
+          "miskonsepsi": "Kurang satu langkah saat menghitung mundur"
+        },
+        {
+          "teks": "26",
+          "benar": false,
+          "miskonsepsi": "Menjumlahkan, bukan mengurangkan"
+        }
+      ],
+      "pembahasan": "Kurangi 7 dulu supaya menjadi 10: 17 − 7 = 10. Masih harus dikurangi 2 lagi: 10 − 2 = 8."
+    },
+    {
+      "id": "A5-D1",
+      "tp_kode": "A5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Upi punya 6 kelereng. Ia diberi 5 kelereng lagi. Berapa kelereng Upi sekarang?",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "1",
+          "benar": false,
+          "miskonsepsi": "Mengurangkan padahal ceritanya bertambah"
+        },
+        {
+          "teks": "10",
+          "benar": false,
+          "miskonsepsi": "Kurang satu saat menjumlahkan"
+        },
+        {
+          "teks": "11",
+          "benar": true
+        },
+        {
+          "teks": "12",
+          "benar": false,
+          "miskonsepsi": "Lebih satu saat menjumlahkan"
+        }
+      ],
+      "pembahasan": "\"Diberi lagi\" artinya bertambah, jadi dijumlahkan: 6 + 5 = 11 kelereng."
+    },
+    {
+      "id": "A5-D2",
+      "tp_kode": "A5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "3 + ... = 10",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "6",
+          "benar": false,
+          "miskonsepsi": "Kurang satu saat menghitung selisih"
+        },
+        {
+          "teks": "7",
+          "benar": true
+        },
+        {
+          "teks": "13",
+          "benar": false,
+          "miskonsepsi": "Menjumlahkan semua bilangan yang terlihat"
+        },
+        {
+          "teks": "3",
+          "benar": false,
+          "miskonsepsi": "Menyalin bilangan dari soal"
+        }
+      ],
+      "pembahasan": "Berapa yang perlu ditambahkan ke 3 supaya menjadi 10? Bilang dari 3 sampai 10, ada 7 langkah. Jadi 3 + 7 = 10."
+    },
+    {
+      "id": "A5-D3",
+      "tp_kode": "A5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Ada 12 balon. 4 balon pecah. Kalimat matematika yang tepat adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "12 − 4 = 8",
+          "benar": true
+        },
+        {
+          "teks": "12 + 4 = 16",
+          "benar": false,
+          "miskonsepsi": "Menjumlahkan padahal balon berkurang"
+        },
+        {
+          "teks": "4 − 12 = 8",
+          "benar": false,
+          "miskonsepsi": "Urutan bilangan pada pengurangan terbalik"
+        },
+        {
+          "teks": "12 − 4 = 9",
+          "benar": false,
+          "miskonsepsi": "Operasinya tepat, hasil hitungnya keliru"
+        }
+      ],
+      "pembahasan": "Balon awalnya 12, lalu berkurang 4 karena pecah. Ditulis 12 − 4 = 8."
+    },
+    {
+      "id": "A5-D4",
+      "tp_kode": "A5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "5 + 4 = 6 + ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "3",
+          "benar": true
+        },
+        {
+          "teks": "9",
+          "benar": false,
+          "miskonsepsi": "Menganggap '=' berarti 'tulis hasilnya', bukan 'sama nilainya'"
+        },
+        {
+          "teks": "15",
+          "benar": false,
+          "miskonsepsi": "Menjumlahkan semua bilangan"
+        },
+        {
+          "teks": "4",
+          "benar": false,
+          "miskonsepsi": "Menyalin bilangan dari sisi kiri"
+        }
+      ],
+      "pembahasan": "Simbol '=' artinya kedua sisi sama nilainya. 5 + 4 = 9, jadi 6 + ... juga harus 9. Jawabannya 3."
+    },
+    {
+      "id": "A6-D1",
+      "tp_kode": "A6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Lambang bilangan dari \"empat puluh tujuh\" adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "74",
+          "benar": false,
+          "miskonsepsi": "Urutan puluhan dan satuan tertukar"
+        },
+        {
+          "teks": "47",
+          "benar": true
+        },
+        {
+          "teks": "407",
+          "benar": false,
+          "miskonsepsi": "Menulis 40 dan 7 berdampingan"
+        },
+        {
+          "teks": "40",
+          "benar": false,
+          "miskonsepsi": "Mengabaikan bagian satuan"
+        }
+      ],
+      "pembahasan": "\"Empat puluh\" berarti 4 puluhan dan \"tujuh\" berarti 7 satuan, ditulis 47."
+    },
+    {
+      "id": "A6-D2",
+      "tp_kode": "A6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Bilangan terbesar dari 59, 95, 90, dan 9 adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "59",
+          "benar": false,
+          "miskonsepsi": "Melihat angka satuan 9 sebagai penentu"
+        },
+        {
+          "teks": "95",
+          "benar": true
+        },
+        {
+          "teks": "90",
+          "benar": false,
+          "miskonsepsi": "Puluhannya sudah tepat, satuannya belum dibandingkan"
+        },
+        {
+          "teks": "9",
+          "benar": false,
+          "miskonsepsi": "Mengira 9 terbesar karena angka 9 paling besar"
+        }
+      ],
+      "pembahasan": "Bandingkan puluhan dulu: 95 dan 90 sama-sama 9 puluhan. Lalu bandingkan satuan: 5 lebih besar dari 0. Jadi 95 terbesar."
+    },
+    {
+      "id": "A6-D3",
+      "tp_kode": "A6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Bilangan sesudah 79 adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "70",
+          "benar": false,
+          "miskonsepsi": "Satuan kembali ke 0 tetapi puluhan tidak bertambah"
+        },
+        {
+          "teks": "80",
+          "benar": true
+        },
+        {
+          "teks": "89",
+          "benar": false,
+          "miskonsepsi": "Menambah puluhan, bukan menambah 1"
+        },
+        {
+          "teks": "710",
+          "benar": false,
+          "miskonsepsi": "Menulis 7 dan 10 berdampingan"
+        }
+      ],
+      "pembahasan": "Sesudah 79, satuannya sudah penuh, jadi puluhannya bertambah satu: 80."
+    },
+    {
+      "id": "A6-D4",
+      "tp_kode": "A6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Urutkan dari yang terbesar: 61, 16, 66",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "66, 61, 16",
+          "benar": true
+        },
+        {
+          "teks": "16, 61, 66",
+          "benar": false,
+          "miskonsepsi": "Mengurutkan dari yang terkecil"
+        },
+        {
+          "teks": "61, 66, 16",
+          "benar": false,
+          "miskonsepsi": "Belum membandingkan angka satuan"
+        },
+        {
+          "teks": "66, 16, 61",
+          "benar": false,
+          "miskonsepsi": "Belum membandingkan angka puluhan"
+        }
+      ],
+      "pembahasan": "66 dan 61 sama-sama 6 puluhan, tetapi satuan 6 lebih besar dari 1, jadi 66 paling besar. 16 hanya 1 puluhan, jadi paling kecil."
+    },
+    {
+      "id": "A7-D1",
+      "tp_kode": "A7",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Bilangan 72 terdiri dari 7 puluhan dan ... satuan",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "2",
+          "benar": true
+        },
+        {
+          "teks": "7",
+          "benar": false,
+          "miskonsepsi": "Menyalin angka puluhan"
+        },
+        {
+          "teks": "20",
+          "benar": false,
+          "miskonsepsi": "Belum membedakan satuan dan puluhan"
+        },
+        {
+          "teks": "72",
+          "benar": false,
+          "miskonsepsi": "Menulis bilangan utuhnya"
+        }
+      ],
+      "pembahasan": "Pada 72, angka 7 ada di tempat puluhan dan angka 2 di tempat satuan. Jadi 7 puluhan dan 2 satuan."
+    },
+    {
+      "id": "A7-D2",
+      "tp_kode": "A7",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Angka 3 pada bilangan 35 menempati nilai tempat ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "Puluhan",
+          "benar": true
+        },
+        {
+          "teks": "Satuan",
+          "benar": false,
+          "miskonsepsi": "Nilai tempat puluhan dan satuan tertukar"
+        },
+        {
+          "teks": "Ratusan",
+          "benar": false,
+          "miskonsepsi": "Belum mengenal urutan nilai tempat"
+        },
+        {
+          "teks": "Ribuan",
+          "benar": false,
+          "miskonsepsi": "Belum mengenal urutan nilai tempat"
+        }
+      ],
+      "pembahasan": "Dari kanan: tempat pertama satuan, tempat kedua puluhan. Angka 3 di tempat kedua, jadi puluhan. Nilainya 30."
+    },
+    {
+      "id": "A7-D3",
+      "tp_kode": "A7",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "50 + 8 = ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "13",
+          "benar": false,
+          "miskonsepsi": "Menjumlahkan angka 5 dan 8 tanpa memperhatikan nilai tempat"
+        },
+        {
+          "teks": "58",
+          "benar": true
+        },
+        {
+          "teks": "508",
+          "benar": false,
+          "miskonsepsi": "Menulis 50 dan 8 berdampingan"
+        },
+        {
+          "teks": "85",
+          "benar": false,
+          "miskonsepsi": "Urutan puluhan dan satuan tertukar"
+        }
+      ],
+      "pembahasan": "50 adalah 5 puluhan, 8 adalah 8 satuan. Digabung menjadi 5 puluhan 8 satuan, yaitu 58."
+    },
+    {
+      "id": "A7-D4",
+      "tp_kode": "A7",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Ada 4 ikat lidi. Setiap ikat berisi 10 lidi. Ada juga 9 lidi lepas. Berapa semua lidi?",
+      "visual": "[ikat 10] [ikat 10] [ikat 10] [ikat 10] | | | | | | | | |",
+      "pilihan": [
+        {
+          "teks": "13",
+          "benar": false,
+          "miskonsepsi": "Menghitung setiap ikatan sebagai 1 lidi"
+        },
+        {
+          "teks": "49",
+          "benar": true
+        },
+        {
+          "teks": "94",
+          "benar": false,
+          "miskonsepsi": "Urutan puluhan dan satuan tertukar"
+        },
+        {
+          "teks": "409",
+          "benar": false,
+          "miskonsepsi": "Menulis 40 dan 9 berdampingan"
+        }
+      ],
+      "pembahasan": "4 ikat berarti 4 puluhan, yaitu 40 lidi. Ditambah 9 lidi lepas: 40 + 9 = 49."
+    },
+    {
+      "id": "A8-D1",
+      "tp_kode": "A8",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Sebuah kue dipotong menjadi 2 bagian sama besar. Satu bagiannya disebut ...",
+      "visual": "🎂 → ◐",
+      "pilihan": [
+        {
+          "teks": "Setengah",
+          "benar": true
+        },
+        {
+          "teks": "Seperempat",
+          "benar": false,
+          "miskonsepsi": "Belum membedakan dibagi 2 dan dibagi 4"
+        },
+        {
+          "teks": "Satu kue utuh",
+          "benar": false,
+          "miskonsepsi": "Menganggap satu potong sebagai satu benda utuh"
+        },
+        {
+          "teks": "Dua kue",
+          "benar": false,
+          "miskonsepsi": "Menghitung banyak potongan sebagai banyak kue"
+        }
+      ],
+      "pembahasan": "Kalau satu benda dibagi menjadi 2 bagian sama besar, setiap bagiannya disebut setengah."
+    },
+    {
+      "id": "A8-D2",
+      "tp_kode": "A8",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Pizza dipotong menjadi 4 bagian sama besar. Satu potong pizza adalah ...",
+      "visual": "🍕 (dipotong 4)",
+      "pilihan": [
+        {
+          "teks": "1/2",
+          "benar": false,
+          "miskonsepsi": "Belum membedakan setengah dan seperempat"
+        },
+        {
+          "teks": "1/4",
+          "benar": true
+        },
+        {
+          "teks": "4",
+          "benar": false,
+          "miskonsepsi": "Menulis banyak potongan, bukan bagiannya"
+        },
+        {
+          "teks": "1/8",
+          "benar": false,
+          "miskonsepsi": "Belum memahami makna penyebut"
+        }
+      ],
+      "pembahasan": "Dibagi 4 bagian sama besar, satu bagiannya adalah seperempat, ditulis 1/4."
+    },
+    {
+      "id": "A8-D3",
+      "tp_kode": "A8",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Ada 8 permen dibagi sama banyak untuk 2 anak. Setiap anak mendapat setengahnya, yaitu ... permen",
+      "visual": "🍬🍬🍬🍬🍬🍬🍬🍬",
+      "pilihan": [
+        {
+          "teks": "2",
+          "benar": false,
+          "miskonsepsi": "Menuliskan banyak anak"
+        },
+        {
+          "teks": "4",
+          "benar": true
+        },
+        {
+          "teks": "6",
+          "benar": false,
+          "miskonsepsi": "Mengurangkan 2 dari 8"
+        },
+        {
+          "teks": "8",
+          "benar": false,
+          "miskonsepsi": "Menuliskan semua permen"
+        }
+      ],
+      "pembahasan": "Bagikan satu-satu bergantian ke 2 anak sampai habis. Setiap anak mendapat 4 permen, yaitu setengah dari 8."
+    },
+    {
+      "id": "A8-D4",
+      "tp_kode": "A8",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Dari kue yang sama besarnya, mana yang lebih besar: setengah kue atau seperempat kue?",
+      "visual": "◐  vs  ◔",
+      "pilihan": [
+        {
+          "teks": "Setengah kue",
+          "benar": true
+        },
+        {
+          "teks": "Seperempat kue",
+          "benar": false,
+          "miskonsepsi": "Mengira pecahan lebih besar karena angka 4 lebih besar dari 2"
+        },
+        {
+          "teks": "Sama besar",
+          "benar": false,
+          "miskonsepsi": "Belum memahami ukuran bagian pecahan"
+        },
+        {
+          "teks": "Tidak bisa dibandingkan",
+          "benar": false,
+          "miskonsepsi": "Belum memahami pecahan sebagai bagian dari keseluruhan"
+        }
+      ],
+      "pembahasan": "Kalau kue dibagi 2, potongannya besar. Kalau dibagi 4, potongannya lebih kecil. Jadi setengah kue lebih besar dari seperempat kue."
+    },
+    {
+      "id": "B1-D1",
+      "tp_kode": "B1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Lambang bilangan dari \"tiga ribu dua ratus lima\" adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "3.250",
+          "benar": false,
+          "miskonsepsi": "Posisi angka 5 dan 0 tertukar"
+        },
+        {
+          "teks": "325",
+          "benar": false,
+          "miskonsepsi": "Mengabaikan angka nol sebagai penanda tempat puluhan"
+        },
+        {
+          "teks": "3.205",
+          "benar": true
+        },
+        {
+          "teks": "32.005",
+          "benar": false,
+          "miskonsepsi": "Menulis bagian-bagian bilangan berdampingan"
+        }
+      ],
+      "pembahasan": "Tiga ribu = 3 ribuan, dua ratus = 2 ratusan, tidak ada puluhan (0), lima = 5 satuan. Ditulis 3.205."
+    },
+    {
+      "id": "B1-D2",
+      "tp_kode": "B1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Nilai angka 6 pada bilangan 4.638 adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "6",
+          "benar": false,
+          "miskonsepsi": "Menyebut angkanya, bukan nilainya"
+        },
+        {
+          "teks": "60",
+          "benar": false,
+          "miskonsepsi": "Salah menentukan tempat puluhan dan ratusan"
+        },
+        {
+          "teks": "6.000",
+          "benar": false,
+          "miskonsepsi": "Salah menentukan tempat ratusan dan ribuan"
+        },
+        {
+          "teks": "600",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Dari kanan: 8 satuan, 3 puluhan, 6 ratusan, 4 ribuan. Angka 6 di tempat ratusan, jadi nilainya 600."
+    },
+    {
+      "id": "B1-D3",
+      "tp_kode": "B1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Bilangan terbesar dari 2.789, 2.978, 2.897, dan 2.798 adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "2.978",
+          "benar": true
+        },
+        {
+          "teks": "2.789",
+          "benar": false,
+          "miskonsepsi": "Melihat angka satuan 9 sebagai penentu"
+        },
+        {
+          "teks": "2.897",
+          "benar": false,
+          "miskonsepsi": "Belum membandingkan dari tempat ratusan"
+        },
+        {
+          "teks": "2.798",
+          "benar": false,
+          "miskonsepsi": "Membandingkan dari kanan, bukan dari kiri"
+        }
+      ],
+      "pembahasan": "Ribuannya sama, yaitu 2. Bandingkan ratusan: 9 paling besar, hanya ada di 2.978. Jadi 2.978 terbesar."
+    },
+    {
+      "id": "B1-D4",
+      "tp_kode": "B1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "7.000 + ... + 50 + 3 = 7.453",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "4",
+          "benar": false,
+          "miskonsepsi": "Menulis angkanya tanpa nilai tempat"
+        },
+        {
+          "teks": "40",
+          "benar": false,
+          "miskonsepsi": "Salah menentukan tempat ratusan"
+        },
+        {
+          "teks": "400",
+          "benar": true
+        },
+        {
+          "teks": "4.000",
+          "benar": false,
+          "miskonsepsi": "Salah menentukan tempat ribuan"
+        }
+      ],
+      "pembahasan": "7.453 = 7 ribuan + 4 ratusan + 5 puluhan + 3 satuan = 7.000 + 400 + 50 + 3. Yang kosong adalah 400."
+    },
+    {
+      "id": "B2-D1",
+      "tp_kode": "B2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "245 + 132 = ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "367",
+          "benar": false,
+          "miskonsepsi": "Salah menjumlahkan angka puluhan"
+        },
+        {
+          "teks": "377",
+          "benar": true
+        },
+        {
+          "teks": "387",
+          "benar": false,
+          "miskonsepsi": "Menambah simpanan padahal tidak ada"
+        },
+        {
+          "teks": "113",
+          "benar": false,
+          "miskonsepsi": "Mengurangkan, bukan menjumlahkan"
+        }
+      ],
+      "pembahasan": "Jumlahkan per tempat: satuan 5 + 2 = 7, puluhan 4 + 3 = 7, ratusan 2 + 1 = 3. Hasilnya 377."
+    },
+    {
+      "id": "B2-D2",
+      "tp_kode": "B2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "586 − 243 = ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "333",
+          "benar": false,
+          "miskonsepsi": "Salah mengurangkan angka puluhan"
+        },
+        {
+          "teks": "353",
+          "benar": false,
+          "miskonsepsi": "Salah mengurangkan angka puluhan"
+        },
+        {
+          "teks": "829",
+          "benar": false,
+          "miskonsepsi": "Menjumlahkan, bukan mengurangkan"
+        },
+        {
+          "teks": "343",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Kurangkan per tempat: satuan 6 − 3 = 3, puluhan 8 − 4 = 4, ratusan 5 − 2 = 3. Hasilnya 343."
+    },
+    {
+      "id": "B2-D3",
+      "tp_kode": "B2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "468 + 275 = ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "633",
+          "benar": false,
+          "miskonsepsi": "Tidak menyimpan saat hasil per tempat lebih dari 9"
+        },
+        {
+          "teks": "733",
+          "benar": false,
+          "miskonsepsi": "Lupa satu simpanan dari satuan ke puluhan"
+        },
+        {
+          "teks": "743",
+          "benar": true
+        },
+        {
+          "teks": "753",
+          "benar": false,
+          "miskonsepsi": "Menambah simpanan berlebih"
+        }
+      ],
+      "pembahasan": "Satuan 8 + 5 = 13, tulis 3 simpan 1. Puluhan 6 + 7 + 1 = 14, tulis 4 simpan 1. Ratusan 4 + 2 + 1 = 7. Hasilnya 743."
+    },
+    {
+      "id": "B2-D4",
+      "tp_kode": "B2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "702 − 358 = ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "344",
+          "benar": true
+        },
+        {
+          "teks": "456",
+          "benar": false,
+          "miskonsepsi": "Selalu mengurangkan angka yang lebih besar dengan yang lebih kecil di tiap tempat"
+        },
+        {
+          "teks": "354",
+          "benar": false,
+          "miskonsepsi": "Salah meminjam melewati angka nol"
+        },
+        {
+          "teks": "444",
+          "benar": false,
+          "miskonsepsi": "Lupa mengurangi ratusan setelah meminjam"
+        }
+      ],
+      "pembahasan": "Satuan 2 tidak cukup dikurangi 8, jadi pinjam. Karena puluhannya 0, pinjam dulu dari ratusan: 702 = 6 ratusan, 9 puluhan, 12 satuan. Lalu 12 − 8 = 4, 9 − 5 = 4, 6 − 3 = 3. Hasilnya 344."
+    },
+    {
+      "id": "B3-D1",
+      "tp_kode": "B3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Ada 4 piring. Setiap piring berisi 3 jeruk. Kalimat perkalian yang tepat adalah ...",
+      "visual": "🍊🍊🍊 | 🍊🍊🍊 | 🍊🍊🍊 | 🍊🍊🍊",
+      "pilihan": [
+        {
+          "teks": "4 + 3 = 7",
+          "benar": false,
+          "miskonsepsi": "Menjumlahkan banyak piring dan isi satu piring"
+        },
+        {
+          "teks": "4 × 3 = 12",
+          "benar": true
+        },
+        {
+          "teks": "4 × 3 = 7",
+          "benar": false,
+          "miskonsepsi": "Memakai tanda kali tetapi menghitung dengan menjumlahkan"
+        },
+        {
+          "teks": "3 × 3 = 9",
+          "benar": false,
+          "miskonsepsi": "Salah menghitung banyak kelompok"
+        }
+      ],
+      "pembahasan": "Ada 4 kelompok dan setiap kelompok berisi 3. Itu artinya 4 × 3 = 3 + 3 + 3 + 3 = 12 jeruk."
+    },
+    {
+      "id": "B3-D2",
+      "tp_kode": "B3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "5 + 5 + 5 + 5 + 5 + 5 sama dengan ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "5 × 5",
+          "benar": false,
+          "miskonsepsi": "Salah menghitung berapa kali 5 ditambahkan"
+        },
+        {
+          "teks": "6 + 5",
+          "benar": false,
+          "miskonsepsi": "Belum memahami perkalian sebagai penjumlahan berulang"
+        },
+        {
+          "teks": "6 × 5",
+          "benar": true
+        },
+        {
+          "teks": "5 × 11",
+          "benar": false,
+          "miskonsepsi": "Belum memahami makna faktor pengali"
+        }
+      ],
+      "pembahasan": "Bilangan 5 ditambahkan sebanyak 6 kali. Penjumlahan berulang ini ditulis 6 × 5."
+    },
+    {
+      "id": "B3-D3",
+      "tp_kode": "B3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "6 × 7 = ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "13",
+          "benar": false,
+          "miskonsepsi": "Menjumlahkan, bukan mengalikan"
+        },
+        {
+          "teks": "36",
+          "benar": false,
+          "miskonsepsi": "Kurang satu kelompok (6 × 6)"
+        },
+        {
+          "teks": "48",
+          "benar": false,
+          "miskonsepsi": "Lebih satu kelompok (6 × 8)"
+        },
+        {
+          "teks": "42",
+          "benar": true
+        }
+      ],
+      "pembahasan": "6 × 7 artinya 6 kelompok berisi 7. Bisa dihitung dari 5 × 7 = 35, ditambah satu kelompok lagi: 35 + 7 = 42."
+    },
+    {
+      "id": "B3-D4",
+      "tp_kode": "B3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Ani membeli 8 kotak pensil. Setiap kotak berisi 9 pensil. Berapa semua pensil Ani?",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "72",
+          "benar": true
+        },
+        {
+          "teks": "17",
+          "benar": false,
+          "miskonsepsi": "Menjumlahkan, bukan mengalikan"
+        },
+        {
+          "teks": "64",
+          "benar": false,
+          "miskonsepsi": "Salah mengingat fakta perkalian (8 × 8)"
+        },
+        {
+          "teks": "81",
+          "benar": false,
+          "miskonsepsi": "Salah mengingat fakta perkalian (9 × 9)"
+        }
+      ],
+      "pembahasan": "Ada 8 kotak dan setiap kotak berisi 9, jadi 8 × 9. Bisa dihitung dari 8 × 10 = 80, dikurangi 8: 80 − 8 = 72 pensil."
+    },
+    {
+      "id": "B4-D1",
+      "tp_kode": "B4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "12 kue dibagi sama banyak untuk 3 anak. Setiap anak mendapat ... kue",
+      "visual": "🍪🍪🍪🍪🍪🍪🍪🍪🍪🍪🍪🍪",
+      "pilihan": [
+        {
+          "teks": "3",
+          "benar": false,
+          "miskonsepsi": "Menuliskan banyak anak"
+        },
+        {
+          "teks": "4",
+          "benar": true
+        },
+        {
+          "teks": "9",
+          "benar": false,
+          "miskonsepsi": "Mengurangkan, bukan membagi"
+        },
+        {
+          "teks": "36",
+          "benar": false,
+          "miskonsepsi": "Mengalikan, bukan membagi"
+        }
+      ],
+      "pembahasan": "Bagikan kue satu-satu bergantian ke 3 anak sampai habis. Setiap anak mendapat 4 kue, karena 3 × 4 = 12."
+    },
+    {
+      "id": "B4-D2",
+      "tp_kode": "B4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "35 : 5 = ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "6",
+          "benar": false,
+          "miskonsepsi": "Salah mengingat fakta perkalian yang terkait"
+        },
+        {
+          "teks": "30",
+          "benar": false,
+          "miskonsepsi": "Mengurangkan, bukan membagi"
+        },
+        {
+          "teks": "40",
+          "benar": false,
+          "miskonsepsi": "Menjumlahkan, bukan membagi"
+        },
+        {
+          "teks": "7",
+          "benar": true
+        }
+      ],
+      "pembahasan": "35 : 5 artinya 5 dikali berapa sama dengan 35? Karena 5 × 7 = 35, jawabannya 7."
+    },
+    {
+      "id": "B4-D3",
+      "tp_kode": "B4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Jika 6 × 8 = 48, maka 48 : 8 = ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "8",
+          "benar": false,
+          "miskonsepsi": "Menyalin pembaginya"
+        },
+        {
+          "teks": "6",
+          "benar": true
+        },
+        {
+          "teks": "40",
+          "benar": false,
+          "miskonsepsi": "Mengurangkan, bukan membagi"
+        },
+        {
+          "teks": "56",
+          "benar": false,
+          "miskonsepsi": "Menjumlahkan, bukan membagi"
+        }
+      ],
+      "pembahasan": "Pembagian adalah kebalikan perkalian. Dari 6 × 8 = 48, kita tahu 48 : 8 = 6."
+    },
+    {
+      "id": "B4-D4",
+      "tp_kode": "B4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "56 buku disusun sama banyak di 7 rak. Berapa buku di setiap rak?",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "7",
+          "benar": false,
+          "miskonsepsi": "Menuliskan banyak rak"
+        },
+        {
+          "teks": "49",
+          "benar": false,
+          "miskonsepsi": "Mengurangkan, bukan membagi"
+        },
+        {
+          "teks": "8",
+          "benar": true
+        },
+        {
+          "teks": "63",
+          "benar": false,
+          "miskonsepsi": "Menjumlahkan, bukan membagi"
+        }
+      ],
+      "pembahasan": "56 dibagi 7. Cari bilangan yang jika dikali 7 hasilnya 56: 7 × 8 = 56. Jadi setiap rak berisi 8 buku."
+    },
+    {
+      "id": "B5-D1",
+      "tp_kode": "B5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Tiga kelipatan pertama dari 4 adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "1, 2, 4",
+          "benar": false,
+          "miskonsepsi": "Tertukar antara kelipatan dan faktor"
+        },
+        {
+          "teks": "4, 5, 6",
+          "benar": false,
+          "miskonsepsi": "Menambah 1, bukan menambah 4"
+        },
+        {
+          "teks": "4, 8, 12",
+          "benar": true
+        },
+        {
+          "teks": "8, 12, 16",
+          "benar": false,
+          "miskonsepsi": "Tidak memasukkan 4 sebagai kelipatan pertama"
+        }
+      ],
+      "pembahasan": "Kelipatan 4 didapat dari 4 × 1, 4 × 2, 4 × 3, yaitu 4, 8, 12."
+    },
+    {
+      "id": "B5-D2",
+      "tp_kode": "B5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Bilangan berikut yang merupakan faktor dari 12 adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "6",
+          "benar": true
+        },
+        {
+          "teks": "5",
+          "benar": false,
+          "miskonsepsi": "Mengira bilangan kurang dari 12 pasti faktornya"
+        },
+        {
+          "teks": "8",
+          "benar": false,
+          "miskonsepsi": "Belum mengecek apakah 12 habis dibagi"
+        },
+        {
+          "teks": "24",
+          "benar": false,
+          "miskonsepsi": "Tertukar antara faktor dan kelipatan"
+        }
+      ],
+      "pembahasan": "Faktor 12 adalah bilangan yang membagi 12 sampai habis. 12 : 6 = 2 tanpa sisa, jadi 6 adalah faktor 12."
+    },
+    {
+      "id": "B5-D3",
+      "tp_kode": "B5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Bilangan berikut yang merupakan kelipatan 6 adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "16",
+          "benar": false,
+          "miskonsepsi": "Mengira bilangan berakhiran 6 adalah kelipatan 6"
+        },
+        {
+          "teks": "26",
+          "benar": false,
+          "miskonsepsi": "Mengira bilangan berakhiran 6 adalah kelipatan 6"
+        },
+        {
+          "teks": "46",
+          "benar": false,
+          "miskonsepsi": "Mengira bilangan berakhiran 6 adalah kelipatan 6"
+        },
+        {
+          "teks": "36",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Kelipatan 6: 6, 12, 18, 24, 30, 36, ... Jadi 36 adalah kelipatan 6, karena 6 × 6 = 36."
+    },
+    {
+      "id": "B5-D4",
+      "tp_kode": "B5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Semua faktor dari 18 adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "1, 2, 3, 6, 9",
+          "benar": false,
+          "miskonsepsi": "Lupa bahwa bilangan itu sendiri juga faktornya"
+        },
+        {
+          "teks": "1, 2, 3, 6, 9, 18",
+          "benar": true
+        },
+        {
+          "teks": "2, 3, 6, 9",
+          "benar": false,
+          "miskonsepsi": "Lupa bahwa 1 dan bilangan itu sendiri adalah faktor"
+        },
+        {
+          "teks": "18, 36, 54",
+          "benar": false,
+          "miskonsepsi": "Tertukar antara faktor dan kelipatan"
+        }
+      ],
+      "pembahasan": "Cari pasangan perkalian yang hasilnya 18: 1 × 18, 2 × 9, 3 × 6. Jadi faktornya 1, 2, 3, 6, 9, 18."
+    },
+    {
+      "id": "B6-D1",
+      "tp_kode": "B6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Dari kue yang sama besarnya, mana yang lebih besar: 3/8 atau 5/8 kue?",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "3/8",
+          "benar": false,
+          "miskonsepsi": "Belum memahami makna pembilang"
+        },
+        {
+          "teks": "5/8",
+          "benar": true
+        },
+        {
+          "teks": "Sama besar",
+          "benar": false,
+          "miskonsepsi": "Menganggap penyebut yang sama berarti pecahannya sama"
+        },
+        {
+          "teks": "Tidak bisa dibandingkan",
+          "benar": false,
+          "miskonsepsi": "Belum memahami pecahan sebagai bagian dari keseluruhan"
+        }
+      ],
+      "pembahasan": "Kue dibagi menjadi 8 bagian sama besar. 5 bagian lebih banyak dari 3 bagian, jadi 5/8 lebih besar."
+    },
+    {
+      "id": "B6-D2",
+      "tp_kode": "B6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Dari kue yang sama besarnya, mana yang lebih besar: 1/3 atau 1/5 kue?",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "1/3",
+          "benar": true
+        },
+        {
+          "teks": "1/5",
+          "benar": false,
+          "miskonsepsi": "Mengira penyebut lebih besar berarti pecahan lebih besar"
+        },
+        {
+          "teks": "Sama besar",
+          "benar": false,
+          "miskonsepsi": "Menganggap pembilang sama berarti pecahannya sama"
+        },
+        {
+          "teks": "Tidak bisa dibandingkan",
+          "benar": false,
+          "miskonsepsi": "Belum memahami makna penyebut"
+        }
+      ],
+      "pembahasan": "Kalau kue dibagi 3, potongannya lebih besar daripada kalau dibagi 5. Jadi 1/3 lebih besar dari 1/5."
+    },
+    {
+      "id": "B6-D3",
+      "tp_kode": "B6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Urutkan dari yang terkecil: 1/2, 1/6, 1/4",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "1/2, 1/4, 1/6",
+          "benar": false,
+          "miskonsepsi": "Mengurutkan berdasarkan angka penyebut dari kecil ke besar"
+        },
+        {
+          "teks": "1/2, 1/6, 1/4",
+          "benar": false,
+          "miskonsepsi": "Belum memahami cara membandingkan pecahan"
+        },
+        {
+          "teks": "1/4, 1/2, 1/6",
+          "benar": false,
+          "miskonsepsi": "Belum memahami cara membandingkan pecahan"
+        },
+        {
+          "teks": "1/6, 1/4, 1/2",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Semakin banyak bagiannya, semakin kecil setiap potongan. 1/6 paling kecil, lalu 1/4, lalu 1/2."
+    },
+    {
+      "id": "B6-D4",
+      "tp_kode": "B6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Pecahan yang lebih kecil dari 1/4 adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "1/2",
+          "benar": false,
+          "miskonsepsi": "Mengira penyebut lebih kecil berarti pecahan lebih kecil"
+        },
+        {
+          "teks": "1/8",
+          "benar": true
+        },
+        {
+          "teks": "1/3",
+          "benar": false,
+          "miskonsepsi": "Mengira penyebut lebih kecil berarti pecahan lebih kecil"
+        },
+        {
+          "teks": "3/4",
+          "benar": false,
+          "miskonsepsi": "Belum memahami makna pembilang"
+        }
+      ],
+      "pembahasan": "Untuk pecahan berpembilang 1, semakin besar penyebutnya, semakin kecil nilainya. 1/8 lebih kecil dari 1/4."
+    },
+    {
+      "id": "B7-D1",
+      "tp_kode": "B7",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Pecahan 1/2 senilai dengan ...",
+      "visual": "◐  =  ?",
+      "pilihan": [
+        {
+          "teks": "1/4",
+          "benar": false,
+          "miskonsepsi": "Hanya mengubah penyebut tanpa mengubah pembilang"
+        },
+        {
+          "teks": "2/2",
+          "benar": false,
+          "miskonsepsi": "Hanya mengubah pembilang tanpa mengubah penyebut"
+        },
+        {
+          "teks": "2/4",
+          "benar": true
+        },
+        {
+          "teks": "1/3",
+          "benar": false,
+          "miskonsepsi": "Menambah penyebut dengan 1"
+        }
+      ],
+      "pembahasan": "Kalikan pembilang dan penyebut dengan bilangan yang sama: (1 × 2)/(2 × 2) = 2/4. Gambar setengah kue sama dengan dua perempat kue."
+    },
+    {
+      "id": "B7-D2",
+      "tp_kode": "B7",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "2/3 = .../6",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "4",
+          "benar": true
+        },
+        {
+          "teks": "3",
+          "benar": false,
+          "miskonsepsi": "Menyalin penyebut lama"
+        },
+        {
+          "teks": "5",
+          "benar": false,
+          "miskonsepsi": "Menambahkan 3 ke pembilang, bukan mengalikan"
+        },
+        {
+          "teks": "2",
+          "benar": false,
+          "miskonsepsi": "Tidak mengubah pembilang"
+        }
+      ],
+      "pembahasan": "Penyebut 3 menjadi 6 karena dikali 2. Pembilang juga dikali 2: 2 × 2 = 4. Jadi 2/3 = 4/6."
+    },
+    {
+      "id": "B7-D3",
+      "tp_kode": "B7",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Pecahan berikut yang TIDAK senilai dengan 1/2 adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "3/6",
+          "benar": false,
+          "miskonsepsi": "Belum memeriksa hubungan pembilang dan penyebut"
+        },
+        {
+          "teks": "4/8",
+          "benar": false,
+          "miskonsepsi": "Belum memeriksa hubungan pembilang dan penyebut"
+        },
+        {
+          "teks": "5/10",
+          "benar": false,
+          "miskonsepsi": "Belum memeriksa hubungan pembilang dan penyebut"
+        },
+        {
+          "teks": "2/6",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Pecahan senilai 1/2 punya penyebut dua kali pembilangnya: 3/6, 4/8, 5/10. Pada 2/6, penyebutnya tiga kali pembilang, jadi 2/6 senilai dengan 1/3."
+    },
+    {
+      "id": "B7-D4",
+      "tp_kode": "B7",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Dua pizza sama besar. Pizza Budi dipotong 4 bagian sama besar, Budi makan 2 potong. Pizza Sari dipotong 8 bagian sama besar, Sari makan 4 potong. Siapa yang makan lebih banyak?",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "Sari",
+          "benar": false,
+          "miskonsepsi": "Membandingkan banyak potongan, bukan besar bagian"
+        },
+        {
+          "teks": "Budi",
+          "benar": false,
+          "miskonsepsi": "Mengira potongan lebih besar pasti berarti lebih banyak"
+        },
+        {
+          "teks": "Sama banyak",
+          "benar": true
+        },
+        {
+          "teks": "Tidak bisa dibandingkan",
+          "benar": false,
+          "miskonsepsi": "Belum memahami pecahan senilai"
+        }
+      ],
+      "pembahasan": "Budi makan 2/4 pizza dan Sari makan 4/8 pizza. Keduanya senilai dengan 1/2, jadi mereka makan sama banyak."
+    },
+    {
+      "id": "B8-D1",
+      "tp_kode": "B8",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Pecahan 3/10 ditulis dalam bentuk desimal adalah ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "3,10",
+          "benar": false,
+          "miskonsepsi": "Menulis pembilang dan penyebut dipisah koma"
+        },
+        {
+          "teks": "0,03",
+          "benar": false,
+          "miskonsepsi": "Tertukar antara persepuluhan dan perseratusan"
+        },
+        {
+          "teks": "0,3",
+          "benar": true
+        },
+        {
+          "teks": "3,0",
+          "benar": false,
+          "miskonsepsi": "Belum memahami makna angka di belakang koma"
+        }
+      ],
+      "pembahasan": "3/10 artinya tiga persepuluh. Persepuluhan ditulis satu angka di belakang koma: 0,3."
+    },
+    {
+      "id": "B8-D2",
+      "tp_kode": "B8",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Pecahan 1/2 sama dengan ... persen",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "12%",
+          "benar": false,
+          "miskonsepsi": "Menulis angka pembilang dan penyebut berdampingan"
+        },
+        {
+          "teks": "50%",
+          "benar": true
+        },
+        {
+          "teks": "2%",
+          "benar": false,
+          "miskonsepsi": "Menulis penyebut sebagai persen"
+        },
+        {
+          "teks": "20%",
+          "benar": false,
+          "miskonsepsi": "Belum memahami persen sebagai perseratus"
+        }
+      ],
+      "pembahasan": "Persen artinya per seratus. 1/2 = 50/100, jadi 1/2 = 50%."
+    },
+    {
+      "id": "B8-D3",
+      "tp_kode": "B8",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "0,25 sama dengan ...",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "25%",
+          "benar": true
+        },
+        {
+          "teks": "2,5%",
+          "benar": false,
+          "miskonsepsi": "Salah menggeser koma saat mengubah ke persen"
+        },
+        {
+          "teks": "0,25%",
+          "benar": false,
+          "miskonsepsi": "Menambahkan tanda persen tanpa mengubah nilai"
+        },
+        {
+          "teks": "250%",
+          "benar": false,
+          "miskonsepsi": "Salah menggeser koma saat mengubah ke persen"
+        }
+      ],
+      "pembahasan": "0,25 artinya dua puluh lima perseratus, yaitu 25/100. Per seratus sama dengan persen, jadi 25%."
+    },
+    {
+      "id": "B8-D4",
+      "tp_kode": "B8",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Mana yang lebih besar: 0,7 atau 0,45?",
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "0,45",
+          "benar": false,
+          "miskonsepsi": "Mengira desimal dengan angka lebih banyak pasti lebih besar"
+        },
+        {
+          "teks": "Sama besar",
+          "benar": false,
+          "miskonsepsi": "Belum memahami nilai tempat desimal"
+        },
+        {
+          "teks": "Tidak bisa dibandingkan",
+          "benar": false,
+          "miskonsepsi": "Belum memahami nilai tempat desimal"
+        },
+        {
+          "teks": "0,7",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Ubah ke perseratusan: 0,7 = 0,70. Bandingkan 70 perseratus dengan 45 perseratus. Jadi 0,7 lebih besar."
+    }
+  ]
+}

@@ -1,0 +1,1701 @@
+{
+  "meta": {
+    "judul": "Data awal TP dan soal diagnostik Bahasa Indonesia Fase A dan B, elemen Membaca dan Memirsa",
+    "versi": "0.1-draf",
+    "acuan_cp": "Keputusan Kepala BSKAP No. 046/H/KR/2025, Lampiran CP Bahasa Indonesia (III.1) Fase A dan Fase B, elemen Membaca dan Memirsa",
+    "acuan_atp": [
+      "Disusun langsung dari CP 2025. Pembagian per kelas masih perkiraan; cocokkan dengan ATP Transisi Bahasa Indonesia Fase A dan B dari Ruang GTK bila tersedia."
+    ],
+    "status": "Draf. Wajib ditinjau guru SD sebelum dipakai di luar demo.",
+    "catatan_soal": "Soal ditulis baru (tidak disalin dari buku). Kolom 'bacaan' berisi teks yang dibaca anak sebelum menjawab (boleh kosong). Kolom 'visual' berisi emoji pengganti gambar sementara. Soal Fase A wajib bisa dibacakan (text-to-speech), kecuali kata yang sedang diuji kemampuan membacanya. Konteks soal mengikuti guardrail: tanpa rumah sakit, jarum, obat, atau penyakit.",
+    "elemen_di_luar_data_ini": "Menyimak (bisa ditambah dengan soal yang dibacakan), Berbicara dan Mempresentasikan, serta Menulis (tidak cocok dinilai dengan pilihan ganda).",
+    "parameter_bkt": {
+      "peluang_awal": 0.5,
+      "tebakan": 0.25,
+      "ceroboh": 0.1,
+      "ceroboh_lelah": 0.3,
+      "belajar_saat_asesmen": 0,
+      "belajar_saat_sesi": 0.15,
+      "ambang_tercapai": 0.85,
+      "ambang_tercapai_sesi": 0.95,
+      "ambang_belum": 0.3,
+      "min_soal_per_tp": 2,
+      "min_soal_tercapai": 3,
+      "maks_soal_per_tp": 4,
+      "berhenti_dini": true
+    },
+    "catatan_parameter": "Sama dengan data Matematika. Di aplikasi, parameter dibaca dari PENGATURAN_SISTEM (berlaku untuk semua mapel)."
+  },
+  "mapel": [
+    {
+      "id": 2,
+      "nama": "Bahasa Indonesia"
+    }
+  ],
+  "tujuan_pembelajaran": [
+    {
+      "kode": "BI-A1",
+      "mapel_id": 2,
+      "elemen": "Membaca dan Memirsa",
+      "fase": "A",
+      "kelas": 1,
+      "urutan": 1,
+      "esensial_transisi": true,
+      "deskripsi": "Mengenal huruf dan bunyinya, termasuk huruf besar-kecil dan huruf awal sebuah kata"
+    },
+    {
+      "kode": "BI-A2",
+      "mapel_id": 2,
+      "elemen": "Membaca dan Memirsa",
+      "fase": "A",
+      "kelas": 1,
+      "urutan": 2,
+      "esensial_transisi": true,
+      "deskripsi": "Membaca suku kata dan menggabungkannya menjadi kata"
+    },
+    {
+      "kode": "BI-A3",
+      "mapel_id": 2,
+      "elemen": "Membaca dan Memirsa",
+      "fase": "A",
+      "kelas": 1,
+      "urutan": 3,
+      "esensial_transisi": true,
+      "deskripsi": "Membaca kata sederhana dan memahami maknanya"
+    },
+    {
+      "kode": "BI-A4",
+      "mapel_id": 2,
+      "elemen": "Membaca dan Memirsa",
+      "fase": "A",
+      "kelas": 1,
+      "urutan": 4,
+      "esensial_transisi": true,
+      "deskripsi": "Membaca kalimat sederhana dan memahami maknanya"
+    },
+    {
+      "kode": "BI-A5",
+      "mapel_id": 2,
+      "elemen": "Membaca dan Memirsa",
+      "fase": "A",
+      "kelas": 2,
+      "urutan": 5,
+      "esensial_transisi": true,
+      "deskripsi": "Memahami isi tersurat bacaan pendek (siapa, apa, di mana, kapan)"
+    },
+    {
+      "kode": "BI-A6",
+      "mapel_id": 2,
+      "elemen": "Membaca dan Memirsa",
+      "fase": "A",
+      "kelas": 2,
+      "urutan": 6,
+      "esensial_transisi": false,
+      "deskripsi": "Memahami perasaan tokoh dan pesan sederhana dalam cerita anak"
+    },
+    {
+      "kode": "BI-B1",
+      "mapel_id": 2,
+      "elemen": "Membaca dan Memirsa",
+      "fase": "B",
+      "kelas": 3,
+      "urutan": 7,
+      "esensial_transisi": true,
+      "deskripsi": "Memahami makna kata baru dari konteks kalimat atau bacaan"
+    },
+    {
+      "kode": "BI-B2",
+      "mapel_id": 2,
+      "elemen": "Membaca dan Memirsa",
+      "fase": "B",
+      "kelas": 3,
+      "urutan": 8,
+      "esensial_transisi": true,
+      "deskripsi": "Menemukan informasi tersurat dalam teks nonsastra (pengumuman, teks informasi)"
+    },
+    {
+      "kode": "BI-B3",
+      "mapel_id": 2,
+      "elemen": "Membaca dan Memirsa",
+      "fase": "B",
+      "kelas": 3,
+      "urutan": 9,
+      "esensial_transisi": true,
+      "deskripsi": "Menentukan ide pokok paragraf"
+    },
+    {
+      "kode": "BI-B4",
+      "mapel_id": 2,
+      "elemen": "Membaca dan Memirsa",
+      "fase": "B",
+      "kelas": 4,
+      "urutan": 10,
+      "esensial_transisi": true,
+      "deskripsi": "Membedakan ide pokok dan ide pendukung dalam paragraf"
+    },
+    {
+      "kode": "BI-B5",
+      "mapel_id": 2,
+      "elemen": "Membaca dan Memirsa",
+      "fase": "B",
+      "kelas": 4,
+      "urutan": 11,
+      "esensial_transisi": true,
+      "deskripsi": "Memahami watak tokoh dan pesan (amanat) dalam teks sastra"
+    },
+    {
+      "kode": "BI-B6",
+      "mapel_id": 2,
+      "elemen": "Membaca dan Memirsa",
+      "fase": "B",
+      "kelas": 4,
+      "urutan": 12,
+      "esensial_transisi": false,
+      "deskripsi": "Memahami informasi dari teks multimodal sederhana (jadwal, tabel, diagram gambar)"
+    }
+  ],
+  "prasyarat_tp": [
+    {
+      "tp_kode": "BI-A2",
+      "prasyarat_kode": "BI-A1"
+    },
+    {
+      "tp_kode": "BI-A3",
+      "prasyarat_kode": "BI-A2"
+    },
+    {
+      "tp_kode": "BI-A4",
+      "prasyarat_kode": "BI-A3"
+    },
+    {
+      "tp_kode": "BI-A5",
+      "prasyarat_kode": "BI-A4"
+    },
+    {
+      "tp_kode": "BI-A6",
+      "prasyarat_kode": "BI-A5"
+    },
+    {
+      "tp_kode": "BI-B1",
+      "prasyarat_kode": "BI-A4"
+    },
+    {
+      "tp_kode": "BI-B2",
+      "prasyarat_kode": "BI-A5"
+    },
+    {
+      "tp_kode": "BI-B3",
+      "prasyarat_kode": "BI-A5"
+    },
+    {
+      "tp_kode": "BI-B3",
+      "prasyarat_kode": "BI-B1"
+    },
+    {
+      "tp_kode": "BI-B4",
+      "prasyarat_kode": "BI-B3"
+    },
+    {
+      "tp_kode": "BI-B5",
+      "prasyarat_kode": "BI-A6"
+    },
+    {
+      "tp_kode": "BI-B5",
+      "prasyarat_kode": "BI-B3"
+    },
+    {
+      "tp_kode": "BI-B6",
+      "prasyarat_kode": "BI-B2"
+    }
+  ],
+  "soal": [
+    {
+      "id": "BI-A1-D1",
+      "tp_kode": "BI-A1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Gambar ini adalah ikan. Kata \"ikan\" diawali huruf apa?",
+      "bacaan": null,
+      "visual": "🐟",
+      "pilihan": [
+        {
+          "teks": "i",
+          "benar": true
+        },
+        {
+          "teks": "k",
+          "benar": false,
+          "miskonsepsi": "Memilih huruf di tengah kata, bukan huruf awal"
+        },
+        {
+          "teks": "a",
+          "benar": false,
+          "miskonsepsi": "Memilih huruf vokal lain di dalam kata"
+        },
+        {
+          "teks": "n",
+          "benar": false,
+          "miskonsepsi": "Memilih huruf terakhir kata"
+        }
+      ],
+      "pembahasan": "Ucapkan pelan-pelan: i-kan. Bunyi pertama adalah /i/, jadi hurufnya i."
+    },
+    {
+      "id": "BI-A1-D2",
+      "tp_kode": "BI-A1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Huruf kecil mana yang sama dengan huruf B besar?",
+      "bacaan": null,
+      "visual": "B",
+      "pilihan": [
+        {
+          "teks": "d",
+          "benar": false,
+          "miskonsepsi": "Tertukar dengan huruf yang bentuknya terbalik kiri-kanan (b dan d)"
+        },
+        {
+          "teks": "b",
+          "benar": true
+        },
+        {
+          "teks": "p",
+          "benar": false,
+          "miskonsepsi": "Tertukar dengan huruf yang bentuknya terbalik atas-bawah (b dan p)"
+        },
+        {
+          "teks": "q",
+          "benar": false,
+          "miskonsepsi": "Tertukar karena bentuknya sama-sama bulat bertangkai"
+        }
+      ],
+      "pembahasan": "Huruf B besar ditulis b kecil: tangkainya di kiri dan menjulang ke atas, perutnya di kanan bawah."
+    },
+    {
+      "id": "BI-A1-D3",
+      "tp_kode": "BI-A1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Kata mana yang diawali huruf m?",
+      "bacaan": null,
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "nasi",
+          "benar": false,
+          "miskonsepsi": "Tertukar bunyi /m/ dengan /n/ yang mirip"
+        },
+        {
+          "teks": "kuda",
+          "benar": false,
+          "miskonsepsi": "Belum mengenali bunyi huruf awal kata"
+        },
+        {
+          "teks": "mata",
+          "benar": true
+        },
+        {
+          "teks": "wayang",
+          "benar": false,
+          "miskonsepsi": "Tertukar bentuk huruf m dengan w (m yang terbalik)"
+        }
+      ],
+      "pembahasan": "Ucapkan setiap kata. \"Mata\" dimulai dengan bunyi /m/, sama seperti \"mama\"."
+    },
+    {
+      "id": "BI-A1-D4",
+      "tp_kode": "BI-A1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Gambar ini adalah bola. Huruf apa yang hilang? _ola",
+      "bacaan": null,
+      "visual": "⚽",
+      "pilihan": [
+        {
+          "teks": "p",
+          "benar": false,
+          "miskonsepsi": "Tertukar bunyi /b/ dan /p/ yang mirip"
+        },
+        {
+          "teks": "d",
+          "benar": false,
+          "miskonsepsi": "Tertukar bentuk huruf b dan d"
+        },
+        {
+          "teks": "l",
+          "benar": false,
+          "miskonsepsi": "Mengulang huruf yang sudah ada di dalam kata"
+        },
+        {
+          "teks": "b",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Ucapkan: bo-la. Bunyi pertamanya /b/, jadi huruf yang hilang adalah b."
+    },
+    {
+      "id": "BI-A2-D1",
+      "tp_kode": "BI-A2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Gabungkan suku kata ini: ba + ju = ...",
+      "bacaan": null,
+      "visual": "👕",
+      "pilihan": [
+        {
+          "teks": "buja",
+          "benar": false,
+          "miskonsepsi": "Tertukar urutan bunyi vokal"
+        },
+        {
+          "teks": "baju",
+          "benar": true
+        },
+        {
+          "teks": "baja",
+          "benar": false,
+          "miskonsepsi": "Salah membaca vokal suku kata kedua"
+        },
+        {
+          "teks": "juba",
+          "benar": false,
+          "miskonsepsi": "Membalik urutan suku kata"
+        }
+      ],
+      "pembahasan": "Baca berurutan dari kiri: ba, lalu ju. Digabung menjadi baju."
+    },
+    {
+      "id": "BI-A2-D2",
+      "tp_kode": "BI-A2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Kata \"sapu\" dipenggal menjadi suku kata ...",
+      "bacaan": null,
+      "visual": "🧹",
+      "pilihan": [
+        {
+          "teks": "s - apu",
+          "benar": false,
+          "miskonsepsi": "Memisahkan huruf pertama saja, belum memahami suku kata"
+        },
+        {
+          "teks": "sap - u",
+          "benar": false,
+          "miskonsepsi": "Memenggal suku kata di tempat yang salah"
+        },
+        {
+          "teks": "sa - pu",
+          "benar": true
+        },
+        {
+          "teks": "sa - p - u",
+          "benar": false,
+          "miskonsepsi": "Mencampur pemenggalan huruf dan suku kata"
+        }
+      ],
+      "pembahasan": "Tepuk tangan setiap bunyi: sa (tepuk), pu (tepuk). Jadi sa - pu."
+    },
+    {
+      "id": "BI-A2-D3",
+      "tp_kode": "BI-A2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Berapa suku kata dalam kata \"kelinci\"?",
+      "bacaan": null,
+      "visual": "🐰",
+      "pilihan": [
+        {
+          "teks": "2",
+          "benar": false,
+          "miskonsepsi": "Menggabungkan dua suku kata menjadi satu"
+        },
+        {
+          "teks": "4",
+          "benar": false,
+          "miskonsepsi": "Memecah satu suku kata menjadi dua"
+        },
+        {
+          "teks": "7",
+          "benar": false,
+          "miskonsepsi": "Menghitung huruf, bukan suku kata"
+        },
+        {
+          "teks": "3",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Tepuk setiap bunyi: ke - lin - ci. Ada 3 tepukan, jadi 3 suku kata."
+    },
+    {
+      "id": "BI-A2-D4",
+      "tp_kode": "BI-A2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Suku kata mana yang melengkapi kata ini? se - ko - ...",
+      "bacaan": null,
+      "visual": "🏫",
+      "pilihan": [
+        {
+          "teks": "lah",
+          "benar": true
+        },
+        {
+          "teks": "la",
+          "benar": false,
+          "miskonsepsi": "Lupa bunyi akhir /h/"
+        },
+        {
+          "teks": "kah",
+          "benar": false,
+          "miskonsepsi": "Tertukar bunyi awal suku kata"
+        },
+        {
+          "teks": "lha",
+          "benar": false,
+          "miskonsepsi": "Salah urutan huruf dalam suku kata"
+        }
+      ],
+      "pembahasan": "Kata yang dimaksud adalah se-ko-lah. Suku kata terakhirnya lah."
+    },
+    {
+      "id": "BI-A3-D1",
+      "tp_kode": "BI-A3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Gambar apa ini? Pilih kata yang tepat.",
+      "bacaan": null,
+      "visual": "🐄",
+      "pilihan": [
+        {
+          "teks": "sepi",
+          "benar": false,
+          "miskonsepsi": "Kurang teliti membaca vokal (a dan e)"
+        },
+        {
+          "teks": "sapu",
+          "benar": false,
+          "miskonsepsi": "Kurang teliti membaca huruf terakhir"
+        },
+        {
+          "teks": "sapi",
+          "benar": true
+        },
+        {
+          "teks": "topi",
+          "benar": false,
+          "miskonsepsi": "Menebak dari bunyi akhir yang sama"
+        }
+      ],
+      "pembahasan": "Baca setiap pilihan huruf demi huruf: s-a-p-i, sapi. Itu nama hewan di gambar."
+    },
+    {
+      "id": "BI-A3-D2",
+      "tp_kode": "BI-A3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Kata mana yang ditulis \"buku\"?",
+      "bacaan": null,
+      "visual": "📗",
+      "pilihan": [
+        {
+          "teks": "duku",
+          "benar": false,
+          "miskonsepsi": "Tertukar huruf b dan d"
+        },
+        {
+          "teks": "kuku",
+          "benar": false,
+          "miskonsepsi": "Hanya memperhatikan bunyi akhir kata"
+        },
+        {
+          "teks": "bubu",
+          "benar": false,
+          "miskonsepsi": "Mengulang suku kata pertama"
+        },
+        {
+          "teks": "buku",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Perhatikan huruf pertama b, lalu suku kata ku: bu-ku."
+    },
+    {
+      "id": "BI-A3-D3",
+      "tp_kode": "BI-A3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Kata mana yang termasuk nama buah?",
+      "bacaan": null,
+      "visual": null,
+      "pilihan": [
+        {
+          "teks": "mangga",
+          "benar": true
+        },
+        {
+          "teks": "meja",
+          "benar": false,
+          "miskonsepsi": "Bisa membaca kata, tetapi belum memahami maknanya"
+        },
+        {
+          "teks": "kucing",
+          "benar": false,
+          "miskonsepsi": "Memilih kata yang dikenal tanpa memperhatikan jenisnya"
+        },
+        {
+          "teks": "merah",
+          "benar": false,
+          "miskonsepsi": "Belum membedakan kata sifat (warna) dengan nama benda"
+        }
+      ],
+      "pembahasan": "Mangga adalah buah. Meja adalah benda, kucing adalah hewan, dan merah adalah warna."
+    },
+    {
+      "id": "BI-A3-D4",
+      "tp_kode": "BI-A3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Lawan kata \"besar\" adalah ...",
+      "bacaan": null,
+      "visual": "🐘🐭",
+      "pilihan": [
+        {
+          "teks": "tinggi",
+          "benar": false,
+          "miskonsepsi": "Memilih kata ukuran lain, belum memahami lawan kata"
+        },
+        {
+          "teks": "kecil",
+          "benar": true
+        },
+        {
+          "teks": "gemuk",
+          "benar": false,
+          "miskonsepsi": "Memilih kata yang maknanya mirip, bukan lawannya"
+        },
+        {
+          "teks": "luas",
+          "benar": false,
+          "miskonsepsi": "Memilih kata yang berkaitan dengan ukuran tempat"
+        }
+      ],
+      "pembahasan": "Gajah besar, tikus kecil. Lawan kata besar adalah kecil."
+    },
+    {
+      "id": "BI-A4-D1",
+      "tp_kode": "BI-A4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Kalimat mana yang cocok dengan gambar?",
+      "bacaan": null,
+      "visual": "👦⚽",
+      "pilihan": [
+        {
+          "teks": "Adik membaca buku.",
+          "benar": false,
+          "miskonsepsi": "Hanya membaca kata pertama, tidak memperhatikan kegiatannya"
+        },
+        {
+          "teks": "Ibu memasak nasi.",
+          "benar": false,
+          "miskonsepsi": "Belum mencocokkan isi kalimat dengan gambar"
+        },
+        {
+          "teks": "Adik bermain layang-layang.",
+          "benar": false,
+          "miskonsepsi": "Membaca kata \"bermain\" lalu menebak sisanya"
+        },
+        {
+          "teks": "Adik bermain bola.",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Di gambar ada anak dan bola. Kalimat yang cocok: Adik bermain bola."
+    },
+    {
+      "id": "BI-A4-D2",
+      "tp_kode": "BI-A4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Di mana kucing tidur?",
+      "bacaan": "Kucing tidur di atas kursi.",
+      "visual": "🐈",
+      "pilihan": [
+        {
+          "teks": "di atas kursi",
+          "benar": true
+        },
+        {
+          "teks": "di bawah kursi",
+          "benar": false,
+          "miskonsepsi": "Kurang teliti membaca kata \"atas\""
+        },
+        {
+          "teks": "di atas meja",
+          "benar": false,
+          "miskonsepsi": "Menebak tempat tanpa membaca kalimat sampai habis"
+        },
+        {
+          "teks": "di dalam kotak",
+          "benar": false,
+          "miskonsepsi": "Menjawab dari pengalaman sendiri, bukan dari kalimat"
+        }
+      ],
+      "pembahasan": "Kalimatnya berkata: di atas kursi."
+    },
+    {
+      "id": "BI-A4-D3",
+      "tp_kode": "BI-A4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Kapan Rina menyiram bunga?",
+      "bacaan": "Rina menyiram bunga setiap pagi.",
+      "visual": "🌷",
+      "pilihan": [
+        {
+          "teks": "setiap sore",
+          "benar": false,
+          "miskonsepsi": "Kurang teliti membaca keterangan waktu"
+        },
+        {
+          "teks": "setiap pagi",
+          "benar": true
+        },
+        {
+          "teks": "hari Minggu",
+          "benar": false,
+          "miskonsepsi": "Menebak waktu tanpa melihat kalimat"
+        },
+        {
+          "teks": "setiap malam",
+          "benar": false,
+          "miskonsepsi": "Belum mengenali kata yang menunjukkan waktu"
+        }
+      ],
+      "pembahasan": "Kata yang menunjukkan waktu dalam kalimat itu adalah \"setiap pagi\"."
+    },
+    {
+      "id": "BI-A4-D4",
+      "tp_kode": "BI-A4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Apa yang terjadi pada gelas?",
+      "bacaan": "Gelas itu jatuh lalu pecah.",
+      "visual": "🥛",
+      "pilihan": [
+        {
+          "teks": "Gelas itu dicuci.",
+          "benar": false,
+          "miskonsepsi": "Menebak kegiatan yang biasa dilakukan pada gelas"
+        },
+        {
+          "teks": "Gelas itu diisi air.",
+          "benar": false,
+          "miskonsepsi": "Hanya membaca kata \"gelas\" tanpa memahami kalimat"
+        },
+        {
+          "teks": "Gelas itu pecah.",
+          "benar": true
+        },
+        {
+          "teks": "Gelas itu dibeli.",
+          "benar": false,
+          "miskonsepsi": "Belum memahami makna kata \"jatuh\" dan \"pecah\""
+        }
+      ],
+      "pembahasan": "Kalimatnya berkata gelas jatuh, lalu pecah."
+    },
+    {
+      "id": "BI-A5-D1",
+      "tp_kode": "BI-A5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Siapa yang pergi bersama Dodi?",
+      "bacaan": "Hari Minggu, Dodi dan Kakek pergi ke Danau Maninjau. Mereka naik sepeda motor. Di sana, Kakek mengajak Dodi memancing. Dodi mendapat dua ekor ikan.",
+      "visual": "🎣",
+      "pilihan": [
+        {
+          "teks": "Kakek",
+          "benar": true
+        },
+        {
+          "teks": "Ayah",
+          "benar": false,
+          "miskonsepsi": "Menjawab dari dugaan, bukan dari bacaan"
+        },
+        {
+          "teks": "Dodi",
+          "benar": false,
+          "miskonsepsi": "Menyebut tokoh yang ditanyakan, belum memahami pertanyaan \"bersama siapa\""
+        },
+        {
+          "teks": "Nenek",
+          "benar": false,
+          "miskonsepsi": "Tertukar dengan anggota keluarga lain"
+        }
+      ],
+      "pembahasan": "Kalimat pertama berkata: Dodi dan Kakek pergi ke Danau Maninjau."
+    },
+    {
+      "id": "BI-A5-D2",
+      "tp_kode": "BI-A5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Di mana Dodi memancing?",
+      "bacaan": "Hari Minggu, Dodi dan Kakek pergi ke Danau Maninjau. Mereka naik sepeda motor. Di sana, Kakek mengajak Dodi memancing. Dodi mendapat dua ekor ikan.",
+      "visual": "🎣",
+      "pilihan": [
+        {
+          "teks": "di sungai",
+          "benar": false,
+          "miskonsepsi": "Menebak tempat memancing yang umum"
+        },
+        {
+          "teks": "di Danau Maninjau",
+          "benar": true
+        },
+        {
+          "teks": "di laut",
+          "benar": false,
+          "miskonsepsi": "Mengaitkan ikan dengan laut tanpa membaca"
+        },
+        {
+          "teks": "di kolam rumah",
+          "benar": false,
+          "miskonsepsi": "Menjawab dari pengalaman sendiri"
+        }
+      ],
+      "pembahasan": "Bacaan menyebut mereka pergi ke Danau Maninjau, lalu memancing di sana."
+    },
+    {
+      "id": "BI-A5-D3",
+      "tp_kode": "BI-A5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Apa yang dilakukan Sinta di dapur?",
+      "bacaan": "Setiap pagi, Sinta membantu Ibu di dapur. Sinta mencuci sayur, lalu Ibu memasak sayur itu. Setelah itu, mereka sarapan bersama.",
+      "visual": "🥬",
+      "pilihan": [
+        {
+          "teks": "memasak sayur",
+          "benar": false,
+          "miskonsepsi": "Tertukar kegiatan Sinta dengan kegiatan Ibu"
+        },
+        {
+          "teks": "mencuci piring",
+          "benar": false,
+          "miskonsepsi": "Menebak kegiatan di dapur, bukan dari bacaan"
+        },
+        {
+          "teks": "mencuci sayur",
+          "benar": true
+        },
+        {
+          "teks": "membeli sayur",
+          "benar": false,
+          "miskonsepsi": "Kurang teliti membaca kata kerja"
+        }
+      ],
+      "pembahasan": "Bacaan berkata: Sinta mencuci sayur, lalu Ibu memasak sayur itu."
+    },
+    {
+      "id": "BI-A5-D4",
+      "tp_kode": "BI-A5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Kapan Sinta membantu Ibu?",
+      "bacaan": "Setiap pagi, Sinta membantu Ibu di dapur. Sinta mencuci sayur, lalu Ibu memasak sayur itu. Setelah itu, mereka sarapan bersama.",
+      "visual": "🥬",
+      "pilihan": [
+        {
+          "teks": "setelah sarapan",
+          "benar": false,
+          "miskonsepsi": "Salah memahami urutan; sarapan terjadi sesudahnya"
+        },
+        {
+          "teks": "setiap malam",
+          "benar": false,
+          "miskonsepsi": "Tidak menemukan keterangan waktu di bacaan"
+        },
+        {
+          "teks": "hari Minggu",
+          "benar": false,
+          "miskonsepsi": "Menebak waktu tanpa membaca"
+        },
+        {
+          "teks": "setiap pagi",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Kalimat pertama berkata: Setiap pagi, Sinta membantu Ibu di dapur."
+    },
+    {
+      "id": "BI-A6-D1",
+      "tp_kode": "BI-A6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Bagaimana sifat Gajah dalam cerita?",
+      "bacaan": "Kancil ingin menyeberang sungai. Ia melihat Gajah yang besar. \"Gajah, bolehkah aku naik ke punggungmu?\" tanya Kancil. Gajah mengangguk dan membawa Kancil menyeberang. \"Terima kasih, Gajah!\" kata Kancil.",
+      "visual": "🐘",
+      "pilihan": [
+        {
+          "teks": "sombong",
+          "benar": false,
+          "miskonsepsi": "Mengaitkan badan besar dengan sifat sombong, bukan dari isi cerita"
+        },
+        {
+          "teks": "suka menolong",
+          "benar": true
+        },
+        {
+          "teks": "pemalas",
+          "benar": false,
+          "miskonsepsi": "Menebak sifat tanpa melihat perbuatan tokoh"
+        },
+        {
+          "teks": "pemarah",
+          "benar": false,
+          "miskonsepsi": "Belum memahami watak dari perbuatan tokoh"
+        }
+      ],
+      "pembahasan": "Gajah mau membawa Kancil menyeberang. Itu tanda Gajah suka menolong."
+    },
+    {
+      "id": "BI-A6-D2",
+      "tp_kode": "BI-A6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Pesan apa yang ada dalam cerita itu?",
+      "bacaan": "Kancil ingin menyeberang sungai. Ia melihat Gajah yang besar. \"Gajah, bolehkah aku naik ke punggungmu?\" tanya Kancil. Gajah mengangguk dan membawa Kancil menyeberang. \"Terima kasih, Gajah!\" kata Kancil.",
+      "visual": "🐘",
+      "pilihan": [
+        {
+          "teks": "Kita tidak boleh menyeberang sungai.",
+          "benar": false,
+          "miskonsepsi": "Mengambil larangan yang tidak ada di cerita"
+        },
+        {
+          "teks": "Gajah lebih kuat daripada Kancil.",
+          "benar": false,
+          "miskonsepsi": "Memilih fakta dalam cerita, bukan pesan"
+        },
+        {
+          "teks": "Kita harus saling menolong dan berterima kasih.",
+          "benar": true
+        },
+        {
+          "teks": "Kancil pandai berenang.",
+          "benar": false,
+          "miskonsepsi": "Menyimpulkan hal yang berlawanan dengan isi cerita"
+        }
+      ],
+      "pembahasan": "Gajah menolong, Kancil berterima kasih. Pesannya: saling menolong dan berterima kasih."
+    },
+    {
+      "id": "BI-A6-D3",
+      "tp_kode": "BI-A6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Bagaimana perasaan Lina saat gambarnya tersiram air?",
+      "bacaan": "Lina menggambar seekor kupu-kupu. Gambarnya tidak sengaja tersiram air. Lina hampir menangis. Kakak berkata, \"Ayo kita gambar lagi bersama!\" Lina pun tersenyum.",
+      "visual": "🦋",
+      "pilihan": [
+        {
+          "teks": "senang",
+          "benar": false,
+          "miskonsepsi": "Mengambil perasaan di akhir cerita, bukan saat kejadian"
+        },
+        {
+          "teks": "marah",
+          "benar": false,
+          "miskonsepsi": "Menebak perasaan tanpa memperhatikan petunjuk \"hampir menangis\""
+        },
+        {
+          "teks": "takut",
+          "benar": false,
+          "miskonsepsi": "Belum memahami petunjuk perasaan dalam cerita"
+        },
+        {
+          "teks": "sedih",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Lina hampir menangis. Itu tanda ia sedih."
+    },
+    {
+      "id": "BI-A6-D4",
+      "tp_kode": "BI-A6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Mengapa Lina akhirnya tersenyum?",
+      "bacaan": "Lina menggambar seekor kupu-kupu. Gambarnya tidak sengaja tersiram air. Lina hampir menangis. Kakak berkata, \"Ayo kita gambar lagi bersama!\" Lina pun tersenyum.",
+      "visual": "🦋",
+      "pilihan": [
+        {
+          "teks": "Kakak mengajaknya menggambar lagi.",
+          "benar": true
+        },
+        {
+          "teks": "Gambarnya sudah kering.",
+          "benar": false,
+          "miskonsepsi": "Menduga hal yang tidak disebut dalam cerita"
+        },
+        {
+          "teks": "Lina mendapat kupu-kupu.",
+          "benar": false,
+          "miskonsepsi": "Salah memahami gambar kupu-kupu sebagai kupu-kupu sungguhan"
+        },
+        {
+          "teks": "Gambarnya tidak rusak.",
+          "benar": false,
+          "miskonsepsi": "Belum memahami bahwa gambar sudah tersiram air"
+        }
+      ],
+      "pembahasan": "Setelah Kakak berkata \"Ayo kita gambar lagi bersama!\", Lina tersenyum."
+    },
+    {
+      "id": "BI-B1-D1",
+      "tp_kode": "BI-B1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Kata \"gembira\" dalam kalimat itu artinya ...",
+      "bacaan": "Adik sangat gembira karena mendapat hadiah.",
+      "visual": "🎁",
+      "pilihan": [
+        {
+          "teks": "sedih",
+          "benar": false,
+          "miskonsepsi": "Memilih lawan kata"
+        },
+        {
+          "teks": "kaget",
+          "benar": false,
+          "miskonsepsi": "Menebak dari kata \"hadiah\" tanpa memahami makna"
+        },
+        {
+          "teks": "senang",
+          "benar": true
+        },
+        {
+          "teks": "lelah",
+          "benar": false,
+          "miskonsepsi": "Belum memakai petunjuk dalam kalimat"
+        }
+      ],
+      "pembahasan": "Mendapat hadiah membuat hati senang. Gembira artinya senang."
+    },
+    {
+      "id": "BI-B1-D2",
+      "tp_kode": "BI-B1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Kata \"curam\" paling dekat artinya dengan ...",
+      "bacaan": "Jalan menuju desa itu curam, sehingga kami berjalan pelan-pelan.",
+      "visual": "⛰️",
+      "pilihan": [
+        {
+          "teks": "sangat lebar",
+          "benar": false,
+          "miskonsepsi": "Belum memakai petunjuk \"berjalan pelan-pelan\""
+        },
+        {
+          "teks": "sangat ramai",
+          "benar": false,
+          "miskonsepsi": "Mengaitkan berjalan pelan dengan keramaian"
+        },
+        {
+          "teks": "sangat datar",
+          "benar": false,
+          "miskonsepsi": "Memilih makna yang berlawanan"
+        },
+        {
+          "teks": "sangat miring",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Orang berjalan pelan-pelan di jalan yang sangat miring agar tidak tergelincir. Curam artinya sangat miring."
+    },
+    {
+      "id": "BI-B1-D3",
+      "tp_kode": "BI-B1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Kata \"empuk\" dalam kalimat itu artinya ...",
+      "bacaan": "Rendang dimasak dalam waktu lama agar dagingnya empuk.",
+      "visual": "🍛",
+      "pilihan": [
+        {
+          "teks": "lunak",
+          "benar": true
+        },
+        {
+          "teks": "keras",
+          "benar": false,
+          "miskonsepsi": "Memilih lawan kata"
+        },
+        {
+          "teks": "pedas",
+          "benar": false,
+          "miskonsepsi": "Mengaitkan rendang dengan rasa pedas, bukan makna kata"
+        },
+        {
+          "teks": "harum",
+          "benar": false,
+          "miskonsepsi": "Menebak sifat makanan yang lain"
+        }
+      ],
+      "pembahasan": "Daging yang dimasak lama menjadi lunak. Empuk artinya lunak."
+    },
+    {
+      "id": "BI-B1-D4",
+      "tp_kode": "BI-B1",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Kata \"melimpah\" dalam bacaan itu artinya ...",
+      "bacaan": "Pak Tani memanen padi di sawah. Hasil panennya melimpah tahun ini.",
+      "visual": "🌾",
+      "pilihan": [
+        {
+          "teks": "sangat sedikit",
+          "benar": false,
+          "miskonsepsi": "Memilih lawan kata"
+        },
+        {
+          "teks": "sangat banyak",
+          "benar": true
+        },
+        {
+          "teks": "sudah habis",
+          "benar": false,
+          "miskonsepsi": "Menebak dari bunyi kata, bukan dari konteks"
+        },
+        {
+          "teks": "belum matang",
+          "benar": false,
+          "miskonsepsi": "Belum memahami makna \"hasil panen\""
+        }
+      ],
+      "pembahasan": "Hasil panen yang melimpah artinya padi yang dipanen sangat banyak."
+    },
+    {
+      "id": "BI-B2-D1",
+      "tp_kode": "BI-B2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Di mana lomba menggambar diadakan?",
+      "bacaan": "PENGUMUMAN\nLomba menggambar untuk murid kelas 3 dan 4 diadakan pada hari Sabtu, 14 November, pukul 08.00, di aula sekolah. Peserta membawa pensil warna sendiri.",
+      "visual": "🖍️",
+      "pilihan": [
+        {
+          "teks": "di lapangan",
+          "benar": false,
+          "miskonsepsi": "Menebak tempat lomba yang umum"
+        },
+        {
+          "teks": "di kelas 3",
+          "benar": false,
+          "miskonsepsi": "Tertukar informasi peserta dengan tempat"
+        },
+        {
+          "teks": "di rumah peserta",
+          "benar": false,
+          "miskonsepsi": "Belum menemukan informasi tempat"
+        },
+        {
+          "teks": "di aula sekolah",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Pengumuman menyebut: di aula sekolah."
+    },
+    {
+      "id": "BI-B2-D2",
+      "tp_kode": "BI-B2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Apa yang harus dibawa peserta?",
+      "bacaan": "PENGUMUMAN\nLomba menggambar untuk murid kelas 3 dan 4 diadakan pada hari Sabtu, 14 November, pukul 08.00, di aula sekolah. Peserta membawa pensil warna sendiri.",
+      "visual": "🖍️",
+      "pilihan": [
+        {
+          "teks": "pensil warna",
+          "benar": true
+        },
+        {
+          "teks": "kertas gambar",
+          "benar": false,
+          "miskonsepsi": "Menebak barang yang biasa dipakai untuk menggambar"
+        },
+        {
+          "teks": "cat air",
+          "benar": false,
+          "miskonsepsi": "Memilih alat gambar lain, kurang teliti membaca"
+        },
+        {
+          "teks": "uang pendaftaran",
+          "benar": false,
+          "miskonsepsi": "Menambahkan informasi yang tidak ada di pengumuman"
+        }
+      ],
+      "pembahasan": "Kalimat terakhir pengumuman: Peserta membawa pensil warna sendiri."
+    },
+    {
+      "id": "BI-B2-D3",
+      "tp_kode": "BI-B2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Di kota mana Jam Gadang berada?",
+      "bacaan": "Jam Gadang adalah menara jam di Kota Bukittinggi, Sumatera Barat. Menara ini dibangun pada tahun 1926. Jam Gadang memiliki empat jam besar yang menghadap ke empat arah.",
+      "visual": "🕰️",
+      "pilihan": [
+        {
+          "teks": "Padang",
+          "benar": false,
+          "miskonsepsi": "Menebak kota yang paling dikenal"
+        },
+        {
+          "teks": "Bukittinggi",
+          "benar": true
+        },
+        {
+          "teks": "Sumatera Barat",
+          "benar": false,
+          "miskonsepsi": "Menjawab nama provinsi, bukan nama kota"
+        },
+        {
+          "teks": "Payakumbuh",
+          "benar": false,
+          "miskonsepsi": "Menebak tanpa membaca"
+        }
+      ],
+      "pembahasan": "Bacaan menyebut: menara jam di Kota Bukittinggi, Sumatera Barat. Kotanya Bukittinggi."
+    },
+    {
+      "id": "BI-B2-D4",
+      "tp_kode": "BI-B2",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Berapa jam besar yang dimiliki Jam Gadang?",
+      "bacaan": "Jam Gadang adalah menara jam di Kota Bukittinggi, Sumatera Barat. Menara ini dibangun pada tahun 1926. Jam Gadang memiliki empat jam besar yang menghadap ke empat arah.",
+      "visual": "🕰️",
+      "pilihan": [
+        {
+          "teks": "1",
+          "benar": false,
+          "miskonsepsi": "Menganggap sebuah menara hanya punya satu jam"
+        },
+        {
+          "teks": "1926",
+          "benar": false,
+          "miskonsepsi": "Tertukar angka tahun dengan jumlah"
+        },
+        {
+          "teks": "4",
+          "benar": true
+        },
+        {
+          "teks": "2",
+          "benar": false,
+          "miskonsepsi": "Menebak tanpa mencari informasi di bacaan"
+        }
+      ],
+      "pembahasan": "Kalimat terakhir: Jam Gadang memiliki empat jam besar. Angka 1926 adalah tahun pembuatannya."
+    },
+    {
+      "id": "BI-B3-D1",
+      "tp_kode": "BI-B3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Apa ide pokok paragraf itu?",
+      "bacaan": "Kucing adalah hewan yang lucu. Bulunya halus. Matanya bulat. Kucing juga suka bermain dengan bola benang.",
+      "visual": "🐱",
+      "pilihan": [
+        {
+          "teks": "Kucing adalah hewan yang lucu.",
+          "benar": true
+        },
+        {
+          "teks": "Bulu kucing halus.",
+          "benar": false,
+          "miskonsepsi": "Memilih rincian pertama yang ditemukan"
+        },
+        {
+          "teks": "Kucing suka bermain bola benang.",
+          "benar": false,
+          "miskonsepsi": "Menganggap kalimat terakhir sebagai ide pokok"
+        },
+        {
+          "teks": "Mata kucing bulat.",
+          "benar": false,
+          "miskonsepsi": "Memilih rincian yang menarik perhatian"
+        }
+      ],
+      "pembahasan": "Kalimat lain menjelaskan mengapa kucing lucu. Jadi ide pokoknya: Kucing adalah hewan yang lucu."
+    },
+    {
+      "id": "BI-B3-D2",
+      "tp_kode": "BI-B3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Apa ide pokok paragraf itu?",
+      "bacaan": "Sayur dan buah baik untuk tubuh. Wortel baik untuk mata. Jeruk mengandung vitamin C. Bayam membuat tubuh lebih kuat.",
+      "visual": "🥕",
+      "pilihan": [
+        {
+          "teks": "Wortel baik untuk mata.",
+          "benar": false,
+          "miskonsepsi": "Memilih rincian pertama"
+        },
+        {
+          "teks": "Sayur dan buah baik untuk tubuh.",
+          "benar": true
+        },
+        {
+          "teks": "Jeruk mengandung vitamin C.",
+          "benar": false,
+          "miskonsepsi": "Memilih salah satu contoh"
+        },
+        {
+          "teks": "Bayam adalah sayur berwarna hijau.",
+          "benar": false,
+          "miskonsepsi": "Memilih informasi yang tidak ada di paragraf"
+        }
+      ],
+      "pembahasan": "Wortel, jeruk, dan bayam adalah contoh. Semuanya menjelaskan bahwa sayur dan buah baik untuk tubuh."
+    },
+    {
+      "id": "BI-B3-D3",
+      "tp_kode": "BI-B3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Apa ide pokok paragraf itu?",
+      "bacaan": "Setiap pagi Andi merapikan tempat tidurnya. Ia juga menyapu kamar dan menyusun buku di rak. Andi adalah anak yang rajin.",
+      "visual": "🧹",
+      "pilihan": [
+        {
+          "teks": "Andi merapikan tempat tidur setiap pagi.",
+          "benar": false,
+          "miskonsepsi": "Menganggap kalimat pertama selalu ide pokok"
+        },
+        {
+          "teks": "Andi menyusun buku di rak.",
+          "benar": false,
+          "miskonsepsi": "Memilih salah satu rincian"
+        },
+        {
+          "teks": "Andi adalah anak yang rajin.",
+          "benar": true
+        },
+        {
+          "teks": "Andi suka membaca buku.",
+          "benar": false,
+          "miskonsepsi": "Menyimpulkan hal yang tidak ada di paragraf"
+        }
+      ],
+      "pembahasan": "Ide pokok tidak selalu di awal. Di sini kalimat terakhir merangkum semua kegiatan Andi: Andi anak yang rajin."
+    },
+    {
+      "id": "BI-B3-D4",
+      "tp_kode": "BI-B3",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Judul yang paling tepat untuk paragraf itu adalah ...",
+      "bacaan": "Di pantai, Rudi membuat istana pasir. Adiknya mengumpulkan kerang. Ayah dan Ibu berenang di tepi laut. Mereka semua senang berlibur di pantai.",
+      "visual": "🏖️",
+      "pilihan": [
+        {
+          "teks": "Istana Pasir Rudi",
+          "benar": false,
+          "miskonsepsi": "Membuat judul hanya dari kalimat pertama"
+        },
+        {
+          "teks": "Kerang yang Indah",
+          "benar": false,
+          "miskonsepsi": "Membuat judul dari satu rincian tokoh lain"
+        },
+        {
+          "teks": "Belajar Berenang",
+          "benar": false,
+          "miskonsepsi": "Mengubah rincian menjadi topik yang tidak dibahas"
+        },
+        {
+          "teks": "Liburan Keluarga di Pantai",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Judul harus mencakup isi seluruh paragraf: satu keluarga berlibur di pantai."
+    },
+    {
+      "id": "BI-B4-D1",
+      "tp_kode": "BI-B4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Kalimat mana yang merupakan ide pendukung?",
+      "bacaan": "Gotong royong membuat pekerjaan cepat selesai. Warga bersama-sama membersihkan selokan. Ada yang memotong rumput. Ada pula yang mengangkut sampah.",
+      "visual": "🧹",
+      "pilihan": [
+        {
+          "teks": "Gotong royong membuat pekerjaan cepat selesai.",
+          "benar": false,
+          "miskonsepsi": "Tertukar ide pendukung dengan ide pokok"
+        },
+        {
+          "teks": "Ada yang memotong rumput.",
+          "benar": true
+        },
+        {
+          "teks": "Warga malas bekerja.",
+          "benar": false,
+          "miskonsepsi": "Memilih kalimat yang bertentangan dengan isi paragraf"
+        },
+        {
+          "teks": "Selokan tidak perlu dibersihkan.",
+          "benar": false,
+          "miskonsepsi": "Memilih kalimat yang tidak ada di paragraf"
+        }
+      ],
+      "pembahasan": "Ide pokoknya di kalimat pertama. \"Ada yang memotong rumput\" adalah rincian yang mendukungnya."
+    },
+    {
+      "id": "BI-B4-D2",
+      "tp_kode": "BI-B4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Kalimat \"Kosakata kita juga bertambah\" berfungsi sebagai ...",
+      "bacaan": "Membaca buku memiliki banyak manfaat. Kita bisa mengetahui hal-hal baru. Kosakata kita juga bertambah. Selain itu, membaca melatih kita berkonsentrasi.",
+      "visual": "📚",
+      "pilihan": [
+        {
+          "teks": "ide pokok paragraf",
+          "benar": false,
+          "miskonsepsi": "Belum membedakan rincian dengan gagasan utama"
+        },
+        {
+          "teks": "judul paragraf",
+          "benar": false,
+          "miskonsepsi": "Belum memahami fungsi judul"
+        },
+        {
+          "teks": "ide pendukung yang menjelaskan manfaat membaca",
+          "benar": true
+        },
+        {
+          "teks": "kesimpulan paragraf",
+          "benar": false,
+          "miskonsepsi": "Menganggap kalimat di tengah sebagai kesimpulan"
+        }
+      ],
+      "pembahasan": "Ide pokoknya \"membaca buku memiliki banyak manfaat\". Kosakata bertambah adalah salah satu manfaat itu."
+    },
+    {
+      "id": "BI-B4-D3",
+      "tp_kode": "BI-B4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Ide pokok: \"Rumah gadang adalah rumah adat Minangkabau yang unik.\" Kalimat mana yang paling cocok sebagai ide pendukungnya?",
+      "bacaan": null,
+      "visual": "🏠",
+      "pilihan": [
+        {
+          "teks": "Rendang adalah makanan khas Minangkabau.",
+          "benar": false,
+          "miskonsepsi": "Memilih kalimat yang topiknya mirip, tetapi tidak menjelaskan ide pokok"
+        },
+        {
+          "teks": "Banyak orang tinggal di kota besar.",
+          "benar": false,
+          "miskonsepsi": "Memilih kalimat yang tidak berhubungan"
+        },
+        {
+          "teks": "Rumah saya bercat biru.",
+          "benar": false,
+          "miskonsepsi": "Memilih kalimat yang hanya sama kata \"rumah\""
+        },
+        {
+          "teks": "Atapnya runcing seperti tanduk kerbau.",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Ide pendukung harus menjelaskan keunikan rumah gadang, misalnya bentuk atapnya."
+    },
+    {
+      "id": "BI-B4-D4",
+      "tp_kode": "BI-B4",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Kalimat mana yang TIDAK mendukung ide pokok?",
+      "bacaan": "(1) Hewan peliharaan perlu dirawat dengan baik. (2) Kita harus memberinya makan setiap hari. (3) Kandangnya perlu dibersihkan. (4) Danau Singkarak terletak di Sumatera Barat.",
+      "visual": "🐇",
+      "pilihan": [
+        {
+          "teks": "kalimat (4)",
+          "benar": true
+        },
+        {
+          "teks": "kalimat (1)",
+          "benar": false,
+          "miskonsepsi": "Tertukar: kalimat (1) justru ide pokok"
+        },
+        {
+          "teks": "kalimat (2)",
+          "benar": false,
+          "miskonsepsi": "Belum mengaitkan rincian dengan ide pokok"
+        },
+        {
+          "teks": "kalimat (3)",
+          "benar": false,
+          "miskonsepsi": "Mengira membersihkan kandang bukan bagian dari merawat hewan"
+        }
+      ],
+      "pembahasan": "Kalimat (2) dan (3) menjelaskan cara merawat hewan. Kalimat (4) membahas hal lain."
+    },
+    {
+      "id": "BI-B5-D1",
+      "tp_kode": "BI-B5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Bagaimana watak Semut?",
+      "bacaan": "Semut sibuk mengumpulkan makanan saat musim kemarau. Belalang hanya bernyanyi dan bermain. \"Untuk apa bekerja keras?\" ejek Belalang. Saat musim hujan tiba, Belalang kelaparan, sedangkan Semut punya cukup makanan.",
+      "visual": "🐜",
+      "pilihan": [
+        {
+          "teks": "malas",
+          "benar": false,
+          "miskonsepsi": "Tertukar watak Semut dengan Belalang yang hanya bermain"
+        },
+        {
+          "teks": "sombong",
+          "benar": false,
+          "miskonsepsi": "Tertukar dengan sikap Belalang yang mengejek"
+        },
+        {
+          "teks": "rajin",
+          "benar": true
+        },
+        {
+          "teks": "penakut",
+          "benar": false,
+          "miskonsepsi": "Menebak watak dari ciri tubuh tokoh, bukan dari perbuatannya"
+        }
+      ],
+      "pembahasan": "Semut sibuk mengumpulkan makanan sejak musim kemarau. Itu tanda Semut rajin."
+    },
+    {
+      "id": "BI-B5-D2",
+      "tp_kode": "BI-B5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Apa pesan (amanat) cerita itu?",
+      "bacaan": "Semut sibuk mengumpulkan makanan saat musim kemarau. Belalang hanya bernyanyi dan bermain. \"Untuk apa bekerja keras?\" ejek Belalang. Saat musim hujan tiba, Belalang kelaparan, sedangkan Semut punya cukup makanan.",
+      "visual": "🐜",
+      "pilihan": [
+        {
+          "teks": "Kita tidak boleh bernyanyi.",
+          "benar": false,
+          "miskonsepsi": "Memahami pesan terlalu harfiah"
+        },
+        {
+          "teks": "Musim hujan lebih baik daripada musim kemarau.",
+          "benar": false,
+          "miskonsepsi": "Memilih perbandingan yang tidak dibahas sebagai pesan"
+        },
+        {
+          "teks": "Semut lebih kecil daripada Belalang.",
+          "benar": false,
+          "miskonsepsi": "Memilih fakta, bukan pesan"
+        },
+        {
+          "teks": "Kita harus bekerja keras dan bersiap untuk masa depan.",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Semut bekerja keras sehingga tidak kelaparan saat musim hujan. Pesannya: bekerja keras dan bersiap."
+    },
+    {
+      "id": "BI-B5-D3",
+      "tp_kode": "BI-B5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Sifat Beni yang ditunjukkan dalam cerita adalah ...",
+      "bacaan": "Saat istirahat, Beni melihat Tio duduk sendirian karena bekalnya tertinggal. Beni membagi roti miliknya dengan Tio. Sejak hari itu, mereka menjadi sahabat.",
+      "visual": "🍞",
+      "pilihan": [
+        {
+          "teks": "peduli dan suka berbagi",
+          "benar": true
+        },
+        {
+          "teks": "pemalu",
+          "benar": false,
+          "miskonsepsi": "Tertukar dengan keadaan Tio yang duduk sendirian"
+        },
+        {
+          "teks": "pelit",
+          "benar": false,
+          "miskonsepsi": "Memilih lawan dari watak tokoh"
+        },
+        {
+          "teks": "suka bercanda",
+          "benar": false,
+          "miskonsepsi": "Menebak watak yang tidak ditunjukkan dalam cerita"
+        }
+      ],
+      "pembahasan": "Beni melihat temannya tidak membawa bekal, lalu membagi rotinya. Beni peduli dan suka berbagi."
+    },
+    {
+      "id": "BI-B5-D4",
+      "tp_kode": "BI-B5",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Pesan yang paling sesuai dengan cerita itu adalah ...",
+      "bacaan": "Saat istirahat, Beni melihat Tio duduk sendirian karena bekalnya tertinggal. Beni membagi roti miliknya dengan Tio. Sejak hari itu, mereka menjadi sahabat.",
+      "visual": "🍞",
+      "pilihan": [
+        {
+          "teks": "Kita harus selalu membawa bekal.",
+          "benar": false,
+          "miskonsepsi": "Mengambil rincian kejadian sebagai pesan"
+        },
+        {
+          "teks": "Berbagi dengan teman dapat mempererat persahabatan.",
+          "benar": true
+        },
+        {
+          "teks": "Roti adalah makanan yang enak.",
+          "benar": false,
+          "miskonsepsi": "Memilih pendapat tentang benda dalam cerita"
+        },
+        {
+          "teks": "Jangan duduk sendirian saat istirahat.",
+          "benar": false,
+          "miskonsepsi": "Mengubah keadaan tokoh menjadi larangan"
+        }
+      ],
+      "pembahasan": "Karena Beni berbagi, mereka menjadi sahabat. Pesannya tentang berbagi dan persahabatan."
+    },
+    {
+      "id": "BI-B6-D1",
+      "tp_kode": "BI-B6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Siapa yang piket pada hari Rabu bersama Sari?",
+      "bacaan": "Jadwal Piket Kelas 4\nSenin: Dika, Rani\nSelasa: Toni, Mira\nRabu: Sari, Budi\nKamis: Andi, Wati\nJumat: Lia, Joko",
+      "visual": "📋",
+      "pilihan": [
+        {
+          "teks": "Mira",
+          "benar": false,
+          "miskonsepsi": "Membaca baris hari sebelumnya"
+        },
+        {
+          "teks": "Andi",
+          "benar": false,
+          "miskonsepsi": "Membaca baris hari sesudahnya"
+        },
+        {
+          "teks": "Rani",
+          "benar": false,
+          "miskonsepsi": "Menebak nama tanpa mencocokkan hari"
+        },
+        {
+          "teks": "Budi",
+          "benar": true
+        }
+      ],
+      "pembahasan": "Cari baris Rabu: Sari, Budi."
+    },
+    {
+      "id": "BI-B6-D2",
+      "tp_kode": "BI-B6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Pada hari apa Toni piket?",
+      "bacaan": "Jadwal Piket Kelas 4\nSenin: Dika, Rani\nSelasa: Toni, Mira\nRabu: Sari, Budi\nKamis: Andi, Wati\nJumat: Lia, Joko",
+      "visual": "📋",
+      "pilihan": [
+        {
+          "teks": "Selasa",
+          "benar": true
+        },
+        {
+          "teks": "Senin",
+          "benar": false,
+          "miskonsepsi": "Membaca baris di atasnya"
+        },
+        {
+          "teks": "Rabu",
+          "benar": false,
+          "miskonsepsi": "Membaca baris di bawahnya"
+        },
+        {
+          "teks": "Kamis",
+          "benar": false,
+          "miskonsepsi": "Menebak tanpa mencari nama di jadwal"
+        }
+      ],
+      "pembahasan": "Cari nama Toni di jadwal. Toni ada di baris Selasa."
+    },
+    {
+      "id": "BI-B6-D3",
+      "tp_kode": "BI-B6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Siapa yang membaca buku paling banyak?",
+      "bacaan": "Banyak buku yang dibaca dalam seminggu (📘 = 1 buku)\nNita: 📘📘📘📘\nOji: 📘📘\nPutri: 📘📘📘📘📘📘\nRudi: 📘📘📘",
+      "visual": "📊",
+      "pilihan": [
+        {
+          "teks": "Nita",
+          "benar": false,
+          "miskonsepsi": "Memilih nama pertama di daftar"
+        },
+        {
+          "teks": "Putri",
+          "benar": true
+        },
+        {
+          "teks": "Rudi",
+          "benar": false,
+          "miskonsepsi": "Belum membandingkan semua baris"
+        },
+        {
+          "teks": "Oji",
+          "benar": false,
+          "miskonsepsi": "Tertukar paling banyak dengan paling sedikit"
+        }
+      ],
+      "pembahasan": "Hitung simbol buku di setiap baris. Putri punya 6, paling banyak."
+    },
+    {
+      "id": "BI-B6-D4",
+      "tp_kode": "BI-B6",
+      "penggunaan": "diagnostik",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Pernyataan mana yang BENAR sesuai diagram?",
+      "bacaan": "Banyak buku yang dibaca dalam seminggu (📘 = 1 buku)\nNita: 📘📘📘📘\nOji: 📘📘\nPutri: 📘📘📘📘📘📘\nRudi: 📘📘📘",
+      "visual": "📊",
+      "pilihan": [
+        {
+          "teks": "Nita membaca paling sedikit.",
+          "benar": false,
+          "miskonsepsi": "Tertukar paling sedikit dengan yang lain, belum membandingkan semua baris"
+        },
+        {
+          "teks": "Oji membaca 3 buku.",
+          "benar": false,
+          "miskonsepsi": "Salah membaca baris (tertukar Oji dengan Rudi)"
+        },
+        {
+          "teks": "Rudi membaca lebih banyak daripada Oji.",
+          "benar": true
+        },
+        {
+          "teks": "Putri dan Nita membaca sama banyak.",
+          "benar": false,
+          "miskonsepsi": "Belum menghitung simbol dengan teliti"
+        }
+      ],
+      "pembahasan": "Rudi membaca 3 buku, Oji 2 buku. Jadi Rudi membaca lebih banyak."
+    }
+  ]
+}

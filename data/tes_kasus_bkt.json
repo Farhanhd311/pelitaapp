@@ -1,0 +1,340 @@
+{
+  "keterangan": "Kasus uji untuk tes unit /lib/bkt dan /lib/sesi. Ini DATA hasil hitungan (bukan kode). Bandingkan dengan toleransi 0,001. Parameter: tebakan 0,25, ceroboh 0,10 kecuali disebut lain.",
+  "perbaruiBKT": [
+    {
+      "p": 0.5,
+      "benar": true,
+      "belajar": 0,
+      "ceroboh": 0.1,
+      "hasil": 0.7826
+    },
+    {
+      "p": 0.5,
+      "benar": false,
+      "belajar": 0,
+      "ceroboh": 0.1,
+      "hasil": 0.1176
+    },
+    {
+      "p": 0.7826,
+      "benar": true,
+      "belajar": 0,
+      "ceroboh": 0.1,
+      "hasil": 0.9284
+    },
+    {
+      "p": 0.8,
+      "benar": false,
+      "belajar": 0,
+      "ceroboh": 0.1,
+      "hasil": 0.3478
+    },
+    {
+      "p": 0.8,
+      "benar": false,
+      "belajar": 0,
+      "ceroboh": 0.3,
+      "hasil": 0.6154,
+      "catatan": "ceroboh_lelah"
+    },
+    {
+      "p": 0.017,
+      "benar": true,
+      "belajar": 0.15,
+      "ceroboh": 0.1,
+      "hasil": 0.1998,
+      "catatan": "kuis formatif"
+    }
+  ],
+  "keputusan_tp": [
+    {
+      "jawaban": [
+        true,
+        true
+      ],
+      "keputusan": null,
+      "catatan": "p 0,928 tetapi baru 2 soal; tercapai butuh minimal 3"
+    },
+    {
+      "jawaban": [
+        true,
+        true,
+        true
+      ],
+      "keputusan": "tercapai"
+    },
+    {
+      "jawaban": [
+        false,
+        false
+      ],
+      "keputusan": "belum"
+    },
+    {
+      "jawaban": [
+        true,
+        false
+      ],
+      "keputusan": null,
+      "catatan": "p 0,324, belum melewati ambang"
+    },
+    {
+      "jawaban": [
+        true,
+        false,
+        true,
+        true
+      ],
+      "keputusan": "tercapai",
+      "catatan": "p 0,861"
+    },
+    {
+      "jawaban": [
+        true,
+        false,
+        true,
+        false
+      ],
+      "keputusan": "belum",
+      "catatan": "p 0,186"
+    }
+  ],
+  "asesmen_raka": {
+    "kelas_seharusnya": 4,
+    "menguasai": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "A7",
+      "A8",
+      "B1",
+      "B2",
+      "B6"
+    ],
+    "aturan_jawab": "benar jika TP dikuasai, salah jika tidak (tanpa acak)",
+    "parameter": {
+      "min_soal_tercapai": 3,
+      "maks_soal_per_tp": 4,
+      "berhenti_dini": true
+    },
+    "tp_pertama": "B3",
+    "urutan_tp_diuji": [
+      "B3",
+      "A4",
+      "A7",
+      "A8",
+      "A5",
+      "B2"
+    ],
+    "jejak": [
+      {
+        "tp": "B3",
+        "soal_ke": 1,
+        "benar": false,
+        "p_sebelum": 0.5,
+        "p_sesudah": 0.118
+      },
+      {
+        "tp": "B3",
+        "soal_ke": 2,
+        "benar": false,
+        "p_sebelum": 0.118,
+        "p_sesudah": 0.017
+      },
+      {
+        "tp": "A4",
+        "soal_ke": 1,
+        "benar": true,
+        "p_sebelum": 0.5,
+        "p_sesudah": 0.783
+      },
+      {
+        "tp": "A4",
+        "soal_ke": 2,
+        "benar": true,
+        "p_sebelum": 0.783,
+        "p_sesudah": 0.928
+      },
+      {
+        "tp": "A4",
+        "soal_ke": 3,
+        "benar": true,
+        "p_sebelum": 0.928,
+        "p_sesudah": 0.979
+      },
+      {
+        "tp": "A7",
+        "soal_ke": 1,
+        "benar": true,
+        "p_sebelum": 0.5,
+        "p_sesudah": 0.783
+      },
+      {
+        "tp": "A7",
+        "soal_ke": 2,
+        "benar": true,
+        "p_sebelum": 0.783,
+        "p_sesudah": 0.928
+      },
+      {
+        "tp": "A7",
+        "soal_ke": 3,
+        "benar": true,
+        "p_sebelum": 0.928,
+        "p_sesudah": 0.979
+      },
+      {
+        "tp": "A8",
+        "soal_ke": 1,
+        "benar": true,
+        "p_sebelum": 0.5,
+        "p_sesudah": 0.783
+      },
+      {
+        "tp": "A8",
+        "soal_ke": 2,
+        "benar": true,
+        "p_sebelum": 0.783,
+        "p_sesudah": 0.928
+      },
+      {
+        "tp": "A8",
+        "soal_ke": 3,
+        "benar": true,
+        "p_sebelum": 0.928,
+        "p_sesudah": 0.979
+      },
+      {
+        "tp": "A5",
+        "soal_ke": 1,
+        "benar": true,
+        "p_sebelum": 0.5,
+        "p_sesudah": 0.783
+      },
+      {
+        "tp": "A5",
+        "soal_ke": 2,
+        "benar": true,
+        "p_sebelum": 0.783,
+        "p_sesudah": 0.928
+      },
+      {
+        "tp": "A5",
+        "soal_ke": 3,
+        "benar": true,
+        "p_sebelum": 0.928,
+        "p_sesudah": 0.979
+      },
+      {
+        "tp": "B2",
+        "soal_ke": 1,
+        "benar": true,
+        "p_sebelum": 0.5,
+        "p_sesudah": 0.783
+      },
+      {
+        "tp": "B2",
+        "soal_ke": 2,
+        "benar": true,
+        "p_sebelum": 0.783,
+        "p_sesudah": 0.928
+      },
+      {
+        "tp": "B2",
+        "soal_ke": 3,
+        "benar": true,
+        "p_sebelum": 0.928,
+        "p_sesudah": 0.979
+      }
+    ],
+    "jumlah_soal": 17,
+    "status_akhir": {
+      "A1": [
+        "tercapai",
+        "disimpulkan"
+      ],
+      "A2": [
+        "tercapai",
+        "disimpulkan"
+      ],
+      "A3": [
+        "tercapai",
+        "disimpulkan"
+      ],
+      "A4": [
+        "tercapai",
+        "diuji"
+      ],
+      "A5": [
+        "tercapai",
+        "diuji"
+      ],
+      "A6": [
+        "tercapai",
+        "disimpulkan"
+      ],
+      "A7": [
+        "tercapai",
+        "diuji"
+      ],
+      "A8": [
+        "tercapai",
+        "diuji"
+      ],
+      "B1": [
+        "tercapai",
+        "disimpulkan"
+      ],
+      "B2": [
+        "tercapai",
+        "diuji"
+      ],
+      "B3": [
+        "belum",
+        "diuji"
+      ],
+      "B4": [
+        "belum",
+        "disimpulkan"
+      ],
+      "B5": [
+        "belum",
+        "disimpulkan"
+      ],
+      "B6": [
+        "belum_diketahui",
+        "-"
+      ],
+      "B7": [
+        "belum",
+        "disimpulkan"
+      ],
+      "B8": [
+        "belum",
+        "disimpulkan"
+      ]
+    },
+    "titik_mulai": "B3"
+  },
+  "sesi_formatif_b3": {
+    "catatan": "Dari status belum (p 0,017), belajar_saat_sesi 0,15, ambang_tercapai_sesi 0,95",
+    "jawaban": [
+      false,
+      true,
+      true,
+      true,
+      true
+    ],
+    "p_setelah_tiap_jawaban": [
+      0.152,
+      0.483,
+      0.805,
+      0.947,
+      0.987
+    ],
+    "tercapai_pada_jawaban_ke": 5
+  }
+}

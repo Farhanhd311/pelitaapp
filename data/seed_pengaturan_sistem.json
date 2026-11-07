@@ -1,0 +1,30 @@
+{
+  "keterangan": "Nilai awal PENGATURAN_SISTEM (PANDUAN 8.4, versi 1). Parameter BKT TIDAK ditulis di sini: diambil dari meta.parameter_bkt di data_awal_matematika_fase_A_B.json, lalu diberi awalan sesuai 'kunci_parameter_bkt'. Angka durasi sesi adalah nilai awal yang perlu divalidasi tenaga kesehatan.",
+  "kunci_parameter_bkt": {
+    "awalan_bawaan": "bkt.",
+    "pengecualian": {
+      "berhenti_dini": "asesmen.berhenti_dini"
+    }
+  },
+  "pengaturan": {
+    "asesmen.maks_soal_per_sesi": 12,
+    "sesi.durasi_ringan": 10,
+    "sesi.durasi_normal": 20,
+    "sesi.durasi_penuh": 30,
+    "sesi.hari_mood_turun_pemicu_chatbot": 3,
+    "sesi.hari_lemas_pemicu_perhatian": 3,
+    "sesi.salah_beruntun_pemicu_cek": 3,
+    "kuis.gagal_sebelum_ditinjau_guru": 2,
+    "rujukan.aturan_level": [
+      { "level": 1, "kebutuhan": "butuh teman atau aktivitas", "rujukan": "grup sebaya termoderasi", "butuh_persetujuan_orang_tua": true },
+      { "level": 2, "kebutuhan": "butuh tempat cerita", "rujukan": "relawan pendamping terlatih", "butuh_persetujuan_orang_tua": true },
+      { "level": 3, "kebutuhan": "distres berulang", "rujukan": "psikolog atau konselor mitra", "butuh_persetujuan_orang_tua": true }
+    ],
+    "llm.batas_waktu_detik": 8,
+    "llm.maks_kalimat_tutor": 3,
+    "demo.pakai_cadangan": false
+  },
+  "catatan_belum_diisi": {
+    "krisis.daftar_kata_kunci": "Belum di-seed. Menunggu daftar awal dari tim AI (draf, perlu tinjauan psikolog). Kunci ini TIDAK BOLEH kosong saat Teman Cerita dipakai."
+  }
+}
