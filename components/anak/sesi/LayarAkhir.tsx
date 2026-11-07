@@ -9,7 +9,7 @@ import { MascotPijar } from "@/components/anak/MascotPijar";
 import { TautanAnak } from "@/components/anak/fokus/TombolAnak";
 import type { ResponsSesi } from "@/lib/kontrak/sesi";
 
-export function LayarAkhir({ sesi }: { sesi: ResponsSesi }) {
+export function LayarAkhir({ sesi, hrefPeta }: { sesi: ResponsSesi; hrefPeta: string }) {
   const tercapai = sesi.status === "selesai" && sesi.tp_tercapai;
   const istirahat = sesi.status === "berhenti" || sesi.status === "santai";
 
@@ -36,7 +36,16 @@ export function LayarAkhir({ sesi }: { sesi: ResponsSesi }) {
         </p>
       )}
       {sesi.status === "selesai" && sesi.nomor_soal > 0 && !tercapai && (
-        <p className="mt-4 rounded-full bg-white/85 px-5 py-2 font-bold">Kamu sudah menjawab {sesi.nomor_soal} soal hari ini 🌱</p>
+        <>
+          <p className="mt-4 rounded-full bg-white/85 px-5 py-2 font-bold">Kamu sudah menjawab {sesi.nomor_soal} soal hari ini 🌱</p>
+          {/* Pos di peta terbuka setelah materinya benar-benar dikuasai (BKT), bukan setelah sesi selesai.
+              Sisa jawaban benar dihitung server dengan aturan yang sama (tanpa angka peluang, PANDUAN 7.2). */}
+          <p className="mt-3 max-w-md rounded-[20px] bg-emas/25 px-5 py-3 text-[15px] leading-relaxed font-semibold">
+            {sesi.benar_lagi_untuk_tercapai
+              ? `Progresmu tersimpan. Tinggal ${sesi.benar_lagi_untuk_tercapai} jawaban benar lagi untuk menguasai materi ini, lalu pos berikutnya di peta terbuka!`
+              : "Pos berikutnya di peta terbuka setelah materi ini kamu kuasai. Sedikit latihan lagi di sesi berikutnya, ya!"}
+          </p>
+        </>
       )}
 
       {sesi.status === "santai" && (
@@ -49,13 +58,8 @@ export function LayarAkhir({ sesi }: { sesi: ResponsSesi }) {
       )}
 
       <div className="mt-8 flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-center">
-        {!istirahat && (
-          <TautanAnak varian="kedua" href="/anak/peta">
-            Lihat peta
-          </TautanAnak>
-        )}
-        <TautanAnak href="/anak" className="sm:min-w-56">
-          Kembali ke Beranda
+        <TautanAnak href={hrefPeta} className="sm:min-w-56">
+          Kembali ke peta
         </TautanAnak>
       </div>
     </motion.section>

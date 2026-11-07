@@ -9,7 +9,7 @@
 
 import { use, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { X } from "lucide-react";
+import { Sparkles, X } from "lucide-react";
 import { KartuSoal } from "@/components/anak/KartuSoal";
 import { MascotPijar } from "@/components/anak/MascotPijar";
 import { ModalMasihKuat } from "@/components/anak/ModalMasihKuat";
@@ -19,19 +19,20 @@ import { ProgresLangkah } from "@/components/anak/fokus/ProgresLangkah";
 import { TautanAnak, TombolAnak, TombolBulat } from "@/components/anak/fokus/TombolAnak";
 import { butuhMasuk, GalatKlien, panggilApi, pesanGalat } from "@/lib/api/klien";
 import type { ResponsCheckinHariIni } from "@/lib/kontrak/checkin";
-import type { ResponsMapel, ResponsPeta } from "@/lib/kontrak/peta";
+import type { ResponsBeranda } from "@/lib/kontrak/beranda";
+import type { ResponsMapel } from "@/lib/kontrak/peta";
 import type { PermintaanSesi, ResponsSesi } from "@/lib/kontrak/sesi";
 import type { SoalTampil } from "@/lib/kontrak/umum";
 import { KartuBelajar } from "./KartuBelajar";
 import { LayarAkhir } from "./LayarAkhir";
 import { PanelUmpanBalik } from "./PanelUmpanBalik";
-import { TP_PILIHAN_SERVER } from "./jalur";
+import { denganMapel, HREF_PETA, mapelDariUrl, TP_PILIHAN_SERVER } from "./jalur";
 
 type Keadaan =
   | { jenis: "memuat" }
   | { jenis: "galat"; pesan: string; perluCheckin: boolean }
   | { jenis: "perlu_masuk"; galat: GalatKlien }
-  | { jenis: "perlu_asesmen" }
+  | { jenis: "perlu_asesmen"; mapelId: number }
   | { jenis: "jalan"; sesi: ResponsSesi };
 type Umpan = { berikutnya: ResponsSesi; soal: SoalTampil; pilihanId: number };
 
@@ -48,6 +49,9 @@ export function AlurSesi({ params }: { params: Promise<{ tpKode: string }> }) {
   const [tawaranDitutup, setTawaranDitutup] = useState(false);
   const dimulai = useRef(false);
   const mulaiSoal = useRef(0);
+  const sesiTuntas = useRef(false);
+  const [mapelId, setMapelId] = useState<number | null>(null); // dari ?mapel= (dipilih di Beranda)
+  const hrefPeta = denganMapel(HREF_PETA, mapelId);
 
   // Buka sesi sekali saja (ref ini juga mencegah sesi ganda saat React StrictMode menjalankan efek dua kali).
   useEffect(() => {
@@ -55,24 +59,27 @@ export function AlurSesi({ params }: { params: Promise<{ tpKode: string }> }) {
     dimulai.current = true;
     (async () => {
       try {
-        // mapel_id tidak ditulis di kode: diambil dari data. MVP baru punya satu mapel aktif (Matematika).
+        // mapel_id tidak ditulis di kode: mapel yang dipilih di Beranda (?mapel=), atau mapel pertama yang punya TP.
         const { mapel } = await panggilApi<ResponsMapel>("/api/mapel");
         if (mapel.length === 0) throw new GalatKlien("TIDAK_DITEMUKAN", "Belum ada pelajaran yang tersedia.");
-        const mapelId = mapel[0].mapel_id;
+        const dariUrl = mapelDariUrl();
+        const idMapel = mapel.find((m) => m.mapel_id === dariUrl)?.mapel_id ?? mapel[0].mapel_id;
+        setMapelId(idMapel);
 
-        // Materi dipilih dari hasil asesmen (PROGRES_TP). Belum asesmen -> Petualangan Pertama dulu,
-        // kecuali hari istirahat (sesi santai tidak butuh hasil asesmen).
-        const [peta, { checkin }] = await Promise.all([
-          panggilApi<ResponsPeta>(`/api/peta?mapel_id=${mapelId}`),
+        // Materi dipilih dari hasil asesmen (PROGRES_TP). Belum asesmen mapel utama, atau mapel adaptif ini ->
+        // Petualangan Pertama dulu, kecuali hari istirahat (sesi santai tidak butuh hasil asesmen).
+        // Mapel pustaka (IPAS, Pendidikan Pancasila) tidak punya asesmen.
+        const [beranda, { checkin }] = await Promise.all([
+          panggilApi<ResponsBeranda>(`/api/beranda?mapel_id=${idMapel}`),
           panggilApi<ResponsCheckinHariIni>("/api/checkin"),
         ]);
-        if (!peta.asesmen_selesai && checkin && checkin.level !== "istirahat") {
-          setKeadaan({ jenis: "perlu_asesmen" });
+        if ((!beranda.asesmen_selesai || !beranda.mapel_asesmen_selesai) && checkin && checkin.level !== "istirahat") {
+          setKeadaan({ jenis: "perlu_asesmen", mapelId: beranda.asesmen_selesai ? idMapel : mapel[0].mapel_id });
           return;
         }
         const sesi = await panggilApi<ResponsSesi>("/api/sesi", {
           aksi: "mulai",
-          mapel_id: mapelId,
+          mapel_id: idMapel,
           tp_kode: tpKode === TP_PILIHAN_SERVER ? undefined : decodeURIComponent(tpKode),
         });
         setKeadaan({ jenis: "jalan", sesi });
@@ -82,6 +89,26 @@ export function AlurSesi({ params }: { params: Promise<{ tpKode: string }> }) {
       }
     })();
   }, [tpKode]);
+
+  // cacheComponents (Next 16) menyimpan halaman yang pernah dibuka di <Activity>: saat anak kembali ke Beranda,
+  // efek dibersihkan tetapi state tetap, sehingga layar "Yeay" lama muncul lagi di kunjungan berikutnya.
+  // Jika sesi sudah tuntas, kosongkan state saat halaman disembunyikan supaya kunjungan berikutnya membuka sesi baru.
+  // (Saat StrictMode menjalankan efek dua kali, sesi belum tuntas, jadi tidak ada sesi ganda.)
+  useEffect(() => {
+    sesiTuntas.current = keadaan.jenis === "jalan" && STATUS_AKHIR.includes(keadaan.sesi.status);
+  }, [keadaan]);
+  useEffect(
+    () => () => {
+      if (!sesiTuntas.current) return;
+      sesiTuntas.current = false;
+      dimulai.current = false;
+      setKeadaan({ jenis: "memuat" });
+      setUmpan(null);
+      setTanyaKeluar(false);
+      setGalatKecil(null);
+    },
+    [],
+  );
 
   const sesi = keadaan.jenis === "jalan" ? keadaan.sesi : null;
   const soalId = sesi?.soal?.soal_id;
@@ -138,21 +165,28 @@ export function AlurSesi({ params }: { params: Promise<{ tpKode: string }> }) {
 
   const sedangJalan = sesi !== null && !STATUS_AKHIR.includes(sesi.status);
   const tampilProgres = sesi && (sesi.status === "kuis" || umpan) && sesi.jumlah_soal > 0;
+  // Soal yang sedang tampil, sebelum maupun sesudah dijawab (saat umpan balik, sesi masih menunjuk soal ini).
+  const soalTampil = umpan?.soal ?? sesi?.soal ?? null;
 
   return (
     <LayarFokus
       kiri={
-        <TombolBulat label={sedangJalan ? "Berhenti dulu" : "Keluar ke Beranda"} onClick={() => (sedangJalan ? setTanyaKeluar(true) : router.push("/anak"))}>
+        <TombolBulat label={sedangJalan ? "Berhenti dulu" : "Keluar ke Beranda"} onClick={() => (sedangJalan ? setTanyaKeluar(true) : router.push(hrefPeta))}>
           <X className="size-6" />
         </TombolBulat>
       }
       tengah={
         tampilProgres ? (
-          <ProgresLangkah
-            sekarang={sesi.nomor_soal}
-            jumlah={sesi.jumlah_soal}
-            label={`Soal ${sesi.nomor_soal} dari ${sesi.jumlah_soal}`}
-          />
+          // Jatah soal level sudah lewat tetapi materi belum dikuasai: soal tambahan sampai TP tercapai.
+          sesi.nomor_soal > sesi.jumlah_soal ? (
+            <ChipSoalTambahan sisa={sesi.benar_lagi_untuk_tercapai} />
+          ) : (
+            <ProgresLangkah
+              sekarang={sesi.nomor_soal}
+              jumlah={sesi.jumlah_soal}
+              label={`Soal ${sesi.nomor_soal} dari ${sesi.jumlah_soal}`}
+            />
+          )
         ) : null
       }
       kanan={<span className="size-14 shrink-0" aria-hidden />}
@@ -174,10 +208,10 @@ export function AlurSesi({ params }: { params: Promise<{ tpKode: string }> }) {
             Pijar perlu tahu dulu sampai mana kamu sudah belajar, supaya materinya pas. Ajak pendampingmu menemani, ya.
           </p>
           <div className="mt-7 flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-center">
-            <TautanAnak varian="kedua" href="/anak">
+            <TautanAnak varian="kedua" href={hrefPeta}>
               Nanti saja
             </TautanAnak>
-            <TautanAnak href="/anak/asesmen" className="sm:min-w-60">
+            <TautanAnak href={denganMapel("/anak/asesmen", keadaan.mapelId)} className="sm:min-w-60">
               Mulai Petualangan Pertama
             </TautanAnak>
           </div>
@@ -189,10 +223,10 @@ export function AlurSesi({ params }: { params: Promise<{ tpKode: string }> }) {
           <MascotPijar ekspresi="empati" ukuran={150} />
           <p className="mt-3 text-[22px] font-extrabold">{keadaan.pesan}</p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <TautanAnak varian="kedua" href="/anak">
+            <TautanAnak varian="kedua" href={hrefPeta}>
               Kembali ke Beranda
             </TautanAnak>
-            {keadaan.perluCheckin ? <TautanAnak href="/anak/checkin">Check-in dulu</TautanAnak> : <TombolAnak onClick={() => location.reload()}>Coba lagi</TombolAnak>}
+            {keadaan.perluCheckin ? <TautanAnak href={denganMapel("/anak/checkin", mapelId)}>Check-in dulu</TautanAnak> : <TombolAnak onClick={() => location.reload()}>Coba lagi</TombolAnak>}
           </div>
         </div>
       )}
@@ -218,21 +252,28 @@ export function AlurSesi({ params }: { params: Promise<{ tpKode: string }> }) {
             </div>
           )}
 
-          {umpan ? (
-            <>
-              <KartuSoal key={umpan.soal.soal_id} soal={umpan.soal} label={labelIsi(sesi)} terkunci pilihanAwal={umpan.pilihanId} onKirim={() => undefined} />
-              {umpan.berikutnya.umpan_balik && (
-                <PanelUmpanBalik
-                  umpan={umpan.berikutnya.umpan_balik}
-                  sesiId={sesi.sesi_id}
-                  soalId={umpan.soal.soal_id}
-                  pilihanId={umpan.pilihanId}
-                  onLanjut={lanjutSetelahUmpan}
-                />
-              )}
-            </>
-          ) : (
-            sesi.soal && <KartuSoal key={sesi.soal.soal_id} soal={sesi.soal} label={labelIsi(sesi)} sibuk={sibuk} onKirim={jawab} />
+          {/* Satu KartuSoal yang sama sebelum dan sesudah dijawab: kartu tidak dipasang ulang (animasi masuknya tidak
+              diputar lagi), panel umpan balik cukup muncul di bawahnya. Key memuat nomor soal karena soal yang sama
+              bisa muncul lagi sebagai soal tambahan. */}
+          {soalTampil && (
+            <KartuSoal
+              key={`${soalTampil.soal_id}-${sesi.nomor_soal}`}
+              soal={soalTampil}
+              label={labelIsi(sesi)}
+              terkunci={umpan !== null}
+              pilihanAwal={umpan?.pilihanId ?? null}
+              sibuk={sibuk}
+              onKirim={jawab}
+            />
+          )}
+          {umpan?.berikutnya.umpan_balik && (
+            <PanelUmpanBalik
+              umpan={umpan.berikutnya.umpan_balik}
+              sesiId={sesi.sesi_id}
+              soalId={umpan.soal.soal_id}
+              pilihanId={umpan.pilihanId}
+              onLanjut={lanjutSetelahUmpan}
+            />
           )}
         </div>
       )}
@@ -250,7 +291,7 @@ export function AlurSesi({ params }: { params: Promise<{ tpKode: string }> }) {
         </>
       )}
 
-      {sesi && !umpan && STATUS_AKHIR.includes(sesi.status) && <LayarAkhir sesi={sesi} />}
+      {sesi && !umpan && STATUS_AKHIR.includes(sesi.status) && <LayarAkhir sesi={sesi} hrefPeta={hrefPeta} />}
 
       {galatKecil && (
         <p role="alert" className="mx-auto mt-6 max-w-xl rounded-2xl bg-emas/25 px-4 py-3 text-center font-semibold">
@@ -287,5 +328,22 @@ function DialogBerhenti({ onLanjut, onBerhenti, sibuk }: { onLanjut: () => void;
         </div>
       </div>
     </div>
+  );
+}
+
+// Penanda soal tambahan: berapa jawaban benar lagi sampai pos berikutnya terbuka. Bukan angka peluang
+// dan bukan hitung mundur waktu (PANDUAN 7.2, 13).
+function ChipSoalTambahan({ sisa }: { sisa: number | null }) {
+  const teks = sisa ? `Tinggal ${sisa} jawaban benar lagi untuk membuka pos berikutnya` : "Sedikit lagi menuju pos berikutnya";
+  return (
+    <p
+      role="status"
+      className="mx-auto flex w-fit max-w-md items-center gap-2 rounded-full bg-emas/30 px-4 py-2 text-center font-heading text-[14px] leading-tight font-extrabold text-teks"
+    >
+      <Sparkles className="size-4 shrink-0 text-bata" aria-hidden />
+      <span>
+        Soal tambahan · <span className="font-bold">{teks}</span>
+      </span>
+    </p>
   );
 }

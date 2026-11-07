@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "judul": "Narasi materi Pendidikan Pancasila kelas 4: kartu belajar bercerita per TP",
+    "versi": "0.1-draf",
+    "status": "Draf ditulis dengan bantuan AI. Wajib ditinjau guru SD sebelum dipakai di luar demo.",
+    "keterangan": "Satu narasi per tp_kode, ditampilkan sebelum soal (kartu belajar). Adegan 'tebak' tidak dinilai dan tidak memengaruhi status TP. visual: emoji/teks, kelompok dipisah ' | '."
+  },
+  "narasi": [
+    {
+      "tp_kode": "PP-B1",
+      "judul": "Foto Tua di Museum",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Halo, aku Pijar! Yuk, ikut aku dan Kakek ke museum melihat foto-foto dari tahun 1945.", "visual": "🏛️🖼️" },
+        { "ekspresi": "penasaran", "teks": "Lihat, para tokoh bangsa sedang bersidang di BPUPKI! Soekarno, Mohammad Yamin, dan Soepomo menyampaikan gagasan tentang dasar negara kita.", "visual": "🗣️📜 | 🗣️📜 | 🗣️📜" },
+        {
+          "ekspresi": "tenang",
+          "teks": "Gagasan mereka berbeda-beda, tetapi tidak ada yang memaksakan pendapat. Mereka saling mendengarkan dan bermusyawarah sampai sepakat.",
+          "visual": "🤝",
+          "tebak": { "pertanyaan": "Kalau pendapat temanmu berbeda, apa yang kamu lakukan?", "pilihan": ["Mendengarkan dulu, lalu mencari kesepakatan", "Berdebat sampai temanku menyerah"], "jawaban": "Mendengarkan dulu, lalu mencari kesepakatan", "penjelasan": "Mendengarkan membuat setiap orang merasa dihargai. Begitulah cara para perumus Pancasila mencapai kesepakatan." }
+        },
+        {
+          "ekspresi": "terkejut",
+          "teks": "Wah, pada 1 Juni 1945 Soekarno mengusulkan nama Pancasila! Mereka bekerja keras seperti itu karena cinta tanah air.",
+          "visual": "🦅 | 1 Juni 1945",
+          "tebak": { "pertanyaan": "Mana yang menunjukkan cinta tanah air?", "pilihan": ["Merawat lingkungan dan bangga pada budaya sendiri", "Malu memakai kain songket dari daerah sendiri"], "jawaban": "Merawat lingkungan dan bangga pada budaya sendiri", "penjelasan": "Cinta tanah air bisa dimulai dari hal kecil di sekitarmu. Budaya kita, seperti songket Minang, adalah kekayaan yang patut dibanggakan." }
+        },
+        { "ekspresi": "senang", "teks": "Teladani para perumus Pancasila: bermusyawarah, menghargai pendapat, dan mencintai tanah air.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "PP-B2",
+      "judul": "Api Unggun Teman Nusantara",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar ikut berkemah bersama anak-anak dari berbagai daerah di Indonesia. Malam ini kita duduk di dekat api unggun!", "visual": "⛺🔥🌙" },
+        { "ekspresi": "terkejut", "teks": "Butet menyapa dengan bahasa Batak, Asep dengan bahasa Sunda, Upik dengan bahasa Minang. Wah, mereka bingung karena tidak saling mengerti!", "visual": "🗨️❓ | 🗨️❓ | 🗨️❓" },
+        {
+          "ekspresi": "tenang",
+          "teks": "Pijar mengajak mereka bercakap dengan bahasa Indonesia. Sekarang semua bisa bercerita dan tertawa bersama!",
+          "visual": "😊🗨️😊",
+          "tebak": { "pertanyaan": "Mengapa mereka akhirnya bisa saling mengerti?", "pilihan": ["Karena semua memakai bahasa Indonesia", "Karena semua tiba-tiba pandai bahasa Sunda"], "jawaban": "Karena semua memakai bahasa Indonesia", "penjelasan": "Bahasa Indonesia menjadi jembatan bagi anak-anak dari daerah yang berbeda. Karena itu, kita menyebutnya bahasa persatuan." }
+        },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Pijar bercerita tentang Sumpah Pemuda, 28 Oktober 1928. Para pemuda dari berbagai daerah berjanji menjunjung bahasa persatuan, bahasa Indonesia.",
+          "visual": "📜 | 28 Oktober 1928",
+          "tebak": { "pertanyaan": "Kalau bangga berbahasa Indonesia, bagaimana dengan bahasa daerah?", "pilihan": ["Tetap dijaga dan dipakai", "Harus dilupakan"], "jawaban": "Tetap dijaga dan dipakai", "penjelasan": "Bahasa daerah adalah kekayaan budaya kita. Pakai bahasa daerah bersama keluarga, dan bahasa Indonesia untuk bersatu." }
+        },
+        { "ekspresi": "senang", "teks": "Bahasa Indonesia menyatukan kita, dan bahasa daerah tetap kita jaga dengan bangga.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "PP-B3",
+      "judul": "Hari Minggu di Rumah Pijar",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Hari Minggu, Pijar mengajakmu mengenal dua kata penting: hak dan kewajiban. Keduanya juga diatur dalam UUD 1945, aturan dasar negara kita!", "visual": "🏠📜" },
+        {
+          "ekspresi": "tenang",
+          "teks": "Hak adalah sesuatu yang patut kita terima, seperti kasih sayang dan makanan sehat. Kewajiban adalah sesuatu yang harus kita kerjakan.",
+          "visual": "🎁 hak | 🧹 kewajiban",
+          "tebak": { "pertanyaan": "Menyiram tanaman di rumah termasuk ...", "pilihan": ["hak", "kewajiban"], "jawaban": "kewajiban", "penjelasan": "Menyiram tanaman adalah tugas yang kita kerjakan, jadi itu kewajiban. Kasih sayang dari keluarga adalah hak kita." }
+        },
+        { "ekspresi": "penasaran", "teks": "Di sekolah juga ada hak dan kewajiban. Kamu berhak belajar dengan nyaman, dan wajib ikut menjaga kelas tetap bersih.", "visual": "🏫📚 | 🧹" },
+        {
+          "ekspresi": "empati",
+          "teks": "Pijar ingin bernyanyi keras-keras, padahal Ayah sedang beristirahat. Bernyanyi itu hak Pijar, tetapi Ayah juga punya hak.",
+          "visual": "🎤🎶 | 😴",
+          "tebak": { "pertanyaan": "Apa yang sebaiknya Pijar lakukan?", "pilihan": ["Bernyanyi pelan-pelan atau nanti saja", "Tetap bernyanyi keras-keras"], "jawaban": "Bernyanyi pelan-pelan atau nanti saja", "penjelasan": "Pijar tetap bisa bernyanyi, dan Ayah bisa beristirahat dengan tenang. Memakai hak sambil menghargai hak orang lain membuat semua nyaman." }
+        },
+        { "ekspresi": "semangat", "teks": "Kerjakan kewajibanmu, terima hakmu, dan hargai juga hak orang lain.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "PP-B4",
+      "judul": "Festival Budaya di Padang",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar datang ke festival budaya di Padang. Ada tari piring, angklung, kain ulos, dan tari Saman dari berbagai daerah!", "visual": "🍽️💃 | 🎶 | 🧣 | 👏" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Semua budaya ini berbeda, tetapi semuanya milik Indonesia. Semboyan Bhinneka Tunggal Ika mengingatkan kita bahwa walau berbeda, kita tetap satu bangsa.",
+          "visual": "🦅",
+          "tebak": { "pertanyaan": "Apakah bersatu berarti semua orang harus sama?", "pilihan": ["Tidak, perbedaan tetap dihargai", "Ya, semua harus sama"], "jawaban": "Tidak, perbedaan tetap dihargai", "penjelasan": "Bersatu bukan berarti menjadi sama. Kita tetap berbeda-beda, tetapi saling menghargai dan hidup rukun." }
+        },
+        {
+          "ekspresi": "empati",
+          "teks": "Ada anak yang menertawakan tarian dari daerah lain karena terasa asing. Pijar jadi ikut sedih melihatnya.",
+          "tebak": { "pertanyaan": "Bagaimana sebaiknya kita menonton budaya yang belum kita kenal?", "pilihan": ["Menonton dengan hormat dan ingin tahu", "Menertawakannya karena terasa asing"], "jawaban": "Menonton dengan hormat dan ingin tahu", "penjelasan": "Budaya yang belum kita kenal adalah kesempatan untuk belajar hal baru. Menonton dengan hormat membuat semua orang senang." }
+        },
+        { "ekspresi": "tenang", "teks": "Menjelang sore, beberapa teman pamit sebentar untuk beribadah sesuai agamanya. Teman-teman lain menunggu dengan sabar dan saling menghormati.", "visual": "🤝🙂" },
+        { "ekspresi": "senang", "teks": "Berbeda suku, bahasa, budaya, dan agama itu indah jika kita saling menghargai.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "PP-B5",
+      "judul": "Panggung Merah Putih",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar dan teman-teman menyiapkan panggung untuk perayaan 17 Agustus. Ada teman bersuku Minang, Jawa, Nias, dan Mentawai!", "visual": "🇮🇩🎪" },
+        {
+          "ekspresi": "terkejut",
+          "teks": "Wah, panggungnya besar sekali, tidak bisa dikerjakan sendirian! Pijar mengajak semua teman untuk bekerja sama.",
+          "visual": "🎪",
+          "tebak": { "pertanyaan": "Siapa saja yang boleh ikut membantu?", "pilihan": ["Semua teman, apa pun sukunya", "Hanya teman yang sesuku"], "jawaban": "Semua teman, apa pun sukunya", "penjelasan": "Semua orang bisa ikut membantu. Perbedaan suku tidak menghalangi kita untuk bekerja sama." }
+        },
+        {
+          "ekspresi": "tenang",
+          "teks": "Ada yang pandai menggambar, ada yang rapi mengecat, ada yang cekatan memasang hiasan. Setiap teman mengerjakan bagiannya, lalu saling menolong jika ada yang kesulitan.",
+          "visual": "🎨 | 🖌️ | 🎀",
+          "tebak": { "pertanyaan": "Upik dan Made ingin memakai kuas yang sama. Sebaiknya ...", "pilihan": ["Bergantian memakainya", "Merebutnya dengan paksa"], "jawaban": "Bergantian memakainya", "penjelasan": "Dengan bergantian, pekerjaan tetap berjalan dan semua senang. Kerja sama butuh sikap mau berbagi." }
+        },
+        { "ekspresi": "penasaran", "teks": "Warga kampung juga bergotong royong membersihkan lapangan. Kerja sama seperti ini membuat kita semakin rukun dan bersatu.", "visual": "🧹🧹🧹 | 🏘️" },
+        { "ekspresi": "semangat", "teks": "Walau berbeda-beda, kita bisa bekerja sama dan saling membantu supaya Indonesia tetap bersatu.", "kunci": true }
+      ]
+    }
+  ]
+}

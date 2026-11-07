@@ -5,7 +5,8 @@
 // di POST /api/asesmen dengan mesin lib/bkt. Kontrak data: lib/kontrak/asesmen.ts.
 // Tampilan memakai komponen yang sama dengan check-in dan sesi belajar: LayarFokus, ProgresLangkah, KartuSoal.
 //
-// Asesmen mencakup SEMUA mapel dari /api/mapel (Matematika + Bahasa Indonesia), satu per satu.
+// Asesmen mencakup semua mapel ADAPTIF dari /api/mapel (Matematika + Bahasa Indonesia), satu per satu. Mapel pustaka
+// (IPAS, Pendidikan Pancasila) tidak punya asesmen penempatan. Mapel dari ?mapel= (dipilih di Beranda) didahulukan.
 // Penempatan tetap terpisah per mapel (PANDUAN 7.2); batas soal per mapel diatur server (PENGATURAN_SISTEM).
 // Urutan mapel diacak; asesmen yang sedang berjalan selalu dilanjutkan dulu. Mode demo: mapel pertama saja.
 //
@@ -34,6 +35,7 @@ import { butuhMasuk, GalatKlien, panggilApi, pesanGalat as teksGalat } from "@/l
 import type { PermintaanAsesmen, ResponsAsesmen } from "@/lib/kontrak/asesmen";
 import type { ResponsProfil } from "@/lib/kontrak/auth";
 import type { ResponsMapel, ResponsPeta } from "@/lib/kontrak/peta";
+import { mapelDariUrl } from "@/components/anak/sesi/jalur";
 
 // Tempo tampilan (bukan aturan bisnis): demo ±1,5 detik per soal (PANDUAN 5 A3), kilasan "Oke, lanjut!".
 const JEDA_DEMO_MS = 1500;
@@ -117,12 +119,14 @@ export default function HalamanAsesmen() {
           panggilApi<ResponsMapel>("/api/mapel"),
           panggilApi<ResponsProfil>("/api/auth/profil"),
         ]);
-        if (mapel.length === 0) throw new GalatKlien("TIDAK_DITEMUKAN", "Belum ada mata pelajaran.");
-        const daftarPeta = await Promise.all(mapel.map((m) => panggilApi<ResponsPeta>(`/api/peta?mapel_id=${m.mapel_id}`)));
+        const adaptif = mapel.filter((m) => m.jenis === "adaptif");
+        if (adaptif.length === 0) throw new GalatKlien("TIDAK_DITEMUKAN", "Belum ada mata pelajaran.");
+        const daftarPeta = await Promise.all(adaptif.map((m) => panggilApi<ResponsPeta>(`/api/peta?mapel_id=${m.mapel_id}`)));
         const petaPerMapel = Object.fromEntries(daftarPeta.map((p) => [p.mapel_id, p]));
-        const antreanAwal = susunAntrean(mapel, petaPerMapel);
+        const dariUrl = mapelDariUrl();
+        const antreanAwal = susunAntrean(adaptif, petaPerMapel).sort((a, b) => Number(b === dariUrl) - Number(a === dariUrl));
 
-        setDaftarMapel(mapel);
+        setDaftarMapel(adaptif);
         setNamaAnak(profil.anak_aktif?.nama_panggilan ?? null);
         setPeta(petaPerMapel);
         setAntrean(antreanAwal);
@@ -200,9 +204,10 @@ export default function HalamanAsesmen() {
     void kirimKeServer({ aksi: "mulai", mapel_id: mapelId, ...kelas }, mapelId, antreanDipakai, demo);
   };
 
-  // Mode demo panggung: mapel pertama saja (jawaban Raka yang disiapkan hanya untuk Matematika).
+  // Mode demo panggung: satu mapel saja, yaitu mapel pertama di antrean (yang dipilih di Beranda atau yang belum
+  // selesai). Jawaban Raka disiapkan untuk Matematika dan Bahasa Indonesia (data/seed_demo_raka.json).
   const mulaiDemo = () => {
-    const antreanDemo = daftarMapel.slice(0, 1).map((m) => m.mapel_id);
+    const antreanDemo = (antrean.length > 0 ? antrean : daftarMapel.map((m) => m.mapel_id)).slice(0, 1);
     setAntrean(antreanDemo);
     mulai(true, antreanDemo);
   };

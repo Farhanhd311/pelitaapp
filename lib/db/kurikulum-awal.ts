@@ -3,7 +3,9 @@
 // Dipanggil oleh Reset demo. Database baru tetap dibuat dengan `npm run seed`.
 
 import dataBahasaIndonesia from "@/data/data_awal_bahasa_indonesia_fase_A_B.json";
+import dataIpas from "@/data/data_awal_ipas_kelas_4.json";
 import dataMatematika from "@/data/data_awal_matematika_fase_A_B.json";
+import dataPendidikanPancasila from "@/data/data_awal_pendidikan_pancasila_kelas_4.json";
 import type { JalankanKueri } from "@/lib/db";
 
 type DataKurikulum = {
@@ -32,14 +34,21 @@ type DataKurikulum = {
   }[];
 };
 
-// Daftar file kurikulum yang dipakai aplikasi. Menambah mapel = menambah file data di sini (PANDUAN 10).
-const DATA_KURIKULUM: DataKurikulum[] = [dataMatematika, dataBahasaIndonesia];
+// Daftar file kurikulum yang dipakai aplikasi (sama dengan KURIKULUM di scripts/seed.mts). Menambah mapel =
+// menambah file data di sini (PANDUAN 10). sumber: 'manual' = data awal tim; 'ai' = ditulis dengan bantuan AI dan
+// diterbitkan langsung atas keputusan tim untuk demo (PANDUAN bagian 5), tetap wajib ditinjau guru.
+const DATA_KURIKULUM: { data: DataKurikulum; sumber: "manual" | "ai" }[] = [
+  { data: dataMatematika, sumber: "manual" },
+  { data: dataBahasaIndonesia, sumber: "manual" },
+  { data: dataIpas, sumber: "ai" },
+  { data: dataPendidikanPancasila, sumber: "ai" },
+];
 
 export type HasilLengkapiKurikulum = { mapel: number; tp: number; prasyarat: number; soal: number };
 
 export async function lengkapiKurikulumAwal(kueri: JalankanKueri): Promise<HasilLengkapiKurikulum> {
   const hasil: HasilLengkapiKurikulum = { mapel: 0, tp: 0, prasyarat: 0, soal: 0 };
-  for (const data of DATA_KURIKULUM) {
+  for (const { data, sumber } of DATA_KURIKULUM) {
     for (const m of data.mapel) {
       const ada = await kueri<{ id: number }[]>("SELECT id FROM mapel WHERE id = ?", [m.id]);
       if (ada[0]) continue;
@@ -65,14 +74,14 @@ export async function lengkapiKurikulumAwal(kueri: JalankanKueri): Promise<Hasil
       await kueri("INSERT INTO prasyarat_tp (tp_kode, prasyarat_kode) VALUES (?, ?)", [p.tp_kode, p.prasyarat_kode]);
       hasil.prasyarat++;
     }
-    // Soal dari file data awal: status 'terbit', sumber 'manual' (PANDUAN 8.5), sama seperti seed.
+    // Soal dari file data awal: status 'terbit', sumber sesuai daftar di atas, sama seperti seed.
     for (const s of data.soal) {
       const ada = await kueri<{ id: string }[]>("SELECT id FROM soal WHERE id = ?", [s.id]);
       if (ada[0]) continue;
       await kueri(
         `INSERT INTO soal (id, tp_kode, penggunaan, tingkat_kesulitan, pertanyaan, bacaan, visual, pembahasan, sumber, status)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'manual', 'terbit')`,
-        [s.id, s.tp_kode, s.penggunaan, s.tingkat_kesulitan, s.pertanyaan, s.bacaan ?? null, s.visual ?? null, s.pembahasan ?? null],
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'terbit')`,
+        [s.id, s.tp_kode, s.penggunaan, s.tingkat_kesulitan, s.pertanyaan, s.bacaan ?? null, s.visual ?? null, s.pembahasan ?? null, sumber],
       );
       for (const pil of s.pilihan) {
         await kueri("INSERT INTO pilihan (soal_id, teks, benar, miskonsepsi) VALUES (?, ?, ?, ?)", [

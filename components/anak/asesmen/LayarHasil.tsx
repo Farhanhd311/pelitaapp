@@ -102,12 +102,10 @@ export function LayarHasil({
         </TombolAnak>
       )}
 
-      <div className="mt-7 flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-center">
-        <TautanAnak varian="kedua" href="/anak">
-          Ke Beranda
-        </TautanAnak>
-        <TautanAnak varian={mapelBelumSelesai.length > 0 ? "kedua" : "utama"} href="/anak/peta" className="sm:min-w-60">
-          Lihat Peta Kelasku
+      {/* Peta penempatan (Pos Dasar -> Kelasku) ada di Beranda, disusun dari hasil ini. */}
+      <div className="mt-7 flex w-full justify-center">
+        <TautanAnak varian={mapelBelumSelesai.length > 0 ? "kedua" : "utama"} href="/anak" className="w-full sm:w-auto sm:min-w-60">
+          Lihat petaku
         </TautanAnak>
       </div>
       <TombolAnak varian="lembut" onClick={onUlangi} className="mt-3 text-[15px]">

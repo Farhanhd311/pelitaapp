@@ -355,3 +355,16 @@ export function jawabFormatif(
     tercapai: jumlah >= param.min_soal_tercapai && pBaru >= param.ambang_tercapai_sesi,
   };
 }
+
+// Berapa jawaban benar berturut-turut lagi sampai TP tercapai di sesi belajar, untuk pesan penyemangat
+// "tinggal N jawaban benar lagi". Memakai jawabFormatif yang sama, jadi selalu konsisten dengan aturan tercapai.
+// Yang ditampilkan ke anak hanya jumlah jawaban, bukan angka peluang (PANDUAN 7.2).
+export function benarLagiUntukTercapai(p: number, jumlahSoal: number, param: ParameterSesi, batas = 20): number {
+  for (let n = 1; n <= batas; n++) {
+    const hasil = jawabFormatif(p, jumlahSoal, true, param);
+    if (hasil.tercapai) return n;
+    p = hasil.p_menguasai;
+    jumlahSoal = hasil.jumlah_soal;
+  }
+  return batas;
+}

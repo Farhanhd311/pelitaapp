@@ -8,7 +8,7 @@ import { motion } from "motion/react";
 import { BookOpen, Clock, Headphones, HeartHandshake, MessageCircleHeart, RotateCcw } from "lucide-react";
 import { MascotPijar, type EkspresiPijar, type GerakPijar } from "@/components/anak/MascotPijar";
 import { TautanAnak, TombolAnak } from "@/components/anak/fokus/TombolAnak";
-import { HREF_SESI_HARI_INI } from "@/components/anak/sesi/jalur";
+import { denganMapel, HREF_PETA, HREF_SESI_HARI_INI } from "@/components/anak/sesi/jalur";
 import type { ResponsCheckin } from "@/lib/kontrak/checkin";
 import type { LevelSesi } from "@/lib/kontrak/umum";
 
@@ -41,7 +41,17 @@ const TEMA: Record<LevelSesi, { ekspresi: EkspresiPijar; gerak: GerakPijar; judu
 
 const LABEL_ISI = { santai: "Santai", ulang: "Mengulang yang sudah dikuasai", baru: "Materi baru" } as const;
 
-export function HasilCheckin({ hasil, sudahSebelumnya, onUbah }: { hasil: ResponsCheckin; sudahSebelumnya: boolean; onUbah: () => void }) {
+export function HasilCheckin({
+  hasil,
+  sudahSebelumnya,
+  mapelId,
+  onUbah,
+}: {
+  hasil: ResponsCheckin;
+  sudahSebelumnya: boolean;
+  mapelId: number | null; // mapel yang dipilih di Beranda (dibawa ke sesi)
+  onUbah: () => void;
+}) {
   const tema = TEMA[hasil.level];
   // Hati mendung menurunkan isi menjadi mengulang walau levelnya normal/penuh.
   const isi = hasil.jenis_isi === "ulang" && hasil.level !== "ringan" ? "Hari ini kita mengulang yang sudah kamu kuasai dulu, supaya hatimu lebih ringan." : tema.isi;
@@ -92,11 +102,11 @@ export function HasilCheckin({ hasil, sudahSebelumnya, onUbah }: { hasil: Respon
           <RotateCcw className="size-5" aria-hidden /> Ubah kondisiku
         </TombolAnak>
         {istirahat ? (
-          <TautanAnak href="/anak" className="sm:min-w-56">
+          <TautanAnak href={denganMapel(HREF_PETA, mapelId)} className="sm:min-w-56">
             Kembali ke Beranda
           </TautanAnak>
         ) : (
-          <TautanAnak href={HREF_SESI_HARI_INI} className="sm:min-w-56">
+          <TautanAnak href={denganMapel(HREF_SESI_HARI_INI, mapelId)} className="sm:min-w-56">
             Mulai belajar
           </TautanAnak>
         )}

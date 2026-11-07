@@ -5,7 +5,8 @@
 
 import type { StatusTp, SumberStatus } from "./umum";
 
-export type ResponsMapel = { mapel: { mapel_id: number; nama: string }[] };
+// jenis (dari data/data_materi_per_kelas_SD.json): adaptif = punya asesmen penempatan; pustaka = tanpa asesmen.
+export type ResponsMapel = { mapel: { mapel_id: number; nama: string; jenis: "adaptif" | "pustaka" }[] };
 
 export type KotakPeta = {
   tp_kode: string;

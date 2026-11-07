@@ -1,0 +1,262 @@
+{
+  "meta": {
+    "judul": "Narasi materi Bahasa Indonesia: kartu belajar bercerita per TP",
+    "versi": "0.1-draf",
+    "status": "Draf ditulis dengan bantuan AI. Wajib ditinjau guru SD sebelum dipakai di luar demo.",
+    "keterangan": "Satu narasi per tp_kode, ditampilkan sebelum soal (kartu belajar). Adegan 'tebak' tidak dinilai dan tidak memengaruhi status TP."
+  },
+  "narasi": [
+    {
+      "tp_kode": "BI-A1",
+      "judul": "Papan Nama di Kebun Binatang",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Halo, aku Pijar! Yuk, jalan-jalan ke kebun binatang dan membaca papan nama hewan bersamaku.", "visual": "🦁🐘🦒" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Ini papan nama rusa. Ucapkan pelan-pelan, ru-sa, lalu dengarkan bunyi yang paling depan.",
+          "visual": "🦌 | rusa",
+          "tebak": { "pertanyaan": "Kata rusa diawali huruf apa?", "pilihan": ["r", "s", "a"], "jawaban": "r", "penjelasan": "Bunyi paling depan dari ru-sa adalah /r/. Huruf s ada di tengah, dan huruf a ada di akhir." }
+        },
+        {
+          "ekspresi": "tenang",
+          "teks": "Setiap huruf besar punya pasangan kecil, seperti D dan d. Huruf d mirip b, jadi lihat perutnya: perut huruf d ada di kiri.",
+          "visual": "D d | 🐑 domba",
+          "tebak": { "pertanyaan": "Huruf mana yang perutnya di kiri?", "pilihan": ["d", "b"], "jawaban": "d", "penjelasan": "Huruf d perutnya di kiri dan tangkainya di kanan. Huruf b kebalikannya, perutnya di kanan." }
+        },
+        { "ekspresi": "mengintip", "teks": "Huruf m punya dua bukit, dan bibirmu terkatup saat membunyikannya. Huruf n punya satu bukit, sedangkan w mirip m yang terbalik.", "visual": "m | n | w" },
+        { "ekspresi": "senang", "teks": "Dengarkan bunyi paling depan untuk menemukan huruf awal, dan lihat bentuk huruf dengan teliti.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "BI-A2",
+      "judul": "Kereta Suku Kata",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Tut, tut! Pijar naik kereta, dan setiap gerbong membawa satu suku kata.", "visual": "🚂🚃🚃" },
+        {
+          "ekspresi": "tenang",
+          "teks": "Gerbong pertama membawa to, gerbong kedua membawa pi. Baca urut dari depan, to-pi, jadilah topi!",
+          "visual": "to | pi | 🧢",
+          "tebak": { "pertanyaan": "Gerbongnya me lalu ja. Kata yang terbaca adalah ...", "pilihan": ["meja", "jame", "maje"], "jawaban": "meja", "penjelasan": "Baca urut dari gerbong depan: me, lalu ja, jadi meja. Kalau urutannya dibalik, katanya jadi lain." }
+        },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Tepuk tangan untuk setiap suku kata, seperti pi-sang, dua tepukan. Yang dihitung tepukannya, bukan banyak hurufnya.",
+          "visual": "👏 pi | 👏 sang",
+          "tebak": { "pertanyaan": "Kata jeruk punya berapa suku kata?", "pilihan": ["2", "3", "5"], "jawaban": "2", "penjelasan": "Tepuk: je-ruk, dua tepukan. Kata jeruk punya 5 huruf, tetapi hanya 2 suku kata." }
+        },
+        { "ekspresi": "mengintip", "teks": "Ada suku kata yang punya ekor, seperti mah pada ru-mah. Ekornya ikut dibaca, jadi bunyinya rumah, bukan ruma.", "visual": "🏠 | ru | mah" },
+        { "ekspresi": "senang", "teks": "Baca suku kata urut dari kiri, tepuk untuk menghitungnya, lalu gabungkan menjadi kata utuh.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "BI-A3",
+      "judul": "Papan Kata di Pasar Pagi",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar menemani Nenek ke pasar pagi. Setiap lapak punya papan kata, yuk kita baca!", "visual": "🧺🍌🥕" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Ada kata yang hanya beda satu huruf, seperti pita dan peta. Baca huruf demi huruf sampai akhir, jangan menebak dari awalnya saja.",
+          "visual": "🎀",
+          "tebak": { "pertanyaan": "Kata mana yang cocok dengan gambar ini?", "pilihan": ["pita", "peta", "kita"], "jawaban": "pita", "penjelasan": "Baca huruf demi huruf: p-i-t-a, pita. Peta hanya beda satu huruf, tetapi artinya lain." }
+        },
+        {
+          "ekspresi": "tenang",
+          "teks": "Kata juga punya arti. Apel termasuk buah, kursi termasuk benda, dan hijau adalah nama warna.",
+          "visual": "🍎 apel | 🪑 kursi | 🟩 hijau",
+          "tebak": { "pertanyaan": "Papan mana yang cocok untuk lapak hewan?", "pilihan": ["bebek", "biru", "bantal"], "jawaban": "bebek", "penjelasan": "Bebek adalah hewan. Biru adalah warna, dan bantal adalah benda." }
+        },
+        { "ekspresi": "terkejut", "teks": "Semangka itu berat, anggur itu ringan. Berat dan ringan adalah lawan kata karena artinya berkebalikan, bukan mirip.", "visual": "🍉 berat | 🍇 ringan" },
+        { "ekspresi": "semangat", "teks": "Baca kata huruf demi huruf sampai akhir, lalu pikirkan artinya.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "BI-A4",
+      "judul": "Kartu Kalimat dari Mobil Perpustakaan",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Mobil perpustakaan keliling datang ke kampung! Pijar memilih kartu-kartu kalimat yang seru untuk dibaca.", "visual": "🚐📚" },
+        {
+          "ekspresi": "tenang",
+          "teks": "Baca kalimat sampai titik di ujungnya, jangan berhenti di kata pertama. Dua kalimat bisa berawal sama, tetapi akhirnya berbeda!",
+          "visual": "🐔🌽",
+          "tebak": { "pertanyaan": "Kartu mana yang menceritakan gambar ini?", "pilihan": ["Ayam makan jagung.", "Ayam makan cacing.", "Ayam tidur di kandang."], "jawaban": "Ayam makan jagung.", "penjelasan": "Dua kartu berawal Ayam makan, jadi kita baca sampai akhir. Di gambar ada jagung, jadi kartunya Ayam makan jagung." }
+        },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Kata kecil seperti di atas, di bawah, dan di dalam itu penting. Satu kata berganti, tempatnya pun berganti!",
+          "visual": "Burung hinggap di atas pagar.",
+          "tebak": { "pertanyaan": "Burung itu ada di ...", "pilihan": ["atas pagar", "bawah pagar", "dalam sangkar"], "jawaban": "atas pagar", "penjelasan": "Kalimatnya berkata di atas pagar. Kata atas dan bawah artinya berlawanan, jadi bacalah dengan teliti." }
+        },
+        { "ekspresi": "mengintip", "teks": "Kata pagi, siang, sore, dan malam memberi tahu kapan sesuatu terjadi. Jawab dari isi kalimat, bukan dari tebakanmu.", "visual": "🌅 pagi | ☀️ siang | 🌇 sore | 🌙 malam" },
+        { "ekspresi": "senang", "teks": "Baca kalimat sampai titik, lalu jawab dari kata-kata di dalam kalimat itu.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "BI-A5",
+      "judul": "Kartu Pos dari Lembah Harau",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pak Pos mengantar kartu pos untuk Pijar. Pengirimnya Upik, sahabat Pijar yang sedang berlibur!", "visual": "📮✉️" },
+        { "ekspresi": "tenang", "teks": "Setiap pertanyaan punya kata kunci. Siapa mencari orang, apa mencari kegiatan atau benda, di mana mencari tempat, dan kapan mencari waktu.", "visual": "👤 siapa | 🎈 apa | 📍 di mana | ⏰ kapan" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Sekarang baca kartu pos Upik pelan-pelan. Ada dua orang di sana, jadi cocokkan setiap kegiatan dengan orangnya.",
+          "visual": "Minggu pagi, Upik dan Paman\npergi ke Lembah Harau.\nPaman memotret air terjun.\nUpik bernyanyi riang.",
+          "tebak": { "pertanyaan": "Apa yang dilakukan Paman?", "pilihan": ["memotret air terjun", "bernyanyi riang"], "jawaban": "memotret air terjun", "penjelasan": "Kartu pos berkata Paman memotret air terjun. Yang bernyanyi adalah Upik, bukan Paman." }
+        },
+        {
+          "ekspresi": "mengintip",
+          "teks": "Kartu pos yang sama, pertanyaan baru. Perhatikan baik-baik siapa yang ditanyakan, ya!",
+          "visual": "Minggu pagi, Upik dan Paman\npergi ke Lembah Harau.\nPaman memotret air terjun.\nUpik bernyanyi riang.",
+          "tebak": { "pertanyaan": "Upik pergi bersama siapa?", "pilihan": ["Paman", "Upik", "Ayah"], "jawaban": "Paman", "penjelasan": "Kata bersama siapa mencari teman Upik, bukan Upik sendiri. Kartu pos berkata Upik dan Paman pergi bersama." }
+        },
+        { "ekspresi": "senang", "teks": "Jawaban siapa, apa, di mana, dan kapan dicari di dalam bacaan, bukan ditebak.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "BI-A6",
+      "judul": "Pentas Boneka di Taman",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Ada pentas boneka di taman kota! Pijar duduk manis, siap menonton cerita Bebek dan Monyet.", "visual": "🎭 | 🦆 | 🐒" },
+        {
+          "ekspresi": "empati",
+          "teks": "Layang-layang Bebek tersangkut di pohon yang tinggi. Bebek menunduk, dan matanya berkaca-kaca.",
+          "visual": "🌳🪁 | 🦆",
+          "tebak": { "pertanyaan": "Apa yang dirasakan Bebek saat itu?", "pilihan": ["sedih", "senang", "marah"], "jawaban": "sedih", "penjelasan": "Menunduk dan mata berkaca-kaca adalah petunjuk perasaan sedih. Petunjuk perasaan bisa kita temukan di dalam cerita." }
+        },
+        { "ekspresi": "tenang", "teks": "Monyet yang bertubuh kecil segera memanjat dan mengambilkan layang-layang itu. Sifat tokoh dilihat dari perbuatannya, bukan dari besar kecil tubuhnya.", "visual": "🐒🌳 | 🪁" },
+        {
+          "ekspresi": "senang",
+          "teks": "Bebek tersenyum dan berkata terima kasih kepada Monyet. Perasaan tokoh bisa berubah, jadi lihat kapan perasaan itu ditanyakan.",
+          "visual": "🦆😊 | 🐒🪁",
+          "tebak": { "pertanyaan": "Pesan cerita ini adalah ...", "pilihan": ["Kita perlu membantu teman yang kesulitan.", "Monyet pandai memanjat pohon.", "Kita tidak boleh bermain layang-layang."], "jawaban": "Kita perlu membantu teman yang kesulitan.", "penjelasan": "Monyet pandai memanjat hanyalah kejadian di cerita, dan larangan bermain tidak ada. Pesan adalah pelajaran yang bisa kita tiru." }
+        },
+        { "ekspresi": "semangat", "teks": "Cari petunjuk perasaan dan perbuatan tokoh di dalam cerita, lalu temukan pelajaran baik yang bisa kita tiru.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "BI-B1",
+      "judul": "Pijar Detektif Kata",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar menemukan buku cerita di perpustakaan, tetapi ada kata yang belum ia kenal. Ayo, jadi detektif kata bersamaku!", "visual": "🔍📖" },
+        { "ekspresi": "tenang", "teks": "Detektif kata membaca kalimat di sekitar kata baru untuk mencari petunjuk. Lalu, coba ganti kata itu dengan arti tebakanmu, apakah kalimatnya masih masuk akal?", "visual": "🔍 petunjuk | 📝 tebak arti | ✅ cek kalimat" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Ada kata baru di kalimat ini: riuh. Petunjuknya ada pada orang-orang yang bersorak dan bertepuk tangan.",
+          "visual": "Penonton bersorak dan bertepuk tangan.\nSuasana pasar malam riuh sekali.",
+          "tebak": { "pertanyaan": "Riuh artinya ...", "pilihan": ["ramai", "sepi", "gelap"], "jawaban": "ramai", "penjelasan": "Orang bersorak dan bertepuk tangan membuat suasana ramai, jadi riuh artinya ramai. Sepi justru kebalikannya." }
+        },
+        {
+          "ekspresi": "tekad",
+          "teks": "Hati-hati dengan jebakan kebalikan, ya. Pilih arti yang cocok dengan petunjuk, bukan arti yang berlawanan.",
+          "visual": "Kayu pagar itu sudah lapuk,\nmudah patah dan berlubang.",
+          "tebak": { "pertanyaan": "Lapuk artinya ...", "pilihan": ["sudah tua dan mudah rusak", "kuat dan baru", "berwarna cokelat"], "jawaban": "sudah tua dan mudah rusak", "penjelasan": "Petunjuknya mudah patah dan berlubang, jadi lapuk artinya sudah tua dan mudah rusak. Kuat dan baru justru kebalikannya." }
+        },
+        { "ekspresi": "senang", "teks": "Cari petunjuk di sekitar kata baru, lalu pilih arti yang membuat kalimatnya tetap masuk akal.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "BI-B2",
+      "judul": "Papan Pengumuman di Kota Padang",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar berlibur di Kota Padang dan berhenti di depan papan pengumuman. Ada kabar lomba yang seru!", "visual": "📌📋" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Pengumuman memberi tahu apa acaranya, kapan, di mana, dan siapa yang boleh ikut. Cari baris yang cocok dengan pertanyaan, jangan menebak.",
+          "visual": "PENGUMUMAN\nLomba Layang-layang Anak\nMinggu, 22 November, pukul 15.00\ndi Pantai Air Manis\nPeserta usia 7–12 tahun",
+          "tebak": { "pertanyaan": "Ke mana peserta harus datang?", "pilihan": ["Pantai Air Manis", "Lapangan bola", "Papan pengumuman"], "jawaban": "Pantai Air Manis", "penjelasan": "Pertanyaan ke mana mencari tempat. Di pengumuman, tempatnya tertulis Pantai Air Manis." }
+        },
+        {
+          "ekspresi": "mengintip",
+          "teks": "Pengumuman ini punya banyak angka: tanggal, jam, dan usia. Baca kata di dekat angka supaya tidak tertukar.",
+          "visual": "PENGUMUMAN\nLomba Layang-layang Anak\nMinggu, 22 November, pukul 15.00\ndi Pantai Air Manis\nPeserta usia 7–12 tahun",
+          "tebak": { "pertanyaan": "Pukul berapa lomba dimulai?", "pilihan": ["15.00", "22", "12"], "jawaban": "15.00", "penjelasan": "Kata pukul menunjukkan jam, jadi lomba dimulai pukul 15.00. Angka 22 adalah tanggal, dan 12 adalah batas usia peserta." }
+        },
+        { "ekspresi": "tenang", "teks": "Teks informasi perlu dibaca teliti: Padang nama kota, Sumatera Barat nama provinsi. Jawab sesuai yang ditanya, dan jangan menambah hal yang tidak tertulis.", "visual": "🏙️ Kota Padang | 🗺️ Sumatera Barat" },
+        { "ekspresi": "senang", "teks": "Temukan kata kunci pertanyaan, lalu cari jawabannya di baris teks yang tepat.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "BI-B3",
+      "judul": "Payung Besar di Taman Bacaan",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar membuka payung besar di taman bacaan, dan semua teman ikut berteduh. Paragraf juga punya payung, namanya ide pokok!", "visual": "☂️ | 🐰🐿️🐦" },
+        { "ekspresi": "tenang", "teks": "Ide pokok memayungi semua kalimat lain, sedangkan kalimat lain berisi contoh atau rincian. Judul yang baik juga memayungi seluruh isi, bukan satu rincian saja.", "visual": "☂️ ide pokok | 🐰🐿️🐦 rincian" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Baca paragraf tentang pasar ini pelan-pelan. Temukan kalimat yang memayungi semua kalimat lainnya.",
+          "visual": "Pasar pagi sangat ramai.\nPedagang menawarkan sayur.\nPembeli menawar harga.\nAnak-anak membeli kue.",
+          "tebak": { "pertanyaan": "Kalimat mana yang menjadi payungnya?", "pilihan": ["Pasar pagi sangat ramai.", "Anak-anak membeli kue.", "Pedagang menawarkan sayur."], "jawaban": "Pasar pagi sangat ramai.", "penjelasan": "Pedagang, pembeli, dan anak-anak adalah rincian yang menunjukkan pasar itu ramai. Jadi payungnya kalimat pertama." }
+        },
+        {
+          "ekspresi": "mengintip",
+          "teks": "Payung tidak selalu ada di depan, kadang ada di akhir paragraf. Coba temukan payungnya di sini!",
+          "visual": "Rani menyiram bunga.\nIa memberi makan ikan.\nRani sayang pada makhluk hidup.",
+          "tebak": { "pertanyaan": "Payung paragraf ini ada di ...", "pilihan": ["kalimat terakhir", "kalimat pertama"], "jawaban": "kalimat terakhir", "penjelasan": "Menyiram bunga dan memberi makan ikan adalah contoh. Keduanya dipayungi kalimat terakhir: Rani sayang pada makhluk hidup." }
+        },
+        { "ekspresi": "semangat", "teks": "Ide pokok adalah payung yang memayungi semua kalimat lain, dan letaknya bisa di awal atau di akhir paragraf.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "BI-B4",
+      "judul": "Pohon Beringin Paragraf",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar duduk di bawah pohon beringin di halaman balai nagari. Ternyata, pohon ini mirip sekali dengan paragraf!", "visual": "🌳" },
+        { "ekspresi": "tenang", "teks": "Batang pohon adalah ide pokok, yaitu gagasan utama paragraf. Dahan-dahannya adalah ide pendukung yang menjelaskan atau memberi contoh ide pokok.", "visual": "🪵 ide pokok | 🌿 ide pendukung" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Baca paragraf tentang kebun ini. Satu kalimat menjadi batang, kalimat lainnya menjadi dahan.",
+          "visual": "Kebun Pak Datuk subur.\nPohon jeruknya berbuah lebat.\nCabainya merah-merah.\nSayurnya hijau segar.",
+          "tebak": { "pertanyaan": "Kalimat mana yang menjadi dahan?", "pilihan": ["Pohon jeruknya berbuah lebat.", "Kebun Pak Datuk subur.", "Tanaman di kebun itu layu."], "jawaban": "Pohon jeruknya berbuah lebat.", "penjelasan": "Kebun Pak Datuk subur adalah batangnya. Jeruk yang berbuah lebat menjelaskan kebun yang subur, jadi itu dahan." }
+        },
+        {
+          "ekspresi": "terkejut",
+          "teks": "Hati-hati dengan daun nyasar, yaitu kalimat yang membahas hal lain walau kata-katanya mirip. Daun nyasar bukan ide pendukung.",
+          "visual": "Kebun Pak Datuk subur.\nCabainya merah-merah.\nKebun binatang ramai saat libur.",
+          "tebak": { "pertanyaan": "Kalimat mana yang menjadi daun nyasar?", "pilihan": ["Kebun binatang ramai saat libur.", "Cabainya merah-merah."], "jawaban": "Kebun binatang ramai saat libur.", "penjelasan": "Kalimat itu memakai kata kebun, tetapi membahas kebun binatang. Kata yang sama belum tentu mendukung ide pokok." }
+        },
+        { "ekspresi": "senang", "teks": "Ide pokok adalah batangnya, ide pendukung adalah dahan yang menjelaskannya, dan kalimat yang membahas hal lain tidak termasuk.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "BI-B5",
+      "judul": "Dongeng Tupai yang Jujur",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Malam ini, Nenek mendongeng untuk Pijar di beranda rumah gadang. Dengarkan baik-baik, ya!", "visual": "🌙✨ | 📖" },
+        { "ekspresi": "tenang", "teks": "Tupai menemukan sekantong jagung milik Pak Tani di pematang sawah. Monyet berbisik agar jagung itu diambil saja, karena tidak ada yang melihat.", "visual": "🐿️ | 🌽 | 🐒" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Tupai menggeleng, lalu mengembalikan jagung itu kepada Pak Tani walau perutnya lapar. Watak tokoh terlihat dari perbuatan dan ucapannya, bukan dari tubuhnya.",
+          "visual": "🐿️🌽 → 👨‍🌾",
+          "tebak": { "pertanyaan": "Dari perbuatannya, Tupai bersifat ...", "pilihan": ["jujur", "curang", "penakut"], "jawaban": "jujur", "penjelasan": "Tupai mengembalikan jagung walau tidak ada yang melihat, jadi Tupai jujur. Yang mengajak curang adalah Monyet, bukan Tupai." }
+        },
+        {
+          "ekspresi": "senang",
+          "teks": "Pak Tani berterima kasih dan membagi jagungnya dengan Tupai. Amanat adalah pelajaran yang bisa kita tiru, bukan sekadar kejadian dalam cerita.",
+          "visual": "👨‍🌾🌽 | 🐿️😊",
+          "tebak": { "pertanyaan": "Amanat dongeng ini adalah ...", "pilihan": ["Bersikaplah jujur walau tidak ada yang melihat.", "Tupai suka makan jagung.", "Kita tidak boleh pergi ke sawah."], "jawaban": "Bersikaplah jujur walau tidak ada yang melihat.", "penjelasan": "Tupai suka jagung hanyalah kejadian, dan larangan ke sawah tidak ada di cerita. Pelajaran yang bisa kita tiru adalah bersikap jujur." }
+        },
+        { "ekspresi": "semangat", "teks": "Watak dilihat dari perbuatan setiap tokoh, dan amanat adalah pelajaran baik yang bisa kita tiru.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "BI-B6",
+      "judul": "Jadwal Pekan Budaya",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar datang ke pekan budaya di Kota Padang. Ada jadwal pertunjukan dan papan tiket yang penuh gambar!", "visual": "🥁💃🎭" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Cari dulu kata yang kamu perlukan, lalu baca isi di baris yang sama. Jarimu bisa membantu supaya mata tidak pindah ke baris lain.",
+          "visual": "JADWAL PERTUNJUKAN\nJumat: Tari Piring\nSabtu: Randai\nMinggu: Talempong",
+          "tebak": { "pertanyaan": "Hari apa Randai tampil?", "pilihan": ["Sabtu", "Jumat", "Minggu"], "jawaban": "Sabtu", "penjelasan": "Cari kata Randai dulu, lalu lihat hari di baris yang sama: Sabtu. Jumat dan Minggu ada di baris atas dan bawahnya." }
+        },
+        { "ekspresi": "tenang", "teks": "Papan tiket memakai gambar, dan setiap gambar tiket berarti 1 tiket terjual. Hitung gambar di setiap baris dengan teliti.", "visual": "TIKET TERJUAL\nTari Piring: 🎟️🎟️🎟️\nRandai: 🎟️🎟️🎟️🎟️🎟️\nTalempong: 🎟️🎟️" },
+        {
+          "ekspresi": "mengintip",
+          "teks": "Untuk mencari yang paling banyak atau paling sedikit, bandingkan semua baris. Jangan berhenti di baris pertama, ya!",
+          "visual": "TIKET TERJUAL\nTari Piring: 🎟️🎟️🎟️\nRandai: 🎟️🎟️🎟️🎟️🎟️\nTalempong: 🎟️🎟️",
+          "tebak": { "pertanyaan": "Pertunjukan mana yang tiketnya paling sedikit?", "pilihan": ["Talempong", "Tari Piring", "Randai"], "jawaban": "Talempong", "penjelasan": "Tari Piring punya 3 tiket, Randai 5, dan Talempong 2. Paling sedikit artinya jumlahnya terkecil, yaitu Talempong." }
+        },
+        { "ekspresi": "senang", "teks": "Cari kata kuncinya, ikuti baris yang sama, dan bandingkan semua baris dengan teliti.", "kunci": true }
+      ]
+    }
+  ]
+}

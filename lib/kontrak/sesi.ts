@@ -67,10 +67,11 @@ export type ResponsSesi = {
   konten: Konten[]; // konten santai / ulang yang bisa diputar
   soal: SoalTampil | null;
   nomor_soal: number; // soal ke berapa di sesi ini (mulai 1)
-  jumlah_soal: number; // rencana jumlah soal sesuai level
+  jumlah_soal: number; // jatah soal sesuai level. Sesi materi baru lanjut dengan soal tambahan sampai TP tercapai
   umpan_balik: UmpanBalikJawaban | null; // hasil jawaban sebelumnya
   alasan_cek_kuat: "durasi_tercapai" | "salah_beruntun" | "tengah_sesi_penuh" | null;
   tawarkan_selesai: boolean; // "Masih kuat" setelah durasi tercapai -> tawarkan selesai dengan pujian
   tp_tercapai: boolean; // TP baru saja tercapai -> rayakan
+  benar_lagi_untuk_tercapai: number | null; // TP belum tercapai (respons kuis & selesai): sisa jawaban benar (bukan angka peluang)
   pesan: string; // kalimat Pijar untuk layar ini
 };

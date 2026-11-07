@@ -7,6 +7,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+  benarLagiUntukTercapai,
   jawabFormatif,
   keputusanTp,
   mulaiAsesmen,
@@ -356,5 +357,27 @@ describe("kuis formatif B3 (sesi belajar)", () => {
     const biasa = jawabFormatif(0.8, 0, false, paramSesi).p_menguasai;
     const lelah = jawabFormatif(0.8, 0, false, { ...paramSesi, ceroboh: data.meta.parameter_bkt.ceroboh_lelah }).p_menguasai;
     expect(lelah).toBeGreaterThan(biasa);
+  });
+});
+
+describe("benarLagiUntukTercapai (pesan \"tinggal N jawaban benar lagi\")", () => {
+  it("cocok dengan simulasi jawabFormatif: TP baru (p 0,5) butuh 3 jawaban benar", () => {
+    expect(benarLagiUntukTercapai(0.5, 0, paramSesi)).toBe(3);
+  });
+
+  it("kasus nyata B7 Raka: 5 jawaban (benar, salah, salah, benar, benar) -> tinggal 1", () => {
+    let p = 0.5;
+    let jumlah = 0;
+    for (const benar of [true, false, false, true, true]) {
+      const hasil = jawabFormatif(p, jumlah, benar, paramSesi);
+      p = hasil.p_menguasai;
+      jumlah = hasil.jumlah_soal;
+    }
+    dekat(p, 0.8673);
+    expect(benarLagiUntukTercapai(p, jumlah, paramSesi)).toBe(1);
+  });
+
+  it("p tinggi tetapi soal belum minimal: tetap menunggu min_soal_tercapai", () => {
+    expect(benarLagiUntukTercapai(0.99, 0, paramSesi)).toBe(paramSesi.min_soal_tercapai);
   });
 });

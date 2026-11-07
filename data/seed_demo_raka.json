@@ -8,8 +8,8 @@
     { "tp_kode": "A1", "jenis": "santai", "format": "audio", "durasi_menit": 5, "butuh_layar": false, "url": "/konten/cerita-pijar" }
   ],
   "catatan_konten_contoh": "Baris KONTEN contoh supaya alur demo jalan (B3 'tersedia' di peta, sesi ringan punya audio pengulangan, sesi istirahat punya cerita). 'url' menunjuk halaman/aset yang dibuat tim frontend/Data. Hanya ditambahkan oleh Reset demo jika baris dengan TP dan jenis yang sama belum ada.",
-  "tp_dikuasai": ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "B1", "B2", "B6"],
-  "catatan_tp_dikuasai": "Mode demo 'putar otomatis' asesmen: server menjawab benar jika TP ada di daftar ini, salah jika tidak (PRD F-ASM-7). Yang di-skrip HANYA jawabannya. Sama dengan asesmen_raka.menguasai di tes_kasus_bkt.json.",
+  "tp_dikuasai": ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "B1", "B2", "B6", "BI-A1", "BI-A2", "BI-A3", "BI-A4", "BI-A5", "BI-B1", "BI-B2"],
+  "catatan_tp_dikuasai": "Mode demo 'putar otomatis' asesmen: server menjawab benar jika TP ada di daftar ini, salah jika tidak (PRD F-ASM-7). Yang di-skrip HANYA jawabannya. Sama dengan asesmen_raka.menguasai di tes_kasus_bkt.json. Bahasa Indonesia: Raka menguasai BI-A1 sampai BI-A5, BI-B1, dan BI-B2, sehingga Pos Dasarnya BI-A6 dan BI-B3, lalu Kelasku BI-B4 sampai BI-B6 (5 sesi untuk demo).",
   "riwayat_checkin": [
     { "hari_lalu": 24, "energi": "semangat", "cuaca_hati": "cerah", "keluhan": [] },
     { "hari_lalu": 23, "energi": "lumayan", "cuaca_hati": "cerah", "keluhan": [] },
