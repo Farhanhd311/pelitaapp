@@ -55,15 +55,21 @@ const SkemaParameterAsesmen = z.object({
   "bkt.maks_soal_per_tp": Jumlah,
   "asesmen.berhenti_dini": z.boolean(),
   "asesmen.maks_soal_per_sesi": Jumlah,
+  "asesmen.maks_soal_per_mapel": z.record(z.string(), Jumlah), // { "<mapel_id>": batas soal satu asesmen }
 });
 
-export function keParameterAsesmen(nilai: NilaiPengaturan): ParameterAsesmen & { maks_soal_per_sesi: number } {
+// `mapelId`: batas soal asesmen berbeda per mapel (asesmen.maks_soal_per_mapel).
+export function keParameterAsesmen(nilai: NilaiPengaturan, mapelId: number): ParameterAsesmen & { maks_soal_per_sesi: number } {
   const hasil = SkemaParameterAsesmen.safeParse(nilai);
   if (!hasil.success) {
     const kunci = hasil.error.issues.map((i) => i.path.join(".")).join(", ");
     throw new Error(`PENGATURAN_SISTEM tidak lengkap atau tidak valid: ${kunci}`);
   }
   const n = hasil.data;
+  const maksSoalAsesmen = n["asesmen.maks_soal_per_mapel"][String(mapelId)];
+  if (maksSoalAsesmen === undefined) {
+    throw new Error(`PENGATURAN_SISTEM asesmen.maks_soal_per_mapel belum punya batas untuk mapel ${mapelId}`);
+  }
   return {
     peluang_awal: n["bkt.peluang_awal"],
     tebakan: n["bkt.tebakan"],
@@ -76,6 +82,7 @@ export function keParameterAsesmen(nilai: NilaiPengaturan): ParameterAsesmen & {
     maks_soal_per_tp: n["bkt.maks_soal_per_tp"],
     berhenti_dini: n["asesmen.berhenti_dini"],
     maks_soal_per_sesi: n["asesmen.maks_soal_per_sesi"],
+    maks_soal_asesmen: maksSoalAsesmen,
   };
 }
 

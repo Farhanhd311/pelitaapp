@@ -5,7 +5,6 @@ import { BookOpen, HelpCircle } from "lucide-react";
 import { DialogPanduan } from "@/components/anak/beranda/DialogAnak";
 import { KartuSamping } from "@/components/anak/beranda/KartuSamping";
 import { PetaPetualangan } from "@/components/anak/beranda/PetaPetualangan";
-import { TombolSpeaker } from "@/components/anak/TombolSpeaker";
 import { BERANDA_CONTOH } from "./data-contoh";
 
 const HREF_MULAI = "/anak/checkin";
@@ -24,7 +23,6 @@ export default function BerandaAnak() {
           <h1 className="text-[26px] font-extrabold text-teks sm:text-[28px]">{sapaan} 👋</h1>
           <p className="text-[15px] text-teks-2">{ajakan}</p>
         </div>
-        <TombolSpeaker teks={`${sapaan} ${ajakan}`} />
         <DialogPanduan
           className="flex min-h-14 min-w-14 items-center justify-center gap-2 rounded-full border border-garis bg-pasir-muda font-heading text-sm font-bold text-bata transition hover:bg-pasir sm:px-5"
           pemicu={

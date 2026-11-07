@@ -3,9 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { teksDibacakan, uraiVisual } from "./visual-soal";
-import type { SoalTampil } from "@/lib/kontrak/umum";
-
+import { uraiVisual } from "./visual-soal";
 describe("uraiVisual", () => {
   it("kelompok dipisah garis tegak (jeruk di 4 piring)", () => {
     expect(uraiVisual("🍊🍊🍊 | 🍊🍊🍊 | 🍊🍊🍊 | 🍊🍊🍊")).toEqual([{ jenis: "kelompok", isi: ["🍊🍊🍊", "🍊🍊🍊", "🍊🍊🍊", "🍊🍊🍊"] }]);
@@ -39,19 +37,5 @@ describe("uraiVisual", () => {
       expect(baris.length, s.visual).toBeGreaterThan(0);
       for (const b of baris) if (b.jenis === "teks") expect(b.isi.length, s.visual).toBeGreaterThan(0);
     }
-  });
-});
-
-describe("teksDibacakan", () => {
-  it("memuat soal dan semua pilihan", () => {
-    const soal: SoalTampil = {
-      soal_id: "X",
-      tp_kode: "B3",
-      pertanyaan: "6 × 7 = ...",
-      bacaan: null,
-      visual: null,
-      pilihan: [13, 36, 48, 42].map((n, i) => ({ pilihan_id: i + 1, teks: String(n) })),
-    };
-    expect(teksDibacakan(soal)).toBe("6 × 7 = .... A, 13. B, 36. C, 48. D, 42");
   });
 });

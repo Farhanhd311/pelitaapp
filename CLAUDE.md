@@ -25,7 +25,7 @@ Pedoman lengkap ada di file berikut. Baca seluruhnya sebelum menulis kode, dan i
 | File | Isi |
 |---|---|
 | `data/data_awal_matematika_fase_A_B.json` | 16 TP, 19 prasyarat, 64 soal diagnostik, parameter BKT awal. **Dipakai di MVP** |
-| `data/data_awal_bahasa_indonesia_fase_A_B.json` | 12 TP, 13 prasyarat, 48 soal (ada kolom `bacaan`). **Di luar lingkup 24 jam**, impor hanya jika fitur bagian 5 selesai |
+| `data/data_awal_bahasa_indonesia_fase_A_B.json` | 12 TP, 13 prasyarat, 48 soal (ada kolom `bacaan`). **Dipakai untuk asesmen** (keputusan tim); sesi belajar BI belum |
 | `data/tes_kasus_bkt.json` | Kasus uji untuk `/lib/bkt` |
 | `data/hasil_uji_asesmen.json` | Hasil uji siswa virtual untuk halaman Evaluasi AI (berlabel "hasil simulasi") |
 

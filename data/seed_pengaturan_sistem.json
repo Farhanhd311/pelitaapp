@@ -8,6 +8,7 @@
   },
   "pengaturan": {
     "asesmen.maks_soal_per_sesi": 12,
+    "asesmen.maks_soal_per_mapel": { "1": 18, "2": 12 },
     "sesi.durasi_ringan": 10,
     "sesi.durasi_normal": 20,
     "sesi.durasi_penuh": 30,
@@ -33,6 +34,7 @@
     "sesi.ambang_kartu_belajar": 0.4
   },
   "catatan_kunci_tambahan": {
+    "asesmen.maks_soal_per_mapel": "Keputusan tim: batas soal satu asesmen per mapel (kunci = mapel_id). Matematika (1) 18, Bahasa Indonesia (2) 12, dari rata-rata soal uji siswa virtual. Jika batas tercapai, TP yang sedang diuji diputuskan dari peluangnya dan asesmen selesai.",
     "kuis.jumlah_soal_*": "PRD F-SESI-3: ringan 1-2 soal santai, normal 3-5 soal formatif, penuh kuis lengkap (8 = jumlah soal formatif B3 yang disiapkan).",
     "rujukan.kode_kebutuhan": "Chip 'kebutuhan' di Teman Cerita -> level di rujukan.aturan_level. Level 3 tidak dipilih anak: ditentukan dari distres berulang (cuaca hati turun sesi.hari_mood_turun_pemicu_chatbot hari berturut-turut).",
     "rujukan.hari_tindak_lanjut": "PANDUAN 8.2 langkah 6: tindak lanjut seminggu kemudian.",

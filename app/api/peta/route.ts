@@ -5,7 +5,7 @@ import { z } from "zod";
 import { GalatApi, tanganiApi } from "@/lib/api/respons";
 import { susunPeta } from "@/lib/bkt/peta";
 import { ambilAnak, ambilProgres, ambilTpMapel } from "@/lib/db/anak";
-import { ambilKurikulum, ambilTpBerkonten, asesmenSudahSelesai } from "@/lib/db/asesmen";
+import { ambilKurikulum, ambilTpBerkonten, statusAsesmen } from "@/lib/db/asesmen";
 import { wajibModeAnak } from "@/lib/db/rbac";
 import type { ResponsPeta } from "@/lib/kontrak/peta";
 
@@ -47,10 +47,13 @@ export const GET = tanganiApi(async (req: Request) => {
   });
 
   const sisa = peta.pos_wajib_tersisa;
+  const asesmen = await statusAsesmen(anak_id, kurikulum);
   const respons: ResponsPeta = {
     mapel_id: mapelId,
     kelas_seharusnya: anak.kelas_seharusnya,
-    asesmen_selesai: await asesmenSudahSelesai(anak_id, kurikulum),
+    asesmen_selesai: asesmen.pernah_selesai,
+    asesmen_berjalan: asesmen.berjalan,
+    kelas_terakhir: anak.kelas_terakhir,
     rekomendasi_tp: peta.rekomendasi_tp,
     hanya_esensial: peta.hanya_esensial,
     kelasku: peta.kelasku.map(keKotak),

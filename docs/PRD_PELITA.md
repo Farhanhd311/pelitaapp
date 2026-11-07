@@ -212,8 +212,8 @@ Aturan memilih fitur: **(A)** tampil di demo ±130 detik → bangun penuh; **(B)
 | ID | Fitur |
 |---|---|
 | A1 | Login akun demo (email + password) → pilih profil (avatar anak / Pendamping + PIN) |
-| A2 | Check-in harian + `tentukanLevel` yang benar-benar mengubah isi sesi; tombol speaker (Web Speech API) |
-| A3 | Asesmen adaptif Matematika (BKT + penelusuran prasyarat) dengan **mode demo "putar otomatis"** |
+| A2 | Check-in harian + `tentukanLevel` yang benar-benar mengubah isi sesi |
+| A3 | Asesmen adaptif Matematika + Bahasa Indonesia (BKT + penelusuran prasyarat) dengan **mode demo "putar otomatis"** |
 | A4 | Peta TP dengan menu **Kelasku** dan **Pos Dasar** (grid per kelas berwarna status) |
 | A5 | Sesi belajar **TP B3**: kartu belajar → kuis formatif → update BKT, termasuk cek "Masih kuat?". TP lain menampilkan "segera hadir" |
 | A6 | **AI tutor** berdasarkan `miskonsepsi`, dengan cadangan |
@@ -298,19 +298,20 @@ Format: kebutuhan → kriteria penerimaan (KP).
 - **F-CHK-2** Sistem memanggil `tentukanLevel(checkin, anak)` (aturan di 10.1) dan menampilkan isi sesi yang sesuai level.
   - KP demo: "lemas 🌧️ + mata lelah" → level ringan, **mode audio**, ±5 menit mengulang materi yang sudah dikuasai; "semangat" → materi baru.
 - **F-CHK-3** Hari istirahat yang dilaporkan lewat check-in tetap dihitung hari aktif.
-- **F-CHK-4** Setiap instruksi punya tombol speaker (Web Speech API, `id-ID`).
+- **F-CHK-4** ~~Setiap instruksi punya tombol speaker~~. Dihapus (keputusan tim): tidak ada pembaca teks.
 - **F-CHK-5** 3 check-in berturut-turut berenergi lemas atau berkeluhan → kartu "perlu perhatian" di dashboard orang tua dan guru (lihat 9.8).
 - **F-CHK-6** Cuaca hati hujan/badai menurunkan level dan menawarkan Teman Cerita; 3 hari berturut-turut → Teman Cerita menyapa proaktif.
 
 ### 9.3 Asesmen adaptif (A3)
 - **F-ASM-1** Asesmen per mata pelajaran memakai BKT + penelusuran graf prasyarat (algoritma di 10.2).
-- **F-ASM-2** TP pertama yang diuji: TP di tengah daftar TP kelas `kelas_seharusnya − 1` (urut menurut `urutan`, indeks `floor(jumlah/2)` mulai dari 0). Untuk Raka: B3.
+- **F-ASM-2** Sebelum mulai, anak memilih "terakhir sekolah di kelas berapa?" (pilihan awal dari `ANAK.kelas_terakhir`, tidak disimpan ke profil). TP pertama yang diuji: TP di tengah daftar TP kelas pilihan itu (urut menurut `urutan`, indeks `floor(jumlah/2)` mulai dari 0). TP di atas kelas pilihan tidak diuji. Untuk Raka (kelas terakhir 3): B3.
 - **F-ASM-3** Soal diambil dari bank soal berstatus `terbit` dengan `penggunaan = diagnostik`; **urutan pilihan diacak** saat ditampilkan.
 - **F-ASM-4** Umpan balik **netral** selama asesmen ("Oke, lanjut!"); tidak ada benar/salah.
+- **F-ASM-5b** *(disetujui tim)* TP kelas di bawah kelas pilihan hanya diuji jika prasyarat TP yang diuji dan belum dikuasai. Batas soal per mapel `asesmen.maks_soal_per_mapel`: Matematika 18, Bahasa Indonesia 12. Kedua mapel diases dalam satu petualangan dengan urutan acak.
 - **F-ASM-5** Maksimal 12 soal per sesi asesmen; status penelusuran disimpan sehingga bisa dilanjutkan. Asesmen satu mapel dirancang selesai dalam **2 sesi** (rata-rata 18 soal; 90% anak ≤ 24).
 - **F-ASM-6** Hasil: status per TP (`tercapai`/`belum`/`belum_diketahui`), sumber status (`diuji`/`disimpulkan`), `p_menguasai`, dan **titik mulai**.
 - **F-ASM-7 Mode demo "putar otomatis"**: tombol yang mengirim jawaban Raka (benar jika TP dikuasai, salah jika tidak) ke `/api/asesmen` setiap ±1,5 detik. Batang peluang bergerak dan peta TP berubah warna.
-  - KP: **yang di-skrip hanya jawabannya**; pemilihan TP, angka peluang, penyimpulan, dan titik mulai dihitung mesin BKT yang sama. Hasil harus sama dengan `data/tes_kasus_bkt.json`: urutan TP diuji B3 → A4 → A7 → A8 → A5 → B2, **17 soal**, titik mulai **B3**, B6 berstatus `belum_diketahui`. Selesai dalam ±25 detik.
+  - KP: **yang di-skrip hanya jawabannya**; pemilihan TP, angka peluang, penyimpulan, dan titik mulai dihitung mesin BKT yang sama. Hasil harus sama dengan `data/tes_kasus_bkt.json`: urutan TP diuji B3 → B1 → B2, **8 soal**, titik mulai **B3**; A5, A8, B6 berstatus `belum_diketahui`. Selesai dalam ±14 detik.
 - **F-ASM-8** Angka peluang hanya terlihat di mode demo dan halaman admin.
 
 ### 9.4 Peta TP (A4)
@@ -320,7 +321,7 @@ Format: kebutuhan → kriteria penerimaan (KP).
 - **F-PETA-4** Hanya TP B3 yang punya konten di MVP; TP lain menampilkan "segera hadir".
 
 ### 9.5 Sesi belajar (A5)
-- **F-SESI-1** TP baru atau `p_menguasai` < 0,40 → **kartu belajar dulu** (konten disiapkan + tombol speaker), baru kuis.
+- **F-SESI-1** TP baru atau `p_menguasai` < 0,40 → **kartu belajar dulu** (konten disiapkan), baru kuis.
 - **F-SESI-2** Kuis formatif pilihan ganda; setiap jawaban memperbarui BKT dengan `belajar_saat_sesi` (0,15). TP tercapai jika minimal 3 soal dan p ≥ `ambang_tercapai_sesi` (0,95).
   - KP: dari status belum (p 0,017), urutan jawaban salah-benar-benar-benar-benar menghasilkan p 0,152 → 0,483 → 0,805 → 0,947 → 0,987; tercapai pada jawaban ke-5.
 - **F-SESI-3** Jumlah soal mengikuti level: ringan 1–2 soal santai (tidak memengaruhi status TP), normal 3–5 soal formatif, penuh kuis lengkap.
@@ -342,7 +343,7 @@ Format: kebutuhan → kriteria penerimaan (KP).
 
 ### 9.7 AI tutor (A6)
 - **F-TUTOR-1** Input: pertanyaan, jawaban anak, kunci, `miskonsepsi` pilihan yang dipilih, deskripsi TP, kelas anak. **Tanpa nama atau ID anak.**
-- **F-TUTOR-2** Output JSON tervalidasi: penjelasan ≤3 kalimat berbahasa anak + satu langkah petunjuk; bisa dibacakan.
+- **F-TUTOR-2** Output JSON tervalidasi: penjelasan ≤3 kalimat berbahasa anak + satu langkah petunjuk.
 - **F-TUTOR-3** Jika timeout (8 detik), gagal validasi, atau `demo.pakai_cadangan` aktif → pakai jawaban cadangan tersimpan, lalu `pembahasan` soal.
 - **F-TUTOR-4** Pendamping/guru bisa memberi jempol (membantu/tidak membantu) yang tersimpan di `UMPAN_BALIK_AI`.
 - KP demo: soal B3-D3 (6 × 7), Raka memilih **13** → penjelasan "menjumlahkan, bukan mengalikan" dan 6 × 7 sebagai 6 kelompok berisi 7.
@@ -489,7 +490,7 @@ Nilai rujukan: benar dari 0,5 → 0,7826; salah dari 0,5 → 0,1176; benar dari 
 
 ### 10.3 Prasyarat, Pos Dasar, jalur transisi, dan lapis koreksi
 - Sebelum TP baru di Kelasku dimulai, cek prasyaratnya. Jika ada yang belum tercapai, sisipkan **modul jembatan** di **Pos Dasar**, lalu kembali ke TP kelasnya.
-- Materi lama yang bukan prasyarat langsung: opsional di Pos Dasar.
+- Materi lama yang bukan prasyarat langsung: opsional di Pos Dasar. Prasyarat `belum_diketahui` tidak mengunci dan bukan pos wajib.
 - Label `esensial_transisi` diadopsi dari prinsip **ATP Transisi** Kemendikdasmen (ATP yang dipadatkan untuk murid terdampak bencana). Saat fase `intensif`, hanya TP esensial yang tampil.
 - Penempatan dilakukan **terpisah per mata pelajaran**.
 - **Lapis koreksi** (desain wajib, dibangun setelah lomba): TP berstatus disimpulkan atau belum diketahui diberi 2 soal cek saat pertama kali muncul; jika kuis formatif gagal, prasyarat langsungnya yang berstatus tercapai dicek ulang (2 soal per prasyarat). Alasan: 17,6% penempatan simulasi meleset terlalu tinggi (median 1 TP).
@@ -513,6 +514,7 @@ Nilai rujukan: benar dari 0,5 → 0,7826; salah dari 0,5 → 0,1176; benar dari 
 | BKT | `bkt.min_soal_tercapai` | 3 | 2–5 |
 | Asesmen | `asesmen.berhenti_dini` | true | true/false |
 | Asesmen | `asesmen.maks_soal_per_sesi` | 12 | 5–20 |
+| Asesmen | `asesmen.maks_soal_per_mapel` | {"1": 18, "2": 12} | 5–40 per mapel |
 | Sesi | `sesi.durasi_ringan` / `normal` / `penuh` | 10 / 20 / 30 menit | 3–15 / 10–30 / 15–45 |
 | Sesi | `sesi.hari_mood_turun_pemicu_chatbot` | 3 | 1–7 |
 | Sesi | `sesi.hari_lemas_pemicu_perhatian` | 3 | 2–7 |
@@ -577,7 +579,7 @@ Satu penyedia utama dengan mode keluaran JSON (Gemini atau Anthropic, model vers
 - **Asesmen dan pelaporan:** Panduan Pembelajaran dan Asesmen (PPA) edisi revisi 2025. Istilah yang benar untuk SD: **modul ajar**.
 
 ### 12.2 Mata pelajaran
-- **Jalur adaptif:** Matematika elemen Bilangan (MVP); Bahasa Indonesia elemen Membaca dan Memirsa (data siap, di luar lingkup 24 jam).
+- **Jalur adaptif:** Matematika elemen Bilangan (MVP); Bahasa Indonesia elemen Membaca dan Memirsa (asesmen masuk MVP atas keputusan tim; sesi belajar menyusul).
 - **Kenapa Matematika dan Bahasa Indonesia:** literasi dan numerasi adalah fondasi semua mapel dan paling berjenjang; mengejar semua mapel sekaligus bertentangan dengan kondisi anak yang berobat.
 - **Pustaka materi (roadmap):** IPAS dan Pendidikan Pancasila, tanpa asesmen penempatan; posisi mengikuti bab kelas asal, format menyesuaikan level membaca anak dari hasil Bahasa Indonesia.
 
@@ -590,7 +592,7 @@ Satu penyedia utama dengan mode keluaran JSON (Gemini atau Anthropic, model vers
 | `tes_kasus_bkt.json` | Nilai `perbaruiBKT`, keputusan per TP, jejak asesmen Raka, sesi formatif B3 | Siap dipakai tes unit |
 | `hasil_uji_asesmen.json` | Hasil uji siswa virtual 5 varian × 5 skenario × 2.000 siswa + jejak Raka | Untuk Evaluasi AI |
 
-Format soal: `id`, `tp_kode`, `penggunaan`, `tingkat_kesulitan` (1–3), `pertanyaan`, `bacaan` (opsional), `visual` (emoji pengganti gambar), `pilihan[{teks, benar, miskonsepsi}]`, `pembahasan`. Kunci di data Matematika sering di posisi kedua, sehingga **pilihan wajib diacak saat ditampilkan**. Semua soal Fase A harus bisa dibacakan.
+Format soal: `id`, `tp_kode`, `penggunaan`, `tingkat_kesulitan` (1–3), `pertanyaan`, `bacaan` (opsional), `visual` (emoji pengganti gambar), `pilihan[{teks, benar, miskonsepsi}]`, `pembahasan`. Kunci di data Matematika sering di posisi kedua, sehingga **pilihan wajib diacak saat ditampilkan**.
 
 Rantai penting untuk demo: operasi hitung A1 → A3 → A4 → B3 → B4 → B5; pecahan bercabang A1 → A8 → B6 → B7 → B8, dan B3 → B7.
 
@@ -661,7 +663,6 @@ Catatan: benar/salah diambil dari `PILIHAN.benar`; `RUJUKAN.disetujui_oleh` hany
 
 ### 13.4 Aksesibilitas dan perangkat
 - Target sentuh minimal 56 px di mode anak, teks minim, ikon di setiap aksi.
-- Tombol speaker di setiap instruksi; suara `id-ID` dicek di laptop demo.
 - Tampilan responsif (HP dan laptop).
 
 ### 13.5 Kualitas kode
@@ -693,7 +694,7 @@ Catatan: benar/salah diambil dari `PILIHAN.benar`; `RUJUKAN.disetujui_oleh` hany
 | Database | **MySQL 8** (`utf8mb4`), `mysql2` + `schema.sql`; Drizzle (mysql) hanya jika ada yang familiar |
 | Login | Buatan sendiri: `bcryptjs` + `iron-session` |
 | UI | Tailwind CSS + shadcn/ui, `lucide-react` |
-| Animasi dan suara | `motion`; Web Speech API |
+| Animasi | `motion` |
 | State | React state / `useReducer` |
 | AI | Vercel AI SDK (`ai`) + Zod; satu penyedia utama + cadangan |
 | Grafik | Recharts (hanya Evaluasi AI); peta TP dengan CSS Grid |
@@ -735,7 +736,7 @@ Catatan: benar/salah diambil dari `PILIHAN.benar`; `RUJUKAN.disetujui_oleh` hany
 7. Asesmen satu mapel tidak muat satu sesi → 2 sesi.
 8. Aturan "soal ke-4 tercapai jika p ≥ 0,5" hampir tidak pernah menentukan hasil.
 
-**Raka:** jejak ideal B3 ✗✗ → A4 ✓✓✓ → A7 ✓✓✓ → A8 ✓✓✓ → A5 ✓✓✓ → B2 ✓✓✓, 17 soal, titik mulai B3. Dengan jawaban acak (2.000 ulangan), B3 ditemukan pada 73,5% ulangan; hanya 4% meleset ke atas.
+**Raka (aturan revisi tim):** jejak B3 ✗✗ → B1 ✓✓✓ → B2 ✓✓✓, 8 soal, titik mulai B3. (Aturan lama: B3 ✗✗ → A4 → A7 → A8 → A5 → B2, 17 soal.) Dengan jawaban acak (2.000 ulangan), B3 ditemukan pada 73,5% ulangan; hanya 4% meleset ke atas.
 
 **Bahasa Indonesia (V3, S1):** status TP benar 94,7%, rata-rata 12 soal (90% ≤ 16).
 
@@ -765,7 +766,7 @@ Presentasi **5 menit termasuk demo** + tanya jawab **10 menit** (guidebook v1: 7
 | Waktu | Layar | Yang terlihat |
 |---|---|---|
 | ±25 detik | Check-in | "Lemas 🌧️ + mata lelah" → level ringan, mode audio 5 menit mengulang materi yang dikuasai |
-| ±40 detik | Asesmen, putar otomatis | Mulai B3, salah 2 kali → B4, B5, B7, B8 belum tanpa diuji → turun ke A4, A7, A8, A5, B2 yang dikuasai → titik mulai B3 di Pos Dasar |
+| ±40 detik | Asesmen, putar otomatis | Mulai B3, salah 2 kali → B4, B5, B7, B8 belum tanpa diuji → B1, B2 dikuasai → A1–A7 disimpulkan tercapai → titik mulai B3 di Pos Dasar (8 soal) |
 | ±25 detik | Sesi B3 | Kartu belajar → B3-D3, Raka menjawab 13 → AI tutor |
 | ±30 detik | Dashboard Ibu Sari | Tren check-in + kartu perlu perhatian, progres per TP, draf laporan AI → halaman cetak |
 | ±10 detik | Teman Cerita | Satu skrining → rujukan masuk Keputusan Menunggu (lewati jika mepet) |

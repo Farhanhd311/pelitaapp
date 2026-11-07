@@ -6,7 +6,8 @@ type Aturan =
   | { jenis: "boolean" }
   | { jenis: "daftar_teks" } // tidak boleh kosong
   | { jenis: "aturan_level" }
-  | { jenis: "kode_kebutuhan" };
+  | { jenis: "kode_kebutuhan" }
+  | { jenis: "angka_per_mapel"; min: number; maks: number }; // { "<mapel_id>": bilangan bulat }
 
 // Kunci yang tidak ada di sini tidak bisa diubah lewat halaman admin (misalnya bkt.belajar_saat_asesmen,
 // yang harus 0 karena tidak ada pengajaran di antara soal asesmen).
@@ -24,6 +25,7 @@ export const RENTANG_AMAN: Record<string, Aturan & { label: string }> = {
   "bkt.maks_soal_per_tp": { jenis: "angka", min: 3, maks: 8, bulat: true, label: "Maksimal soal per TP" },
   "asesmen.berhenti_dini": { jenis: "boolean", label: "Berhenti dini" },
   "asesmen.maks_soal_per_sesi": { jenis: "angka", min: 5, maks: 20, bulat: true, label: "Maksimal soal per sesi asesmen" },
+  "asesmen.maks_soal_per_mapel": { jenis: "angka_per_mapel", min: 5, maks: 40, label: "Maksimal soal satu asesmen per mapel" },
   "sesi.durasi_ringan": { jenis: "angka", min: 3, maks: 15, bulat: true, label: "Durasi sesi ringan (menit)" },
   "sesi.durasi_normal": { jenis: "angka", min: 10, maks: 30, bulat: true, label: "Durasi sesi normal (menit)" },
   "sesi.durasi_penuh": { jenis: "angka", min: 15, maks: 45, bulat: true, label: "Durasi sesi penuh (menit)" },
@@ -70,6 +72,14 @@ function periksaJenis(aturan: Aturan, nilai: unknown): string | null {
         )
         ? null
         : "format tabel level rujukan tidak valid";
+    case "angka_per_mapel":
+      return nilai !== null &&
+        typeof nilai === "object" &&
+        !Array.isArray(nilai) &&
+        Object.keys(nilai).length > 0 &&
+        Object.values(nilai).every((v) => Number.isInteger(v) && v >= aturan.min && v <= aturan.maks)
+        ? null
+        : `harus pasangan mapel -> bilangan bulat ${aturan.min}-${aturan.maks}`;
     case "kode_kebutuhan":
       return nilai !== null &&
         typeof nilai === "object" &&

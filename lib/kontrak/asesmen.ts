@@ -16,6 +16,9 @@ import { KotakPetaTp, SoalTampil, StatusTp, SumberStatus, contohSoalTampil } fro
 const PermintaanMulai = z.object({
   aksi: z.literal("mulai"),
   mapel_id: z.number().int(), // dipilih dari data mapel, tidak ditulis langsung di kode
+  // Kelas terakhir anak di sekolah, dipilih di layar sebelum asesmen. Asesmen mulai dari TP kelas ini dan
+  // tidak menguji kelas di atasnya. Kosong = kelas_terakhir di profil anak. Diabaikan jika melanjutkan asesmen.
+  kelas_terakhir: z.number().int().min(1).max(12).optional(),
 });
 
 const PermintaanJawab = z.object({
@@ -117,7 +120,7 @@ export const contohResponsMulai: ResponsAsesmen = {
 export const contohResponsJawab: ResponsAsesmen = {
   sesi_id: 12,
   status: "lanjut",
-  soal: { ...contohSoalTampil, soal_id: "A4-D1", tp_kode: "A4", pertanyaan: "(soal A4)", visual: null },
+  soal: { ...contohSoalTampil, soal_id: "B1-D1", tp_kode: "B1", pertanyaan: "(soal B1)", visual: null },
   jumlah_soal_dijawab: 2,
   nomor_soal: 3,
   jumlah_soal: 12,
@@ -132,18 +135,19 @@ export const contohResponsJawab: ResponsAsesmen = {
   demo: { tp_kode: "B3", p_sebelum: 0.118, p_sesudah: 0.017, keputusan: "belum" },
 };
 
-// Akhir asesmen Raka (data/tes_kasus_bkt.json): 17 soal, titik mulai B3, B6 belum_diketahui.
+// Akhir asesmen Raka (data/tes_kasus_bkt.json): 8 soal, titik mulai B3. A5, A8 (kelas bawah, bukan prasyarat B3)
+// dan B6 (di atas kelas terakhir) tidak diuji: belum_diketahui.
 export const contohResponsSelesai: ResponsAsesmen = {
-  sesi_id: 13,
+  sesi_id: 12,
   status: "selesai",
   soal: null,
-  jumlah_soal_dijawab: 17,
-  nomor_soal: 5,
+  jumlah_soal_dijawab: 8,
+  nomor_soal: 8,
   jumlah_soal: 12,
   peta: petaContoh({
     A1: ["tercapai", "disimpulkan"], A2: ["tercapai", "disimpulkan"], A3: ["tercapai", "disimpulkan"],
-    A4: ["tercapai", "diuji"], A5: ["tercapai", "diuji"], A6: ["tercapai", "disimpulkan"],
-    A7: ["tercapai", "diuji"], A8: ["tercapai", "diuji"], B1: ["tercapai", "disimpulkan"],
+    A4: ["tercapai", "disimpulkan"], A6: ["tercapai", "disimpulkan"], A7: ["tercapai", "disimpulkan"],
+    B1: ["tercapai", "diuji"],
     B2: ["tercapai", "diuji"], B3: ["belum", "diuji"], B4: ["belum", "disimpulkan"],
     B5: ["belum", "disimpulkan"], B7: ["belum", "disimpulkan"], B8: ["belum", "disimpulkan"],
   }),

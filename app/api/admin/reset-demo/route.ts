@@ -3,7 +3,8 @@
 //               satu skrining + satu rujukan menunggu persetujuan.
 //   Dikosongkan: progres TP Raka, sesi & jawaban (asesmen bisa diputar ulang), LOG_AI Raka + penilaiannya.
 //   LOG_AKTIVITAS TIDAK dihapus: log hanya bisa ditambah (PANDUAN 8.7). Reset ini sendiri ikut dicatat.
-//   Juga melengkapi data awal yang belum ada di database (kunci pengaturan baru, layanan dukungan, konten contoh)
+//   Juga melengkapi data awal yang belum ada di database (kurikulum mapel baru seperti Bahasa Indonesia,
+//   kunci pengaturan baru, layanan dukungan, konten contoh)
 //   tanpa mengubah data yang sudah ada dan tanpa menjalankan seed.
 // Kontrak: lib/kontrak/admin.ts
 
@@ -12,6 +13,7 @@ import seedLayanan from "@/data/seed_layanan_dukungan.json";
 import { GalatApi, tanganiApi } from "@/lib/api/respons";
 import { denganTransaksi, query } from "@/lib/db";
 import { geserTanggal, tanggalLokal } from "@/lib/db/anak";
+import { lengkapiKurikulumAwal } from "@/lib/db/kurikulum-awal";
 import { wajibAdmin } from "@/lib/db/rbac";
 import type { ResponsResetDemo } from "@/lib/kontrak/admin";
 import { catatAktivitas } from "@/lib/log";
@@ -31,6 +33,7 @@ export const POST = tanganiApi(async () => {
 
   const ringkasan = await denganTransaksi(async (kueri) => {
     // ---- Lengkapi data awal yang belum ada (tidak mengubah yang sudah ada).
+    const kurikulum = await lengkapiKurikulumAwal(kueri);
     for (const l of seedLayanan.layanan) {
       const ada = await kueri<{ id: number }[]>("SELECT id FROM layanan_dukungan WHERE LOWER(nama) = LOWER(?)", [l.nama]);
       if (!ada[0]) await kueri("INSERT INTO layanan_dukungan (nama, jenis, kontak) VALUES (?, ?, ?)", [l.nama, l.jenis, l.kontak]);
@@ -77,7 +80,13 @@ export const POST = tanganiApi(async () => {
         ]);
       }
     }
-    return { checkin: demo.riwayat_checkin.length, skrining: demo.skrining.length, konten_contoh: demo.konten_contoh.length };
+    return {
+      checkin: demo.riwayat_checkin.length,
+      skrining: demo.skrining.length,
+      konten_contoh: demo.konten_contoh.length,
+      tp_ditambah: kurikulum.tp,
+      soal_ditambah: kurikulum.soal,
+    };
   });
 
   await catatAktivitas({ user_id: sesi.user_id, jenis_tindakan: "reset_demo", entitas: "anak", entitas_id: anakId, detail: { pengaturan_ditambah: pengaturanDitambah } });
