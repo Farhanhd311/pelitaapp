@@ -101,7 +101,21 @@ export function PilihProfil() {
           ? router.replace("/login")
           : setGalat(pesanGalat(e)),
       );
+    // cacheComponents (Next 16) menyimpan halaman ini saat ditinggalkan. Kosongkan keadaan sementara supaya saat
+    // kembali tidak ada avatar yang masih "memuat" (ketukan diabaikan) atau dialog PIN yang masih terbuka.
+    return () => {
+      setMemilih(null);
+      setModePin(false);
+      setGalat(null);
+    };
   }, [router]);
+
+  // Masih di mode pendamping (datang dari "Ganti Profil" di dashboard): langsung kembali tanpa PIN.
+  // PIN tetap wajib saat masuk dari mode anak atau sesudah login (PANDUAN 4).
+  function bukaPendamping() {
+    if (profil?.mode === "pendamping") router.push("/pendamping/dashboard");
+    else setModePin(true);
+  }
 
   function handlePointerMove(e: React.PointerEvent<HTMLElement>) {
     mouseX.set(e.clientX);
@@ -435,11 +449,11 @@ export function PilihProfil() {
             onMouseLeave={() => setPanelHover(null)}
             onFocus={() => setPanelHover("pendamping")}
             onBlur={() => setPanelHover(null)}
-            onClick={() => setModePin(true)}
+            onClick={bukaPendamping}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                setModePin(true);
+                bukaPendamping();
               }
             }}
             animate={{

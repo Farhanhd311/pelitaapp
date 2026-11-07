@@ -4,7 +4,7 @@
 // Menampilkan ringkasan minggu ini, kartu perhatian amber, keputusan rujukan menunggu,
 // tren check-in kesehatan 28 hari, progres capaian TP, dan pengaturan konteks kesehatan.
 
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2, RefreshCw } from "lucide-react";
 import { HeaderPendamping } from "@/components/pendamping/HeaderPendamping";
@@ -18,7 +18,22 @@ import { GalatKlien, panggilApi, pesanGalat } from "@/lib/api/klien";
 import type { ResponsDashboard } from "@/lib/kontrak/pendamping";
 import type { ResponsProfil } from "@/lib/kontrak/auth";
 
+// Suspense wajib karena isi halaman memakai useSearchParams (cacheComponents, Next 16).
 export default function HalamanDashboardPendamping() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FFFDF9] flex items-center justify-center">
+          <Loader2 className="w-8 h-8 text-[#BF4338] animate-spin" />
+        </div>
+      }
+    >
+      <IsiDashboardPendamping />
+    </Suspense>
+  );
+}
+
+function IsiDashboardPendamping() {
   const router = useRouter();
   const searchParams = useSearchParams();
 

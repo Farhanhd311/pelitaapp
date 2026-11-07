@@ -73,6 +73,25 @@ describe("susunJalurMateri", () => {
     expect(sekarang(j)).toMatchObject({ id: "MAT-3-BIL-03", bagian: "pos_dasar", status: "belum", tp_total: 1 });
   });
 
+  it("Raka dengan cabang pecahan belum dicoba (A8 belum_diketahui): bekal adalah A4 (Penjumlahan), langsung diikuti B3 (play), tanpa simpul terkunci di antaranya", () => {
+    const statusRiil = { ...STATUS_RAKA, A8: "belum_diketahui" as StatusPeta };
+    const j = jalurRaka({ progres: progresDari(statusRiil) });
+    expect(j.indeks_sekarang).toBe(1);
+    expect(j.pos[0]).toMatchObject({
+      id: "MAT-1-BIL-04",
+      status: "tercapai",
+      judul: "Penjumlahan dan pengurangan sampai 20 & Penjumlahan dan pengurangan dengan simbol",
+    });
+    expect(sekarang(j)).toMatchObject({
+      id: "MAT-3-BIL-03",
+      bagian: "pos_dasar",
+      status: "belum",
+      judul: "Perkalian dan pembagian sampai 100",
+    });
+    // Pos sebelum play harus tuntas: tidak ada pos terkunci di antara bekal dan play!
+    expect(j.pos.slice(0, 1).every((p) => p.status === "tercapai")).toBe(true);
+  });
+
   it("keadaan Raka sekarang (B3, B6 tercapai lewat latihan): play di Pecahan senilai, pos sebelumnya bercentang", () => {
     const j = jalurRaka({
       progres: progresDari({ ...STATUS_RAKA, B3: "tercapai", B6: "tercapai" }),
