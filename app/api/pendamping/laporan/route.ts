@@ -15,26 +15,51 @@ const KLAIM =
 
 export const GET = tanganiApi(async (req: Request) => {
   const anakId = bacaAnakId(req);
-  const mapelId = Number(new URL(req.url).searchParams.get("mapel_id"));
-  if (!Number.isInteger(mapelId) || mapelId <= 0) throw new GalatApi("INPUT_TIDAK_VALID", "mapel_id wajib diisi.");
+  const paramMapelId = new URL(req.url).searchParams.get("mapel_id");
+  const mapelId = paramMapelId ? Number(paramMapelId) : null;
   await wajibPendampingAnak(anakId, "laporan");
 
-  const [anak, daftar, progres, mapel] = await Promise.all([
+  const [anak, seluruhMapel] = await Promise.all([
     ambilAnak(anakId),
-    ambilTpMapel(mapelId),
-    ambilProgres(anakId, mapelId),
     ambilDaftarMapel(),
   ]);
-  const namaMapel = mapel.find((m) => m.mapel_id === mapelId)?.nama;
-  if (!namaMapel) throw new GalatApi("TIDAK_DITEMUKAN", "Mata pelajaran tidak ditemukan.");
+
+  // Muat data seluruh mata pelajaran beserta daftar TP dan progres anak
+  const daftarMapelHasil = await Promise.all(
+    seluruhMapel.map(async (m) => {
+      const [daftarTp, progres] = await Promise.all([
+        ambilTpMapel(m.mapel_id),
+        ambilProgres(anakId, m.mapel_id),
+      ]);
+      return {
+        mapel_id: m.mapel_id,
+        mapel: m.nama,
+        tp: daftarTp.map((t) => ({
+          tp_kode: t.kode,
+          kelas: t.kelas,
+          deskripsi: t.deskripsi,
+          status: progres.get(t.kode)?.status ?? "belum_diketahui",
+        })),
+      };
+    }),
+  );
+
+  const targetMapel =
+    (mapelId ? daftarMapelHasil.find((m) => m.mapel_id === mapelId) : null) ??
+    daftarMapelHasil[0];
 
   const respons: ResponsDataLaporan = {
-    anak: { nama_panggilan: anak.nama_panggilan, kelas_seharusnya: anak.kelas_seharusnya, kelas_terakhir: anak.kelas_terakhir },
-    mapel: namaMapel,
+    anak: {
+      nama_panggilan: anak.nama_panggilan,
+      kelas_seharusnya: anak.kelas_seharusnya,
+      kelas_terakhir: anak.kelas_terakhir,
+    },
+    mapel: targetMapel?.mapel ?? "Seluruh Mata Pelajaran",
     dicetak_pada: new Date().toISOString(),
     acuan: ACUAN,
     klaim: KLAIM,
-    tp: daftar.map((t) => ({ tp_kode: t.kode, kelas: t.kelas, deskripsi: t.deskripsi, status: progres.get(t.kode)?.status ?? "belum_diketahui" })),
+    tp: targetMapel?.tp ?? [],
+    daftar_mapel: daftarMapelHasil,
   };
   return Response.json(respons);
 });

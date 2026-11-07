@@ -13,9 +13,11 @@ import {
   User,
   Users,
   Sparkles,
+  UserPlus,
 } from "lucide-react";
 import { panggilApi } from "@/lib/api/klien";
 import type { ProfilAnak } from "@/lib/kontrak/auth";
+import { ModalTambahAnak } from "./ModalTambahAnak";
 
 export function HeaderPendamping({
   namaPendamping,
@@ -23,15 +25,18 @@ export function HeaderPendamping({
   daftarAnak,
   anakAktifId,
   onGantiAnak,
+  onAnakDitambahkan,
 }: {
   namaPendamping: string;
   hubungan: string;
   daftarAnak: ProfilAnak[];
   anakAktifId: number;
   onGantiAnak: (anakId: number) => void;
+  onAnakDitambahkan?: (anakId: number) => void;
 }) {
   const router = useRouter();
   const [bukaMenuAnak, setBukaMenuAnak] = useState(false);
+  const [bukaModalTambah, setBukaModalTambah] = useState(false);
 
   async function keluar() {
     await panggilApi("/api/auth/logout", {}).catch(() => undefined);
@@ -78,37 +83,51 @@ export function HeaderPendamping({
                   <User className="size-3.5" />
                 </div>
                 <span>{anakAktif?.nama_panggilan ?? "Pilih Anak"}</span>
-                {daftarAnak.length > 1 && (
-                  <ChevronDown className="size-3.5 text-teks-2" />
-                )}
+                <ChevronDown className="size-3.5 text-teks-2" />
               </button>
 
-              {/* Menu Pilihan Anak Binaan */}
-              {bukaMenuAnak && daftarAnak.length > 1 && (
-                <div className="absolute right-0 mt-2 w-48 rounded-2xl border-2 border-[#E5B97F] bg-[#FFFDF9] p-1.5 shadow-lg z-40">
+              {/* Menu Pilihan Anak Binaan & Tambah Anak */}
+              {bukaMenuAnak && (
+                <div className="absolute right-0 mt-2 w-52 rounded-2xl border-2 border-[#E5B97F] bg-[#FFFDF9] p-1.5 shadow-lg z-40">
                   <p className="px-3 py-1.5 text-[11px] font-bold text-teks-2 uppercase tracking-wider">
-                    Pilih Anak
+                    Pilih Anak ({daftarAnak.length})
                   </p>
-                  {daftarAnak.map((anak) => (
+                  <div className="max-h-48 overflow-y-auto space-y-1">
+                    {daftarAnak.map((anak) => (
+                      <button
+                        key={anak.anak_id}
+                        type="button"
+                        onClick={() => {
+                          onGantiAnak(anak.anak_id);
+                          setBukaMenuAnak(false);
+                        }}
+                        className={`w-full flex items-center justify-between rounded-xl px-3 py-2 text-xs font-bold transition text-left cursor-pointer ${
+                          anak.anak_id === anakAktifId
+                            ? "bg-emas text-teks"
+                            : "text-teks hover:bg-[#FCEBD4]"
+                        }`}
+                      >
+                        <span>{anak.nama_panggilan}</span>
+                        {anak.anak_id === anakAktifId && (
+                          <span className="size-2 rounded-full bg-bata" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="border-t border-[#F2D7B3] my-1 pt-1">
                     <button
-                      key={anak.anak_id}
                       type="button"
                       onClick={() => {
-                        onGantiAnak(anak.anak_id);
+                        setBukaModalTambah(true);
                         setBukaMenuAnak(false);
                       }}
-                      className={`w-full flex items-center justify-between rounded-xl px-3 py-2 text-xs font-bold transition text-left cursor-pointer ${
-                        anak.anak_id === anakAktifId
-                          ? "bg-emas text-teks"
-                          : "text-teks hover:bg-[#FCEBD4]"
-                      }`}
+                      className="w-full flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-heading font-black text-bata hover:bg-[#FFF4E4] transition cursor-pointer"
                     >
-                      <span>{anak.nama_panggilan}</span>
-                      {anak.anak_id === anakAktifId && (
-                        <span className="size-2 rounded-full bg-bata" />
-                      )}
+                      <UserPlus className="size-3.5" />
+                      <span>+ Tambah Anak</span>
                     </button>
-                  ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -142,6 +161,15 @@ export function HeaderPendamping({
           </button>
         </div>
       </div>
+
+      {/* Modal Tambah Profil Anak */}
+      <ModalTambahAnak
+        buka={bukaModalTambah}
+        onTutup={() => setBukaModalTambah(false)}
+        onSukses={(anakId) => {
+          onAnakDitambahkan?.(anakId);
+        }}
+      />
     </header>
   );
 }

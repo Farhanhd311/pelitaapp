@@ -8,8 +8,9 @@ import { query } from "@/lib/db";
 import { ambilAnak } from "@/lib/db/anak";
 import { bacaAnakId, wajibPendampingAnak } from "@/lib/db/pendamping";
 import { wajibModePendamping, wajibOrangTuaAtauWali } from "@/lib/db/rbac";
-import { PermintaanUbahAnak, type ResponsAnak } from "@/lib/kontrak/pendamping";
+import { PermintaanTambahAnak, PermintaanUbahAnak, type ResponsAnak } from "@/lib/kontrak/pendamping";
 import { catatAktivitas } from "@/lib/log";
+import type { ResultSetHeader } from "mysql2";
 
 async function profil(anakId: number, bisaMengubah: boolean): Promise<ResponsAnak> {
   const a = await ambilAnak(anakId);
@@ -62,4 +63,36 @@ export const PATCH = tanganiApi(async (req: Request) => {
     detail: { diubah: kolom.map((k) => k.split(" ")[0]) }, // nama kolom saja, tanpa nilai kesehatan
   });
   return Response.json(await profil(minta.anak_id, true));
+});
+
+export const POST = tanganiApi(async (req: Request) => {
+  const sesi = await wajibModePendamping();
+  const minta = await bacaBody(req, PermintaanTambahAnak);
+
+  const kelasTerakhir = minta.kelas_terakhir ?? minta.kelas_seharusnya;
+  const res = await query<ResultSetHeader>(
+    `INSERT INTO anak (nama_panggilan, tgl_lahir, kelas_terakhir, kelas_seharusnya, fase_pengobatan, mode_jeda)
+     VALUES (?, ?, ?, ?, ?, 0)`,
+    [minta.nama_panggilan, minta.tgl_lahir, kelasTerakhir, minta.kelas_seharusnya, minta.fase_pengobatan],
+  );
+  const anakId = res.insertId;
+
+  await query(
+    `INSERT INTO pendampingan (pendamping_id, anak_id, hubungan) VALUES (?, ?, ?)`,
+    [sesi.user_id, anakId, minta.hubungan],
+  );
+
+  await catatAktivitas({
+    user_id: sesi.user_id,
+    jenis_tindakan: "tambah_anak",
+    entitas: "anak",
+    entitas_id: anakId,
+    detail: { nama_panggilan: minta.nama_panggilan, hubungan: minta.hubungan },
+  });
+
+  return Response.json({
+    sukses: true,
+    anak_id: anakId,
+    nama_panggilan: minta.nama_panggilan,
+  });
 });

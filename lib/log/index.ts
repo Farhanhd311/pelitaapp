@@ -14,6 +14,7 @@ export type JenisTindakan =
   | "gagal_pin"
   | "akses_data_anak" // akses guru/admin ke data anak
   | "ubah_profil_anak" // mode jeda, batas layar, fase pengobatan (orang tua/wali)
+  | "tambah_anak" // pendaftaran profil anak baru oleh pendamping
   | "ubah_pengaturan"
   | "setujui_rujukan"
   | "tolak_rujukan"

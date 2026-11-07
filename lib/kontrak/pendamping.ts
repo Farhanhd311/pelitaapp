@@ -68,18 +68,40 @@ export const PermintaanUbahAnak = z
 export type PermintaanUbahAnak = z.infer<typeof PermintaanUbahAnak>;
 export type ResponsAnak = ResponsDashboard["anak"] & { tgl_lahir: string; kelas_terakhir: number; bisa_mengubah: boolean };
 
+export const PermintaanTambahAnak = z.object({
+  nama_panggilan: z.string().trim().min(1, "Nama panggilan wajib diisi").max(50),
+  tgl_lahir: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Format tanggal lahir harus YYYY-MM-DD"),
+  kelas_seharusnya: z.number().int().min(1).max(6),
+  kelas_terakhir: z.number().int().min(1).max(6).optional(),
+  fase_pengobatan: z.enum(["intensif", "pemeliharaan", "pemulihan"]).default("pemulihan"),
+  hubungan: z.enum(["orang_tua", "wali", "guru"]).default("orang_tua"),
+});
+export type PermintaanTambahAnak = z.infer<typeof PermintaanTambahAnak>;
+export type ResponsTambahAnak = {
+  sukses: boolean;
+  anak_id: number;
+  nama_panggilan: string;
+};
+
+export type MapelLaporan = {
+  mapel_id: number;
+  mapel: string;
+  tp: { tp_kode: string; kelas: number; deskripsi: string; status: StatusTp }[];
+};
+
 export type ResponsDataLaporan = {
   anak: { nama_panggilan: string; kelas_seharusnya: number; kelas_terakhir: number };
-  mapel: string;
+  mapel?: string;
   dicetak_pada: string; // ISO UTC
   acuan: string; // acuan CP/TP Kurikulum Merdeka
   klaim: string; // kalimat klaim yang benar (PANDUAN 8.3)
   tp: { tp_kode: string; kelas: number; deskripsi: string; status: StatusTp }[];
+  daftar_mapel?: MapelLaporan[];
 };
 
 export const PermintaanCatatLaporan = z.object({
   anak_id: z.number().int(),
-  mapel_id: z.number().int(),
+  mapel_id: z.number().int().nullable().optional(),
   log_ai_id: z.number().int().nullable(), // draf AI yang dipakai, jika ada
   diubah: z.boolean(), // apakah pendamping menyunting draf
   besar_suntingan: z.number().int().nonnegative(), // jumlah karakter yang berubah (untuk Evaluasi AI)

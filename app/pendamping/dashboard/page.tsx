@@ -13,7 +13,6 @@ import { DaftarKeputusanMenunggu } from "@/components/pendamping/DaftarKeputusan
 import { MetrikAktivitasMingguan } from "@/components/pendamping/MetrikAktivitasMingguan";
 import { GrafikTrenCheckin } from "@/components/pendamping/GrafikTrenCheckin";
 import { PetaProgresTp } from "@/components/pendamping/PetaProgresTp";
-import { PengaturanKesehatanAnak } from "@/components/pendamping/PengaturanKesehatanAnak";
 import { GalatKlien, panggilApi, pesanGalat } from "@/lib/api/klien";
 import type { ResponsDashboard } from "@/lib/kontrak/pendamping";
 import type { ResponsProfil } from "@/lib/kontrak/auth";
@@ -95,6 +94,16 @@ function IsiDashboardPendamping() {
     router.replace(`/pendamping/dashboard?anak_id=${id}`);
   }
 
+  async function saatAnakDitambahkan(anakIdBaru: number) {
+    try {
+      const p = await panggilApi<ResponsProfil>("/api/auth/profil");
+      setProfilUser(p);
+      gantiAnak(anakIdBaru);
+    } catch {
+      gantiAnak(anakIdBaru);
+    }
+  }
+
   if (memuat && !dataDashboard) {
     return (
       <div className="flex min-h-dvh flex-col items-center justify-center bg-[#FCEBD4] p-4 text-teks">
@@ -118,6 +127,7 @@ function IsiDashboardPendamping() {
         daftarAnak={profilUser?.daftar_anak ?? []}
         anakAktifId={anakIdTerpilih ?? 0}
         onGantiAnak={gantiAnak}
+        onAnakDitambahkan={saatAnakDitambahkan}
       />
 
       <main className="mx-auto max-w-6xl px-4 py-6 sm:px-8 space-y-6">
@@ -151,18 +161,9 @@ function IsiDashboardPendamping() {
             {/* 3. Ringkasan Aktivitas Minggu Ini (F-DASH-1) */}
             <MetrikAktivitasMingguan mingguIni={dataDashboard.minggu_ini} />
 
-            {/* 4. Grid 2 Kolom: Tren Check-in & Konteks Kesehatan */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-              <div className="lg:col-span-7">
-                <GrafikTrenCheckin riwayat={dataDashboard.tren_checkin} />
-              </div>
-              <div className="lg:col-span-5">
-                <PengaturanKesehatanAnak
-                  anak={dataDashboard.anak}
-                  bisaMengubah={bisaMengubah}
-                  onDiperbarui={() => anakIdTerpilih && muatDataDashboard(anakIdTerpilih)}
-                />
-              </div>
+            {/* 4. Tren Check-in Kesehatan 28 Hari (Full Width - Profesional) */}
+            <div className="w-full">
+              <GrafikTrenCheckin riwayat={dataDashboard.tren_checkin} />
             </div>
 
             {/* 5. Peta Progres Capaian TP (F-DASH-3) */}
