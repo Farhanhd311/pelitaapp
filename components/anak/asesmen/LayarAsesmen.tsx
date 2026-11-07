@@ -1,12 +1,78 @@
 "use client";
 
-// Isi layar asesmen (di dalam LayarFokus): pembuka, akhir sesi, kilasan "Oke, lanjut!", dan dialog berhenti.
-// Gaya sama dengan check-in dan sesi belajar (komponen fokus/TombolAnak). Bingkai positif, tanpa nilai/peringkat.
+// Isi layar asesmen (di dalam LayarFokus): pembuka, penanda bagian, pindah bagian, akhir sesi, kilasan "Oke, lanjut!",
+// dan dialog berhenti. Gaya sama dengan check-in dan sesi belajar (komponen fokus/TombolAnak). Bingkai positif,
+// tanpa nilai/peringkat.
 
 import { AnimatePresence, motion } from "motion/react";
-import { BookOpen, CheckCircle2, Heart } from "lucide-react";
+import { BookOpen, Check, CheckCircle2, Heart } from "lucide-react";
+import { cn } from "cn";
 import { MascotPijar } from "@/components/anak/MascotPijar";
 import { TautanAnak, TombolAnak } from "@/components/anak/fokus/TombolAnak";
+
+// ---------- Penanda bagian: satu petualangan, beberapa mapel ("1 Matematika — 2 Bahasa Indonesia") ----------
+
+export type BagianPetualangan = { mapel_id: number; nama: string; selesai: boolean };
+
+// Selalu terlihat selama petualangan, supaya anak tahu masih ada bagian berikutnya setelah satu mapel.
+// Hanya satu mapel: tidak ditampilkan.
+export function LangkahMapel({ bagian, sekarang }: { bagian: BagianPetualangan[]; sekarang: number | null }) {
+  if (bagian.length < 2) return null;
+  return (
+    <ol className="flex flex-wrap items-center justify-center gap-2" aria-label="Bagian petualangan">
+      {bagian.map((b, i) => {
+        const aktif = b.mapel_id === sekarang;
+        return (
+          <li key={b.mapel_id} className="flex items-center gap-2">
+            {i > 0 && <span className="h-0.5 w-5 rounded-full bg-garis" aria-hidden />}
+            <span
+              aria-current={aktif ? "step" : undefined}
+              className={cn(
+                "flex items-center gap-2 rounded-full py-1 pr-3.5 pl-1 text-sm font-extrabold transition-colors",
+                aktif ? "bg-emas text-teks" : b.selesai ? "bg-pasir text-teks" : "border border-garis bg-white/80 text-teks-2",
+              )}
+            >
+              <span
+                className={cn(
+                  "flex size-6 items-center justify-center rounded-full text-xs",
+                  aktif ? "bg-bata text-white" : b.selesai ? "bg-emas text-teks" : "bg-pasir text-teks-2",
+                )}
+              >
+                {b.selesai && !aktif ? <Check className="size-3.5" strokeWidth={3} aria-label="selesai" /> : i + 1}
+              </span>
+              {b.nama}
+            </span>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+// ---------- Pindah bagian: satu mapel tuntas, mapel berikutnya langsung menyusul (tanpa tombol) ----------
+
+// Sengaja BUKAN layar "selesai": anak langsung diantar ke bagian berikutnya dalam petualangan yang sama.
+export function LayarPindahMapel({ bagian, sekarang }: { bagian: BagianPetualangan[]; sekarang: number | null }) {
+  const berikut = bagian.find((b) => b.mapel_id === sekarang);
+  const sisa = bagian.filter((b) => !b.selesai).length;
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="mx-auto flex max-w-md flex-1 flex-col items-center justify-center text-center"
+      role="status"
+    >
+      <MascotPijar ekspresi="semangat" gerak="senang" ukuran={160} />
+      <h1 className="mt-3 text-[28px] leading-tight font-extrabold text-balance">Sekarang bagian {berikut?.nama ?? "berikutnya"}!</h1>
+      <p className="mt-2 text-[16px] leading-relaxed text-teks-2">
+        Petualanganmu belum selesai, {sisa > 1 ? `tinggal ${sisa} bagian lagi` : "tinggal satu bagian lagi"}. Kamu hebat!
+      </p>
+      <div className="mt-5">
+        <LangkahMapel bagian={bagian} sekarang={sekarang} />
+      </div>
+    </motion.div>
+  );
+}
 
 // ---------- Pembuka "Petualangan Pertama" ----------
 
@@ -19,6 +85,7 @@ const CARA_MENJAWAB = [
 
 export function LayarPembuka({
   namaAnak,
+  bagian,
   sibuk,
   pilihanKelas,
   kelas,
@@ -28,6 +95,7 @@ export function LayarPembuka({
   onMulaiDemo,
 }: {
   namaAnak: string | null;
+  bagian: BagianPetualangan[]; // mapel dalam petualangan ini, urut dikerjakan
   sibuk: boolean;
   pilihanKelas: number[]; // kelas yang punya TP di peta (dari data, bukan angka di kode)
   kelas: number | null; // kelas terakhir di sekolah yang dipilih anak
@@ -37,7 +105,10 @@ export function LayarPembuka({
   onMulaiDemo: () => void;
 }) {
   const judul = melanjutkan ? "Yuk, lanjutkan petualanganmu!" : "Yuk, temukan titik mulai belajarmu!";
-  const isi = `Hai${namaAnak ? `, ${namaAnak}` : ""}! Pijar akan memberi beberapa soal yang menyesuaikan jawabanmu. Jawab sendiri, ya. Keliru juga bagian dari belajar.`;
+  // Sebutkan semua bagian di awal, supaya anak tahu petualangannya baru selesai setelah bagian terakhir.
+  const daftarBagian = bagian.filter((b) => !b.selesai).map((b) => b.nama);
+  const tentangBagian = daftarBagian.length > 1 ? ` Ada ${daftarBagian.length} bagian: ${daftarBagian.join(" lalu ")}.` : "";
+  const isi = `Hai${namaAnak ? `, ${namaAnak}` : ""}! Pijar akan memberi beberapa soal yang menyesuaikan jawabanmu.${tentangBagian} Jawab sendiri, ya. Keliru juga bagian dari belajar.`;
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center py-6 text-center">
       <MascotPijar ekspresi="sambut" gerak="idle" ukuran={150} />
@@ -46,6 +117,9 @@ export function LayarPembuka({
         <h1 className="text-[28px] leading-tight font-extrabold text-balance sm:text-[32px]">{judul}</h1>
       </div>
       <p className="mt-2 max-w-xl text-[16px] leading-relaxed text-teks-2">{isi}</p>
+      <div className="mt-4">
+        <LangkahMapel bagian={bagian} sekarang={null} />
+      </div>
 
       <ul className="mt-7 grid w-full gap-3 text-left sm:grid-cols-3">
         {CARA_MENJAWAB.map(({ ikon: Ikon, judul: j, isi: k }, i) => (
@@ -120,9 +194,22 @@ function PilihKelas({ pilihanKelas, kelas, onPilih }: { pilihanKelas: number[]; 
 
 // ---------- Akhir sesi: batas soal per sesi tercapai, progres tersimpan ----------
 
-export function LayarAkhirSesi({ jumlahSoal, sibuk, onLanjut }: { jumlahSoal: number; sibuk: boolean; onLanjut: () => void }) {
+// Jeda istirahat di TENGAH petualangan (bukan akhir): penanda bagian ikut tampil supaya anak tahu masih ada lanjutannya.
+export function LayarAkhirSesi({
+  jumlahSoal,
+  bagian,
+  sekarang,
+  sibuk,
+  onLanjut,
+}: {
+  jumlahSoal: number;
+  bagian: BagianPetualangan[];
+  sekarang: number | null;
+  sibuk: boolean;
+  onLanjut: () => void;
+}) {
   const judul = "Kamu sudah berusaha. Itu langkah yang hebat!";
-  const isi = `Kamu sudah menjawab ${jumlahSoal} soal dan semuanya tersimpan. Mau lanjut sekarang atau istirahat dulu?`;
+  const isi = `Kamu sudah menjawab ${jumlahSoal} soal dan semuanya tersimpan. Petualanganmu belum selesai. Mau lanjut sekarang atau istirahat dulu?`;
   return (
     <div className="mx-auto flex max-w-md flex-1 flex-col items-center justify-center text-center">
       <MascotPijar ekspresi="senang" gerak="senang" ukuran={160} />
@@ -130,6 +217,9 @@ export function LayarAkhirSesi({ jumlahSoal, sibuk, onLanjut }: { jumlahSoal: nu
         <h1 className="text-[28px] leading-tight font-extrabold text-balance">{judul}</h1>
       </div>
       <p className="mt-2 text-[16px] leading-relaxed text-teks-2">{isi}</p>
+      <div className="mt-4">
+        <LangkahMapel bagian={bagian} sekarang={sekarang} />
+      </div>
       <p className="mt-4 rounded-[20px] bg-pasir px-4 py-3 text-[15px]">
         <b>Bukan tentang nilai atau peringkat.</b> Kita mencari titik mulai belajar yang pas untukmu.
       </p>
@@ -139,38 +229,6 @@ export function LayarAkhirSesi({ jumlahSoal, sibuk, onLanjut }: { jumlahSoal: nu
         </TautanAnak>
         <TombolAnak onClick={onLanjut} disabled={sibuk} className="sm:min-w-56">
           {sibuk ? "Menyiapkan…" : "Lanjut petualangan"}
-        </TombolAnak>
-      </div>
-    </div>
-  );
-}
-
-// ---------- Ganti mapel: satu mapel selesai, mapel berikutnya menunggu (jeda alami untuk anak) ----------
-
-export function LayarGantiMapel({
-  mapelSelesai,
-  mapelBerikut,
-  sibuk,
-  onLanjut,
-}: {
-  mapelSelesai: string;
-  mapelBerikut: string;
-  sibuk: boolean;
-  onLanjut: () => void;
-}) {
-  const judul = `Petualangan ${mapelSelesai} selesai!`;
-  const isi = `Berikutnya ${mapelBerikut}. Mau lanjut sekarang atau istirahat dulu? Progresmu sudah tersimpan.`;
-  return (
-    <div className="mx-auto flex max-w-md flex-1 flex-col items-center justify-center text-center">
-      <MascotPijar ekspresi="senang" gerak="senang" ukuran={160} />
-      <h1 className="mt-3 text-[28px] leading-tight font-extrabold text-balance">{judul}</h1>
-      <p className="mt-2 text-[16px] leading-relaxed text-teks-2">{isi}</p>
-      <div className="mt-7 flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-center">
-        <TautanAnak varian="kedua" href="/anak">
-          Istirahat dulu
-        </TautanAnak>
-        <TombolAnak onClick={onLanjut} disabled={sibuk} className="sm:min-w-56">
-          {sibuk ? "Menyiapkan…" : `Lanjut ke ${mapelBerikut}`}
         </TombolAnak>
       </div>
     </div>

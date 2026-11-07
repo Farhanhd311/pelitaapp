@@ -7,7 +7,13 @@
 //   3. Untuk jawaban: cek soalnya memang soal berikutnya, lalu setelahJawab() dari lib/bkt.
 //   4. Simpan JAWABAN + PROGRES_TP dalam satu transaksi, lalu balas soal berikutnya.
 // Respons tidak pernah memberi tahu benar/salah ke anak (umpan balik netral).
+//
+// Petualangan Pertama = SATU sesi untuk semua mapel adaptif (Matematika lalu Bahasa Indonesia, keputusan tim):
+// saat satu mapel selesai, sesi tetap terbuka selama masih ada mapel adaptif lain yang belum pernah diases,
+// dan `mulai` mapel berikutnya melanjutkan sesi yang sama (nomor soal berlanjut, batas soal per sesi berlaku
+// untuk gabungannya). Penempatan tetap dihitung terpisah per mapel.
 
+import dataMateri from "@/data/data_materi_per_kelas_SD.json";
 import demoRaka from "@/data/seed_demo_raka.json";
 import { bacaBody, GalatApi, tanganiApi } from "@/lib/api/respons";
 import { mulaiAsesmen, putarUlangAsesmen, setelahJawab, type KeadaanAsesmen } from "@/lib/bkt/engine";
@@ -25,11 +31,13 @@ import {
   pilihSoalDiagnostik,
   simpanJawaban,
   simpanProgres,
+  statusAsesmen,
   tutupSesi,
   wajibSesiTerbuka,
   type KurikulumMapel,
   type SesiAsesmen,
 } from "@/lib/db/asesmen";
+import { ambilDaftarMapel } from "@/lib/db/anak";
 import { wajibModeAnak } from "@/lib/db/rbac";
 import { PermintaanAsesmen, type ResponsAsesmen, type StatusAsesmen } from "@/lib/kontrak/asesmen";
 import { ambilRiwayatPengaturan, keParameterAsesmen, pilihNilaiPada } from "@/lib/pengaturan";
@@ -50,6 +58,17 @@ async function putaranSekarang(anakId: number, kurikulum: KurikulumMapel, sesi: 
   }
   const keadaan: KeadaanAsesmen = mulaiAsesmen(kurikulum.graf, kelasBaru, paramSesi);
   return { keadaan, param: paramSesi, soal_dipakai: [] as string[], paramSesi };
+}
+
+// Masih ada mapel adaptif lain yang asesmennya belum pernah selesai? Jika ya, sesi tidak ditutup saat mapel ini
+// selesai (lihat catatan di atas). Jenis mapel dari file data, sama dengan GET /api/mapel: pustaka tanpa asesmen.
+async function adaMapelLainBelumDiases(anakId: number, mapelId: number): Promise<boolean> {
+  const adaptif = (id: number) => dataMateri.mapel.find((m) => m.id === id)?.jenis !== "pustaka";
+  const lain = (await ambilDaftarMapel()).filter((m) => m.mapel_id !== mapelId && adaptif(m.mapel_id));
+  for (const m of lain) {
+    if (!(await statusAsesmen(anakId, await ambilKurikulum(m.mapel_id))).pernah_selesai) return true;
+  }
+  return false;
 }
 
 function balas(
@@ -149,6 +168,8 @@ async function jawab(
     : jumlahDiSesi >= paramSesi.maks_soal_per_sesi
       ? "batas_sesi" // progres tersimpan; panggil `mulai` lagi untuk melanjutkan di sesi baru
       : "lanjut";
+  // Mapel ini selesai tetapi petualangan belum: sesi dibiarkan terbuka untuk mapel berikutnya.
+  const tutup = status === "batas_sesi" || (status === "selesai" && !(await adaMapelLainBelumDiases(anakId, kurikulum.mapel_id)));
 
   await denganTransaksi(async (kueri) => {
     await simpanJawaban(kueri, {
@@ -157,7 +178,7 @@ async function jawab(
       waktu_respons_ms: minta.aksi === "jawab" ? minta.waktu_respons_ms : null,
     });
     await simpanProgres(kueri, anakId, baru);
-    if (status !== "lanjut") await tutupSesi(kueri, sesi.id);
+    if (tutup) await tutupSesi(kueri, sesi.id);
   });
 
   const soal = status === "lanjut" ? await pilihSoalDiagnostik(baru.tp_sekarang!, [...soal_dipakai, minta.soal_id]) : null;

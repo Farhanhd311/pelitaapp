@@ -46,7 +46,8 @@ export const PermintaanAsesmen = z.discriminatedUnion("aksi", [
 // lanjut      -> tampilkan `soal` berikutnya
 // batas_sesi  -> batas soal per sesi tercapai (PENGATURAN_SISTEM asesmen.maks_soal_per_sesi).
 //                Progres tersimpan; panggil `mulai` lagi untuk melanjutkan (di mode demo: otomatis).
-// selesai     -> penelusuran tuntas, `titik_mulai` terisi
+// selesai     -> penelusuran mapel ini tuntas, `titik_mulai` terisi. Jika masih ada mapel adaptif lain yang
+//                belum diases, sesinya tetap terbuka: `mulai` mapel berikutnya melanjutkan sesi yang sama.
 export const StatusAsesmen = z.enum(["lanjut", "batas_sesi", "selesai"]);
 
 // Hanya dikirim sebagai balasan `jawab_demo`: angka peluang untuk batang peluang di layar demo.

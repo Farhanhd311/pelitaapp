@@ -5,13 +5,17 @@
 // di POST /api/asesmen dengan mesin lib/bkt. Kontrak data: lib/kontrak/asesmen.ts.
 // Tampilan memakai komponen yang sama dengan check-in dan sesi belajar: LayarFokus, ProgresLangkah, KartuSoal.
 //
-// Asesmen mencakup semua mapel ADAPTIF dari /api/mapel (Matematika + Bahasa Indonesia), satu per satu. Mapel pustaka
-// (IPAS, Pendidikan Pancasila) tidak punya asesmen penempatan. Mapel dari ?mapel= (dipilih di Beranda) didahulukan.
-// Penempatan tetap terpisah per mapel (PANDUAN 7.2); batas soal per mapel diatur server (PENGATURAN_SISTEM).
-// Urutan mapel diacak; asesmen yang sedang berjalan selalu dilanjutkan dulu. Mode demo: mapel pertama saja.
+// Satu petualangan, satu sesi: semua mapel ADAPTIF dari /api/mapel (Matematika + Bahasa Indonesia) dikerjakan
+// berurutan tanpa layar "selesai" di antaranya, supaya anak tidak mengira petualangannya sudah selesai setelah
+// satu mapel. Penanda bagian ("1 Matematika — 2 Bahasa Indonesia") selalu terlihat; saat pindah mapel ada layar
+// singkat "Sekarang bagian ..." yang lanjut sendiri. Penempatan tetap terpisah per mapel (PANDUAN 7.2).
+// Mapel pustaka (IPAS, Pendidikan Pancasila) tidak punya asesmen penempatan.
+// Urutan mapel diacak (mapel dari ?mapel= didahulukan); asesmen yang sedang berjalan selalu dilanjutkan dulu.
 //
-// Alur layar: pembuka -> soal (berulang) -> akhir_sesi (batas soal per sesi) | ganti_mapel | hasil
-// Mode demo "putar otomatis": server yang menjawab sebagai Raka (aksi jawab_demo) setiap JEDA_DEMO_MS.
+// Alur layar: pembuka -> soal (berulang) -> [pindah_mapel -> soal ...] -> hasil
+//             akhir_sesi muncul jika batas soal per sesi tercapai (jeda istirahat, progres tersimpan).
+// Mode demo "putar otomatis": server menjawab sebagai Raka (aksi jawab_demo) setiap JEDA_DEMO_MS, untuk semua
+// mapel berurutan menurut urutan data (Matematika dulu), tanpa layar akhir sesi.
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -21,9 +25,11 @@ import { MascotPijar } from "@/components/anak/MascotPijar";
 import {
   DialogBerhentiAsesmen,
   KilasanLanjut,
+  LangkahMapel,
   LayarAkhirSesi,
-  LayarGantiMapel,
   LayarPembuka,
+  LayarPindahMapel,
+  type BagianPetualangan,
 } from "@/components/anak/asesmen/LayarAsesmen";
 import { LayarHasil, type HasilMapel } from "@/components/anak/asesmen/LayarHasil";
 import { PanelDemo } from "@/components/anak/asesmen/PanelDemo";
@@ -37,13 +43,18 @@ import type { ResponsProfil } from "@/lib/kontrak/auth";
 import type { ResponsMapel, ResponsPeta } from "@/lib/kontrak/peta";
 import { mapelDariUrl } from "@/components/anak/sesi/jalur";
 
-// Tempo tampilan (bukan aturan bisnis): demo ±1,5 detik per soal (PANDUAN 5 A3), kilasan "Oke, lanjut!".
+// Tempo tampilan (bukan aturan bisnis): demo ±1,5 detik per soal (PANDUAN 5 A3), kilasan "Oke, lanjut!",
+// layar pindah bagian, dan jeda di akhir tiap mapel demo supaya penonton melihat peta akhirnya.
 const JEDA_DEMO_MS = 1500;
 const LAMA_KILASAN_MS = 900;
-const JEDA_SEBELUM_HASIL_DEMO_MS = 1800;
+const LAMA_PINDAH_MS = 2200;
+const LAMA_PINDAH_DEMO_MS = 1500;
+const JEDA_AKHIR_MAPEL_DEMO_MS = 1800;
 
 type Mapel = ResponsMapel["mapel"][number];
-type Fase = "memuat" | "pembuka" | "soal" | "akhir_sesi" | "ganti_mapel" | "hasil" | "galat";
+type Fase = "memuat" | "pembuka" | "soal" | "pindah_mapel" | "akhir_sesi" | "hasil" | "galat";
+
+const tunggu = (ms: number) => new Promise((selesai) => setTimeout(selesai, ms));
 
 /** Kelas yang punya TP di peta semua mapel, urut naik. */
 function daftarKelas(daftarPeta: ResponsPeta[]): number[] {
@@ -79,9 +90,9 @@ export default function HalamanAsesmen() {
   const [fase, setFase] = useState<Fase>("memuat");
   const [daftarMapel, setDaftarMapel] = useState<Mapel[]>([]);
   const [peta, setPeta] = useState<Record<number, ResponsPeta>>({}); // per mapel_id
-  const [antrean, setAntrean] = useState<number[]>([]); // mapel yang diases di petualangan ini; [0] = sekarang
+  const [antrean, setAntrean] = useState<number[]>([]); // mapel yang belum selesai di petualangan ini; [0] = sekarang
+  const [urutanBagian, setUrutanBagian] = useState<number[]>([]); // semua mapel petualangan ini, urut dikerjakan
   const [titikMulai, setTitikMulai] = useState<Record<number, string | null>>({}); // dari respons "selesai"
-  const [mapelBaruSelesai, setMapelBaruSelesai] = useState<number | null>(null); // untuk layar ganti mapel
   const [namaAnak, setNamaAnak] = useState<string | null>(null);
   const [respons, setRespons] = useState<ResponsAsesmen | null>(null);
   const [sibuk, setSibuk] = useState(false);
@@ -95,7 +106,6 @@ export default function HalamanAsesmen() {
   const mulaiSoal = useRef(0); // untuk waktu_respons_ms
 
   const mapelSekarang = daftarMapel.find((m) => m.mapel_id === antrean[0]) ?? null;
-  const namaMapel = (id: number | undefined) => daftarMapel.find((m) => m.mapel_id === id)?.nama ?? "";
 
   const tanganiGalat = useCallback((g: unknown) => {
     setPesanGalat(teksGalat(g));
@@ -130,6 +140,8 @@ export default function HalamanAsesmen() {
         setNamaAnak(profil.anak_aktif?.nama_panggilan ?? null);
         setPeta(petaPerMapel);
         setAntrean(antreanAwal);
+        // Mapel yang sudah selesai sebelumnya tampil lebih dulu (bercentang), lalu yang masih harus dikerjakan.
+        setUrutanBagian([...adaptif.map((m) => m.mapel_id).filter((id) => !antreanAwal.includes(id)), ...antreanAwal]);
         setKelasPilihan(pilihanAwal(daftarPeta)); // pilihan awal dari profil anak (ANAK.kelas_terakhir)
         setFase(antreanAwal.length === 0 ? "hasil" : "pembuka");
       } catch (g) {
@@ -139,23 +151,37 @@ export default function HalamanAsesmen() {
     })();
   }, [tanganiGalat]);
 
+  // Permintaan "mulai" satu mapel. Kelas hanya dikirim untuk asesmen baru; asesmen yang sedang berjalan
+  // dilanjutkan dengan kelasnya sendiri.
+  const permintaanMulai = useCallback(
+    (mapelId: number): PermintaanAsesmen =>
+      peta[mapelId]?.asesmen_berjalan || kelasPilihan === null
+        ? { aksi: "mulai", mapel_id: mapelId }
+        : { aksi: "mulai", mapel_id: mapelId, kelas_terakhir: kelasPilihan },
+    [peta, kelasPilihan],
+  );
+
   // ---------- Panggil API asesmen dan pindah layar sesuai status ----------
+  // antreanAwal[0] = mapel yang sedang diases. Saat mapel itu selesai, mapel berikutnya langsung dimulai
+  // (layar pindah bagian sebentar), sampai antrean habis -> hasil.
   const kirimKeServer = useCallback(
-    async (minta: PermintaanAsesmen, mapelId: number, sisaAntrean: number[], demo: boolean) => {
-      const mulaiLagi: PermintaanAsesmen = { aksi: "mulai", mapel_id: mapelId };
+    async (minta: PermintaanAsesmen, antreanAwal: number[], demo: boolean, mulaiMapel: (mapelId: number) => PermintaanAsesmen) => {
       setSibuk(true);
       setPesanGalat(null);
+      let antreanKini = antreanAwal;
+      let permintaan = minta;
       try {
-        let permintaan = minta;
-        // Paling banyak 3 putaran: permintaan asli, lalu "mulai" untuk melanjutkan di sesi baru jika perlu.
-        for (let putaran = 0; putaran < 3; putaran++) {
+        // Batas putaran hanya pengaman: permintaan asli, lalu "mulai" untuk melanjutkan (sesi baru atau mapel berikutnya).
+        for (let putaran = 0; putaran < 8; putaran++) {
+          const mapelId = antreanKini[0];
+          const lanjutkan: PermintaanAsesmen = { aksi: "mulai", mapel_id: mapelId };
           let r: ResponsAsesmen;
           try {
             r = await panggilApi<ResponsAsesmen>("/api/asesmen", permintaan);
           } catch (g) {
             // Soal sudah dijawab / sesi sudah ditutup (misalnya dua tab terbuka): lanjutkan dari server.
             if (g instanceof GalatKlien && g.kode === "BENTROK") {
-              permintaan = mulaiLagi;
+              permintaan = lanjutkan;
               continue;
             }
             throw g;
@@ -164,24 +190,28 @@ export default function HalamanAsesmen() {
           setRespons(r);
           mulaiSoal.current = Date.now();
 
-          if (r.status === "batas_sesi" && demo) {
-            permintaan = mulaiLagi; // demo: langsung lanjut di sesi baru, tanpa layar akhir sesi
+          if (r.status === "lanjut") return setFase("soal");
+          if (r.status === "batas_sesi") {
+            if (!demo) return setFase("akhir_sesi");
+            permintaan = lanjutkan; // demo: langsung lanjut di sesi baru, tanpa layar akhir sesi
             continue;
           }
-          if (r.status === "lanjut") setFase("soal");
-          else if (r.status === "batas_sesi") setFase("akhir_sesi");
-          else {
-            // Mapel ini selesai. Demo: langsung hasil. Selain itu: mapel berikutnya (jika ada) setelah jeda.
-            if (demo) await new Promise((t) => setTimeout(t, JEDA_SEBELUM_HASIL_DEMO_MS)); // penonton melihat peta akhir
+
+          // Mapel ini selesai. Demo: peta akhirnya dibiarkan terlihat sebentar.
+          setTitikMulai((lama) => ({ ...lama, [mapelId]: r.titik_mulai }));
+          if (demo) await tunggu(JEDA_AKHIR_MAPEL_DEMO_MS);
+          const sisa = antreanKini.filter((id) => id !== mapelId);
+          antreanKini = sisa;
+          setAntrean(sisa);
+          if (sisa.length === 0) {
             await muatPeta(mapelId);
-            setTitikMulai((lama) => ({ ...lama, [mapelId]: r.titik_mulai }));
-            setMapelBaruSelesai(mapelId);
-            const sisa = sisaAntrean.filter((id) => id !== mapelId);
-            setAntrean(sisa);
             setDemoBerjalan(false);
-            setFase(!demo && sisa.length > 0 ? "ganti_mapel" : "hasil");
+            return setFase("hasil");
           }
-          return;
+          // Masih ada mapel: bagian berikutnya di petualangan (dan sesi) yang sama, tanpa layar "selesai".
+          setFase("pindah_mapel");
+          await Promise.all([muatPeta(mapelId), tunggu(demo ? LAMA_PINDAH_DEMO_MS : LAMA_PINDAH_MS)]);
+          permintaan = mulaiMapel(sisa[0]);
         }
       } catch (g) {
         tanganiGalat(g);
@@ -193,21 +223,21 @@ export default function HalamanAsesmen() {
     [muatPeta, tanganiGalat],
   );
 
-  // Mulai/lanjutkan asesmen mapel pertama di antrean.
+  // Mulai/lanjutkan petualangan dari mapel pertama di antrean.
   const mulai = (demo: boolean, antreanDipakai = antrean) => {
     const mapelId = antreanDipakai[0];
     if (mapelId === undefined) return;
     setModeDemo(demo);
     setDemoBerjalan(demo);
-    // Kelas hanya dikirim untuk asesmen baru; asesmen yang sedang berjalan dilanjutkan dengan kelasnya sendiri.
-    const kelas = peta[mapelId]?.asesmen_berjalan || kelasPilihan === null ? {} : { kelas_terakhir: kelasPilihan };
-    void kirimKeServer({ aksi: "mulai", mapel_id: mapelId, ...kelas }, mapelId, antreanDipakai, demo);
+    setUrutanBagian((lama) => [...lama.filter((id) => !antreanDipakai.includes(id)), ...antreanDipakai]);
+    void kirimKeServer(permintaanMulai(mapelId), antreanDipakai, demo, permintaanMulai);
   };
 
-  // Mode demo panggung: satu mapel saja, yaitu mapel pertama di antrean (yang dipilih di Beranda atau yang belum
-  // selesai). Jawaban Raka disiapkan untuk Matematika dan Bahasa Indonesia (data/seed_demo_raka.json).
+  // Mode demo panggung: semua mapel yang belum selesai (atau semuanya, jika sudah selesai semua), berurutan
+  // menurut urutan data supaya sama dengan narasi demo. Jawaban Raka: data/seed_demo_raka.json.
   const mulaiDemo = () => {
-    const antreanDemo = (antrean.length > 0 ? antrean : daftarMapel.map((m) => m.mapel_id)).slice(0, 1);
+    const ids = antrean.length > 0 ? antrean : daftarMapel.map((m) => m.mapel_id);
+    const antreanDemo = daftarMapel.map((m) => m.mapel_id).filter((id) => ids.includes(id));
     setAntrean(antreanDemo);
     mulai(true, antreanDemo);
   };
@@ -224,9 +254,9 @@ export default function HalamanAsesmen() {
         pilihan_id: pilihanId,
         waktu_respons_ms: Date.now() - mulaiSoal.current,
       },
-      antrean[0],
       antrean,
       false,
+      permintaanMulai,
     );
   };
 
@@ -234,10 +264,10 @@ export default function HalamanAsesmen() {
   useEffect(() => {
     if (fase !== "soal" || !modeDemo || !demoBerjalan || sibuk || !respons?.soal || antrean[0] === undefined) return;
     const t = setTimeout(() => {
-      void kirimKeServer({ aksi: "jawab_demo", sesi_id: respons.sesi_id, soal_id: respons.soal!.soal_id }, antrean[0], antrean, true);
+      void kirimKeServer({ aksi: "jawab_demo", sesi_id: respons.sesi_id, soal_id: respons.soal!.soal_id }, antrean, true, permintaanMulai);
     }, JEDA_DEMO_MS);
     return () => clearTimeout(t);
-  }, [fase, modeDemo, demoBerjalan, sibuk, respons, antrean, kirimKeServer]);
+  }, [fase, modeDemo, demoBerjalan, sibuk, respons, antrean, kirimKeServer, permintaanMulai]);
 
   // ---------- Tampilan ----------
   const sedangMenjawab = fase === "soal" && respons?.soal;
@@ -253,11 +283,20 @@ export default function HalamanAsesmen() {
       <X className="size-6" />
     </TombolBulat>
   );
-  // Garis langkah terisi dari kiri ke kanan: soal ke-N di sesi ini dari batas soal per sesi.
+  // Garis langkah terisi dari kiri ke kanan: soal ke-N di sesi ini (berlanjut lintas mapel) dari batas soal per sesi.
+  // Mode demo tidak memakainya: panel demo sudah menunjukkan jalannya asesmen.
   const progres =
-    sedangMenjawab && respons ? (
+    sedangMenjawab && respons && !modeDemo ? (
       <ProgresLangkah sekarang={respons.nomor_soal} jumlah={respons.jumlah_soal} label={`Soal ${respons.nomor_soal} dari ${respons.jumlah_soal}`} />
     ) : null;
+
+  const bagian: BagianPetualangan[] = urutanBagian.flatMap((id) => {
+    const m = daftarMapel.find((x) => x.mapel_id === id);
+    return m ? [{ mapel_id: id, nama: m.nama, selesai: !antrean.includes(id) }] : [];
+  });
+  // Deskripsi TP untuk panel demo (dari GET /api/peta), supaya penonton tidak hanya melihat kode TP.
+  const petaSekarang = antrean[0] !== undefined ? peta[antrean[0]] : undefined;
+  const deskripsiTp = Object.fromEntries([...(petaSekarang?.pos_dasar ?? []), ...(petaSekarang?.kelasku ?? [])].map((t) => [t.tp_kode, t.deskripsi]));
 
   const hasilSelesai: HasilMapel[] = daftarMapel
     .filter((m) => peta[m.mapel_id]?.asesmen_selesai)
@@ -289,6 +328,7 @@ export default function HalamanAsesmen() {
       {fase === "pembuka" && (
         <LayarPembuka
           namaAnak={namaAnak}
+          bagian={bagian}
           sibuk={sibuk}
           pilihanKelas={daftarKelas(Object.values(peta))}
           kelas={kelasPilihan}
@@ -299,39 +339,40 @@ export default function HalamanAsesmen() {
         />
       )}
 
-      {sedangMenjawab && respons?.soal && (
-        <div className="mx-auto mt-6 flex w-full max-w-3xl flex-col items-center gap-6 sm:mt-10">
+      {fase === "soal" && respons && (
+        <div className="mx-auto mt-4 flex w-full max-w-3xl flex-col items-center gap-5 sm:mt-6">
+          <LangkahMapel bagian={bagian} sekarang={antrean[0] ?? null} />
           {modeDemo && (
             <PanelDemo
               demo={respons.demo}
               peta={respons.peta}
-              tpSekarang={respons.soal.tp_kode}
+              tpSekarang={respons.soal?.tp_kode ?? null}
+              titikMulai={respons.status === "selesai" ? respons.titik_mulai : null}
+              deskripsiTp={deskripsiTp}
               jumlahSoal={respons.jumlah_soal_dijawab}
               berjalan={demoBerjalan}
               onJedaLanjut={() => setDemoBerjalan((b) => !b)}
             />
           )}
-          {/* key: setiap soal baru mengosongkan pilihan. Mode demo: pilihan dikunci (server yang menjawab). */}
-          <KartuSoal
-            key={respons.soal.soal_id}
-            soal={respons.soal}
-            label={mapelSekarang ? `Petualangan Pertama · ${mapelSekarang.nama}` : "Petualangan Pertama"}
-            terkunci={modeDemo}
-            sibuk={sibuk}
-            onKirim={kirimJawaban}
-          />
+          {/* key: setiap soal baru mengosongkan pilihan. Mode demo: pilihan dikunci (server yang menjawab).
+              Label mapel hanya jika petualangannya satu mapel (selain itu sudah ada penanda bagian di atas). */}
+          {respons.soal && (
+            <KartuSoal
+              key={respons.soal.soal_id}
+              soal={respons.soal}
+              label={bagian.length < 2 && mapelSekarang ? `Petualangan Pertama · ${mapelSekarang.nama}` : undefined}
+              terkunci={modeDemo}
+              sibuk={sibuk}
+              onKirim={kirimJawaban}
+            />
+          )}
         </div>
       )}
 
-      {fase === "akhir_sesi" && <LayarAkhirSesi jumlahSoal={respons?.jumlah_soal_dijawab ?? 0} sibuk={sibuk} onLanjut={() => mulai(false)} />}
+      {fase === "pindah_mapel" && <LayarPindahMapel bagian={bagian} sekarang={antrean[0] ?? null} />}
 
-      {fase === "ganti_mapel" && (
-        <LayarGantiMapel
-          mapelSelesai={namaMapel(mapelBaruSelesai ?? undefined)}
-          mapelBerikut={namaMapel(antrean[0])}
-          sibuk={sibuk}
-          onLanjut={() => mulai(false)}
-        />
+      {fase === "akhir_sesi" && (
+        <LayarAkhirSesi jumlahSoal={respons?.nomor_soal ?? 0} bagian={bagian} sekarang={antrean[0] ?? null} sibuk={sibuk} onLanjut={() => mulai(false)} />
       )}
 
       {fase === "hasil" && (
@@ -343,7 +384,9 @@ export default function HalamanAsesmen() {
             setFase("pembuka");
           }}
           onUlangi={() => {
-            setAntrean(acak(daftarMapel.map((m) => m.mapel_id)));
+            const semua = acak(daftarMapel.map((m) => m.mapel_id));
+            setAntrean(semua);
+            setUrutanBagian(semua);
             setTitikMulai({});
             setFase("pembuka");
           }}
