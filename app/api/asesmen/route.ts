@@ -80,8 +80,10 @@ async function mulai(anakId: number, mapelId: number, kelasPilihan: number | und
   const kurikulum = await ambilKurikulum(mapelId);
   // Kelas terakhir di sekolah yang dipilih di layar; jika kosong, dari profil anak.
   // Pilihan itu juga DISIMPAN ke profil (keputusan tim: halaman daftar tidak menanyakan kelas terakhir,
-  // jadi ANAK.kelas_terakhir diisi dari asesmen). Layar hanya mengirimnya untuk putaran baru.
-  if (kelasPilihan !== undefined) await query("UPDATE anak SET kelas_terakhir = ? WHERE id = ?", [kelasPilihan, anakId]);
+  // jadi ANAK.kelas_terakhir dan ANAK.kelas_seharusnya diselaraskan dari asesmen). Layar hanya mengirimnya untuk putaran baru.
+  if (kelasPilihan !== undefined) {
+    await query("UPDATE anak SET kelas_terakhir = ?, kelas_seharusnya = ? WHERE id = ?", [kelasPilihan, kelasPilihan, anakId]);
+  }
   const kelasBaru = kelasPilihan ?? (await ambilKelasTerakhir(anakId));
 
   // Pakai sesi asesmen yang masih terbuka; jika batas soal per sesi sudah tercapai, tutup dan buka yang baru.

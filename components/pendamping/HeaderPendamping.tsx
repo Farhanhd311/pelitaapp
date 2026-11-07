@@ -58,9 +58,14 @@ export function HeaderPendamping({
         <div className="flex items-center gap-3">
           <Link
             href="/pilih-profil"
-            className="rounded-full bg-[#FCEBD4] border border-[#E5B97F] px-4 py-1.5 font-heading text-base sm:text-lg font-black tracking-widest text-teks transition hover:bg-emas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emas"
+            className="flex items-center gap-2 rounded-full bg-[#FCEBD4] border border-[#E5B97F] pl-2 pr-4 py-1.5 font-heading text-base sm:text-lg font-black tracking-widest text-teks transition hover:bg-emas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emas shadow-2xs"
           >
-            PELITA
+            <img
+              src="/ilustrasi/Cheerful%20Chibi%20Flame%20Face.webp"
+              alt="Logo PELITA"
+              className="size-6 sm:size-7 object-contain select-none"
+            />
+            <span>PELITA</span>
           </Link>
 
           <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-pasir-muda px-3 py-1 text-xs font-bold text-teks-2 border border-[#E5B97F]/60">

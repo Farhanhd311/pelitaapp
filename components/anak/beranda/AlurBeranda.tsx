@@ -44,7 +44,13 @@ function cekMaju(r: ResponsBeranda, d: DataBeranda): number | null {
     if (sekarang) localStorage.setItem(kunciPos(r), sekarang);
     if (!lama || lama === sekarang) return null;
     const i = d.pos.findIndex((p) => p.id === lama);
-    return i >= 0 && i < d.indeksSekarang && d.pos[i].tercapai ? i : null;
+    if (i >= 0 && i < d.indeksSekarang && d.pos[i]?.tercapai) return i;
+    // Fallback jika pos lama telah disembunyikan/digabung (misal bekal), tetapi pos saat ini sudah maju (> 0)
+    // dan pos tepat sebelumnya berstatus tercapai:
+    if (d.indeksSekarang > 0 && d.pos[d.indeksSekarang - 1]?.tercapai) {
+      return d.indeksSekarang - 1;
+    }
+    return null;
   } catch {
     return null; // penyimpanan diblokir: tampil tanpa animasi
   }
@@ -198,16 +204,26 @@ export function AlurBeranda() {
 
   useEffect(() => {
     let batal = false;
-    const url = mapelDiUrl ? `/api/beranda?mapel_id=${encodeURIComponent(mapelDiUrl)}` : "/api/beranda";
-    panggilApi<ResponsBeranda>(url)
-      .then((respons) => !batal && setKeadaan({ jenis: "siap", respons, dariIndeks: cekMaju(respons, keDataBeranda(respons)) }))
-      .catch((e) => {
-        if (batal) return;
-        setKeadaan(butuhMasuk(e) ? { jenis: "perlu_masuk", galat: e } : { jenis: "galat", pesan: pesanGalat(e) });
-      })
-      .finally(() => !batal && setBerganti(false));
+    const muatPeta = () => {
+      const url = mapelDiUrl ? `/api/beranda?mapel_id=${encodeURIComponent(mapelDiUrl)}` : "/api/beranda";
+      panggilApi<ResponsBeranda>(url)
+        .then((respons) => !batal && setKeadaan({ jenis: "siap", respons, dariIndeks: cekMaju(respons, keDataBeranda(respons)) }))
+        .catch((e) => {
+          if (batal) return;
+          setKeadaan(butuhMasuk(e) ? { jenis: "perlu_masuk", galat: e } : { jenis: "galat", pesan: pesanGalat(e) });
+        })
+        .finally(() => !batal && setBerganti(false));
+    };
+
+    muatPeta();
+
+    // Pastikan peta diperbarui dan animasi maju terpicu saat anak kembali dari sesi belajar
+    window.addEventListener("focus", muatPeta);
+    window.addEventListener("pageshow", muatPeta);
     return () => {
       batal = true;
+      window.removeEventListener("focus", muatPeta);
+      window.removeEventListener("pageshow", muatPeta);
     };
   }, [mapelDiUrl, percobaan]);
 

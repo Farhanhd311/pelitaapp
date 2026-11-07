@@ -9,6 +9,7 @@
 
 import { use, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { AnimatePresence, motion } from "motion/react";
 import { Sparkles, X } from "lucide-react";
 import { KartuSoal } from "@/components/anak/KartuSoal";
 import { MascotPijar } from "@/components/anak/MascotPijar";
@@ -231,66 +232,108 @@ export function AlurSesi({ params }: { params: Promise<{ tpKode: string }> }) {
         </div>
       )}
 
-      {sesi && sesi.status === "kartu_belajar" && (
-        <KartuBelajar tp={sesi.tp} kartu={sesi.kartu_belajar} narasi={sesi.narasi} sibuk={sibuk} onLanjut={async () => terapkan(await kirim({ aksi: "kuis", sesi_id: sesi.sesi_id }))} />
-      )}
-
-      {sesi && (sesi.status === "kuis" || umpan) && (
-        <div className="mx-auto mt-6 flex w-full max-w-3xl flex-col items-center sm:mt-10">
-          {sesi.tawarkan_selesai && !tawaranDitutup && !umpan && (
-            <div className="mb-6 flex w-full flex-col items-center gap-3 rounded-[20px] bg-emas/25 p-4 text-center sm:flex-row sm:text-left">
-              <MascotPijar ekspresi="senang" ukuran={64} />
-              <p className="flex-1 font-bold">{sesi.pesan}</p>
-              <div className="flex gap-2">
-                <TombolAnak varian="lembut" onClick={() => setTawaranDitutup(true)}>
-                  Satu soal lagi
-                </TombolAnak>
-                <TombolAnak onClick={berhentiSekarang} disabled={sibuk}>
-                  Selesai
-                </TombolAnak>
-              </div>
-            </div>
-          )}
-
-          {/* Satu KartuSoal yang sama sebelum dan sesudah dijawab: kartu tidak dipasang ulang (animasi masuknya tidak
-              diputar lagi), panel umpan balik cukup muncul di bawahnya. Key memuat nomor soal karena soal yang sama
-              bisa muncul lagi sebagai soal tambahan. */}
-          {soalTampil && (
-            <KartuSoal
-              key={`${soalTampil.soal_id}-${sesi.nomor_soal}`}
-              soal={soalTampil}
-              terkunci={umpan !== null}
-              pilihanAwal={umpan?.pilihanId ?? null}
+      <AnimatePresence mode="wait" initial={false}>
+        {sesi && sesi.status === "kartu_belajar" && (
+          <motion.div
+            key="kartu_belajar"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="w-full flex-1 flex flex-col items-center justify-center"
+          >
+            <KartuBelajar
+              tp={sesi.tp}
+              kartu={sesi.kartu_belajar}
+              narasi={sesi.narasi}
               sibuk={sibuk}
-              onKirim={jawab}
+              onLanjut={async () => terapkan(await kirim({ aksi: "kuis", sesi_id: sesi.sesi_id }))}
             />
-          )}
-          {umpan?.berikutnya.umpan_balik && (
-            <PanelUmpanBalik
-              umpan={umpan.berikutnya.umpan_balik}
-              sesiId={sesi.sesi_id}
-              soalId={umpan.soal.soal_id}
-              pilihanId={umpan.pilihanId}
-              onLanjut={lanjutSetelahUmpan}
+          </motion.div>
+        )}
+
+        {sesi && (sesi.status === "kuis" || umpan) && (
+          <motion.div
+            key={`kuis-${soalTampil?.soal_id ?? "aktif"}`}
+            initial={{ opacity: 0, scale: 0.98, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.98, y: -12 }}
+            transition={{ duration: 0.28, ease: "easeOut" }}
+            className="mx-auto mt-6 flex w-full max-w-3xl flex-col items-center sm:mt-10"
+          >
+            {sesi.tawarkan_selesai && !tawaranDitutup && !umpan && (
+              <div className="mb-6 flex w-full flex-col items-center gap-3 rounded-[20px] bg-emas/25 p-4 text-center sm:flex-row sm:text-left">
+                <MascotPijar ekspresi="senang" ukuran={64} />
+                <p className="flex-1 font-bold">{sesi.pesan}</p>
+                <div className="flex gap-2">
+                  <TombolAnak varian="lembut" onClick={() => setTawaranDitutup(true)}>
+                    Satu soal lagi
+                  </TombolAnak>
+                  <TombolAnak onClick={berhentiSekarang} disabled={sibuk}>
+                    Selesai
+                  </TombolAnak>
+                </div>
+              </div>
+            )}
+
+            {/* Satu KartuSoal yang sama sebelum dan sesudah dijawab: kartu tidak dipasang ulang (animasi masuknya tidak
+                diputar lagi), panel umpan balik cukup muncul di bawahnya. Key memuat nomor soal karena soal yang sama
+                bisa muncul lagi sebagai soal tambahan. */}
+            {soalTampil && (
+              <KartuSoal
+                key={`${soalTampil.soal_id}-${sesi.nomor_soal}`}
+                soal={soalTampil}
+                terkunci={umpan !== null}
+                pilihanAwal={umpan?.pilihanId ?? null}
+                sibuk={sibuk}
+                onKirim={jawab}
+              />
+            )}
+            {umpan?.berikutnya.umpan_balik && (
+              <PanelUmpanBalik
+                umpan={umpan.berikutnya.umpan_balik}
+                sesiId={sesi.sesi_id}
+                soalId={umpan.soal.soal_id}
+                pilihanId={umpan.pilihanId}
+                onLanjut={lanjutSetelahUmpan}
+              />
+            )}
+          </motion.div>
+        )}
+
+        {sesi && !umpan && sesi.status === "cek_kuat" && (
+          <motion.div
+            key="cek_kuat"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.28, ease: "easeOut" }}
+            className="flex flex-1 flex-col items-center justify-center w-full"
+          >
+            <div className="flex flex-1 items-center justify-center">
+              <MascotPijar ekspresi="tenang" ukuran={160} />
+            </div>
+            <ModalMasihKuat
+              alasan={sesi.alasan_cek_kuat}
+              sibuk={sibuk}
+              onPilih={async (pilihan) => terapkan(await kirim({ aksi: "masih_kuat", sesi_id: sesi.sesi_id, pilihan }))}
             />
-          )}
-        </div>
-      )}
+          </motion.div>
+        )}
 
-      {sesi && !umpan && sesi.status === "cek_kuat" && (
-        <>
-          <div className="flex flex-1 items-center justify-center">
-            <MascotPijar ekspresi="tenang" ukuran={160} />
-          </div>
-          <ModalMasihKuat
-            alasan={sesi.alasan_cek_kuat}
-            sibuk={sibuk}
-            onPilih={async (pilihan) => terapkan(await kirim({ aksi: "masih_kuat", sesi_id: sesi.sesi_id, pilihan }))}
-          />
-        </>
-      )}
-
-      {sesi && !umpan && STATUS_AKHIR.includes(sesi.status) && <LayarAkhir sesi={sesi} hrefPeta={hrefPeta} />}
+        {sesi && !umpan && STATUS_AKHIR.includes(sesi.status) && (
+          <motion.div
+            key="layar_akhir"
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="w-full flex flex-1 flex-col items-center justify-center"
+          >
+            <LayarAkhir sesi={sesi} hrefPeta={hrefPeta} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {galatKecil && (
         <p role="alert" className="mx-auto mt-6 max-w-xl rounded-2xl bg-emas/25 px-4 py-3 text-center font-semibold">

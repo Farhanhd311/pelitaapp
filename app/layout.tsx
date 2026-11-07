@@ -18,6 +18,10 @@ export const metadata: Metadata = {
   title: "PELITA — Cahaya Belajar, Tetap Menyala",
   description:
     "Platform belajar adaptif berbasis AI untuk anak SD dengan penyakit kronis yang menyesuaikan kondisi kesehatan harian dan menjembatani progres kembali ke sekolah asal.",
+  icons: {
+    icon: "/ilustrasi/Cheerful%20Chibi%20Flame%20Face.webp",
+    apple: "/ilustrasi/Cheerful%20Chibi%20Flame%20Face.webp",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -232,9 +232,14 @@ export function PilihProfil() {
 
       {/* ==================== HEADER MELAYANG MINIMALIS ==================== */}
       <header className="pointer-events-none fixed top-0 inset-x-0 z-30 flex items-center justify-between px-6 py-5 sm:px-10 sm:py-6">
-        {/* Kiri: Tulisan PELITA */}
-        <span className="pointer-events-auto rounded-full bg-[#FFFDF9]/85 backdrop-blur-md border border-[#E5B97F]/70 px-5 py-2 font-heading text-lg sm:text-xl font-black tracking-widest text-teks shadow-sm">
-          PELITA
+        {/* Kiri: Tulisan PELITA + Icon Flame */}
+        <span className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-[#FFFDF9]/85 backdrop-blur-md border border-[#E5B97F]/70 pl-2.5 pr-5 py-1.5 font-heading text-lg sm:text-xl font-black tracking-widest text-teks shadow-sm">
+          <img
+            src="/ilustrasi/Cheerful%20Chibi%20Flame%20Face.webp"
+            alt="Logo PELITA"
+            className="size-7 object-contain select-none"
+          />
+          <span>PELITA</span>
         </span>
 
         {/* Tengah: Sapaan Lembut di Layar Lebar */}

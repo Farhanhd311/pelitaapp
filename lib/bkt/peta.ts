@@ -70,13 +70,14 @@ export function susunPeta(m: {
     });
 
   // Rekomendasi: TP yang sedang dikejar (jembatan) dulu, lalu TP belum terendah yang tidak terkunci.
-  // Pos wajib didahulukan sebelum Kelasku (sisipkan modul jembatan, lalu kembali ke TP kelasnya).
+  // Pos wajib didahulukan sebelum Kelasku, dan kelas lebih rendah didahulukan sebelum kelas lebih tinggi.
   const calon = [...posDasar, ...kelasku.map((k) => ({ ...k, wajib: false }))]
     .filter((k) => k.status !== "tercapai" && !k.terkunci)
     .sort(
       (a, b) =>
         Number(b.status === "jembatan") - Number(a.status === "jembatan") ||
         Number(b.wajib) - Number(a.wajib) ||
+        a.kelas - b.kelas ||
         Number(b.kelas === kelasKelasku) - Number(a.kelas === kelasKelasku) ||
         a.urutan - b.urutan,
     );

@@ -158,8 +158,12 @@ function IsiLaporanSekolah() {
           <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4 text-center sm:text-left">
             {/* Logo & Identitas Lembaga */}
             <div className="flex items-center gap-3.5">
-              <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-[#FFF4E4] border-2 border-bata text-bata font-heading font-black text-2xl tracking-widest shadow-2xs">
-                P
+              <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-[#FFF4E4] border-2 border-bata p-1 shadow-2xs overflow-hidden">
+                <img
+                  src="/ilustrasi/Cheerful%20Chibi%20Flame%20Face.webp"
+                  alt="Logo PELITA"
+                  className="size-full object-contain select-none"
+                />
               </div>
               <div>
                 <h2 className="font-heading text-base sm:text-lg font-black tracking-wider text-teks uppercase leading-tight">
