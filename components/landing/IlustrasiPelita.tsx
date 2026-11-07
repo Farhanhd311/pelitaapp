@@ -90,17 +90,13 @@ export function IlustrasiPulauHero() {
 
         {/* Pulau kecil pendamping di kiri jauh */}
         <g opacity="0.85">
-          <path
-            d="M72 340L95 375L118 340H72Z"
-            fill="#A82535"
-          />
+          <path d="M72 340L95 375L118 340H72Z" fill="#A82535" />
           <ellipse cx="95" cy="340" rx="28" ry="8" fill="#EDB664" />
           <circle cx="95" cy="326" r="12" fill="#F4813A" />
         </g>
 
-        {/* Pulau melayang utama (batu marun-koral hangat & padang rumput emas) */}
+        {/* Pulau melayang utama */}
         <g>
-          {/* Bayangan di atas air */}
           <ellipse
             cx="330"
             cy="446"
@@ -109,13 +105,10 @@ export function IlustrasiPulauHero() {
             fill="#7F1D2B"
             opacity="0.22"
           />
-
-          {/* Tebing bawah pulau */}
           <path
             d="M150 328L192 396L265 426L335 438L415 418L478 382L506 328H150Z"
             fill="url(#islandRock)"
           />
-          {/* Faset kristal batu tebing */}
           <path
             d="M192 396L265 335L265 426L192 396Z"
             fill="#8E1F2E"
@@ -131,11 +124,9 @@ export function IlustrasiPulauHero() {
             fill="#A82535"
           />
 
-          {/* Permukaan rumput keemasan di atas pulau */}
           <ellipse cx="328" cy="324" rx="186" ry="38" fill="url(#meadowGold)" />
           <ellipse cx="328" cy="318" rx="170" ry="30" fill="#FCE5BE" />
 
-          {/* Bukit kecil di atas pulau */}
           <path
             d="M175 318C205 274 285 272 325 318H175Z"
             fill="#EDB664"
@@ -145,7 +136,6 @@ export function IlustrasiPulauHero() {
             fill="#F8C99A"
           />
 
-          {/* Jalan setapak petualangan belajar */}
           <path
             d="M235 342C265 328 295 322 330 315C365 308 395 312 430 326"
             stroke="#FFFBF4"
@@ -154,15 +144,13 @@ export function IlustrasiPulauHero() {
             strokeDasharray="2 18"
           />
 
-          {/* Pepohonan fantasi merah-emas & oranye hangat */}
-          {/* Pohon Kiri (Marun-Koral) */}
+          {/* Pepohonan */}
           <rect x="218" y="255" width="10" height="48" rx="4" fill="#7F1D2B" />
           <circle cx="204" cy="246" r="28" fill="url(#canopyCrimson)" />
           <circle cx="238" cy="242" r="32" fill="#D93A45" />
           <circle cx="222" cy="218" r="26" fill="#E4545A" />
           <circle cx="215" cy="212" r="8" fill="#FBD9B5" opacity="0.6" />
 
-          {/* Pohon Tengah-Kiri (Keemasan) */}
           <rect x="276" y="264" width="8" height="40" rx="4" fill="#7F1D2B" />
           <circle cx="280" cy="248" r="26" fill="url(#canopyWarm)" />
           <circle cx="266" cy="258" r="18" fill="#EDB664" />
@@ -186,7 +174,6 @@ export function IlustrasiPulauHero() {
             strokeWidth="2.5"
             strokeLinejoin="round"
           />
-          {/* Jendela bercahaya emas */}
           <circle
             cx="349"
             cy="280"
@@ -196,7 +183,6 @@ export function IlustrasiPulauHero() {
             strokeWidth="2"
           />
 
-          {/* Pohon Kanan (Keemasan Cerah) */}
           <rect x="444" y="262" width="9" height="42" rx="4" fill="#7F1D2B" />
           <circle cx="448" cy="246" r="25" fill="url(#canopyWarm)" />
           <circle cx="432" cy="256" r="18" fill="#EDB664" />
@@ -212,7 +198,7 @@ export function IlustrasiPulauHero() {
         </g>
       </svg>
 
-      {/* Kartu Melayang Kiri Atas (seperti di gambar referensi) */}
+      {/* Kartu Melayang Kiri Atas */}
       <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20 max-w-[215px] rounded-2xl border border-[#EDB664]/80 bg-[#FFFBF4]/95 px-4 py-3 shadow-[0_10px_30px_rgba(127,29,43,0.12)] backdrop-blur-md">
         <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-[#A82535]">
           <span className="h-2 w-2 rounded-full bg-[#F4813A] animate-pulse" />
@@ -231,16 +217,16 @@ export function IlustrasiPulauHero() {
         </div>
       </div>
 
-      {/* Maskot Pijar di kanan atas pulau */}
-      <div className="absolute right-6 bottom-24 sm:right-10 sm:bottom-28 z-20">
-        <MascotPijar ekspresi="senang" ukuran="lg" />
+      {/* Maskot Pijar Resmi di Kanan Atas Pulau */}
+      <div className="absolute right-5 bottom-24 sm:right-8 sm:bottom-28 z-20">
+        <MascotPijar ekspresi="sambut" gerak="senang" ukuran={115} />
       </div>
 
-      {/* Kartu Melayang Bawah (seperti di gambar referensi) */}
+      {/* Kartu Melayang Bawah */}
       <div className="absolute inset-x-4 bottom-4 sm:inset-x-6 sm:bottom-6 z-20 flex items-center justify-between gap-3 rounded-2xl border border-[#EDB664]/90 bg-[#FFFBF4]/95 px-4 py-3 shadow-[0_12px_32px_rgba(127,29,43,0.16)] backdrop-blur-md">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#FBD9B5] to-[#EDB664] text-[#7F1D2B] shadow-inner">
-            <MascotPijar ekspresi="idle" ukuran="sm" />
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#FBD9B5] to-[#EDB664] text-[#7F1D2B] shadow-inner">
+            <MascotPijar ekspresi="senang" gerak="idle" ukuran={40} />
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -277,17 +263,12 @@ export function IlustrasiKebunCerita() {
         className="h-full w-full object-cover"
       >
         <rect width="400" height="250" fill="#FFF5E2" />
-        {/* Matahari lembut */}
         <circle cx="310" cy="70" r="46" fill="#FBD9B5" opacity="0.8" />
         <circle cx="310" cy="70" r="28" fill="#FFFBF4" />
-
-        {/* Awan hangat */}
         <path
           d="M40 85C60 68 95 70 112 85C130 68 165 70 182 88H40V85Z"
           fill="#FFFBF4"
         />
-
-        {/* Perbukitan keemasan */}
         <path
           d="M0 175C85 135 190 140 280 178C330 160 375 162 400 175V250H0V175Z"
           fill="#F8C99A"
@@ -297,17 +278,14 @@ export function IlustrasiKebunCerita() {
           fill="#EDB664"
         />
 
-        {/* Pohon Jeruk Keemasan Kiri */}
         <rect x="78" y="135" width="10" height="52" rx="4" fill="#7F1D2B" />
         <circle cx="83" cy="118" r="34" fill="#D93A45" />
         <circle cx="65" cy="128" r="22" fill="#E4545A" />
         <circle cx="101" cy="126" r="22" fill="#A82535" />
-        {/* Buah jeruk emas */}
         <circle cx="72" cy="112" r="5" fill="#EDB664" />
         <circle cx="94" cy="116" r="5" fill="#FFFBF4" />
         <circle cx="82" cy="130" r="5" fill="#F4813A" />
 
-        {/* Pohon Jeruk Keemasan Kanan */}
         <rect x="296" y="142" width="8" height="44" rx="4" fill="#7F1D2B" />
         <circle cx="300" cy="128" r="26" fill="#F4813A" />
         <circle cx="286" cy="135" r="18" fill="#EDB664" />
@@ -315,8 +293,8 @@ export function IlustrasiKebunCerita() {
       </svg>
 
       {/* Pijar di tengah kebun */}
-      <div className="absolute inset-0 flex items-center justify-center pt-4">
-        <MascotPijar ekspresi="senang" ukuran="md" />
+      <div className="absolute inset-0 flex items-center justify-center pt-3">
+        <MascotPijar ekspresi="semangat" gerak="senang" ukuran={86} />
       </div>
     </div>
   );
@@ -342,17 +320,14 @@ export function IlustrasiPetaPulau() {
       </defs>
       <rect width="1000" height="360" fill="url(#mapSky)" />
 
-      {/* Awan lembut di latar */}
       <circle cx="150" cy="90" r="65" fill="#FFFBF4" opacity="0.7" />
       <circle cx="220" cy="100" r="50" fill="#FFFBF4" opacity="0.7" />
       <circle cx="820" cy="85" r="70" fill="#FFFBF4" opacity="0.7" />
       <circle cx="750" cy="95" r="50" fill="#FFFBF4" opacity="0.7" />
       <circle cx="500" cy="60" r="95" fill="#FFFDF9" opacity="0.8" />
 
-      {/* Laut keemasan di bawah */}
       <rect x="0" y="285" width="1000" height="75" fill="#EDB664" opacity="0.45" />
 
-      {/* Jembatan gantung keemasan penghubung antar pulau */}
       <path
         d="M250 235 Q 375 275 500 205"
         stroke="#A82535"
@@ -380,18 +355,15 @@ export function IlustrasiPetaPulau() {
         fill="none"
       />
 
-      {/* Pulau Kiri */}
       <path d="M125 235L165 305L220 320L275 295L305 235H125Z" fill="#8E1F2E" />
       <ellipse cx="215" cy="235" rx="95" ry="20" fill="#EDB664" />
       <circle cx="160" cy="200" r="28" fill="#D93A45" />
       <circle cx="185" cy="192" r="24" fill="#F4813A" />
 
-      {/* Pulau Tengah (Titik Mulai B3) */}
       <path d="M400 205L450 290L505 310L565 285L600 205H400Z" fill="#7F1D2B" />
       <ellipse cx="500" cy="205" rx="105" ry="22" fill="#F4813A" />
       <ellipse cx="500" cy="201" rx="92" ry="16" fill="#FCE2B6" />
 
-      {/* Pulau Kanan */}
       <path d="M695 235L735 300L790 318L845 295L875 235H695Z" fill="#A82535" />
       <ellipse cx="785" cy="235" rx="95" ry="20" fill="#EDB664" />
       <circle cx="835" cy="198" r="28" fill="#E4545A" />
@@ -399,4 +371,3 @@ export function IlustrasiPetaPulau() {
     </svg>
   );
 }
-

@@ -7,14 +7,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-<<<<<<< HEAD
-  --font-sans: var(--font-jakarta), var(--font-geist-sans), sans-serif;
+  --font-sans: var(--font-nunito), var(--font-jakarta), var(--font-geist-sans), sans-serif;
   --font-serif: var(--font-fraunces), Georgia, serif;
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-fraunces), Georgia, serif;
-=======
-  --font-sans: var(--font-nunito);
-  --font-heading: var(--font-nunito);
+  --font-heading: var(--font-nunito), var(--font-fraunces), sans-serif;
 
   /* Palet PELITA, tema api hangat (PANDUAN bagian 13). Dipakai sebagai bg-krem, text-bata, dll.
      Bata/merah hanya untuk tombol aksi, ikon, dan hiasan; tidak pernah untuk menandai kesalahan. */
@@ -30,7 +26,7 @@
   --color-teks: #2e0b07;
   --color-teks-2: #7a4335;
   --color-perhatian: #ecac54; /* emas, bukan merah */
->>>>>>> f178466816c828d30a3e039f2d29ed7fc8613079
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -70,7 +66,6 @@
 }
 
 :root {
-<<<<<<< HEAD
   /* Color Palette: Api Merah Keemasan (Cerah Keemasan Dominant) */
   --merah-marun: #7F1D2B;
   --merah-tua: #8E1F2E;
@@ -89,39 +84,6 @@
   --latar-emas-lembut: #FFF4DF;
   --latar-krem-hangat: #FDEBD0;
 
-  --background: oklch(0.99 0.01 85);
-  --foreground: oklch(0.22 0.06 18);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.06 18);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.06 18);
-  --primary: #8E1F2E;
-  --primary-foreground: #FFFBF4;
-  --secondary: #FBD9B5;
-  --secondary-foreground: #7F1D2B;
-  --muted: #FFF4DF;
-  --muted-foreground: #6E3B3B;
-  --accent: #EDB664;
-  --accent-foreground: #7F1D2B;
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: #F2D5B0;
-  --input: #F2D5B0;
-  --ring: #EDB664;
-  --chart-1: #F4813A;
-  --chart-2: #EDB664;
-  --chart-3: #D93A45;
-  --chart-4: #8E1F2E;
-  --chart-5: #F3A08F;
-  --radius: 0.75rem;
-  --sidebar: #FFFBF4;
-  --sidebar-foreground: #7F1D2B;
-  --sidebar-primary: #8E1F2E;
-  --sidebar-primary-foreground: #FFFBF4;
-  --sidebar-accent: #FBD9B5;
-  --sidebar-accent-foreground: #7F1D2B;
-  --sidebar-border: #F2D5B0;
-  --sidebar-ring: #EDB664;
-=======
   --background: #fff4e4;
   --foreground: #2e0b07;
   --card: #ffffff;
@@ -140,21 +102,20 @@
   --border: #efc9a2;
   --input: #efc9a2;
   --ring: #ecac54;
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --chart-1: #F4813A;
+  --chart-2: #EDB664;
+  --chart-3: #D93A45;
+  --chart-4: #8E1F2E;
+  --chart-5: #F3A08F;
   --radius: 0.875rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
->>>>>>> f178466816c828d30a3e039f2d29ed7fc8613079
+  --sidebar: #FFFBF4;
+  --sidebar-foreground: #7F1D2B;
+  --sidebar-primary: #8E1F2E;
+  --sidebar-primary-foreground: #FFFBF4;
+  --sidebar-accent: #FBD9B5;
+  --sidebar-accent-foreground: #7F1D2B;
+  --sidebar-border: #F2D5B0;
+  --sidebar-ring: #EDB664;
 }
 
 .dark {

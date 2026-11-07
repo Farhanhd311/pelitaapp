@@ -3,17 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
-  Sparkles,
-  ChevronDown,
+  Volume2,
   ArrowRight,
-  CheckCircle2,
-  Headphones,
-  HeartHandshake,
-  ShieldCheck,
+  Plus,
+  Minus,
 } from "lucide-react";
 import { MascotPijar, type EkspresiPijar } from "@/components/anak/MascotPijar";
 import { TombolSpeaker } from "@/components/anak/TombolSpeaker";
-import { IlustrasiKebunCerita } from "@/components/landing/IlustrasiPelita";
 
 type PilihanEnergi = "semangat" | "lumayan" | "lemas";
 
@@ -22,10 +18,9 @@ const dataCheckinPreview: Record<
   {
     label: string;
     emoji: string;
-    sublabel: string;
+    ekspresi: EkspresiPijar;
     level: string;
     durasi: string;
-    mode: string;
     ringkasan: string;
     teksSuara: string;
   }
@@ -33,62 +28,66 @@ const dataCheckinPreview: Record<
   semangat: {
     label: "Semangat",
     emoji: "☀️",
-    sublabel: "Tubuh segar, siap menjelajah hal baru",
-    level: "Level Penuh",
-    durasi: "25–30 menit (dengan jeda)",
-    mode: "Materi Baru + Kuis Lengkap",
+    ekspresi: "semangat",
+    level: "Level Penuh • 25–30 menit",
+    durasi: "25–30 menit",
     ringkasan:
-      "Pijar menyiapkan kartu belajar baru dan tantangan seru dengan jeda istirahat di tengah sesi.",
+      "Sesi penuh dengan jeda otomatis: materi baru di Pos Dasar, latihan bertahap, dan kuis lengkap.",
     teksSuara:
-      "Kamu memilih semangat! Hari ini kita belajar materi baru selama dua puluh lima menit dengan jeda istirahat.",
+      "Kamu memilih semangat! Hari ini kita belajar materi baru dengan jeda istirahat.",
   },
   lumayan: {
     label: "Lumayan",
     emoji: "🌤️",
-    sublabel: "Bisa belajar santai sesuai ritme",
-    level: "Level Normal",
+    ekspresi: "tenang",
+    level: "Level Normal • 15–20 menit",
     durasi: "15–20 menit",
-    mode: "Modul Jembatan + 3–5 Soal Formatif",
     ringkasan:
-      "Fokus mengejar 1 Tujuan Pembelajaran di Pos Dasar (Perkalian B3) dengan tempo tenang.",
+      "Sesi belajar santai 15–20 menit untuk 1 Tujuan Pembelajaran (TP B3) dengan 3–5 soal formatif.",
     teksSuara:
       "Kamu memilih lumayan. Hari ini kita belajar santai lima belas menit di Pos Dasar Perkalian.",
   },
   lemas: {
-    label: "Lemas / Mata Lelah",
+    label: "Lelah / Mata Lelah",
     emoji: "🌧️",
-    sublabel: "Ingin ditemani cerita suara tanpa menatap layar lama",
-    level: "Level Ringan • Mode Audio",
+    ekspresi: "istirahat",
+    level: "Level Ringan • Mode Audio 5–10 menit",
     durasi: "5–10 menit",
-    mode: "Audio Cerita Ulang • 1–2 Soal Santai",
     ringkasan:
-      "Layar meredup ramah mata. Mengulang materi yang sudah dikuasai lewat suara tanpa memengaruhi status TP.",
+      "Mode ramah mata aktif: mengulang materi yang sudah dikuasai lewat cerita suara tanpa memengaruhi status TP.",
     teksSuara:
-      "Tidak apa-apa kalau hari ini lemas atau mata lelah. Kita dengarkan cerita audio singkat lima menit saja ya.",
+      "Tidak apa-apa kalau hari ini lelah. Kita dengarkan cerita suara singkat lima menit saja ya.",
   },
 };
 
 export function KartuCheckinInteraktif() {
-  const [pilihan, setPilihan] = useState<PilihanEnergi>("lumayan");
+  const [pilihan, setPilihan] = useState<PilihanEnergi>("semangat");
   const aktif = dataCheckinPreview[pilihan];
 
   return (
-    <div className="rounded-[1.75rem] border-2 border-[#EDB664]/80 bg-[#FFFBF4] p-6 sm:p-7 shadow-[0_20px_50px_-12px_rgba(127,29,43,0.14)]">
+    <div className="rounded-[24px] bg-[#FCECD7] p-6 sm:p-7 shadow-[0_12px_32px_rgba(74,21,32,0.08)] border border-[#E5B97F]/60">
+      {/* Baris atas: badge kiri + speaker kanan */}
       <div className="flex items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFF4DF] px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#A82535] border border-[#EDB664]/70">
-          <Sparkles className="h-3 w-3 text-[#F4813A]" />
+        <span className="inline-flex items-center rounded-full bg-[#E5AD57] px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#2E0B07]">
           Check-in Harian
         </span>
-        <TombolSpeaker teks={aktif.teksSuara} label="Bacakan" />
+        <TombolSpeaker teks={aktif.teksSuara} label="Suara" />
       </div>
 
-      <h3 className="mt-4 font-serif text-xl sm:text-2xl font-semibold text-[#4A1520]">
-        Bagaimana rasanya hari ini?
-      </h3>
-      <p className="mt-1 text-xs sm:text-sm text-[#6E3B3B]">
-        Pilih kondisi yang paling menggambarkan tenagamu sekarang:
-      </p>
+      {/* Judul + Pijar */}
+      <div className="mt-4 flex items-center justify-between gap-3">
+        <div>
+          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#2E0B07]">
+            Bagaimana tenagamu hari ini?
+          </h3>
+          <p className="mt-1 text-xs text-[#7A4335]">
+            Pilih satu kondisi untuk melihat penyesuaian sesi:
+          </p>
+        </div>
+        <MascotPijar ekspresi={aktif.ekspresi} ukuran={56} />
+      </div>
 
+      {/* 3 Baris Pilihan */}
       <div className="mt-4 space-y-2.5">
         {(["semangat", "lumayan", "lemas"] as PilihanEnergi[]).map((item) => {
           const d = dataCheckinPreview[item];
@@ -98,349 +97,238 @@ export function KartuCheckinInteraktif() {
               key={item}
               type="button"
               onClick={() => setPilihan(item)}
-              className={`w-full min-h-[56px] rounded-2xl px-4 py-3 text-left transition-all cursor-pointer flex items-center justify-between gap-3 ${
+              className={`w-full min-h-[48px] rounded-[12px] px-4 py-2.5 text-left transition-all cursor-pointer flex items-center justify-between ${
                 terpilih
-                  ? "bg-gradient-to-r from-[#FBD9B5] via-[#F8C99A] to-[#EDB664]/90 border-2 border-[#8E1F2E] shadow-sm"
-                  : "bg-[#FFF6E8] border border-[#EDB664]/60 hover:bg-[#FBD9B5]/45"
+                  ? "bg-[#E3AA52] text-[#2E0B07] font-bold shadow-2xs border border-[#C98A32]"
+                  : "bg-[#FDF3E4] text-[#2E0B07] font-semibold border border-[#C87D4B]/70 hover:bg-[#F9E3C4]"
               }`}
             >
-              <div className="flex items-center gap-3">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#FFFBF4] text-lg shadow-xs border border-[#EDB664]/50">
-                  {d.emoji}
-                </span>
-                <div>
-                  <div className="text-sm font-bold text-[#4A1520]">
-                    {d.label}
-                  </div>
-                  <div className="text-xs text-[#6E3B3B]">{d.sublabel}</div>
-                </div>
-              </div>
-              <div
-                className={`h-5 w-5 shrink-0 rounded-full border-2 flex items-center justify-center ${
-                  terpilih
-                    ? "border-[#7F1D2B] bg-[#7F1D2B] text-[#FFFBF4]"
-                    : "border-[#D93A45]/50 bg-[#FFFBF4]"
-                }`}
-              >
-                {terpilih && <span className="h-2 w-2 rounded-full bg-[#EDB664]" />}
-              </div>
+              <span className="flex items-center gap-2.5 text-xs sm:text-sm">
+                <span>{d.emoji}</span>
+                <span>{d.label}</span>
+              </span>
+              <span className="text-[11px] opacity-80">{d.durasi}</span>
             </button>
           );
         })}
       </div>
 
-      {/* Hasil tentukanLevel() */}
-      <div className="mt-4 rounded-2xl border border-[#EDB664] bg-[#FFF4DF] p-4">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#8E1F2E] px-3 py-1 text-xs font-semibold text-[#FFFBF4]">
-            {aktif.level}
-          </span>
-          <span className="text-xs font-semibold text-[#7F1D2B]">
-            ⏱️ {aktif.durasi}
-          </span>
-        </div>
-        <p className="mt-2 text-xs text-[#5C232C] leading-relaxed">
-          {aktif.ringkasan}
-        </p>
-      </div>
-
-      <div className="mt-4 flex items-center justify-between gap-3 pt-1">
+      {/* Tombol Aksi Emas */}
+      <div className="mt-4">
         <Link
-          href="/anak/checkin"
-          className="inline-flex items-center gap-2 rounded-full bg-[#F4813A] px-4 py-2 text-xs font-bold text-[#FFFBF4] shadow-xs hover:bg-[#D93A45] transition-colors"
+          href="/pilih-profil"
+          className="inline-flex items-center gap-2 rounded-[10px] bg-[#E3AA52] px-4 py-2.5 text-xs font-extrabold text-[#2E0B07] hover:bg-[#D89B3E] transition-colors"
         >
-          Coba Sesi Ini
+          <span>Mulai Sesi Ini</span>
           <ArrowRight className="h-3.5 w-3.5" />
         </Link>
-        <span className="text-[11px] text-[#6E3B3B]">
-          Hari istirahat tetap dihitung aktif ✦
-        </span>
       </div>
+
+      {/* Catatan hasil aturan tentukanLevel() */}
+      <p className="mt-3 text-[11px] text-[#7A4335] leading-relaxed">
+        <strong className="text-[#2E0B07]">{aktif.level}:</strong>{" "}
+        {aktif.ringkasan}
+      </p>
     </div>
   );
 }
 
 export function ShowcaseBelajarAnak() {
   const [tabAktif, setTabAktif] = useState<"kartu" | "kuis" | "audio">("kartu");
-  const [kondisiKuat, setKondisiKuat] = useState<
-    "kuat" | "capek" | "istirahat"
-  >("kuat");
-
-  const mapEkspresi: Record<"kuat" | "capek" | "istirahat", EkspresiPijar> = {
-    kuat: "senang",
-    capek: "coba_lagi",
-    istirahat: "lelah",
-  };
 
   return (
     <div>
-      {/* Baris Tab Filter Atas */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
-        <div className="inline-flex flex-wrap items-center gap-1.5 rounded-full bg-[#FFFBF4] p-1.5 border border-[#EDB664]/80 shadow-xs">
+      {/* Baris Tab Teks Kiri & Pill Kanan (Persis Referensi Gambar) */}
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div className="flex items-center gap-5 text-xs sm:text-sm">
           {[
-            { id: "kartu", label: "1. Kartu Belajar B3" },
-            { id: "kuis", label: "2. Kuis & AI Tutor" },
-            { id: "audio", label: "3. Mode Ramah Mata (Audio)" },
-          ].map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              onClick={() => setTabAktif(t.id as "kartu" | "kuis" | "audio")}
-              className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
-                tabAktif === t.id
-                  ? "bg-[#8E1F2E] text-[#FFFBF4] shadow-xs"
-                  : "text-[#6E3B3B] hover:text-[#4A1520]"
-              }`}
-            >
-              {t.label}
-            </button>
-          ))}
+            { id: "kartu", label: "Kartu Belajar" },
+            { id: "kuis", label: "Kuis Formatif" },
+            { id: "audio", label: "Mode Audio" },
+          ].map((t) => {
+            const aktif = tabAktif === t.id;
+            return (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => setTabAktif(t.id as "kartu" | "kuis" | "audio")}
+                className={`cursor-pointer transition-colors pb-1 ${
+                  aktif
+                    ? "font-extrabold text-[#2E0B07] border-b-2 border-[#2E0B07]"
+                    : "font-medium text-[#7A4335] hover:text-[#2E0B07]"
+                }`}
+              >
+                {t.label}
+              </button>
+            );
+          })}
         </div>
 
-        <TombolSpeaker
-          teks="Enam dikali tujuh artinya ada enam keranjang, dan setiap keranjang berisi tujuh buah jeruk emas. Kalau dijumlahkan semuanya menjadi empat puluh dua."
-          label="Dengarkan Materi (id-ID)"
-          ukuran="md"
-        />
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E3AA52] px-3.5 py-1 text-[11px] font-bold text-[#2E0B07]">
+          🔊 Ramah Mata & Suara Aktif
+        </span>
       </div>
 
-      {/* Kartu Utama 3 Panel (Seperti Gambar Referensi) */}
-      <div className="rounded-[2rem] border-2 border-[#EDB664]/80 bg-[#FFFBF4] p-5 sm:p-7 shadow-[0_22px_55px_-16px_rgba(127,29,43,0.13)]">
-        <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[#F2D5B0]">
-          <div className="flex items-center gap-2.5">
-            <span className="h-3 w-3 rounded-full bg-[#F4813A]" />
-            <span className="text-xs sm:text-sm font-bold text-[#4A1520]">
-              Pos Dasar Matematika • TP B3 (Perkalian Bilangan Cacah s.d. 100)
+      {/* Kartu Besar Utama (Latar Krem #FCECD7) */}
+      <div className="rounded-[24px] bg-[#FCECD7] p-5 sm:p-7 border border-[#E5B97F]/60 shadow-[0_12px_32px_rgba(74,21,32,0.06)]">
+        {/* Baris Header Kartu */}
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+          <div className="flex items-center gap-2">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#F4CFA4] text-xs">
+              🍊
+            </span>
+            <span className="text-xs sm:text-sm font-extrabold text-[#2E0B07]">
+              {tabAktif === "kuis"
+                ? "Kuis Formatif • Soal B3-D3"
+                : tabAktif === "audio"
+                ? "Mode Audio Ramah Mata • TP B3"
+                : "Kartu Belajar • Perkalian B3"}
             </span>
           </div>
-          <span className="rounded-full bg-[#FFF4DF] px-3 py-1 text-[11px] font-semibold text-[#8E1F2E] border border-[#EDB664]">
-            🔊 Suara Otomatis Aktif
-          </span>
+
+          <TombolSpeaker
+            teks="Enam keranjang jeruk, masing-masing berisi tujuh buah jeruk. Enam dikali tujuh sama dengan empat puluh dua."
+            label="Dengarkan"
+            className="bg-[#E3AA52] text-[#2E0B07] border-[#C98A32] font-bold"
+          />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-          {/* Panel Kiri: Ilustrasi Cerita Kontekstual */}
-          <div className="lg:col-span-4 flex flex-col justify-between rounded-2xl border border-[#EDB664]/60 bg-[#FFF7EA] p-4">
+        {/* 3 Panel Utama: Kiri (Cerita) - Tengah (Kotak Emas 3 Keranjang) - Kanan (6 x 7 = 42) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          {/* Kiri: Kotak Cerita */}
+          <div className="lg:col-span-4 rounded-[16px] bg-[#F7DEC0] p-4 border border-[#E5B97F]/50 flex flex-col justify-between">
             <div>
-              <IlustrasiKebunCerita />
-              <h4 className="mt-3.5 font-serif text-base font-semibold text-[#4A1520]">
-                Panen di Kebun Jeruk Emas
+              <h4 className="font-serif text-sm sm:text-base font-bold text-[#2E0B07]">
+                Cerita di Kebun Jeruk
               </h4>
-              <p className="mt-1 text-xs text-[#6E3B3B] leading-relaxed">
-                &ldquo;Pijar mengumpulkan jeruk ke dalam{" "}
-                <strong className="text-[#8E1F2E]">6 keranjang</strong>. Setiap
+              <p className="mt-1.5 text-xs text-[#7A4335] leading-relaxed">
+                Pijar membantu memanen jeruk ke dalam{" "}
+                <strong className="text-[#2E0B07]">6 keranjang</strong>. Setiap
                 keranjang diisi{" "}
-                <strong className="text-[#8E1F2E]">7 jeruk</strong> hangat.&rdquo;
+                <strong className="text-[#2E0B07]">7 buah jeruk</strong> manis.
               </p>
             </div>
-            <div className="mt-3 pt-2.5 border-t border-[#EDB664]/40 flex items-center justify-between text-[11px] text-[#7F1D2B]">
-              <span>Bebas kata medis/sensitif</span>
-              <span className="font-semibold">Fase B • Kelas 3–4</span>
+            <div className="mt-3 flex items-center gap-2.5 pt-2 border-t border-[#E5B97F]/40">
+              <MascotPijar ekspresi="penasaran" ukuran={44} />
+              <span className="text-[11px] font-semibold text-[#7A4335]">
+                Bebas konteks medis/rumah sakit
+              </span>
             </div>
           </div>
 
-          {/* Panel Tengah: Visualisasi Kelompok Benda Konkret (6 x 7) */}
-          <div className="lg:col-span-5 flex flex-col justify-between rounded-2xl border-2 border-[#EDB664] bg-gradient-to-b from-[#FFF4DF] to-[#FBD9B5]/45 p-5">
-            <div>
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#A82535]">
-                  {tabAktif === "kuis"
-                    ? "SOAL FORMATIF B3-D3"
-                    : tabAktif === "audio"
-                    ? "MODE AUDIO RAMAH MATA"
-                    : "VISUALISASI KELOMPOK BENDA"}
-                </span>
-                <span className="rounded-full bg-[#FFFBF4] px-2.5 py-0.5 text-xs font-bold text-[#8E1F2E] border border-[#EDB664]">
-                  6 × 7 = 42
-                </span>
-              </div>
+          {/* Tengah: Kotak Emas Menonjol dengan 3 Kotak Putih di Dalamnya (Persis Gambar Referensi) */}
+          <div className="lg:col-span-4 rounded-[18px] bg-[#E3AA52] p-5 text-[#2E0B07] shadow-xs">
+            <div className="text-xs sm:text-sm font-extrabold leading-snug">
+              Enam kelompok berisi tujuh benda konkret
+            </div>
 
-              {/* 6 Kelompok Keranjang x 7 Titik Emas */}
-              <div className="mt-4 grid grid-cols-3 gap-2.5">
-                {[1, 2, 3, 4, 5, 6].map((keranjang) => (
-                  <div
-                    key={keranjang}
-                    className="rounded-xl border border-[#EDB664] bg-[#FFFBF4] p-2.5 text-center shadow-2xs"
-                  >
-                    <div className="flex flex-wrap justify-center gap-1">
-                      {[1, 2, 3, 4, 5, 6, 7].map((buah) => (
+            <div className="mt-4 grid grid-cols-3 gap-2.5">
+              {[
+                { nama: "Kelompok 1", isi: "7 jeruk" },
+                { nama: "Kelompok 2", isi: "7 jeruk" },
+                { nama: "Kelompok 3–6", isi: "@ 7 jeruk" },
+              ].map((k) => (
+                <div key={k.nama} className="text-center">
+                  <div className="aspect-square rounded-[12px] bg-[#FFFDF9] border border-[#C98A32]/40 flex flex-col items-center justify-center p-2 shadow-2xs">
+                    <div className="flex flex-wrap justify-center gap-1 max-w-[42px]">
+                      {[1, 2, 3, 4, 5, 6, 7].map((n) => (
                         <span
-                          key={buah}
-                          className="h-2.5 w-2.5 rounded-full bg-gradient-to-br from-[#EDB664] to-[#F4813A] border border-[#A82535]/30"
+                          key={n}
+                          className="h-2 w-2 rounded-full bg-[#E3AA52]"
                         />
                       ))}
                     </div>
-                    <div className="mt-1.5 text-[10px] font-bold text-[#7F1D2B]">
-                      Kelompok {keranjang} (7)
-                    </div>
+                    <span className="mt-1.5 text-[10px] font-bold text-[#2E0B07]">
+                      {k.isi}
+                    </span>
                   </div>
-                ))}
-              </div>
+                  <div className="mt-1.5 text-[10px] font-bold text-[#2E0B07]">
+                    {k.nama}
+                  </div>
+                </div>
+              ))}
             </div>
 
-            <div className="mt-4 rounded-xl bg-[#FFFBF4]/90 p-3 text-center border border-[#EDB664]/60">
-              <p className="text-xs font-semibold text-[#4A1520]">
-                6 kelompok berisi 7 ={" "}
-                <span className="text-[#D93A45] font-bold">
-                  7 + 7 + 7 + 7 + 7 + 7 = 42
-                </span>
-              </p>
-              <p className="mt-0.5 text-[11px] text-[#6E3B3B]">
-                Bukan 6 + 7 = 13 • Konsep dibangun lewat benda konkret
-              </p>
+            <div className="mt-4 text-center">
+              <div className="text-xs font-extrabold text-[#2E0B07]">
+                7 + 7 + 7 + 7 + 7 + 7 = 42
+              </div>
+              <div className="text-[10px] text-[#2E0B07]/80 mt-0.5">
+                Bukan 6 + 7 = 13 • Konsep penjumlahan berulang
+              </div>
             </div>
           </div>
 
-          {/* Panel Kanan: Maskot Pijar & Cek "Masih kuat?" */}
-          <div className="lg:col-span-3 flex flex-col justify-between rounded-2xl border border-[#EDB664]/80 bg-gradient-to-b from-[#FBD9B5]/60 via-[#FFF4DF] to-[#FFFBF4] p-4 text-center">
-            <div className="flex flex-col items-center">
-              <span className="rounded-full bg-[#FFFBF4] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#8E1F2E] border border-[#EDB664]">
-                Cek Tengah Sesi
-              </span>
-              <div className="my-2">
-                <MascotPijar
-                  ekspresi={mapEkspresi[kondisiKuat]}
-                  ukuran="md"
-                />
-              </div>
-              <h4 className="font-serif text-base font-semibold text-[#4A1520]">
-                Masih kuat lanjut?
-              </h4>
-              <p className="mt-0.5 text-[11px] text-[#6E3B3B]">
-                Klik untuk melihat respons Pijar & sistem:
-              </p>
+          {/* Kanan: Kotak Persamaan Besar 6 x 7 = 42 */}
+          <div className="lg:col-span-4 rounded-[16px] bg-[#F7DEC0] p-5 border border-[#E5B97F]/50 flex flex-col items-center justify-center text-center min-h-[150px]">
+            <div className="font-serif text-2xl sm:text-3xl font-extrabold text-[#2E0B07]">
+              6 × 7 = 42
             </div>
-
-            <div className="mt-3 space-y-1.5 text-left">
-              {[
-                {
-                  id: "kuat",
-                  ikon: "😊",
-                  teks: "Masih kuat",
-                  ket: "Lanjut belajar",
-                },
-                {
-                  id: "capek",
-                  ikon: "😪",
-                  teks: "Agak capek",
-                  ket: "Ceroboh = 0,30",
-                },
-                {
-                  id: "istirahat",
-                  ikon: "🤒",
-                  teks: "Mau istirahat",
-                  ket: "Simpan & berhenti",
-                },
-              ].map((opsi) => (
-                <button
-                  key={opsi.id}
-                  type="button"
-                  onClick={() =>
-                    setKondisiKuat(opsi.id as "kuat" | "capek" | "istirahat")
-                  }
-                  className={`w-full rounded-xl px-3 py-2 text-xs flex items-center justify-between transition-all cursor-pointer ${
-                    kondisiKuat === opsi.id
-                      ? "bg-[#8E1F2E] text-[#FFFBF4] font-semibold shadow-2xs"
-                      : "bg-[#FFFBF4] text-[#4A1520] border border-[#EDB664]/60 hover:bg-[#FBD9B5]/40"
-                  }`}
-                >
-                  <span>
-                    {opsi.ikon} {opsi.teks}
-                  </span>
-                  <span
-                    className={`text-[10px] ${
-                      kondisiKuat === opsi.id
-                        ? "text-[#FBD9B5]"
-                        : "text-[#8E1F2E]"
-                    }`}
-                  >
-                    {opsi.ket}
-                  </span>
-                </button>
-              ))}
+            <p className="mt-1.5 text-xs font-semibold text-[#7A4335]">
+              Enam keranjang dikali tujuh jeruk
+            </p>
+            <div className="mt-3">
+              <MascotPijar ekspresi="senang" ukuran={54} />
             </div>
           </div>
         </div>
       </div>
 
-      {/* 2 Kartu Bawah: Kiri Gelap (AI Tutor Miskonsepsi) & Kanan Terang (Teman Cerita) */}
-      <div className="mt-5 grid grid-cols-1 md:grid-cols-12 gap-5">
-        {/* Kiri: Kartu Kontras Marun-Keemasan AI Tutor */}
-        <div
-          className="md:col-span-6 rounded-[1.75rem] p-6 text-[#FFFBF4] shadow-[0_18px_40px_-12px_rgba(127,29,43,0.3)] border border-[#EDB664]/40 flex flex-col justify-between"
-          style={{
-            background:
-              "linear-gradient(135deg, #7F1D2B 0%, #8E1F2E 55%, #A82535 100%)",
-          }}
-        >
+      {/* 2 Kartu Krem Sejajar di Bawah (Persis Gambar Referensi) */}
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Kartu Kiri: AI Tutor */}
+        <div className="rounded-[20px] bg-[#FCECD7] p-5 border border-[#E5B97F]/60 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EDB664]/20 px-3 py-1 text-[11px] font-semibold text-[#FBD9B5] border border-[#EDB664]/40">
-                <Sparkles className="h-3.5 w-3.5 text-[#EDB664]" />
-                AI Tutor Berbasis Miskonsepsi
+              <span className="text-xs font-bold text-[#7A4335]">
+                Respons AI Tutor (Saat memilih 13)
               </span>
-              <span className="text-[11px] text-[#FBD9B5]/80">
-                Saat Raka menjawab 13 pada 6 × 7
-              </span>
+              <Volume2 className="h-4 w-4 text-[#BF4338]" />
             </div>
-            <p className="mt-4 font-serif text-base sm:text-lg text-[#FFFBF4] leading-relaxed">
-              &ldquo;Yuk, coba lihat lagi! Sepertinya kamu{" "}
-              <span className="text-[#EDB664] underline decoration-[#EDB664]/60 underline-offset-4">
-                menjumlahkan 6 dan 7
-              </span>{" "}
-              jadi 13. Kalau 6 × 7 artinya ada 6 kelompok yang masing-masing
-              isinya 7. Coba kita hitung pelan-pelan ya!&rdquo;
-            </p>
+            <div className="mt-3 flex items-start gap-3">
+              <MascotPijar ekspresi="empati" ukuran={52} />
+              <p className="text-xs sm:text-sm font-semibold text-[#2E0B07] leading-relaxed">
+                &ldquo;Yuk, coba lihat lagi! Sepertinya kamu menjumlahkan 6 dan
+                7 jadi 13. Kalau 6 × 7 artinya ada 6 kelompok yang masing-masing
+                isinya 7.&rdquo;
+              </p>
+            </div>
           </div>
-
-          <div className="mt-5 pt-4 border-t border-[#FBD9B5]/20 flex flex-wrap items-center justify-between gap-3">
-            <TombolSpeaker
-              teks="Yuk, coba lihat lagi! Sepertinya kamu menjumlahkan enam dan tujuh jadi tiga belas. Kalau enam dikali tujuh artinya ada enam kelompok yang masing-masing isinya tujuh."
-              label="Putar Suara Tutor"
-            />
-            <span className="text-xs text-[#FBD9B5]">
-              ✓ Maks. 3 kalimat ramah • Tanpa tanda ❌
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <span className="rounded-full border border-[#E5B97F] bg-[#FDF3E4] px-3 py-1 text-[10px] font-bold text-[#7A4335]">
+              ✓ Tanpa kata &ldquo;Salah&rdquo;
+            </span>
+            <span className="rounded-full border border-[#E5B97F] bg-[#FDF3E4] px-3 py-1 text-[10px] font-bold text-[#7A4335]">
+              Berdasarkan miskonsepsi pilihan
             </span>
           </div>
         </div>
 
-        {/* Kanan: Kartu Cerah Keemasan Teman Cerita */}
-        <div className="md:col-span-6 rounded-[1.75rem] border-2 border-[#EDB664]/80 bg-[#FFFBF4] p-6 shadow-sm flex flex-col justify-between">
+        {/* Kartu Kanan: Cek Masih Kuat & Teman Cerita */}
+        <div className="rounded-[20px] bg-[#FCECD7] p-5 border border-[#E5B97F]/60 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFF4DF] px-3 py-1 text-[11px] font-bold text-[#8E1F2E] border border-[#EDB664]">
-                <HeartHandshake className="h-3.5 w-3.5 text-[#F4813A]" />
-                Teman Cerita • Triase Non-Kognitif
+              <span className="font-serif text-sm sm:text-base font-bold text-[#2E0B07]">
+                Cek &ldquo;Masih kuat?&rdquo;
               </span>
-              <span className="rounded-full bg-[#FBD9B5]/60 px-2.5 py-0.5 text-[11px] font-semibold text-[#7F1D2B]">
-                Transkrip Tidak Disimpan
-              </span>
+              <Link
+                href="/anak/teman-cerita"
+                className="rounded-[10px] bg-[#E3AA52] px-3.5 py-1.5 text-[11px] font-extrabold text-[#2E0B07] hover:bg-[#D89B3E] transition-colors"
+              >
+                Mau Istirahat
+              </Link>
             </div>
-            <h4 className="mt-3.5 font-serif text-lg font-semibold text-[#4A1520]">
-              Menyaring suasana hati, menghubungkan ke manusia yang tepat.
-            </h4>
-            <p className="mt-1.5 text-xs sm:text-sm text-[#6E3B3B] leading-relaxed">
-              Lewat pilihan chip cuaca hati, sumber perasaan, dan kebutuhan,
-              sistem mendeteksi sinyal krisis dengan aturan tetap sebelum LLM
-              dan merujuk dukungan atas persetujuan orang tua.
-            </p>
+            <div className="mt-3 flex items-start gap-3">
+              <MascotPijar ekspresi="peduli" ukuran={52} />
+              <p className="text-xs sm:text-sm text-[#7A4335] leading-relaxed">
+                Muncul otomatis di tengah sesi atau setelah 3 jawaban keliru.
+                Anak boleh memilih <strong className="text-[#2E0B07]">Agak capek</strong>{" "}
+                atau berhenti istirahat kapan saja tanpa dihitung gagal.
+              </p>
+            </div>
           </div>
-
-          <div className="mt-4 pt-3 border-t border-[#F2D5B0] flex flex-wrap items-center justify-between gap-2">
-            <div className="flex flex-wrap gap-1.5">
-              <span className="rounded-full bg-[#FFF4DF] px-2.5 py-1 text-[11px] font-medium text-[#7F1D2B] border border-[#EDB664]/60">
-                🌧️ Cuaca Hati
-              </span>
-              <span className="rounded-full bg-[#FFF4DF] px-2.5 py-1 text-[11px] font-medium text-[#7F1D2B] border border-[#EDB664]/60">
-                🤝 Rujukan Berjenjang (Level 1–3)
-              </span>
-            </div>
-            <Link
-              href="/anak/teman-cerita"
-              className="text-xs font-bold text-[#A82535] hover:text-[#7F1D2B] inline-flex items-center gap-1"
-            >
-              Lihat Alur <ArrowRight className="h-3 w-3" />
-            </Link>
+          <div className="mt-4 text-[11px] font-semibold text-[#7A4335]">
+            ✦ Keputusan jeda menggunakan aturan tetap, bukan keputusan LLM
           </div>
         </div>
       </div>
@@ -450,61 +338,66 @@ export function ShowcaseBelajarAnak() {
 
 const daftarFaq = [
   {
-    tanya: "Bagaimana cara PELITA menyesuaikan belajar dengan kondisi kesehatan harian anak?",
+    tanya: "Kapan anak sebaiknya mulai menggunakan PELITA?",
     jawab:
-      "Setiap hari sebelum belajar, anak mengisi check-in singkat berisi energi (lemas, lumayan, semangat), cuaca hati, dan keluhan fisik seperti mata lelah atau pusing. Fungsi aturan tetap tentukanLevel() secara otomatis mengatur durasi dan format—misalnya mengubah sesi menjadi mode audio 5 menit saat mata anak lelah, atau memberikan hari istirahat penuh tanpa memutus keaktifan mingguan.",
+      "PELITA dapat digunakan sejak anak menjalani perawatan di rumah sakit maupun saat pemulihan di rumah. Setiap hari sesi dimulai dengan check-in kondisi fisik dan suasana hati sehingga beban belajar selalu menyesuaikan tenaga anak hari itu.",
   },
   {
-    tanya: "Apakah aplikasi ini menyimpan diagnosis medis atau data obat anak?",
+    tanya: "Apakah PELITA menggantikan sekolah asal?",
     jawab:
-      "Tidak. Sesuai prinsip minimisasi data dan pelindungan data pribadi anak (UU PDP), PELITA sama sekali tidak menyimpan diagnosis penyakit, nama rumah sakit, maupun jadwal obat. Sistem hanya menyimpan fase pendampingan umum (intensif, pemeliharaan, atau pemulihan) dan batas waktu layar yang diatur orang tua.",
+      "Tidak. PELITA bukan pengganti sekolah dan tidak menerbitkan rapor resmi. PELITA menghasilkan laporan capaian belajar yang dipetakan ke CP dan TP Kurikulum Merdeka sebagai bukti asesmen bagi wali kelas di sekolah asal.",
   },
   {
-    tanya: "Bagaimana jika AI salah menempatkan titik mulai belajar atau salah membuat soal?",
+    tanya: "Sejauh apa peran AI di dalam aplikasi ini?",
     jawab:
-      "Asesmen penempatan menggunakan model probabilistik Bayesian Knowledge Tracing (BKT) di atas graf prasyarat yang telah diuji pada 10.000 simulasi siswa virtual (akurasi status TP 95,4% dengan rata-rata 18 soal), serta dapat divalidasi oleh guru pendamping. Selain itu, soal variasi buatan AI tidak pernah langsung tampil ke anak: kunci hitungan dicek ulang secara terprogram dan wajib disetujui manusia di antrean tinjauan hingga berstatus terbit.",
+      "Kami memisahkan AI pengambil keputusan (Bayesian Knowledge Tracing & graf prasyarat) dari AI generatif (LLM). LLM hanya menyusun penjelasan tutor ramah anak dan draf laporan, serta tidak pernah mengambil keputusan keselamatan atau menghentikan sesi.",
   },
   {
-    tanya: "Siapa saja yang bisa melihat data progres dan hasil skrining emosional anak?",
+    tanya: "Bagaimana privasi data medis dan cerita anak dijaga?",
     jawab:
-      "Anak bukan akun mandiri, melainkan profil di bawah kendali orang tua/wali yang dilindungi PIN Pendamping. Orang tua memegang hak penuh atas persetujuan rujukan di menu Keputusan Menunggu. Guru pendamping hanya melihat progres akademik anak binaannya. Untuk fitur Teman Cerita, transkrip obrolan tidak disimpan di database—orang tua hanya menerima ringkasan kategori kebutuhan dukungan.",
+      "Sesuai prinsip minimisasi data UU PDP, PELITA tidak menyimpan diagnosis penyakit, nama obat, maupun transkrip obrolan Teman Cerita. Anak masuk melalui profil di bawah akun pendamping yang dilindungi PIN Pendamping.",
   },
   {
-    tanya: "Apakah laporan dari PELITA menggantikan rapor resmi dari sekolah asal?",
+    tanya: "Apa peran Orang Tua dan Guru Pendamping?",
     jawab:
-      "Tidak. Penerbitan rapor dan penentuan kenaikan kelas tetap menjadi kewenangan sekolah asal. PELITA menghasilkan laporan capaian belajar per Tujuan Pembelajaran (TP) yang dipetakan ke Capaian Pembelajaran Kurikulum Merdeka (BSKAP No. 046/H/KR/2025) sehingga dapat langsung digunakan wali kelas sebagai bukti asesmen selama anak menjalani pengobatan.",
+      "Orang tua memegang kendali penuh atas pengaturan profil, batas layar, dan persetujuan rujukan di menu Keputusan Menunggu. Guru pendamping dapat memantau progres TP anak binaannya dan mengusulkan penyesuaian jalur belajar.",
   },
 ];
 
 export function AccordionFaq() {
-  const [terbuka, setTerbuka] = useState<number | null>(0);
+  // Sesuai gambar referensi: 3 pertanyaan pertama terbuka secara default, 2 di bawahnya tertutup
+  const [terbukaSet, setTerbukaSet] = useState<number[]>([0, 1, 2]);
+
+  const toggleItem = (idx: number) => {
+    setTerbukaSet((prev) =>
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx],
+    );
+  };
 
   return (
-    <div className="divide-y divide-[#EDB664]/60 rounded-[1.75rem] border-2 border-[#EDB664]/70 bg-[#FFFBF4] px-6 py-2 shadow-xs">
+    <div className="divide-y divide-[#E2B77E]">
       {daftarFaq.map((item, idx) => {
-        const aktif = terbuka === idx;
+        const aktif = terbukaSet.includes(idx);
         return (
-          <div key={idx} className="py-4">
+          <div key={idx} className="py-4 first:pt-0">
             <button
               type="button"
-              onClick={() => setTerbuka(aktif ? null : idx)}
+              onClick={() => toggleItem(idx)}
               className="flex w-full items-center justify-between gap-4 text-left cursor-pointer group"
             >
-              <span className="font-serif text-base sm:text-lg font-semibold text-[#4A1520] group-hover:text-[#A82535] transition-colors">
+              <span className="font-serif text-sm sm:text-base font-bold text-[#2E0B07] group-hover:text-[#BF4338] transition-colors">
                 {item.tanya}
               </span>
-              <span
-                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#EDB664] transition-transform ${
-                  aktif
-                    ? "rotate-180 bg-[#8E1F2E] text-[#FFFBF4]"
-                    : "bg-[#FFF4DF] text-[#7F1D2B]"
-                }`}
-              >
-                <ChevronDown className="h-4 w-4" />
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center text-[#BF4338]">
+                {aktif ? (
+                  <Minus className="h-4 w-4" />
+                ) : (
+                  <Plus className="h-4 w-4" />
+                )}
               </span>
             </button>
             {aktif && (
-              <p className="mt-3 pr-8 text-sm text-[#6E3B3B] leading-relaxed">
+              <p className="mt-2 pr-8 text-xs sm:text-sm text-[#7A4335] leading-relaxed">
                 {item.jawab}
               </p>
             )}
@@ -514,4 +407,3 @@ export function AccordionFaq() {
     </div>
   );
 }
-
