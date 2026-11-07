@@ -35,21 +35,36 @@ function gayaLabelSamping(labelDi: "kiri" | "kanan"): CSSProperties {
   };
 }
 
-// Judul materi bisa panjang ("Penjumlahan dan pengurangan sampai 1.000"): dibatasi lebarnya lalu
-// dilipat, rata ke sisi pos. Ditulis sebagai style langsung dengan alasan yang sama seperti di atas.
+// Judul materi ditulis satu baris (lebar max-content). Hanya jika lebih panjang dari ruang di samping pos
+// (maksLebar), judul dilipat dan rata ke sisi pos. Lipatan "pretty" (baris pertama penuh), jadi kotak latarnya
+// tetap pas dengan tulisan. Ditulis sebagai style langsung dengan alasan yang sama seperti di atas.
 // Latar krem tipis di belakang judul supaya tetap terbaca di atas ilustrasi peta (bagian bawahnya gelap).
-function gayaJudul(labelDi: LabelDi): CSSProperties {
+const MAKS_LEBAR_JUDUL = 420; // px, batas atas walau ruangnya lebih lebar
+
+function gayaJudul(labelDi: LabelDi, maksLebar?: number): CSSProperties {
   return {
-    maxWidth: 230,
-    textWrap: "balance",
+    width: "max-content",
+    maxWidth: Math.min(maksLebar ?? MAKS_LEBAR_JUDUL, MAKS_LEBAR_JUDUL),
+    textWrap: "pretty",
     textAlign: labelDi === "kiri" ? "right" : labelDi === "kanan" ? "left" : "center",
     background: "rgb(255 244 228 / 0.88)",
-    borderRadius: 10,
-    padding: "2px 8px",
+    borderRadius: 12,
+    padding: "4px 12px",
   };
 }
 
-export function SimpulTercapai({ judul, chip = "Tercapai", labelDi = "bawah" }: { judul: string; chip?: string; labelDi?: LabelDi }) {
+// maksLebar: ruang untuk judul di samping pos (px panggung); tanpa nilai = MAKS_LEBAR_JUDUL.
+export function SimpulTercapai({
+  judul,
+  chip = "Tercapai",
+  labelDi = "bawah",
+  maksLebar,
+}: {
+  judul: string;
+  chip?: string;
+  labelDi?: LabelDi;
+  maksLebar?: number;
+}) {
   return (
     <BingkaiSimpul
       labelDi={labelDi}
@@ -60,7 +75,7 @@ export function SimpulTercapai({ judul, chip = "Tercapai", labelDi = "bawah" }: 
       }
       label={
         <>
-          <p className="font-heading text-[15px] leading-snug font-extrabold text-teks" style={gayaJudul(labelDi)}>
+          <p className="font-heading text-[15px] leading-snug font-extrabold text-teks" style={gayaJudul(labelDi, maksLebar)}>
             {judul}
           </p>
           <span className="mt-2 rounded-full bg-emas/35 px-3 py-1 text-[13px] font-bold text-teks">{chip}</span>
@@ -130,7 +145,19 @@ export function SimpulSekarang({ judul, keterangan, href }: { judul: string; ket
 }
 
 // Pos terkunci (gembok) atau "segera hadir" (jam pasir, materinya belum punya soal). Bentuknya sama, hanya ikonnya beda.
-export function SimpulTerkunci({ judul, chip, labelDi = "bawah", segera = false }: { judul: string; chip: string; labelDi?: LabelDi; segera?: boolean }) {
+export function SimpulTerkunci({
+  judul,
+  chip,
+  labelDi = "bawah",
+  segera = false,
+  maksLebar,
+}: {
+  judul: string;
+  chip: string;
+  labelDi?: LabelDi;
+  segera?: boolean;
+  maksLebar?: number;
+}) {
   const Ikon = segera ? Hourglass : Lock;
   return (
     <BingkaiSimpul
@@ -147,7 +174,7 @@ export function SimpulTerkunci({ judul, chip, labelDi = "bawah", segera = false 
       }
       label={
         <>
-          <p className="font-heading text-[15px] leading-snug font-bold text-teks-2" style={gayaJudul(labelDi)}>
+          <p className="font-heading text-[15px] leading-snug font-bold text-teks-2" style={gayaJudul(labelDi, maksLebar)}>
             {judul}
           </p>
           <span className="mt-2 rounded-full bg-pasir px-3 py-1 text-[13px] font-semibold text-teks-2">{chip}</span>

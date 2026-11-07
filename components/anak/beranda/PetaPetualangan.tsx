@@ -15,7 +15,7 @@
 import { Fragment, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Footprints, Hourglass, Lock, MapPin } from "lucide-react";
+import { Footprints, MapPin } from "lucide-react";
 import { MascotPijar, type EkspresiPijar } from "@/components/anak/MascotPijar";
 import { KemajuanPos, LingkaranSekarang, SimpulSekarang, SimpulTercapai, SimpulTerkunci } from "./SimpulPeta";
 import type { DataBeranda, PosBeranda } from "./jenis";
@@ -166,24 +166,24 @@ function TombolMulai({ href, label, className }: { href?: string; label: string;
   );
 }
 
-function Legenda() {
-  return (
-    <div className="flex min-h-10 flex-wrap items-center gap-x-4 gap-y-1 rounded-full border border-garis bg-white px-4 text-xs font-semibold text-teks">
-      <span className="flex items-center gap-1.5"><span className="size-2 rounded-full bg-emas" />Tercapai</span>
-      <span className="flex items-center gap-1.5"><span className="size-2 rounded-full bg-bata" />Kamu di sini</span>
-      <span className="flex items-center gap-1.5"><Lock className="size-3.5" aria-hidden />Berikutnya</span>
-      <span className="flex items-center gap-1.5"><Hourglass className="size-3.5" aria-hidden />Segera hadir</span>
-    </div>
+// Pos yang bukan pos aktif: tuntas bercentang, materi tanpa soal berjam pasir ("Segera hadir"), lainnya bergembok.
+function SimpulPos({ pos, labelDi, maksLebar }: { pos: PosBeranda; labelDi?: "kiri" | "kanan"; maksLebar?: number }) {
+  return pos.tercapai ? (
+    <SimpulTercapai judul={pos.judul} chip={pos.chip} labelDi={labelDi} maksLebar={maksLebar} />
+  ) : (
+    <SimpulTerkunci judul={pos.judul} chip={pos.chip} labelDi={labelDi} segera={pos.segera} maksLebar={maksLebar} />
   );
 }
 
-// Pos yang bukan pos aktif: tuntas bercentang, materi tanpa soal berjam pasir ("Segera hadir"), lainnya bergembok.
-function SimpulPos({ pos, labelDi }: { pos: PosBeranda; labelDi?: "kiri" | "kanan" }) {
-  return pos.tercapai ? (
-    <SimpulTercapai judul={pos.judul} chip={pos.chip} labelDi={labelDi} />
-  ) : (
-    <SimpulTerkunci judul={pos.judul} chip={pos.chip} labelDi={labelDi} segera={pos.segera} />
-  );
+// Ekspresi Pijar saat muncul/menghilang di pos: hanya yang ceria (tanpa "empati" yang menangis dan "istirahat"
+// yang mengantuk). Dipilih dari id pos, jadi berganti-ganti antar pos tetapi tetap sama di setiap render
+// (tanpa Math.random, supaya tidak berubah saat komponen digambar ulang).
+const EKSPRESI_CERIA: EkspresiPijar[] = ["sambut", "senang", "semangat", "tekad", "terkejut", "penasaran", "mengintip", "peduli", "tenang"];
+
+function ekspresiUntuk(kunci: string): EkspresiPijar {
+  let h = 0;
+  for (const c of kunci) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return EKSPRESI_CERIA[h % EKSPRESI_CERIA.length];
 }
 
 /* ---------- Tablet & desktop ---------- */
@@ -192,29 +192,32 @@ function SimpulPos({ pos, labelDi }: { pos: PosBeranda; labelDi?: "kiri" | "kana
 const SKALA_MAKS = 1.5;
 // Demi muat satu layar, panggung boleh mengecil sampai 0,8x. Layar yang lebih pendek lagi digulir.
 const SKALA_MIN_TINGGI = 0.8;
-// Ruang di bawah legenda (px).
+// Ruang di bawah pos terakhir (px).
 const RUANG_BAWAH = 16;
+// Ruang di atas peta untuk lapisan judul + lencana + tombol menu ☰ dari AlurBeranda (px nyata, tidak diskalakan).
+// Ponsel lebih kecil karena kotak judulnya lebih kecil.
+const RUANG_ATAS = 124;
+const RUANG_ATAS_PONSEL = 96;
 
 // Semua pos berada di satu jalur ular dengan jarak tegak yang sama. Pos ke-k selalu di slot k.
 // Tiga slot pertama mengikuti desain; sesudahnya jalur berkelok ke seluruh lebar peta mengikuti POLA_SLOT
-// yang diulang, dan sisi yang tidak dilewati jalur diisi Pijar hiasan supaya tidak ada ruang kosong.
+// yang diulang. Pijar hanya tampil di pos aktif ("Kamu di sini").
 // label: sisi tulisan pos, dipilih yang jauh dari tepi peta dan tidak tertimpa garis.
-type Slot = { x: number; label: "kiri" | "kanan"; pijar?: { x: number; ekspresi: EkspresiPijar } };
+type Slot = { x: number; label: "kiri" | "kanan" };
 const SLOT_AWAL: Slot[] = [
   { x: 355, label: "kiri" },
   { x: 560, label: "kanan" },
   { x: 355, label: "kiri" },
 ];
 const POLA_SLOT: Slot[] = [
-  { x: 760, label: "kiri", pijar: { x: 180, ekspresi: "penasaran" } },
-  { x: 120, label: "kanan", pijar: { x: 690, ekspresi: "semangat" } },
-  { x: 700, label: "kiri", pijar: { x: 200, ekspresi: "senang" } },
-  { x: 170, label: "kanan", pijar: { x: 680, ekspresi: "peduli" } },
-  { x: 480, label: "kanan", pijar: { x: 170, ekspresi: "tenang" } },
+  { x: 760, label: "kiri" },
+  { x: 120, label: "kanan" },
+  { x: 700, label: "kiri" },
+  { x: 170, label: "kanan" },
+  { x: 480, label: "kanan" },
 ];
 const JARAK_POS = 220;
 const Y_SLOT_AWAL = 146;
-const UKURAN_PIJAR_HIASAN = 120;
 const UKURAN_PIJAR = 140;
 const UKURAN_PIJAR_LAMA = 116;
 const LEBAR_INFO = 244; // kartu "Kamu di sini"
@@ -227,6 +230,13 @@ function slotKe(k: number): Slot {
 }
 function letakSlot(k: number) {
   return { x: slotKe(k).x, y: Y_SLOT_AWAL + k * JARAK_POS };
+}
+
+// Ruang untuk judul pos di sisi labelnya: dari pusat pos ke tepi panggung, ditambah ruang kosong di luar panggung
+// pada layar lebar (lebihSisi), dikurangi jari-jari lingkaran (36), celah ke label (12), dan jarak aman dari tepi (16).
+function maksLebarLabel(k: number, lebihSisi: number) {
+  const { x, label } = slotKe(k);
+  return (label === "kiri" ? x : LEBAR - x) + lebihSisi - 64;
 }
 
 // Letak Pijar (pusat) di samping pos k pada sisi `sisi`; jika tidak muat di panggung, di atas pos.
@@ -271,7 +281,8 @@ function PanggungPeta({ namaAnak, pos, indeksSekarang: k, sekarang, fase, dari }
   const wadah = useRef<HTMLDivElement>(null);
   const refAktif = useRef<HTMLDivElement>(null);
   // ruang = tinggi layar pertama (bagian panggung setinggi desain), sebelum pos tambahan di bawahnya.
-  const [ukuran, setUkuran] = useState({ skala: 1, ruang: TINGGI, siap: false });
+  // lebar = lebar wadah (px nyata), untuk menghitung ruang kosong di kiri-kanan panggung.
+  const [ukuran, setUkuran] = useState({ skala: 1, ruang: TINGGI, lebar: LEBAR, siap: false });
 
   useLayoutEffect(() => {
     const el = wadah.current;
@@ -283,11 +294,11 @@ function PanggungPeta({ namaAnak, pos, indeksSekarang: k, sekarang, fase, dari }
       const sisaTinggi = window.innerHeight - atas - RUANG_BAWAH;
 
       const skalaLebar = el.clientWidth / LEBAR;
-      const skalaTinggi = sisaTinggi / TINGGI;
+      const skalaTinggi = (sisaTinggi - RUANG_ATAS) / TINGGI;
       // Bagian setinggi desain mengisi penuh sisa layar; kalau layar terlalu pendek, berhenti di
       // SKALA_MIN_TINGGI dan halaman digulir. Pos sesudahnya selalu menyambung ke bawah (digulir).
       const skala = Math.min(skalaLebar, SKALA_MAKS, Math.max(skalaTinggi, SKALA_MIN_TINGGI));
-      setUkuran({ skala, ruang: Math.max(sisaTinggi, TINGGI * skala), siap: true });
+      setUkuran({ skala, ruang: Math.max(sisaTinggi, RUANG_ATAS + TINGGI * skala), lebar: el.clientWidth, siap: true });
     };
     ukur();
     const ro = new ResizeObserver(ukur);
@@ -302,10 +313,12 @@ function PanggungPeta({ namaAnak, pos, indeksSekarang: k, sekarang, fase, dari }
   useGulirKePosAktif(refAktif, ukuran.siap);
 
   const { skala, ruang } = ukuran;
+  // Ruang di luar panggung, dalam px panggung. Di ponsel panggung tersembunyi (lebar 0, skala 0), jadi 0.
+  const lebihSisi = skala > 0 ? Math.max(0, (ukuran.lebar / skala - LEBAR) / 2) : 0;
   const tinggiPanggung = Math.max(TINGGI, Y_SLOT_AWAL + (pos.length - 1) * JARAK_POS + 200);
   const tinggi = ruang + (tinggiPanggung - TINGGI) * skala + RUANG_BAWAH;
   // Bagian setinggi desain diletakkan di tengah (tegak) bila layar pertama lebih tinggi darinya.
-  const atasPanggung = Math.max(0, (ruang - TINGGI * skala) / 2);
+  const atasPanggung = RUANG_ATAS + Math.max(0, (ruang - RUANG_ATAS - TINGGI * skala) / 2);
 
   // Kartu "Kamu di sini" di sisi pos aktif yang cukup lebar; Pijar di sisi seberangnya.
   const posAktif = letakSlot(k);
@@ -314,7 +327,6 @@ function PanggungPeta({ namaAnak, pos, indeksSekarang: k, sekarang, fase, dari }
   const tampilGelembung = !pijarBaru.diAtas && infoKanan && pijarBaru.x - UKURAN_PIJAR / 2 - 264 >= 0;
   const pijarLama = dari === null ? null : letakPijar(dari, slotKe(dari).label === "kiri" ? "kanan" : "kiri", UKURAN_PIJAR_LAMA);
   const ruas = ruasJejak(dari, k);
-  const tanpaHiasan = new Set([k, k - 1, ...(dari === null ? [] : [dari])]);
 
   return (
     <div ref={wadah} className="relative hidden overflow-hidden md:block" style={{ ...LATAR_PETA, height: tinggi }}>
@@ -335,17 +347,6 @@ function PanggungPeta({ namaAnak, pos, indeksSekarang: k, sekarang, fase, dari }
           }),
         )}
 
-        {/* Pijar hiasan di sisi baris yang tidak dilewati jalur (hanya pemanis) */}
-        {pos.map((p, i) => {
-          const { pijar } = slotKe(i);
-          if (!pijar || tanpaHiasan.has(i)) return null;
-          return (
-            <div key={p.id} aria-hidden className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: pijar.x, top: letakSlot(i).y }}>
-              <MascotPijar ekspresi={pijar.ekspresi} gerak="idle" ukuran={UKURAN_PIJAR_HIASAN} />
-            </div>
-          );
-        })}
-
         {/* Semua pos di tempatnya: tuntas bercentang, aktif bertombol play, lainnya bergembok */}
         {pos.map((p, i) => (
           <TitikPos key={p.id} k={i}>
@@ -354,17 +355,17 @@ function PanggungPeta({ namaAnak, pos, indeksSekarang: k, sekarang, fase, dari }
                 <LingkaranSekarang judul={sekarang.judul} href={sekarang.href} />
               </div>
             ) : (
-              <SimpulPos pos={p} labelDi={slotKe(i).label} />
+              <SimpulPos pos={p} labelDi={slotKe(i).label} maksLebar={maksLebarLabel(i, lebihSisi)} />
             )}
           </TitikPos>
         ))}
 
         {/* Pijar: di pos lama saat animasi dimulai, lalu di pos aktif */}
         <AnimatePresence>
-          {fase === "awal" && pijarLama && (
-            <PijarPop key="lama" x={pijarLama.x} y={pijarLama.y} ukuran={UKURAN_PIJAR_LAMA} ekspresi="senang" />
+          {fase === "awal" && pijarLama && dari !== null && (
+            <PijarPop key="lama" x={pijarLama.x} y={pijarLama.y} ukuran={UKURAN_PIJAR_LAMA} ekspresi={ekspresiUntuk(`${pos[dari].id}:pergi`)} />
           )}
-          {fase === "diam" && <PijarPop key="baru" x={pijarBaru.x} y={pijarBaru.y} ukuran={UKURAN_PIJAR} ekspresi="sambut" />}
+          {fase === "diam" && <PijarPop key="baru" x={pijarBaru.x} y={pijarBaru.y} ukuran={UKURAN_PIJAR} ekspresi={ekspresiUntuk(pos[k].id)} />}
         </AnimatePresence>
         <AnimatePresence>
           {fase === "diam" && tampilGelembung && (
@@ -395,10 +396,6 @@ function PanggungPeta({ namaAnak, pos, indeksSekarang: k, sekarang, fase, dari }
           <TombolMulai href={sekarang.href} label={sekarang.labelTombol} className="mt-3 w-full" />
           <p className="mt-2 text-xs text-teks-2">{sekarang.pesan}</p>
         </div>
-      </div>
-
-      <div className="absolute inset-x-5 bottom-2">
-        <Legenda />
       </div>
     </div>
   );
@@ -433,7 +430,7 @@ function JalurPonsel({ namaAnak, pos, indeksSekarang: k, sekarang, fase, dari }:
   const ruas = ruasJejak(dari, k);
 
   return (
-    <div className="flex flex-col gap-6 px-4 py-6 md:hidden" style={LATAR_PETA}>
+    <div className="flex flex-col gap-6 px-4 pb-6 md:hidden" style={{ ...LATAR_PETA, paddingTop: RUANG_ATAS_PONSEL + 24 }}>
       {/* garis titik tegak di belakang pos */}
       <div className="relative isolate flex flex-col items-center gap-8 py-2">
         <span className="absolute top-8 bottom-16 left-1/2 -z-10 w-[18px] -translate-x-1/2 rounded-full bg-pasir" aria-hidden />
@@ -467,7 +464,7 @@ function JalurPonsel({ namaAnak, pos, indeksSekarang: k, sekarang, fase, dari }:
                   <SimpulSekarang judul={sekarang.judul} keterangan={sekarang.keterangan} href={sekarang.href} />
                   {sekarang.kemajuan && sekarang.kemajuan.total > 1 && <KemajuanPos {...sekarang.kemajuan} tengah />}
                   <AnimatePresence>
-                    {fase === "diam" && <PijarPop key="baru" x="calc(50% - 112px)" y={52} ukuran={96} ekspresi="sambut" />}
+                    {fase === "diam" && <PijarPop key="baru" x="calc(50% - 112px)" y={52} ukuran={96} ekspresi={ekspresiUntuk(p.id)} />}
                   </AnimatePresence>
                 </div>
                 <TombolMulai href={sekarang.href} label={sekarang.labelTombol} className="mt-4 w-full" />
@@ -477,15 +474,13 @@ function JalurPonsel({ namaAnak, pos, indeksSekarang: k, sekarang, fase, dari }:
               <div className="relative w-full">
                 <SimpulPos pos={p} />
                 <AnimatePresence>
-                  {fase === "awal" && i === dari && <PijarPop key="lama" x="calc(50% - 96px)" y={36} ukuran={84} ekspresi="senang" />}
+                  {fase === "awal" && i === dari && <PijarPop key="lama" x="calc(50% - 96px)" y={36} ukuran={84} ekspresi={ekspresiUntuk(`${p.id}:pergi`)} />}
                 </AnimatePresence>
               </div>
             )}
           </Fragment>
         ))}
       </div>
-
-      <Legenda />
     </div>
   );
 }
