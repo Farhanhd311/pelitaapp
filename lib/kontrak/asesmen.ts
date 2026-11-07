@@ -60,6 +60,10 @@ export const ResponsAsesmen = z.object({
   status: StatusAsesmen,
   soal: SoalTampil.nullable(), // null jika status bukan "lanjut"
   jumlah_soal_dijawab: z.number().int(), // total sepanjang asesmen mapel ini
+  // Garis progres di atas soal (terisi dari kiri ke kanan): soal ke-berapa di SESI ini dari batas soal per sesi.
+  // Bukan jumlah soal asesmen (asesmen adaptif, jumlahnya tidak tetap).
+  nomor_soal: z.number().int(),
+  jumlah_soal: z.number().int(),
   peta: z.array(KotakPetaTp), // semua TP mapel ini, untuk mewarnai peta
   titik_mulai: z.string().nullable(), // tp_kode, terisi saat status "selesai"
   demo: InfoDemo.nullable(), // terisi hanya untuk balasan `jawab_demo`
@@ -102,6 +106,8 @@ export const contohResponsMulai: ResponsAsesmen = {
   status: "lanjut",
   soal: contohSoalTampil,
   jumlah_soal_dijawab: 0,
+  nomor_soal: 1,
+  jumlah_soal: 12,
   peta: petaContoh(),
   titik_mulai: null,
   demo: null,
@@ -113,6 +119,8 @@ export const contohResponsJawab: ResponsAsesmen = {
   status: "lanjut",
   soal: { ...contohSoalTampil, soal_id: "A4-D1", tp_kode: "A4", pertanyaan: "(soal A4)", visual: null },
   jumlah_soal_dijawab: 2,
+  nomor_soal: 3,
+  jumlah_soal: 12,
   peta: petaContoh({
     B3: ["belum", "diuji"],
     B4: ["belum", "disimpulkan"],
@@ -130,6 +138,8 @@ export const contohResponsSelesai: ResponsAsesmen = {
   status: "selesai",
   soal: null,
   jumlah_soal_dijawab: 17,
+  nomor_soal: 5,
+  jumlah_soal: 12,
   peta: petaContoh({
     A1: ["tercapai", "disimpulkan"], A2: ["tercapai", "disimpulkan"], A3: ["tercapai", "disimpulkan"],
     A4: ["tercapai", "diuji"], A5: ["tercapai", "diuji"], A6: ["tercapai", "disimpulkan"],

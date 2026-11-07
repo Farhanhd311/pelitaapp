@@ -62,12 +62,14 @@ function balas(
   status: StatusAsesmen,
   soal: ResponsAsesmen["soal"],
   demo: ResponsAsesmen["demo"],
+  progres: { nomor_soal: number; jumlah_soal: number },
 ): Response {
   const respons: ResponsAsesmen = {
     sesi_id: sesi.id,
     status,
     soal,
     jumlah_soal_dijawab: keadaan.jumlah_soal,
+    ...progres,
     peta: keadaanKePeta(kurikulum, keadaan),
     titik_mulai: keadaan.titik_mulai,
     demo,
@@ -91,9 +93,12 @@ async function mulai(anakId: number, mapelId: number): Promise<Response> {
   }
   sesi ??= await buatSesiAsesmen(anakId);
 
-  const { keadaan, soal_dipakai } = await putaranSekarang(anakId, kurikulum, sesi);
+  const { keadaan, soal_dipakai, paramSesi } = await putaranSekarang(anakId, kurikulum, sesi);
   const soal = await pilihSoalDiagnostik(keadaan.tp_sekarang!, soal_dipakai);
-  return balas(sesi, kurikulum, keadaan, "lanjut", soal, null);
+  return balas(sesi, kurikulum, keadaan, "lanjut", soal, null, {
+    nomor_soal: sesi.jumlah_jawaban + 1,
+    jumlah_soal: paramSesi.maks_soal_per_sesi,
+  });
 }
 
 // ---------- aksi: jawab / jawab_demo ----------
@@ -149,7 +154,10 @@ async function jawab(
 
   const soal = status === "lanjut" ? await pilihSoalDiagnostik(baru.tp_sekarang!, [...soal_dipakai, minta.soal_id]) : null;
   const demo = minta.aksi === "jawab_demo" ? langkah : null;
-  return balas(sesi, kurikulum, baru, status, soal, demo);
+  return balas(sesi, kurikulum, baru, status, soal, demo, {
+    nomor_soal: status === "lanjut" ? jumlahDiSesi + 1 : jumlahDiSesi,
+    jumlah_soal: paramSesi.maks_soal_per_sesi,
+  });
 }
 
 export const POST = tanganiApi(async (req: Request) => {

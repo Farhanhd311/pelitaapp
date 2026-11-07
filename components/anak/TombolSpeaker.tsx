@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 import { Volume2 } from "lucide-react";
 import { cn } from "cn";
 
-export function TombolSpeaker({ teks, className }: { teks: string; className?: string }) {
+// `label` opsional: jika diisi, tombol tampil sebagai pil berteks (misalnya "Dengarkan soal").
+export function TombolSpeaker({ teks, label, className }: { teks: string; label?: string; className?: string }) {
   const [bicara, setBicara] = useState(false);
 
   // Hentikan suara saat komponen hilang dari layar.
@@ -30,14 +31,16 @@ export function TombolSpeaker({ teks, className }: { teks: string; className?: s
     <button
       type="button"
       onClick={bacakan}
-      aria-label="Dengarkan"
+      aria-label={label ?? "Dengarkan"}
       className={cn(
-        "inline-flex size-14 shrink-0 items-center justify-center rounded-full border border-garis bg-pasir text-bata transition hover:bg-bata hover:text-white focus-visible:ring-3 focus-visible:ring-emas/60 focus-visible:outline-none",
+        "inline-flex shrink-0 items-center justify-center rounded-full border border-garis bg-pasir text-bata transition hover:bg-bata hover:text-white focus-visible:ring-3 focus-visible:ring-emas/60 focus-visible:outline-none",
+        label ? "min-h-14 gap-2 border-jingga px-6 font-heading text-[17px] font-bold" : "size-14",
         bicara && "bg-bata text-white",
         className,
       )}
     >
       <Volume2 className="size-6" aria-hidden />
+      {label}
     </button>
   );
 }
