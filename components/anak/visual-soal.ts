@@ -1,4 +1,4 @@
-// Pembaca kolom `visual` soal (emoji pengganti gambar) + teks yang dibacakan "Dengarkan soal".
+// Pembaca kolom `visual` soal (emoji pengganti gambar).
 // Fungsi murni, dites di visual-soal.test.ts. Dipakai KartuSoal (sesi belajar DAN asesmen).
 //
 // Format `visual` di data soal:
@@ -6,8 +6,6 @@
 //   "🔵🔵🔵\n🔵🔵"                 -> beberapa baris
 //   "[ikat 10 lidi] | | |"       -> ikatan lidi + lidi lepas
 //   "🍪🍪🍪 (4 kue dimakan)"      -> teks dengan keterangan di dalam kurung
-
-import type { SoalTampil } from "@/lib/kontrak/umum";
 
 export type BarisVisual =
   | { jenis: "kelompok"; isi: string[] }
@@ -47,9 +45,3 @@ export function uraiVisual(visual: string | null): BarisVisual[] {
 
 // Huruf A-D untuk pilihan. Urutan pilihan sudah diacak server.
 export const HURUF_PILIHAN = ["A", "B", "C", "D"];
-
-// Teks yang dibacakan tombol "Dengarkan soal".
-export function teksDibacakan(soal: SoalTampil): string {
-  const pilihan = soal.pilihan.map((p, i) => `${HURUF_PILIHAN[i]}, ${p.teks}`).join(". ");
-  return [soal.bacaan, soal.pertanyaan, pilihan].filter(Boolean).join(". ");
-}

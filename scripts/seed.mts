@@ -5,11 +5,12 @@
 // Untuk database demo di internet (misalnya yang dipakai Vercel): npm run seed -- --izinkan-remote
 //
 // Isi yang dimasukkan:
-//   1. Kurikulum Matematika dari data/data_awal_matematika_fase_A_B.json (mapel, TP, prasyarat, soal + pilihan).
+//   1. Kurikulum Matematika dan Bahasa Indonesia dari data/data_awal_*.json (mapel, TP, prasyarat, soal + pilihan).
 //      Soal diimpor berstatus 'terbit' dengan sumber 'manual' (PANDUAN 8.5).
 //   2. PENGATURAN_SISTEM versi 1 dari meta.parameter_bkt + data/seed_pengaturan_sistem.json (PANDUAN 8.4).
 //   3. Akun demo (Admin, Ibu Sari, Kak Dina) dan profil anak Raka beserta relasi pendampingannya.
-// Data Bahasa Indonesia sengaja TIDAK diimpor (di luar lingkup 24 jam).
+// Bahasa Indonesia ikut diimpor (keputusan tim: asesmen mencakup Matematika + Bahasa Indonesia).
+// Database yang sudah ada tidak perlu di-seed ulang: Reset demo menambahkan kurikulum yang belum ada.
 //
 // Catatan: dijalankan langsung oleh Node (--experimental-strip-types), jadi pakai `import type`
 // untuk impor yang hanya berupa tipe.
@@ -23,6 +24,7 @@ import type { Connection, ResultSetHeader } from "mysql2/promise";
 const AKAR = path.resolve(import.meta.dirname, "..");
 const FILE_SKEMA = path.join(AKAR, "lib", "db", "schema.sql");
 const FILE_MATEMATIKA = path.join(AKAR, "data", "data_awal_matematika_fase_A_B.json");
+const FILE_BAHASA_INDONESIA = path.join(AKAR, "data", "data_awal_bahasa_indonesia_fase_A_B.json");
 const FILE_PENGATURAN = path.join(AKAR, "data", "seed_pengaturan_sistem.json");
 
 const HOST_LOKAL = ["localhost", "127.0.0.1", "::1", "[::1]"];
@@ -288,6 +290,7 @@ async function main(): Promise<void> {
 
     await db.beginTransaction();
     await imporKurikulum(db, dataMatematika);
+    await imporKurikulum(db, bacaJson<DataKurikulum>(FILE_BAHASA_INDONESIA));
     await isiPengaturan(db, dataMatematika.meta.parameter_bkt, dataPengaturan);
     await buatDataDemo(db, password, pin);
     await db.commit();

@@ -40,7 +40,7 @@ import { evaluasiCekMasihKuat, jumlahSoalKuis, tentukanLevel, tindakanMasihKuat,
 // Kalimat Pijar (bingkai positif, tanpa kata "Salah", PANDUAN 13).
 const PESAN = {
   santai: "Hari ini kita istirahat dulu, ya. Mau dengar cerita atau musik?",
-  kartu: "Yuk, kenalan dulu dengan materinya. Tekan tombol speaker kalau mau dibacakan.",
+  kartu: "Yuk, kenalan dulu dengan materinya. Baca pelan-pelan, ya.",
   kuis: "Pilih jawaban yang menurutmu tepat, ya.",
   tepat: "Hebat! Jawabanmu tepat.",
   cobaLagi: "Yuk, coba lihat lagi. Kak Pijar bisa bantu menjelaskan.",

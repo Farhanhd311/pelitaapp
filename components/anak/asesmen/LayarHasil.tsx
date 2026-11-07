@@ -2,11 +2,10 @@
 
 // Hasil asesmen "Peta bekal belajar" (di dalam LayarFokus). Data dari GET /api/peta (status + deskripsi TP).
 // Untuk anak: status dengan bingkai positif, TANPA angka peluang atau nilai (PANDUAN 7.2, 13).
-// Dikelompokkan per kelas (kelas disimpan di data TP, jadi tidak ada pemetaan fase yang ditulis di kode).
+// Satu bagian per mapel (Matematika, Bahasa Indonesia), lalu per kelas (kelas disimpan di data TP).
 
 import { cn } from "cn";
 import { MascotPijar } from "@/components/anak/MascotPijar";
-import { TombolSpeaker } from "@/components/anak/TombolSpeaker";
 import { TautanAnak, TombolAnak } from "@/components/anak/fokus/TombolAnak";
 import type { KotakPeta, ResponsPeta } from "@/lib/kontrak/peta";
 import type { StatusTp } from "@/lib/kontrak/umum";
@@ -33,30 +32,30 @@ function BarisTp({ tp, titikMulai }: { tp: KotakPeta; titikMulai: boolean }) {
   );
 }
 
-export function LayarHasil({ peta, titikMulai, onUlangi }: { peta: ResponsPeta; titikMulai: string | null; onUlangi: () => void }) {
+export type HasilMapel = { mapel_id: number; nama: string; peta: ResponsPeta; titik_mulai: string | null };
+
+// Satu mapel: titik mulai + TP per kelas.
+function HasilSatuMapel({ hasil }: { hasil: HasilMapel }) {
+  const { peta } = hasil;
   const semua = [...peta.pos_dasar, ...peta.kelasku].sort((a, b) => a.urutan - b.urutan);
   const kelas = [...new Set(semua.map((t) => t.kelas))].sort((a, b) => a - b);
-  const tpMulai = semua.find((t) => t.tp_kode === (titikMulai ?? peta.rekomendasi_tp));
+  const tpMulai = semua.find((t) => t.tp_kode === (hasil.titik_mulai ?? peta.rekomendasi_tp));
   const judul = tpMulai ? `Titik mulaimu: ${tpMulai.tp_kode}` : "Kamu siap menjelajah Kelasku!";
   const isi = tpMulai ? `${tpMulai.deskripsi}. Kita kuatkan bekal ini dulu, lalu lanjut ke Kelasku.` : "Semua bekal dasar sudah kamu kuasai.";
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col items-center py-6 text-center">
-      <MascotPijar ekspresi="senang" gerak="senang" ukuran={130} />
-      <p className="mt-3 rounded-full bg-emas px-4 py-1.5 text-sm font-extrabold">Peta bekal belajarmu</p>
-      <div className="mt-3 flex items-center gap-3">
-        <h1 className="text-[28px] leading-tight font-extrabold">{judul}</h1>
-        <TombolSpeaker teks={`${judul}. ${isi}`} />
-      </div>
-      <p className="mt-2 max-w-xl text-[16px] leading-relaxed text-teks-2">{isi}</p>
+    <section className="w-full">
+      <p className="mx-auto w-fit rounded-full bg-pasir px-4 py-1 text-sm font-extrabold text-bata">{hasil.nama}</p>
+      <h2 className="mt-2 text-[24px] leading-tight font-extrabold">{judul}</h2>
+      <p className="mx-auto mt-1 max-w-xl text-[16px] leading-relaxed text-teks-2">{isi}</p>
 
-      <div className="mt-6 grid w-full gap-4 md:grid-cols-2">
+      <div className="mt-4 grid w-full gap-4 md:grid-cols-2">
         {kelas.map((k) => (
-          <section key={k} className="rounded-[20px] border-2 border-jingga/35 bg-white/85 p-4 text-left">
-            <h2 className="mb-2 flex items-center gap-2 text-xs font-extrabold tracking-wider text-bata uppercase">
+          <div key={k} className="rounded-[20px] border-2 border-jingga/35 bg-white/85 p-4 text-left">
+            <h3 className="mb-2 flex items-center gap-2 text-xs font-extrabold tracking-wider text-bata uppercase">
               <span className="flex size-6 items-center justify-center rounded-full bg-bata text-white">{k}</span>
               Kelas {k}
-            </h2>
+            </h3>
             <ul className="flex flex-col gap-1">
               {semua
                 .filter((t) => t.kelas === k)
@@ -64,7 +63,32 @@ export function LayarHasil({ peta, titikMulai, onUlangi }: { peta: ResponsPeta; 
                   <BarisTp key={t.tp_kode} tp={t} titikMulai={t.tp_kode === tpMulai?.tp_kode} />
                 ))}
             </ul>
-          </section>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export function LayarHasil({
+  hasil,
+  mapelBelumSelesai,
+  onLanjutMapel,
+  onUlangi,
+}: {
+  hasil: HasilMapel[]; // mapel yang asesmennya sudah selesai
+  mapelBelumSelesai: { mapel_id: number; nama: string }[];
+  onLanjutMapel: () => void;
+  onUlangi: () => void;
+}) {
+  return (
+    <div className="mx-auto flex w-full max-w-3xl flex-col items-center py-6 text-center">
+      <MascotPijar ekspresi="senang" gerak="senang" ukuran={130} />
+      <p className="mt-3 rounded-full bg-emas px-4 py-1.5 text-sm font-extrabold">Peta bekal belajarmu</p>
+
+      <div className="mt-5 flex w-full flex-col gap-10">
+        {hasil.map((h) => (
+          <HasilSatuMapel key={h.mapel_id} hasil={h} />
         ))}
       </div>
 
@@ -72,11 +96,17 @@ export function LayarHasil({ peta, titikMulai, onUlangi }: { peta: ResponsPeta; 
         Bukan nilai atau peringkat. Hasil ini ditinjau bersama guru atau pendampingmu.
       </p>
 
+      {mapelBelumSelesai.length > 0 && (
+        <TombolAnak onClick={onLanjutMapel} className="mt-6 sm:min-w-64">
+          Lanjut petualangan {mapelBelumSelesai.map((m) => m.nama).join(" dan ")}
+        </TombolAnak>
+      )}
+
       <div className="mt-7 flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-center">
         <TautanAnak varian="kedua" href="/anak">
           Ke Beranda
         </TautanAnak>
-        <TautanAnak href="/anak/peta" className="sm:min-w-60">
+        <TautanAnak varian={mapelBelumSelesai.length > 0 ? "kedua" : "utama"} href="/anak/peta" className="sm:min-w-60">
           Lihat Peta Kelasku
         </TautanAnak>
       </div>

@@ -123,10 +123,7 @@
     "tp_pertama": "B3",
     "urutan_tp_diuji": [
       "B3",
-      "A4",
-      "A7",
-      "A8",
-      "A5",
+      "B1",
       "B2"
     ],
     "jejak": [
@@ -145,84 +142,21 @@
         "p_sesudah": 0.017
       },
       {
-        "tp": "A4",
+        "tp": "B1",
         "soal_ke": 1,
         "benar": true,
         "p_sebelum": 0.5,
         "p_sesudah": 0.783
       },
       {
-        "tp": "A4",
+        "tp": "B1",
         "soal_ke": 2,
         "benar": true,
         "p_sebelum": 0.783,
         "p_sesudah": 0.928
       },
       {
-        "tp": "A4",
-        "soal_ke": 3,
-        "benar": true,
-        "p_sebelum": 0.928,
-        "p_sesudah": 0.979
-      },
-      {
-        "tp": "A7",
-        "soal_ke": 1,
-        "benar": true,
-        "p_sebelum": 0.5,
-        "p_sesudah": 0.783
-      },
-      {
-        "tp": "A7",
-        "soal_ke": 2,
-        "benar": true,
-        "p_sebelum": 0.783,
-        "p_sesudah": 0.928
-      },
-      {
-        "tp": "A7",
-        "soal_ke": 3,
-        "benar": true,
-        "p_sebelum": 0.928,
-        "p_sesudah": 0.979
-      },
-      {
-        "tp": "A8",
-        "soal_ke": 1,
-        "benar": true,
-        "p_sebelum": 0.5,
-        "p_sesudah": 0.783
-      },
-      {
-        "tp": "A8",
-        "soal_ke": 2,
-        "benar": true,
-        "p_sebelum": 0.783,
-        "p_sesudah": 0.928
-      },
-      {
-        "tp": "A8",
-        "soal_ke": 3,
-        "benar": true,
-        "p_sebelum": 0.928,
-        "p_sesudah": 0.979
-      },
-      {
-        "tp": "A5",
-        "soal_ke": 1,
-        "benar": true,
-        "p_sebelum": 0.5,
-        "p_sesudah": 0.783
-      },
-      {
-        "tp": "A5",
-        "soal_ke": 2,
-        "benar": true,
-        "p_sebelum": 0.783,
-        "p_sesudah": 0.928
-      },
-      {
-        "tp": "A5",
+        "tp": "B1",
         "soal_ke": 3,
         "benar": true,
         "p_sebelum": 0.928,
@@ -250,7 +184,7 @@
         "p_sesudah": 0.979
       }
     ],
-    "jumlah_soal": 17,
+    "jumlah_soal": 8,
     "status_akhir": {
       "A1": [
         "tercapai",
@@ -266,11 +200,11 @@
       ],
       "A4": [
         "tercapai",
-        "diuji"
+        "disimpulkan"
       ],
       "A5": [
-        "tercapai",
-        "diuji"
+        "belum_diketahui",
+        "-"
       ],
       "A6": [
         "tercapai",
@@ -278,15 +212,15 @@
       ],
       "A7": [
         "tercapai",
-        "diuji"
+        "disimpulkan"
       ],
       "A8": [
-        "tercapai",
-        "diuji"
+        "belum_diketahui",
+        "-"
       ],
       "B1": [
         "tercapai",
-        "disimpulkan"
+        "diuji"
       ],
       "B2": [
         "tercapai",
@@ -317,7 +251,9 @@
         "disimpulkan"
       ]
     },
-    "titik_mulai": "B3"
+    "titik_mulai": "B3",
+    "kelas_terakhir": 3,
+    "aturan_asesmen": "Revisi tim: mulai dari TP tengah kelas terakhir di sekolah (3); TP di atas kelas itu tidak diuji; TP kelas bawah hanya diuji jika prasyarat TP yang diuji dan belum dikuasai; maks 18 soal (Matematika)."
   },
   "sesi_formatif_b3": {
     "catatan": "Dari status belum (p 0,017), belajar_saat_sesi 0,15, ambang_tercapai_sesi 0,95",

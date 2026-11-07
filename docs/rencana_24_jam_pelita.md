@@ -23,7 +23,7 @@ Keterangan: **A** = bangun penuh (tampil di demo) · **B** = versi sederhana (un
 |---|---|---|
 | Pilih profil (avatar) + PIN pendamping | A | PIN 4 digit, dicek di server |
 | Check-in harian + `tentukanLevel` | A | Fungsi murni + tes unit. Di demo cukup tampilkan hasil "lemas + mata lelah" |
-| Tombol speaker (Web Speech API) | A | Murah dan langsung menunjukkan mode audio |
+| ~~Tombol speaker (Web Speech API)~~ | — | Dihapus (keputusan tim) |
 | Asesmen adaptif BKT + **mode demo "putar otomatis"** | A | Jawaban Raka diputar otomatis, ±1,5 detik per soal, sambil batang peluang bergerak dan peta TP berubah warna. 17 soal selesai sekitar 25 detik dan aman dari salah klik |
 | Peta TP (Kelasku / Pos Dasar) | A | Cukup grid per kelas dengan warna status. **Tidak perlu React Flow** |
 | Sesi belajar TP B3: kartu belajar → kuis formatif → update BKT | A | Konten hanya untuk B3. TP lain menampilkan "segera hadir" |

@@ -28,19 +28,20 @@ export async function ambilKurikulum(mapelId: number): Promise<KurikulumMapel> {
   return { mapel_id: mapelId, daftar_tp: daftarTp, graf: buatGraf(daftarTp, relasi) };
 }
 
-export async function ambilMapelDariSoal(soalId: string): Promise<number> {
-  const baris = await query<{ mapel_id: number }[]>(
-    "SELECT t.mapel_id FROM soal s JOIN tujuan_pembelajaran t ON t.kode = s.tp_kode WHERE s.id = ?",
+export async function ambilTpSoal(soalId: string): Promise<{ mapel_id: number; tp_kode: string }> {
+  const baris = await query<{ mapel_id: number; tp_kode: string }[]>(
+    "SELECT t.mapel_id, s.tp_kode FROM soal s JOIN tujuan_pembelajaran t ON t.kode = s.tp_kode WHERE s.id = ?",
     [soalId],
   );
   if (!baris[0]) throw new GalatApi("TIDAK_DITEMUKAN", "Soal tidak ditemukan.");
-  return baris[0].mapel_id;
+  return baris[0];
 }
 
-export async function ambilKelasSeharusnya(anakId: number): Promise<number> {
-  const baris = await query<{ kelas_seharusnya: number }[]>("SELECT kelas_seharusnya FROM anak WHERE id = ?", [anakId]);
+// Kelas terakhir anak di sekolah dari profil (ANAK.kelas_terakhir): pilihan awal di layar sebelum asesmen.
+export async function ambilKelasTerakhir(anakId: number): Promise<number> {
+  const baris = await query<{ kelas_terakhir: number }[]>("SELECT kelas_terakhir FROM anak WHERE id = ?", [anakId]);
   if (!baris[0]) throw new GalatApi("TIDAK_DITEMUKAN", "Profil anak tidak ditemukan.");
-  return baris[0].kelas_seharusnya;
+  return baris[0].kelas_terakhir;
 }
 
 // ---------- Jawaban ----------
@@ -196,16 +197,17 @@ export function keadaanKePeta(kurikulum: KurikulumMapel, keadaan: KeadaanAsesmen
 }
 
 // Apakah asesmen penempatan mapel ini sudah pernah selesai (untuk peta: arahkan ke asesmen jika belum).
-export async function asesmenSudahSelesai(anakId: number, kurikulum: KurikulumMapel): Promise<boolean> {
-  const [kelas, riwayat, jawaban] = await Promise.all([
-    ambilKelasSeharusnya(anakId),
-    ambilRiwayatPengaturan(),
-    ambilJawabanAsesmen(anakId, kurikulum.mapel_id),
-  ]);
-  const putaran = putarUlangAsesmen(kurikulum.graf, kelas, jawaban, (w) => keParameterAsesmen(pilihNilaiPada(riwayat, w)));
-  // Selesai jika putaran terakhir selesai, ATAU ada putaran sebelumnya yang selesai (anak sedang asesmen ulang):
-  // dalam kasus kedua, jawaban putaran terakhir lebih sedikit dari seluruh jawaban.
-  return putaran !== null && (putaran.keadaan.selesai || putaran.soal_dipakai.length < jawaban.length);
+// Keadaan asesmen mapel ini untuk layar: pernah selesai? sedang berjalan (belum selesai, bisa dilanjutkan)?
+export async function statusAsesmen(anakId: number, kurikulum: KurikulumMapel): Promise<{ pernah_selesai: boolean; berjalan: boolean }> {
+  const [riwayat, jawaban] = await Promise.all([ambilRiwayatPengaturan(), ambilJawabanAsesmen(anakId, kurikulum.mapel_id)]);
+  const putaran = putarUlangAsesmen(kurikulum.graf, jawaban, (w) => keParameterAsesmen(pilihNilaiPada(riwayat, w), kurikulum.mapel_id));
+  if (!putaran) return { pernah_selesai: false, berjalan: false };
+  return {
+    // Selesai jika putaran terakhir selesai, ATAU ada putaran sebelumnya yang selesai (anak sedang asesmen ulang):
+    // dalam kasus kedua, jawaban putaran terakhir lebih sedikit dari seluruh jawaban.
+    pernah_selesai: putaran.keadaan.selesai || putaran.soal_dipakai.length < jawaban.length,
+    berjalan: !putaran.keadaan.selesai,
+  };
 }
 
 // TP yang punya konten belajar (KONTEN jenis baru/jembatan) -> "tersedia" di peta; lainnya "segera hadir".

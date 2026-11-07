@@ -59,19 +59,19 @@ export function cariKeturunan(graf: GrafPrasyarat, kode: string): Set<string> {
   return telusuri(kode, graf.pengguna);
 }
 
-// TP pertama yang diuji (PANDUAN 7.2): TP di tengah daftar TP kelas (kelas_seharusnya - 1),
-// diurutkan menurut `urutan`, indeks floor(jumlah / 2). Untuk Raka (kelas seharusnya 4): B3.
-// Jika kelas itu tidak punya TP (misalnya anak kelas 1 -> kelas 0), dipakai kelas terdekat di bawahnya,
-// atau kelas terendah yang ada.
-export function pilihTpPertama(graf: GrafPrasyarat, kelasSeharusnya: number): string {
-  const semua = [...graf.tp.values()];
-  if (semua.length === 0) throw new Error("Tidak ada TP untuk diuji");
+// Kelas yang benar-benar dipakai untuk kelas pilihan anak: kelas itu sendiri, atau kelas terdekat
+// di bawahnya yang punya TP, atau kelas terendah yang ada (misalnya data belum punya kelas 5-6).
+export function kelasTerdekat(graf: GrafPrasyarat, kelasPilihan: number): number {
+  const kelasAda = [...new Set([...graf.tp.values()].map((t) => t.kelas))].sort((a, b) => a - b);
+  if (kelasAda.length === 0) throw new Error("Tidak ada TP untuk diuji");
+  const kelasDiBawah = kelasAda.filter((k) => k <= kelasPilihan);
+  return kelasDiBawah.length > 0 ? kelasDiBawah[kelasDiBawah.length - 1] : kelasAda[0];
+}
 
-  const kelasAda = [...new Set(semua.map((t) => t.kelas))].sort((a, b) => a - b);
-  const target = kelasSeharusnya - 1;
-  const kelasDiBawah = kelasAda.filter((k) => k <= target);
-  const kelas = kelasDiBawah.length > 0 ? kelasDiBawah[kelasDiBawah.length - 1] : kelasAda[0];
-
-  const tpKelas = semua.filter((t) => t.kelas === kelas).sort((a, b) => a.urutan - b.urutan);
+// TP pertama yang diuji (PANDUAN 7.2, direvisi tim): TP di tengah daftar TP **kelas terakhir anak di sekolah**
+// (dipilih sebelum asesmen), diurutkan menurut `urutan`, indeks floor(jumlah / 2). Untuk Raka (kelas 3): B3.
+export function pilihTpPertama(graf: GrafPrasyarat, kelasTerakhir: number): string {
+  const kelas = kelasTerdekat(graf, kelasTerakhir);
+  const tpKelas = [...graf.tp.values()].filter((t) => t.kelas === kelas).sort((a, b) => a.urutan - b.urutan);
   return tpKelas[Math.floor(tpKelas.length / 2)].kode;
 }

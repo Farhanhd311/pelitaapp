@@ -5,7 +5,11 @@
 // di POST /api/asesmen dengan mesin lib/bkt. Kontrak data: lib/kontrak/asesmen.ts.
 // Tampilan memakai komponen yang sama dengan check-in dan sesi belajar: LayarFokus, ProgresLangkah, KartuSoal.
 //
-// Alur layar: pembuka -> soal (berulang) -> akhir_sesi (batas soal per sesi) | hasil
+// Asesmen mencakup SEMUA mapel dari /api/mapel (Matematika + Bahasa Indonesia), satu per satu.
+// Penempatan tetap terpisah per mapel (PANDUAN 7.2); batas soal per mapel diatur server (PENGATURAN_SISTEM).
+// Urutan mapel diacak; asesmen yang sedang berjalan selalu dilanjutkan dulu. Mode demo: mapel pertama saja.
+//
+// Alur layar: pembuka -> soal (berulang) -> akhir_sesi (batas soal per sesi) | ganti_mapel | hasil
 // Mode demo "putar otomatis": server yang menjawab sebagai Raka (aksi jawab_demo) setiap JEDA_DEMO_MS.
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -13,8 +17,14 @@ import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import { KartuSoal } from "@/components/anak/KartuSoal";
 import { MascotPijar } from "@/components/anak/MascotPijar";
-import { DialogBerhentiAsesmen, KilasanLanjut, LayarAkhirSesi, LayarPembuka } from "@/components/anak/asesmen/LayarAsesmen";
-import { LayarHasil } from "@/components/anak/asesmen/LayarHasil";
+import {
+  DialogBerhentiAsesmen,
+  KilasanLanjut,
+  LayarAkhirSesi,
+  LayarGantiMapel,
+  LayarPembuka,
+} from "@/components/anak/asesmen/LayarAsesmen";
+import { LayarHasil, type HasilMapel } from "@/components/anak/asesmen/LayarHasil";
 import { PanelDemo } from "@/components/anak/asesmen/PanelDemo";
 import { LayarFokus } from "@/components/anak/fokus/LayarFokus";
 import { LayarPerluMasuk } from "@/components/anak/fokus/LayarPerluMasuk";
@@ -30,23 +40,60 @@ const JEDA_DEMO_MS = 1500;
 const LAMA_KILASAN_MS = 900;
 const JEDA_SEBELUM_HASIL_DEMO_MS = 1800;
 
-type Fase = "memuat" | "pembuka" | "soal" | "akhir_sesi" | "hasil" | "galat";
+type Mapel = ResponsMapel["mapel"][number];
+type Fase = "memuat" | "pembuka" | "soal" | "akhir_sesi" | "ganti_mapel" | "hasil" | "galat";
+
+/** Kelas yang punya TP di peta semua mapel, urut naik. */
+function daftarKelas(daftarPeta: ResponsPeta[]): number[] {
+  const kelas = daftarPeta.flatMap((p) => [...p.pos_dasar, ...p.kelasku].map((t) => t.kelas));
+  return [...new Set(kelas)].sort((a, b) => a - b);
+}
+
+/** Pilihan awal: kelas terakhir di profil; jika tidak ada di peta, kelas terdekat di bawahnya. */
+function pilihanAwal(daftarPeta: ResponsPeta[]): number | null {
+  const kelas = daftarKelas(daftarPeta);
+  const kelasProfil = daftarPeta[0]?.kelas_terakhir ?? 0;
+  return kelas.filter((k) => k <= kelasProfil).at(-1) ?? kelas[0] ?? null;
+}
+
+function acak<T>(daftar: T[]): T[] {
+  const hasil = [...daftar];
+  for (let i = hasil.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [hasil[i], hasil[j]] = [hasil[j], hasil[i]];
+  }
+  return hasil;
+}
+
+/** Mapel yang masih harus diases: yang sedang berjalan dulu, lalu yang belum pernah selesai (diacak). */
+function susunAntrean(mapel: Mapel[], peta: Record<number, ResponsPeta>): number[] {
+  const berjalan = mapel.filter((m) => peta[m.mapel_id].asesmen_berjalan).map((m) => m.mapel_id);
+  const belum = mapel.filter((m) => !peta[m.mapel_id].asesmen_berjalan && !peta[m.mapel_id].asesmen_selesai);
+  return [...berjalan, ...acak(belum.map((m) => m.mapel_id))];
+}
 
 export default function HalamanAsesmen() {
   const router = useRouter();
   const [fase, setFase] = useState<Fase>("memuat");
-  const [mapelId, setMapelId] = useState<number | null>(null);
+  const [daftarMapel, setDaftarMapel] = useState<Mapel[]>([]);
+  const [peta, setPeta] = useState<Record<number, ResponsPeta>>({}); // per mapel_id
+  const [antrean, setAntrean] = useState<number[]>([]); // mapel yang diases di petualangan ini; [0] = sekarang
+  const [titikMulai, setTitikMulai] = useState<Record<number, string | null>>({}); // dari respons "selesai"
+  const [mapelBaruSelesai, setMapelBaruSelesai] = useState<number | null>(null); // untuk layar ganti mapel
   const [namaAnak, setNamaAnak] = useState<string | null>(null);
   const [respons, setRespons] = useState<ResponsAsesmen | null>(null);
-  const [peta, setPeta] = useState<ResponsPeta | null>(null);
   const [sibuk, setSibuk] = useState(false);
   const [kilasan, setKilasan] = useState(false);
   const [modeDemo, setModeDemo] = useState(false);
   const [demoBerjalan, setDemoBerjalan] = useState(false);
   const [tanyaBerhenti, setTanyaBerhenti] = useState(false);
+  const [kelasPilihan, setKelasPilihan] = useState<number | null>(null); // hanya untuk asesmen ini, tidak disimpan ke profil
   const [pesanGalat, setPesanGalat] = useState<string | null>(null);
   const [galatMasuk, setGalatMasuk] = useState<GalatKlien | null>(null); // belum login / belum pilih profil anak
   const mulaiSoal = useRef(0); // untuk waktu_respons_ms
+
+  const mapelSekarang = daftarMapel.find((m) => m.mapel_id === antrean[0]) ?? null;
+  const namaMapel = (id: number | undefined) => daftarMapel.find((m) => m.mapel_id === id)?.nama ?? "";
 
   const tanganiGalat = useCallback((g: unknown) => {
     setPesanGalat(teksGalat(g));
@@ -56,7 +103,13 @@ export default function HalamanAsesmen() {
     }
   }, []);
 
-  // ---------- Muat awal: mapel, nama anak, dan apakah asesmen sudah pernah selesai ----------
+  const muatPeta = useCallback(async (mapelId: number) => {
+    const p = await panggilApi<ResponsPeta>(`/api/peta?mapel_id=${mapelId}`);
+    setPeta((lama) => ({ ...lama, [mapelId]: p }));
+    return p;
+  }, []);
+
+  // ---------- Muat awal: daftar mapel, nama anak, dan status asesmen setiap mapel ----------
   useEffect(() => {
     (async () => {
       try {
@@ -65,11 +118,16 @@ export default function HalamanAsesmen() {
           panggilApi<ResponsProfil>("/api/auth/profil"),
         ]);
         if (mapel.length === 0) throw new GalatKlien("TIDAK_DITEMUKAN", "Belum ada mata pelajaran.");
-        setMapelId(mapel[0].mapel_id); // MVP: Matematika (mapel pertama yang punya TP)
+        const daftarPeta = await Promise.all(mapel.map((m) => panggilApi<ResponsPeta>(`/api/peta?mapel_id=${m.mapel_id}`)));
+        const petaPerMapel = Object.fromEntries(daftarPeta.map((p) => [p.mapel_id, p]));
+        const antreanAwal = susunAntrean(mapel, petaPerMapel);
+
+        setDaftarMapel(mapel);
         setNamaAnak(profil.anak_aktif?.nama_panggilan ?? null);
-        const p = await panggilApi<ResponsPeta>(`/api/peta?mapel_id=${mapel[0].mapel_id}`);
-        setPeta(p);
-        setFase(p.asesmen_selesai ? "hasil" : "pembuka");
+        setPeta(petaPerMapel);
+        setAntrean(antreanAwal);
+        setKelasPilihan(pilihanAwal(daftarPeta)); // pilihan awal dari profil anak (ANAK.kelas_terakhir)
+        setFase(antreanAwal.length === 0 ? "hasil" : "pembuka");
       } catch (g) {
         tanganiGalat(g);
         setFase("galat");
@@ -79,8 +137,7 @@ export default function HalamanAsesmen() {
 
   // ---------- Panggil API asesmen dan pindah layar sesuai status ----------
   const kirimKeServer = useCallback(
-    async (minta: PermintaanAsesmen, demo: boolean) => {
-      if (!mapelId) return;
+    async (minta: PermintaanAsesmen, mapelId: number, sisaAntrean: number[], demo: boolean) => {
       const mulaiLagi: PermintaanAsesmen = { aksi: "mulai", mapel_id: mapelId };
       setSibuk(true);
       setPesanGalat(null);
@@ -110,10 +167,15 @@ export default function HalamanAsesmen() {
           if (r.status === "lanjut") setFase("soal");
           else if (r.status === "batas_sesi") setFase("akhir_sesi");
           else {
+            // Mapel ini selesai. Demo: langsung hasil. Selain itu: mapel berikutnya (jika ada) setelah jeda.
             if (demo) await new Promise((t) => setTimeout(t, JEDA_SEBELUM_HASIL_DEMO_MS)); // penonton melihat peta akhir
-            setPeta(await panggilApi<ResponsPeta>(`/api/peta?mapel_id=${mapelId}`));
+            await muatPeta(mapelId);
+            setTitikMulai((lama) => ({ ...lama, [mapelId]: r.titik_mulai }));
+            setMapelBaruSelesai(mapelId);
+            const sisa = sisaAntrean.filter((id) => id !== mapelId);
+            setAntrean(sisa);
             setDemoBerjalan(false);
-            setFase("hasil");
+            setFase(!demo && sisa.length > 0 ? "ganti_mapel" : "hasil");
           }
           return;
         }
@@ -124,18 +186,29 @@ export default function HalamanAsesmen() {
         setSibuk(false);
       }
     },
-    [mapelId, tanganiGalat],
+    [muatPeta, tanganiGalat],
   );
 
-  const mulai = (demo: boolean) => {
-    if (!mapelId) return;
+  // Mulai/lanjutkan asesmen mapel pertama di antrean.
+  const mulai = (demo: boolean, antreanDipakai = antrean) => {
+    const mapelId = antreanDipakai[0];
+    if (mapelId === undefined) return;
     setModeDemo(demo);
     setDemoBerjalan(demo);
-    void kirimKeServer({ aksi: "mulai", mapel_id: mapelId }, demo);
+    // Kelas hanya dikirim untuk asesmen baru; asesmen yang sedang berjalan dilanjutkan dengan kelasnya sendiri.
+    const kelas = peta[mapelId]?.asesmen_berjalan || kelasPilihan === null ? {} : { kelas_terakhir: kelasPilihan };
+    void kirimKeServer({ aksi: "mulai", mapel_id: mapelId, ...kelas }, mapelId, antreanDipakai, demo);
+  };
+
+  // Mode demo panggung: mapel pertama saja (jawaban Raka yang disiapkan hanya untuk Matematika).
+  const mulaiDemo = () => {
+    const antreanDemo = daftarMapel.slice(0, 1).map((m) => m.mapel_id);
+    setAntrean(antreanDemo);
+    mulai(true, antreanDemo);
   };
 
   const kirimJawaban = (pilihanId: number) => {
-    if (!respons?.soal) return;
+    if (!respons?.soal || antrean[0] === undefined) return;
     setKilasan(true);
     setTimeout(() => setKilasan(false), LAMA_KILASAN_MS);
     void kirimKeServer(
@@ -146,18 +219,20 @@ export default function HalamanAsesmen() {
         pilihan_id: pilihanId,
         waktu_respons_ms: Date.now() - mulaiSoal.current,
       },
+      antrean[0],
+      antrean,
       false,
     );
   };
 
   // ---------- Putar otomatis (mode demo) ----------
   useEffect(() => {
-    if (fase !== "soal" || !modeDemo || !demoBerjalan || sibuk || !respons?.soal) return;
+    if (fase !== "soal" || !modeDemo || !demoBerjalan || sibuk || !respons?.soal || antrean[0] === undefined) return;
     const t = setTimeout(() => {
-      void kirimKeServer({ aksi: "jawab_demo", sesi_id: respons.sesi_id, soal_id: respons.soal!.soal_id }, true);
+      void kirimKeServer({ aksi: "jawab_demo", sesi_id: respons.sesi_id, soal_id: respons.soal!.soal_id }, antrean[0], antrean, true);
     }, JEDA_DEMO_MS);
     return () => clearTimeout(t);
-  }, [fase, modeDemo, demoBerjalan, sibuk, respons, kirimKeServer]);
+  }, [fase, modeDemo, demoBerjalan, sibuk, respons, antrean, kirimKeServer]);
 
   // ---------- Tampilan ----------
   const sedangMenjawab = fase === "soal" && respons?.soal;
@@ -178,6 +253,11 @@ export default function HalamanAsesmen() {
     sedangMenjawab && respons ? (
       <ProgresLangkah sekarang={respons.nomor_soal} jumlah={respons.jumlah_soal} label={`Soal ${respons.nomor_soal} dari ${respons.jumlah_soal}`} />
     ) : null;
+
+  const hasilSelesai: HasilMapel[] = daftarMapel
+    .filter((m) => peta[m.mapel_id]?.asesmen_selesai)
+    .map((m) => ({ mapel_id: m.mapel_id, nama: m.nama, peta: peta[m.mapel_id], titik_mulai: titikMulai[m.mapel_id] ?? null }));
+  const mapelBelumSelesai = daftarMapel.filter((m) => peta[m.mapel_id] && !peta[m.mapel_id].asesmen_selesai);
 
   return (
     <LayarFokus kiri={tombolKiri} tengah={progres} kanan={<span className="size-14 shrink-0" aria-hidden />}>
@@ -201,7 +281,18 @@ export default function HalamanAsesmen() {
           </div>
         ))}
 
-      {fase === "pembuka" && <LayarPembuka namaAnak={namaAnak} sibuk={sibuk} onMulai={() => mulai(false)} onMulaiDemo={() => mulai(true)} />}
+      {fase === "pembuka" && (
+        <LayarPembuka
+          namaAnak={namaAnak}
+          sibuk={sibuk}
+          pilihanKelas={daftarKelas(Object.values(peta))}
+          kelas={kelasPilihan}
+          onPilihKelas={setKelasPilihan}
+          melanjutkan={antrean[0] !== undefined && (peta[antrean[0]]?.asesmen_berjalan ?? false)}
+          onMulai={() => mulai(false)}
+          onMulaiDemo={mulaiDemo}
+        />
+      )}
 
       {sedangMenjawab && respons?.soal && (
         <div className="mx-auto mt-6 flex w-full max-w-3xl flex-col items-center gap-6 sm:mt-10">
@@ -216,13 +307,43 @@ export default function HalamanAsesmen() {
             />
           )}
           {/* key: setiap soal baru mengosongkan pilihan. Mode demo: pilihan dikunci (server yang menjawab). */}
-          <KartuSoal key={respons.soal.soal_id} soal={respons.soal} label="Petualangan Pertama" terkunci={modeDemo} sibuk={sibuk} onKirim={kirimJawaban} />
+          <KartuSoal
+            key={respons.soal.soal_id}
+            soal={respons.soal}
+            label={mapelSekarang ? `Petualangan Pertama · ${mapelSekarang.nama}` : "Petualangan Pertama"}
+            terkunci={modeDemo}
+            sibuk={sibuk}
+            onKirim={kirimJawaban}
+          />
         </div>
       )}
 
       {fase === "akhir_sesi" && <LayarAkhirSesi jumlahSoal={respons?.jumlah_soal_dijawab ?? 0} sibuk={sibuk} onLanjut={() => mulai(false)} />}
 
-      {fase === "hasil" && peta && <LayarHasil peta={peta} titikMulai={respons?.titik_mulai ?? null} onUlangi={() => setFase("pembuka")} />}
+      {fase === "ganti_mapel" && (
+        <LayarGantiMapel
+          mapelSelesai={namaMapel(mapelBaruSelesai ?? undefined)}
+          mapelBerikut={namaMapel(antrean[0])}
+          sibuk={sibuk}
+          onLanjut={() => mulai(false)}
+        />
+      )}
+
+      {fase === "hasil" && (
+        <LayarHasil
+          hasil={hasilSelesai}
+          mapelBelumSelesai={mapelBelumSelesai}
+          onLanjutMapel={() => {
+            setAntrean(susunAntrean(mapelBelumSelesai, peta));
+            setFase("pembuka");
+          }}
+          onUlangi={() => {
+            setAntrean(acak(daftarMapel.map((m) => m.mapel_id)));
+            setTitikMulai({});
+            setFase("pembuka");
+          }}
+        />
+      )}
 
       {pesanGalat && fase !== "galat" && (
         <p role="alert" className="mx-auto mt-6 max-w-xl rounded-2xl bg-emas/25 px-4 py-3 text-center font-semibold">

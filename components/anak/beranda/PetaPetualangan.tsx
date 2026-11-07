@@ -9,7 +9,6 @@ import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode }
 import Link from "next/link";
 import { Lock, MapPin } from "lucide-react";
 import { MascotPijar, type EkspresiPijar } from "@/components/anak/MascotPijar";
-import { TombolSpeaker } from "@/components/anak/TombolSpeaker";
 import { LingkaranSekarang, SimpulSekarang, SimpulTercapai, SimpulTerkunci } from "./SimpulPeta";
 import type { DataBeranda } from "./jenis";
 
@@ -41,10 +40,6 @@ function GelembungPijar({ namaAnak, ajakan, style }: { namaAnak: string; ajakan:
         <p className="font-heading text-[15px] font-extrabold text-teks">{teks}{" "}🔥</p>
         <p className="mt-0.5 text-[13px] text-teks-2">{ajakan}</p>
       </div>
-      <TombolSpeaker
-        teks={`${teks} ${ajakan} Ketuk tombol Mulai Belajar kalau kamu sudah siap.`}
-        className="size-[calc(56px/var(--s,1))] shrink-0"
-      />
       {/* ekor gelembung */}
       <span className="absolute -bottom-[9px] left-1/2 size-4 rotate-45 border-r border-b border-garis bg-white" aria-hidden />
     </div>

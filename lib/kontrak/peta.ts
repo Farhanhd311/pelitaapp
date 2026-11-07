@@ -23,6 +23,8 @@ export type ResponsPeta = {
   mapel_id: number;
   kelas_seharusnya: number;
   asesmen_selesai: boolean; // false -> arahkan ke "Petualangan Pertama" (asesmen)
+  asesmen_berjalan: boolean; // ada asesmen yang belum selesai -> "mulai" melanjutkannya (tanpa tanya kelas lagi)
+  kelas_terakhir: number; // dari profil anak: pilihan awal pertanyaan "terakhir sekolah di kelas berapa?"
   rekomendasi_tp: string | null; // TP berikutnya yang paling pas dipelajari (perbatasan)
   hanya_esensial: boolean; // fase intensif: hanya TP esensial_transisi yang ditampilkan (PANDUAN 7.3)
   kelasku: KotakPeta[]; // TP kelas seharusnya

@@ -14,7 +14,7 @@ Berdasarkan analisis keempat dokumen proyek, **`PANDUAN_PROYEK.md` adalah sumber
 |---|---|---|
 | **Pembuatan Soal Anak** | LLM men-generate soal secara *real-time* saat anak kuis | **Ditolak.** Soal untuk anak wajib diambil dari tabel `SOAL` berstatus `terbit`. LLM hanya dipakai Admin untuk membuat draf variasi soal. |
 | **Intervensi Lelah / Mood** | Timer 15 menit memicu LLM untuk menganalisis *mood* dan menghentikan sesi (`STOP_SESSION`) | **Ditolak.** Cek kondisi **"Masih kuat?"** memakai **aturan tetap** (durasi level tercapai / 3 salah beruntun / tengah sesi `penuh`), bukan keputusan LLM. |
-| **Placement Test** | Hanya menguji 5 soal di kelas terakhir | **Ditolak.** Menggunakan **BKT + penelusuran graf prasyarat lintas kelas** (mulai dari `kelas_seharusnya - 1`) dengan aturan `berhenti_dini`. |
+| **Placement Test** | Hanya menguji 5 soal di kelas terakhir | **Ditolak.** Menggunakan **BKT + penelusuran graf prasyarat lintas kelas** (mulai dari kelas terakhir yang dipilih anak, tanpa menguji kelas di atasnya) dengan aturan `berhenti_dini`. |
 | **Tampilan Progres Orang Tua** | Menampilkan persentase skor BKT (misal: `96%`, `78%`) | **Ditolak.** Orang tua hanya melihat status (`belum`, `jembatan`, `tercapai`). Angka peluang hanya tampil di Mode Demo Asesmen dan Admin. |
 | **Animasi Maskot Saat Salah** | Maskot bergoyang kiri-kanan seperti menggeleng (`x: [-12, 12, ...]`) | **Diubah.** Varian `coba_lagi` hanya boleh **miring lembut** (`rotate: -8`), dilarang menggeleng atau menampilkan tanda X merah / kata "Salah". |
 
@@ -30,7 +30,7 @@ Proyek ini menggunakan arsitektur **Full-Stack Monorepo** dengan **Next.js (App 
 | **Database** | **MySQL 8** (`utf8mb4`) | `mysql2` + satu file `schema.sql`; **Drizzle ORM (mysql)** hanya jika ada anggota yang sudah familiar | Mengelola 20 tabel relasional & skrip *seed* |
 | **Login** | Buatan sendiri | `bcryptjs` + `iron-session` | Hash password & PIN, sesi di cookie terenkripsi `httpOnly`. Tidak memakai Supabase Auth |
 | **Styling & UI** | Tailwind CSS + shadcn/ui | `lucide-react` | Komponen UI aksesibel dengan palet tema api hangat (krem, pasir, jingga, emas, bata; lihat PANDUAN bagian 13) |
-| **Animasi & Audio** | `motion` (Framer Motion) | **Web Speech API** (`window.speechSynthesis`) | Animasi ekspresi maskot **Pijar** & fitur baca suara otomatis (`id-ID`) untuk mode ramah mata |
+| **Animasi** | `motion` (Framer Motion) | — | Animasi ekspresi maskot **Pijar**. Tombol speaker/Web Speech API dihapus (keputusan tim) |
 | **State Management** | React State / `useReducer` | — (tanpa Zustand) | Cukup untuk *state* kuis dan interval otomatis (±1,5 detik/soal) pada **Mode Demo Asesmen**. Satu pustaka lebih sedikit untuk dijelaskan |
 | **AI & Validasi** | Claude API (Server-side), model dari `LLM_MODEL` (saat ini `claude-haiku-5-5`) | **SDK resmi `@anthropic-ai/sdk`** (structured outputs) + **Zod** | Memaksa keluaran JSON sesuai skema, mengatur *timeout*, *fallback*, dan mencatat ke `LOG_AI`. Paket `ai` (Vercel AI SDK) tidak dipakai |
 | **Visualisasi & PDF** | CSS Grid + **Recharts** | `window.print()` + `@media print` | Grid peta TP (tanpa React Flow), grafik Evaluasi AI Admin, & cetak laporan sekolah ke PDF |
@@ -54,7 +54,7 @@ pelita-app/
 │   │   ├── login/page.tsx        # Login akun demo (email + password)
 │   │   └── pilih-profil/page.tsx # Ketuk avatar Anak atau masuk mode Pendamping (wajib PIN)
 │   ├── anak/                     # UI Mode Anak, URL /anak/... (target sentuh >= 56px, minim teks, penuh ikon)
-│   │   ├── layout.tsx            # Layout krem hangat + Maskot Pijar + Tombol Speaker
+│   │   ├── layout.tsx            # Layout krem hangat + Maskot Pijar
 │   │   ├── checkin/page.tsx      # Input energi, cuaca hati, keluhan -> panggil tentukanLevel()
 │   │   ├── asesmen/page.tsx      # Asesmen adaptif BKT + Toggle "Mode Demo Putar Otomatis"
 │   │   ├── peta/page.tsx         # Peta TP: Tab "Kelasku" & "Pos Dasar" (CSS Grid berwarna)
@@ -102,7 +102,7 @@ pelita-app/
 │           └── reset-demo/route.ts # POST kembalikan data Raka ke kondisi awal demo
 ├── components/                   # KOMPONEN UI REUSABLE
 │   ├── ui/                       # Komponen dasar shadcn/ui (Button, Card, Dialog, Badge, Tabs)
-│   ├── anak/                     # MascotPijar.tsx, TombolSpeaker.tsx, ModalMasihKuat.tsx
+│   ├── anak/                     # MascotPijar.tsx, ModalMasihKuat.tsx
 │   ├── pendamping/               # KartuPerluPerhatian.tsx, DaftarKeputusanMenunggu.tsx
 │   └── admin/                    # GrafikEvaluasiBKT.tsx, TabelTinjauanSoal.tsx, TombolResetDemo.tsx
 ├── lib/                          # LOGIKA INTI BACKEND & FUNGSI MURNI (Fokus Penilaian Teknis 20%)
@@ -188,7 +188,7 @@ Semua pemanggilan LLM untuk AI Tutor, Draf Laporan Sekolah, Generator Variasi So
 
 ### 5.1. Antarmuka Mode Anak (`/app/anak`)
 * **Desain Hangat & Non-Klinis:** Tema api hangat: latar krem terang, permukaan pasir, aksen emas dan jingga, tombol aksi bata, dan merah muda lembut untuk Teman Cerita (palet lengkap di PANDUAN bagian 13). Merah tidak dipakai untuk menandai kesalahan. Tidak boleh terlihat seperti aplikasi medis/rumah sakit.
-* **Aksesibilitas Anak Sedang Pengobatan:** Semua tombol memiliki area sentuh minimal `56px` dan dilengkapi `TombolSpeaker.tsx` (memanfaatkan `window.speechSynthesis` bahasa Indonesia) agar anak dengan keluhan `"mata lelah"` tetap bisa belajar lewat mode audio. **Suara `id-ID` tidak tersedia di semua perangkat/peramban**: cek di laptop demo sejak H0 (Chrome biasanya punya). Jika tidak ada, siapkan rekaman audio untuk kartu belajar B3 dan audio sesi ringan.
+* **Aksesibilitas Anak Sedang Pengobatan:** Semua tombol memiliki area sentuh minimal `56px`. Tombol speaker (Web Speech API) dihapus atas keputusan tim.
 * **Psikologi Positif Tanpa Hukuman:**
   * Tidak ada tanda silang merah (❌), kata `"Salah"`, *timer* hitung mundur, atau papan peringkat.
   * Target dihitung per minggu; hari istirahat yang dilaporkan lewat check-in tetap dihitung sebagai hari aktif.
@@ -289,7 +289,7 @@ Sesuai aturan hackathon, setiap anggota tim wajib memahami dan mampu menjelaskan
 | Peran Anggota | Area Folder yang Dikuasai | Tanggung Jawab Utama & Pertanyaan Juri yang Dijawab |
 |---|---|---|
 | **Anggota 1: Backend & Algoritma** | `/lib/bkt`, `/lib/sesi`, `/lib/krisis`, `/lib/db`, `/scripts/seed.mts` | Menjelaskan rumus BKT, penelusuran graf prasyarat, aturan `tentukanLevel`, deteksi krisis aturan tetap, skema 20 tabel, & menjalankan *unit test* Vitest di depan juri. |
-| **Anggota 2: Frontend Anak & Interaksi** | `/app/anak`, `/components/anak` | Membangun alur Check-in, Mode Demo Putar Otomatis Asesmen, Peta TP (Kelasku/Pos Dasar), Sesi Belajar B3, cek "Masih kuat?", Web Speech API, & animasi Maskot Pijar. |
+| **Anggota 2: Frontend Anak & Interaksi** | `/app/anak`, `/components/anak` | Membangun alur Check-in, Mode Demo Putar Otomatis Asesmen, Peta TP (Kelasku/Pos Dasar), Sesi Belajar B3, cek "Masih kuat?", & animasi Maskot Pijar. |
 | **Anggota 3: Pendamping, Admin & AI** | `/app/pendamping`, `/app/admin`, `/lib/ai`, `/lib/evaluasi`, `/data` | Membangun Dashboard Ibu Sari, cetak PDF Laporan Sekolah, integrasi prompt LLM + Zod + `LOG_AI`, halaman Admin (Aturan AI, Bank Soal, Evaluasi AI), & tombol **Reset Demo**. |
 
 ### 7.3. Deploy ke Google Cloud (Cloud Run + Cloud SQL)

@@ -14,11 +14,11 @@ import { mulaiAsesmen, putarUlangAsesmen, setelahJawab, type KeadaanAsesmen } fr
 import { denganTransaksi } from "@/lib/db";
 import {
   ambilJawabanAsesmen,
-  ambilKelasSeharusnya,
+  ambilKelasTerakhir,
   ambilKurikulum,
-  ambilMapelDariSoal,
   ambilPilihan,
   ambilPilihanUntukDemo,
+  ambilTpSoal,
   ambilSesiTerbuka,
   buatSesiAsesmen,
   keadaanKePeta,
@@ -37,21 +37,18 @@ import { ambilRiwayatPengaturan, keParameterAsesmen, pilihNilaiPada } from "@/li
 type ParameterLengkap = ReturnType<typeof keParameterAsesmen>;
 
 // Keadaan asesmen yang sedang berjalan untuk mapel ini. Jika belum ada, atau yang terakhir sudah selesai,
-// dibuat putaran baru dengan pengaturan yang berlaku saat sesi ini dimulai.
-async function putaranSekarang(anakId: number, kurikulum: KurikulumMapel, sesi: SesiAsesmen) {
-  const [kelas, riwayat, jawaban] = await Promise.all([
-    ambilKelasSeharusnya(anakId),
-    ambilRiwayatPengaturan(),
-    ambilJawabanAsesmen(anakId, kurikulum.mapel_id),
-  ]);
-  const paramPada = (waktu: Date): ParameterLengkap => keParameterAsesmen(pilihNilaiPada(riwayat, waktu));
+// dibuat putaran baru dari kelasBaru (kelas terakhir anak di sekolah) dengan pengaturan yang berlaku
+// saat sesi ini dimulai. Putaran yang sedang berjalan tetap dilanjutkan dengan kelasnya sendiri.
+async function putaranSekarang(anakId: number, kurikulum: KurikulumMapel, sesi: SesiAsesmen, kelasBaru: number) {
+  const [riwayat, jawaban] = await Promise.all([ambilRiwayatPengaturan(), ambilJawabanAsesmen(anakId, kurikulum.mapel_id)]);
+  const paramPada = (waktu: Date): ParameterLengkap => keParameterAsesmen(pilihNilaiPada(riwayat, waktu), kurikulum.mapel_id);
 
-  const putaran = putarUlangAsesmen(kurikulum.graf, kelas, jawaban, paramPada);
+  const putaran = putarUlangAsesmen(kurikulum.graf, jawaban, paramPada);
   const paramSesi = paramPada(sesi.mulai);
   if (putaran && !putaran.keadaan.selesai) {
     return { keadaan: putaran.keadaan, param: putaran.param, soal_dipakai: putaran.soal_dipakai, paramSesi };
   }
-  const keadaan: KeadaanAsesmen = mulaiAsesmen(kurikulum.graf, kelas, paramSesi);
+  const keadaan: KeadaanAsesmen = mulaiAsesmen(kurikulum.graf, kelasBaru, paramSesi);
   return { keadaan, param: paramSesi, soal_dipakai: [] as string[], paramSesi };
 }
 
@@ -79,13 +76,15 @@ function balas(
 
 // ---------- aksi: mulai ----------
 
-async function mulai(anakId: number, mapelId: number): Promise<Response> {
+async function mulai(anakId: number, mapelId: number, kelasPilihan: number | undefined): Promise<Response> {
   const kurikulum = await ambilKurikulum(mapelId);
+  // Kelas terakhir di sekolah yang dipilih di layar; jika kosong, dari profil anak.
+  const kelasBaru = kelasPilihan ?? (await ambilKelasTerakhir(anakId));
 
   // Pakai sesi asesmen yang masih terbuka; jika batas soal per sesi sudah tercapai, tutup dan buka yang baru.
   let sesi = await ambilSesiTerbuka(anakId);
   if (sesi) {
-    const { paramSesi } = await putaranSekarang(anakId, kurikulum, sesi);
+    const { paramSesi } = await putaranSekarang(anakId, kurikulum, sesi, kelasBaru);
     if (sesi.jumlah_jawaban >= paramSesi.maks_soal_per_sesi) {
       await denganTransaksi((kueri) => tutupSesi(kueri, sesi!.id));
       sesi = null;
@@ -93,7 +92,7 @@ async function mulai(anakId: number, mapelId: number): Promise<Response> {
   }
   sesi ??= await buatSesiAsesmen(anakId);
 
-  const { keadaan, soal_dipakai, paramSesi } = await putaranSekarang(anakId, kurikulum, sesi);
+  const { keadaan, soal_dipakai, paramSesi } = await putaranSekarang(anakId, kurikulum, sesi, kelasBaru);
   const soal = await pilihSoalDiagnostik(keadaan.tp_sekarang!, soal_dipakai);
   return balas(sesi, kurikulum, keadaan, "lanjut", soal, null, {
     nomor_soal: sesi.jumlah_jawaban + 1,
@@ -108,8 +107,12 @@ async function jawab(
   minta: Extract<PermintaanAsesmen, { aksi: "jawab" | "jawab_demo" }>,
 ): Promise<Response> {
   const sesi = await wajibSesiTerbuka(anakId, minta.sesi_id);
-  const kurikulum = await ambilKurikulum(await ambilMapelDariSoal(minta.soal_id));
-  const { keadaan, param, soal_dipakai, paramSesi } = await putaranSekarang(anakId, kurikulum, sesi);
+  const tpSoal = await ambilTpSoal(minta.soal_id);
+  const kurikulum = await ambilKurikulum(tpSoal.mapel_id);
+  // Jawaban pertama sebuah putaran: kelasnya = kelas TP soal itu (TP pertama selalu di kelas pilihan anak).
+  // Jika soal itu ternyata bukan TP pertama kelas tersebut, pemeriksaan "soal berikutnya" di bawah menolaknya.
+  const kelasSoal = kurikulum.graf.tp.get(tpSoal.tp_kode)!.kelas;
+  const { keadaan, param, soal_dipakai, paramSesi } = await putaranSekarang(anakId, kurikulum, sesi, kelasSoal);
   const tpSekarang = keadaan.tp_sekarang!;
 
   // Hanya soal berikutnya yang boleh dijawab (mencegah jawaban ganda atau soal yang dikirim asal).
@@ -163,5 +166,5 @@ async function jawab(
 export const POST = tanganiApi(async (req: Request) => {
   const { anak_id } = await wajibModeAnak();
   const minta = await bacaBody(req, PermintaanAsesmen);
-  return minta.aksi === "mulai" ? mulai(anak_id, minta.mapel_id) : jawab(anak_id, minta);
+  return minta.aksi === "mulai" ? mulai(anak_id, minta.mapel_id, minta.kelas_terakhir) : jawab(anak_id, minta);
 });
