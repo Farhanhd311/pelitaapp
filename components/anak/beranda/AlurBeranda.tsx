@@ -1,17 +1,14 @@
 "use client";
 
-// Beranda Anak (satu-satunya halaman utama mode anak, tanpa sidebar): pemilih mapel + lencana hari aktif
-// minggu ini, petualangan hari ini, lalu peta jalur belajar selebar layar.
+// Beranda Anak (satu-satunya halaman utama mode anak, tanpa header): peta jalur belajar selebar layar.
+// Menu ☰ di kiri atas (pilih mapel + ganti profil); judul petualangan dan lencana hari aktif menempel di atas peta.
 // Peta dari GET /api/beranda: satu peta tetap = satu mapel, dari materi awal sampai akhir kelasnya.
 //   Belum asesmen -> pos pertama "Petualangan Pertama" (/anak/asesmen), tanpa pemilih mapel.
 //   Sudah asesmen -> anak memilih mapel (disimpan di URL ?mapel=). Mapel dengan sesi belajar: Pos Dasar lalu
 //   Kelasku, "Mulai Belajar!" ke check-in (PANDUAN 6.2) lalu sesi TP rekomendasi. Mapel lain: "segera hadir".
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { BookOpen } from "lucide-react";
-import { LogoPelita } from "@/components/LogoPelita";
 import { MascotPijar } from "@/components/anak/MascotPijar";
 import { LayarPerluMasuk } from "@/components/anak/fokus/LayarPerluMasuk";
 import { TombolAnak } from "@/components/anak/fokus/TombolAnak";
@@ -19,10 +16,9 @@ import { denganMapel } from "@/components/anak/sesi/jalur";
 import { butuhMasuk, panggilApi, pesanGalat, type GalatKlien } from "@/lib/api/klien";
 import type { ResponsBeranda } from "@/lib/kontrak/beranda";
 import type { PosJalur } from "@/lib/peta/jalur-materi";
-import { DialogPanduan } from "./DialogAnak";
 import { LencanaMingguIni } from "./LencanaMingguIni";
 import { PetaPetualangan } from "./PetaPetualangan";
-import { PilihMapel } from "./PilihMapel";
+import { MenuMapel } from "./MenuMapel";
 import type { DataBeranda, PosBeranda } from "./jenis";
 
 const HREF_CHECKIN = "/anak/checkin";
@@ -54,24 +50,38 @@ function cekMaju(r: ResponsBeranda, d: DataBeranda): number | null {
   }
 }
 
-const NAMA_BAGIAN = { pos_dasar: "Pos Dasar", kelasku: "Kelasku", tambahan: "Pos tambahan" } as const;
-const namaBagian = (p: PosJalur) => `${NAMA_BAGIAN[p.bagian]} kelas ${p.kelas}`;
+
+// "Matematika · Kelas 4": bagian sesudah titik tengah tidak dipecah. Di bawah layar lebar (lg) kotak judulnya sempit,
+// jadi titiknya disembunyikan dan baris dilipat sebelum "Kelas 4" (bukan "Matematika / · Kelas 4").
+function JudulPetualangan({ judul }: { judul: string }) {
+  const [utama, ...lanjutan] = judul.split(" · ");
+  return (
+    <>
+      {utama}
+      {lanjutan.map((bagian) => (
+        <span key={bagian}>
+          {" "}
+          <span className="whitespace-nowrap">
+            <span className="hidden lg:inline">· </span>
+            {bagian}
+          </span>
+        </span>
+      ))}
+    </>
+  );
+}
 
 // Pos tambahan bisa memakai materi yang sama dengan pos Pos Dasar (satu materi, dua TP), jadi judulnya dibedakan.
 const judulPos = (p: PosJalur) => (p.bagian === "tambahan" ? `Lanjutan: ${p.judul}` : p.judul);
 
-const kePos = (p: PosJalur): PosBeranda => ({
+// i = urutan pos di jalur (0 = pos pertama).
+const kePos = (p: PosJalur, i: number): PosBeranda => ({
   id: p.id,
   judul: judulPos(p),
-  // Materi tanpa TP adaptif belum punya soal: "Segera hadir" (jam pasir), bukan gembok.
-  chip:
-    p.status === "tercapai"
-      ? "Tercapai"
-      : p.status === "bacaan"
-        ? "Segera hadir"
-        : p.bagian === "kelasku"
-          ? `Kelas ${p.kelas}`
-          : NAMA_BAGIAN[p.bagian],
+  // Materi tanpa TP adaptif belum punya soal: "Segera hadir" (jam pasir), bukan gembok. Pos lain cukup "Level N"
+  // menurut urutannya di peta, tanpa kelas asal materinya: anak tidak perlu tahu ia sedang mengulang materi kelas
+  // bawah (PANDUAN 13: tanpa label "tertinggal"). Kelas tetap tercatat di data dan dashboard pendamping.
+  chip: p.status === "tercapai" ? "Tercapai" : p.status === "bacaan" ? "Segera hadir" : `Level ${i + 1}`,
   tercapai: p.status === "tercapai",
   segera: p.status === "bacaan",
 });
@@ -163,7 +173,7 @@ export function keDataBeranda(r: ResponsBeranda): DataBeranda {
 
   return {
     ...dasar,
-    judulPetualangan: `${mapel.nama} · ${namaBagian(s)}`,
+    judulPetualangan: `${mapel.nama} · Kelas ${s.kelas}`,
     pos: semua,
     indeksSekarang: k!,
     sekarang: {
@@ -239,64 +249,41 @@ export function AlurBeranda() {
     <div className="flex flex-col xl:h-dvh">
       <h1 className="sr-only">Peta petualangan {data.namaAnak}</h1>
 
-      {/* Ponsel: baris 1 = logo + lencana, baris 2 = pemilih mapel selebar layar.
-          Layar lebih lebar: satu baris, pemilih mapel di kiri dan lencana di kanan atas. */}
-      <div className="flex flex-wrap items-center gap-3 px-4 py-3 sm:flex-nowrap sm:items-start sm:px-7">
-        <span className="sm:hidden">
-          <LogoPelita ukuran={36} />
-        </span>
-        {/* Memilih mapel baru boleh setelah asesmen penempatan selesai. */}
-        {respons.asesmen_selesai ? (
-          <PilihMapel
-            daftar={respons.daftar_mapel}
-            dipilih={respons.mapel.mapel_id}
-            sibuk={berganti}
-            onPilih={(id) => {
-              setBerganti(true);
-              router.replace(`/anak?mapel=${id}`, { scroll: false });
-            }}
-          />
-        ) : (
-          <div className="hidden flex-1 sm:block" />
-        )}
-        <span className="ml-auto sm:ml-0">
-          <LencanaMingguIni hari={respons.hari_aktif_minggu_ini} />
-        </span>
+      {/* Lencana hari aktif minggu ini (kanan atas, tetap terlihat saat peta digulir). */}
+      <div className="fixed top-4 right-4 z-40 sm:right-7">
+        <LencanaMingguIni hari={respons.hari_aktif_minggu_ini} />
       </div>
 
-      <section className="flex flex-wrap items-center gap-3 bg-pasir px-4 py-2.5 text-teks sm:px-7">
-        <div className="min-w-0 flex-1">
-          <p className="text-[11px] font-bold tracking-[0.12em] text-bata uppercase">Petualangan hari ini</p>
-          <h2 className="text-xl font-extrabold">{data.judulPetualangan}</h2>
-        </div>
-        {/* Satu-satunya jalan keluar dari mode anak: kembali ke pilih profil (mode pendamping butuh PIN). */}
-        <Link
-          href="/pilih-profil"
-          aria-label={`${data.namaAnak}, ganti profil`}
-          className="flex min-h-14 items-center gap-2 rounded-full border border-garis bg-pasir-muda p-1.5 font-heading text-sm font-bold transition hover:bg-krem focus-visible:ring-4 focus-visible:ring-emas/60 focus-visible:outline-none sm:pr-4"
-        >
-          <span className="flex size-11 items-center justify-center rounded-full bg-merah-muda text-lg font-extrabold" aria-hidden>
-            {data.namaAnak.charAt(0)}
-          </span>
-          <span className="hidden sm:inline" aria-hidden>
-            Ganti profil
-          </span>
-        </Link>
-        <DialogPanduan
-          className="flex min-h-14 min-w-14 items-center justify-center gap-2 rounded-full border border-jingga bg-pasir-muda font-heading text-sm font-bold transition hover:bg-krem sm:px-5"
-          pemicu={
-            <>
-              {/* ponsel: ikon saja agar judul petualangan tidak terjepit */}
-              <BookOpen className="size-5" aria-hidden /> <span className="sr-only sm:not-sr-only">Lihat panduan</span>
-            </>
-          }
-        />
-      </section>
+      {/* Menu ☰ (kiri atas, tetap terlihat): pilih mapel setelah asesmen penempatan, dan Ganti profil. */}
+      <MenuMapel
+        daftar={respons.daftar_mapel}
+        dipilih={respons.mapel.mapel_id}
+        bisaPilih={respons.asesmen_selesai}
+        sibuk={berganti}
+        namaAnak={data.namaAnak}
+        onPilih={(id) => {
+          setBerganti(true);
+          router.replace(`/anak?mapel=${id}`, { scroll: false });
+        }}
+      />
 
       <div
         aria-busy={berganti}
-        className={`min-w-0 transition-opacity xl:min-h-0 xl:flex-1 xl:overflow-y-auto xl:overscroll-contain ${berganti ? "opacity-60" : ""}`}
+        className={`relative min-w-0 transition-opacity xl:min-h-0 xl:flex-1 xl:overflow-y-auto xl:overscroll-contain ${berganti ? "opacity-60" : ""}`}
       >
+        {/* Lapisan atas peta (ikut tergulir bersama peta): judul petualangan di tengah. Kiri dan kanannya dikosongkan
+            untuk tombol menu ☰ dan lencana hari aktif yang menempel (sticky). */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-0">
+          <div className="pointer-events-auto absolute top-4 left-1/2 w-max max-w-[calc(100%-13.5rem)] -translate-x-1/2 rounded-[20px] border border-garis bg-krem/90 px-3 py-2 sm:rounded-[28px] sm:border-2 sm:px-10 sm:py-4 text-center shadow-[0_4px_0_var(--color-garis)] backdrop-blur-sm sm:max-w-[calc(100%-24rem)]">
+            <p className="text-[10px] font-bold tracking-[0.05em] whitespace-nowrap text-bata uppercase sm:text-[13px] sm:tracking-[0.14em]">
+              Petualangan hari ini
+            </p>
+            <h2 className="text-[15px] leading-snug font-extrabold text-balance sm:mt-1 sm:text-[30px] sm:leading-tight">
+              <JudulPetualangan judul={data.judulPetualangan} />
+            </h2>
+          </div>
+        </div>
+
         {/* key ikut pos aktif: saat kembali dari sesi dan pos aktif berubah, peta dipasang ulang supaya animasi
             jejak kaki dan gulir otomatis berjalan lagi (halaman yang tersimpan oleh cacheComponents tidak dibuat ulang). */}
         <PetaPetualangan

@@ -1,6 +1,6 @@
 // Bentuk data yang dibutuhkan Beranda Anak. Semua teks datang dari data, bukan ditulis di komponen.
 
-/** Satu pos di peta. chip: keterangan singkat di bawah judul (misalnya "Pos Dasar" atau "Kelas 4").
+/** Satu pos di peta. chip: keterangan singkat di bawah judul (misalnya "Tercapai" atau "Level 4").
  *  segera: materi belum punya soal (tanpa TP adaptif), ditampilkan "Segera hadir" dan tidak bisa dibuka. */
 export type PosBeranda = { id: string; judul: string; chip: string; tercapai: boolean; segera?: boolean };
 

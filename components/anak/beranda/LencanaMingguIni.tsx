@@ -1,4 +1,4 @@
-// Penanda kecil "hari aktif minggu ini" di pojok kanan atas Beranda.
+// Penanda kecil "hari aktif minggu ini" di pojok kanan atas Beranda (menempel, tetap terlihat saat peta digulir).
 // BUKAN streak harian yang bisa putus (PANDUAN 7.1 dan 13): dihitung per minggu dari check-in, hari istirahat
 // yang dilaporkan lewat check-in tetap dihitung aktif, dan hitungan mulai lagi setiap Senin.
 
@@ -17,7 +17,7 @@ export function LencanaMingguIni({ hari }: { hari: number }) {
       </span>
       <span className="leading-tight">
         <span className="block font-heading text-[20px] font-extrabold text-teks">{hari}</span>
-        {/* ponsel: angka saja supaya pemilih mapel tetap lega */}
+        {/* ponsel: angka saja supaya judul petualangan tetap lega */}
         <span className="hidden text-[11px] font-semibold text-teks-2 sm:block">hari minggu ini</span>
       </span>
     </div>
