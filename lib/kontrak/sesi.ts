@@ -60,7 +60,7 @@ export type ResponsSesi = {
   status: StatusSesi;
   level: LevelSesi;
   jenis_isi: "santai" | "ulang" | "baru";
-  mode_audio: boolean; // keluhan mata lelah: utamakan suara (tombol speaker otomatis)
+  mode_audio: boolean; // keluhan mata lelah: utamakan konten yang tidak butuh layar
   durasi_menit: number;
   tp: { tp_kode: string; deskripsi: string } | null;
   kartu_belajar: Konten | null; // terisi saat status kartu_belajar (null jika konten belum disiapkan tim)

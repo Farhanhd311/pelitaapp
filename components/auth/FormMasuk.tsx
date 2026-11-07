@@ -8,7 +8,7 @@ import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { ArrowRight, Eye, EyeOff, LoaderCircle, Lock, Mail, UserRound } from "lucide-react";
-import { cn } from "cn";
+import { cn } from "@/lib/utils";
 import { LogoPelita } from "@/components/LogoPelita";
 import { MascotPijar } from "@/components/anak/MascotPijar";
 import { panggilApi, pesanGalat } from "@/lib/api/klien";
@@ -59,15 +59,17 @@ export function FormMasuk() {
       className="w-full max-w-md"
     >
       <div className="flex items-center justify-between gap-3">
-        <LogoPelita ukuran={52} />
+        <LogoPelita ukuran={48} />
         {/* di layar kecil panel sambutan disembunyikan, jadi Pijar tampil di sini */}
-        <MascotPijar ekspresi="sambut" ukuran={76} className="lg:hidden" />
+        <MascotPijar ekspresi="sambut" ukuran={72} className="lg:hidden" />
       </div>
 
-      <h1 className="mt-8 text-[32px] leading-tight font-black">Selamat datang!</h1>
-      <p className="mt-1.5 text-[16px] text-teks-2">Masuk sebagai pendamping atau admin untuk melanjutkan.</p>
+      <h1 className="mt-6 text-[30px] sm:text-[32px] leading-tight font-black">Selamat datang!</h1>
+      <p className="mt-1.5 text-[15px] sm:text-[16px] text-teks-2">
+        Masuk sebagai pendamping atau admin untuk melanjutkan.
+      </p>
 
-      <form onSubmit={masuk} className="mt-7 flex flex-col gap-4" noValidate>
+      <form onSubmit={masuk} className="mt-6 flex flex-col gap-4" noValidate>
         <Isian
           id="email"
           label="Email"
@@ -94,7 +96,7 @@ export function FormMasuk() {
               type="button"
               onClick={() => setLihatPassword((x) => !x)}
               aria-label={lihatPassword ? "Sembunyikan password" : "Tampilkan password"}
-              className="flex size-11 cursor-pointer items-center justify-center rounded-xl text-teks-2 transition hover:bg-pasir hover:text-teks focus-visible:ring-4 focus-visible:ring-emas/60 focus-visible:outline-none"
+              className="flex size-10 cursor-pointer items-center justify-center rounded-full text-teks-2 transition hover:bg-pasir hover:text-teks focus-visible:ring-4 focus-visible:ring-emas/60 focus-visible:outline-none"
             >
               {lihatPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
             </button>
@@ -116,7 +118,7 @@ export function FormMasuk() {
         <button
           type="submit"
           disabled={mengirim || !email || !password}
-          className="mt-2 inline-flex min-h-14 cursor-pointer items-center justify-center gap-2 rounded-full bg-bata px-7 font-heading text-[17px] font-extrabold text-white shadow-[0_5px_0_var(--color-bata-tua)] transition-[transform,box-shadow,filter] duration-150 hover:brightness-105 focus-visible:ring-4 focus-visible:ring-emas/60 focus-visible:outline-none active:translate-y-[3px] active:shadow-[0_2px_0_var(--color-bata-tua)] disabled:pointer-events-none disabled:opacity-50"
+          className="mt-1 inline-flex min-h-13 cursor-pointer items-center justify-center gap-2 rounded-full bg-bata px-7 font-heading text-[16px] font-extrabold text-white shadow-[0_5px_0_var(--color-bata-tua)] transition-[transform,box-shadow,filter] duration-150 hover:brightness-105 focus-visible:ring-4 focus-visible:ring-emas/60 focus-visible:outline-none active:translate-y-[3px] active:shadow-[0_2px_0_var(--color-bata-tua)] disabled:pointer-events-none disabled:opacity-50"
         >
           {mengirim ? (
             <>
@@ -130,9 +132,9 @@ export function FormMasuk() {
         </button>
       </form>
 
-      <div className="mt-8 rounded-[20px] border-2 border-dashed border-garis p-4">
+      <div className="mt-6 rounded-[20px] border-2 border-dashed border-garis bg-[#FCECD7]/45 p-3.5">
         <p className="text-xs font-extrabold tracking-wide text-teks-2 uppercase">Akun demo · data contoh</p>
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="mt-2.5 flex flex-wrap gap-2">
           {AKUN_DEMO.map((a) => (
             <button
               key={a.email}
@@ -143,7 +145,7 @@ export function FormMasuk() {
                 document.getElementById("password")?.focus();
               }}
               className={cn(
-                "flex min-h-11 cursor-pointer items-center gap-2 rounded-full border-2 px-3.5 text-left text-sm font-bold transition hover:border-jingga hover:bg-pasir-muda focus-visible:ring-4 focus-visible:ring-emas/60 focus-visible:outline-none",
+                "flex min-h-10 cursor-pointer items-center gap-1.5 rounded-full border-2 px-3 text-left text-xs sm:text-sm font-bold transition hover:border-jingga hover:bg-pasir-muda focus-visible:ring-4 focus-visible:ring-emas/60 focus-visible:outline-none",
                 email === a.email ? "border-bata bg-pasir-muda" : "border-garis bg-white",
               )}
             >
@@ -155,7 +157,7 @@ export function FormMasuk() {
         </div>
       </div>
 
-      <p className="mt-6 text-[14px] leading-relaxed text-teks-2">
+      <p className="mt-5 text-[13px] sm:text-[14px] leading-relaxed text-teks-2">
         Anak tidak perlu akun. Setelah pendamping masuk, anak cukup mengetuk avatarnya.
       </p>
     </motion.div>
@@ -187,16 +189,16 @@ function Isian({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-[15px] font-bold text-teks">
+      <label htmlFor={id} className="text-[14px] font-bold text-teks">
         {label}
       </label>
       <div
         className={cn(
-          "flex min-h-14 items-center gap-2 rounded-2xl border-2 bg-white pr-1.5 pl-4 transition-[border-color,box-shadow] focus-within:border-jingga focus-within:ring-4 focus-within:ring-emas/35",
-          galat ? "border-emas" : "border-garis",
+          "flex min-h-13 items-center gap-2.5 rounded-full border-2 bg-[#FCECD7]/65 pr-2 pl-4 transition-[border-color,box-shadow,background-color] focus-within:border-jingga focus-within:bg-white focus-within:ring-4 focus-within:ring-emas/35",
+          galat ? "border-emas" : "border-[#E5B97F]/80",
         )}
       >
-        <span className="text-teks-2">{ikon}</span>
+        <span className="text-bata/85">{ikon}</span>
         <input
           id={id}
           name={id}
@@ -207,7 +209,7 @@ function Isian({
           placeholder={placeholder}
           aria-invalid={galat}
           required
-          className="min-w-0 flex-1 bg-transparent py-3 text-[16px] font-semibold text-teks outline-none placeholder:font-normal placeholder:text-teks-2/60"
+          className="min-w-0 flex-1 bg-transparent py-2.5 text-[15px] font-semibold text-teks outline-none placeholder:font-normal placeholder:text-teks-2/60"
         />
         {tambahan}
       </div>

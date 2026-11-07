@@ -19,7 +19,7 @@ import {
   tanggalLokal,
   type ProfilAnakLengkap,
 } from "@/lib/db/anak";
-import { ambilKurikulum, ambilTpBerkonten, asesmenSudahSelesai } from "@/lib/db/asesmen";
+import { ambilKurikulum, ambilTpBerkonten, statusAsesmen } from "@/lib/db/asesmen";
 import { wajibModeAnak } from "@/lib/db/rbac";
 import { ambilTpPernahDilatih, hitungSisaBenar } from "@/lib/db/sesi-belajar";
 import type { MapelBeranda, ResponsBeranda } from "@/lib/kontrak/beranda";
@@ -72,7 +72,7 @@ async function penempatan(anak: ProfilAnakLengkap, mapelId: number, pustaka = fa
   return {
     progres,
     rekomendasi_tp: peta.rekomendasi_tp,
-    asesmen_selesai: pustaka || (await asesmenSudahSelesai(anak.id, kurikulum)),
+    asesmen_selesai: pustaka || (await statusAsesmen(anak.id, kurikulum)).pernah_selesai,
     tp_wajib: tpWajib,
     urutan_tp: new Map(daftarTp.map((t) => [t.kode, t.urutan])),
     tp_dilatih: tpDilatih,

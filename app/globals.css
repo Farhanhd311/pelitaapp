@@ -7,8 +7,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-nunito);
-  --font-heading: var(--font-nunito);
+  --font-sans: var(--font-nunito), sans-serif;
+  --font-serif: var(--font-nunito), sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+  --font-heading: var(--font-nunito), sans-serif;
 
   /* Palet PELITA, tema api hangat (PANDUAN bagian 13). Dipakai sebagai bg-krem, text-bata, dll.
      Bata/merah hanya untuk tombol aksi, ikon, dan hiasan; tidak pernah untuk menandai kesalahan. */
@@ -24,6 +26,7 @@
   --color-teks: #2e0b07;
   --color-teks-2: #7a4335;
   --color-perhatian: #ecac54; /* emas, bukan merah */
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -81,20 +84,20 @@
   --border: #efc9a2;
   --input: #efc9a2;
   --ring: #ecac54;
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --chart-1: #F4813A;
+  --chart-2: #EDB664;
+  --chart-3: #D93A45;
+  --chart-4: #8E1F2E;
+  --chart-5: #F3A08F;
   --radius: 0.875rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: #fff4e4;
+  --sidebar-foreground: #2e0b07;
+  --sidebar-primary: #bf4338;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f9daac;
+  --sidebar-accent-foreground: #2e0b07;
+  --sidebar-border: #efc9a2;
+  --sidebar-ring: #ecac54;
 }
 
 .dark {
@@ -136,12 +139,14 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
-  h1, h2, h3, h4 {
+  h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
   }
 }

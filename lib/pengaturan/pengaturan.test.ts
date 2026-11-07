@@ -68,6 +68,6 @@ describe("validasiPengaturan (rentang aman PANDUAN 8.4)", () => {
 
 describe("keParameterAsesmen", () => {
   it("menolak pengaturan yang tidak lengkap", () => {
-    expect(() => keParameterAsesmen({ "bkt.tebakan": 0.25 })).toThrow(/tidak lengkap/);
+    expect(() => keParameterAsesmen({ "bkt.tebakan": 0.25 }, 1)).toThrow(/tidak lengkap/);
   });
 });

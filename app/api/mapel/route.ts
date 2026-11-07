@@ -4,10 +4,13 @@
 import { tanganiApi } from "@/lib/api/respons";
 import { ambilDaftarMapel } from "@/lib/db/anak";
 import { wajibLogin } from "@/lib/db/rbac";
+import dataMateri from "@/data/data_materi_per_kelas_SD.json";
 import type { ResponsMapel } from "@/lib/kontrak/peta";
 
 export const GET = tanganiApi(async () => {
   await wajibLogin();
-  const respons: ResponsMapel = { mapel: await ambilDaftarMapel() };
+  // Jenis mapel dari file data (bukan ditulis di kode); mapel yang tidak tercantum dianggap adaptif.
+  const jenis = (id: number) => (dataMateri.mapel.find((m) => m.id === id)?.jenis === "pustaka" ? "pustaka" : "adaptif");
+  const respons: ResponsMapel = { mapel: (await ambilDaftarMapel()).map((m) => ({ ...m, jenis: jenis(m.mapel_id) })) };
   return Response.json(respons);
 });

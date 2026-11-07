@@ -31,7 +31,7 @@ export type ResponsSapaanTemanCerita = {
 
 export type ResponsTemanCerita = {
   skrining_id: number;
-  balasan: string; // ditampilkan + dibacakan; tenang dan menemani
+  balasan: string; // ditampilkan; tenang dan menemani
   rujukan_disiapkan: boolean; // ada rujukan level 1-3 yang menunggu persetujuan orang tua/wali
   darurat: boolean; // sinyal krisis: orang tua dikabari dan kasus masuk antrean eskalasi
 };

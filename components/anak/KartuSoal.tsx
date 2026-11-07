@@ -9,8 +9,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "cn";
 import { TombolAnak } from "@/components/anak/fokus/TombolAnak";
-import { TombolSpeaker } from "@/components/anak/TombolSpeaker";
-import { HURUF_PILIHAN as HURUF, teksDibacakan, uraiVisual, type BarisVisual } from "@/components/anak/visual-soal";
+import { HURUF_PILIHAN as HURUF, uraiVisual, type BarisVisual } from "@/components/anak/visual-soal";
 import type { SoalTampil } from "@/lib/kontrak/umum";
 
 function Lidi({ tinggi }: { tinggi: string }) {
@@ -150,9 +149,6 @@ export function KartuSoal({
           );
         })}
       </div>
-
-      {/* Tombol speaker di setiap instruksi (PANDUAN 13): soal + semua pilihan dibacakan. */}
-      <TombolSpeaker teks={teksDibacakan(soal)} label="Dengarkan soal" className="mt-6" />
 
       {!terkunci && (
         <TombolAnak className="mt-6 w-full sm:w-auto sm:min-w-64" disabled={dipilih === null || sibuk} onClick={() => dipilih !== null && onKirim(dipilih)}>

@@ -1,11 +1,13 @@
 "use client";
 
-// Panel hangat di sisi kiri halaman masuk (layar lebar): Pijar, slogan, dan tiga keunggulan PELITA.
-// Kilau kecil mengambang pelan; berhenti jika perangkat meminta "kurangi gerak".
+// Panel ilustrasi bersih di sisi kanan kartu masuk (layar lebar):
+// Menampilkan maskot Pijar dengan ukuran proporsional seperti semula
+// dan 3 daftar keunggulan PELITA di bagian bawah (tanpa teks slogan).
 
 import { motion, useReducedMotion } from "motion/react";
-import { HeartPulse, Map, School, Star } from "lucide-react";
+import { HeartPulse, Map, School } from "lucide-react";
 import { MascotPijar } from "@/components/anak/MascotPijar";
+import { BintangKilau } from "@/components/landing/InteraktifLanding";
 
 const KEUNGGULAN = [
   { ikon: HeartPulse, teks: "Belajar menyesuaikan kondisi anak hari ini" },
@@ -13,57 +15,92 @@ const KEUNGGULAN = [
   { ikon: School, teks: "Laporan capaian untuk sekolah asal" },
 ];
 
-const KILAU = [
-  { kiri: "12%", atas: "16%", ukuran: 22, jeda: 0 },
-  { kiri: "80%", atas: "12%", ukuran: 16, jeda: 0.8 },
-  { kiri: "86%", atas: "52%", ukuran: 20, jeda: 1.6 },
-  { kiri: "8%", atas: "62%", ukuran: 14, jeda: 2.2 },
-];
-
 export function PanelSambut() {
   const kurangiGerak = useReducedMotion();
-  return (
-    <div className="relative flex h-full flex-col justify-center overflow-hidden rounded-[32px] bg-pasir px-10 py-12">
-      <span aria-hidden className="absolute -top-24 -right-24 size-80 rounded-full bg-emas/35" />
-      <span aria-hidden className="absolute -bottom-28 -left-20 size-96 rounded-full bg-merah-muda/30" />
-      <span aria-hidden className="absolute top-1/3 right-12 size-24 rounded-full bg-krem/60" />
-      {KILAU.map((k, i) => (
-        <motion.span
-          key={i}
-          aria-hidden
-          className="absolute text-bata/70"
-          style={{ left: k.kiri, top: k.atas }}
-          animate={kurangiGerak ? undefined : { y: [0, -10, 0], opacity: [0.5, 1, 0.5], rotate: [0, 20, 0] }}
-          transition={{ duration: 3.4, repeat: Infinity, delay: k.jeda, ease: "easeInOut" }}
-        >
-          <Star style={{ width: k.ukuran, height: k.ukuran }} className="fill-emas text-emas" />
-        </motion.span>
-      ))}
 
-      <div className="relative flex flex-col items-center text-center">
-        <MascotPijar ekspresi="sambut" ukuran={210} />
-        <h2 className="mt-4 max-w-sm text-[30px] leading-tight font-black text-balance text-teks">Belajar tetap menyala, walau sedang berobat.</h2>
-        <p className="mt-3 max-w-sm text-[16px] leading-relaxed text-teks-2">
-          Pelita, agar sakit tidak memadamkan cahaya belajar mereka.
-        </p>
+  return (
+    <div className="relative flex h-full w-full flex-col justify-between overflow-hidden bg-[#F7D7AD] pl-14 pr-10 py-10">
+      {/* Latar Ilustrasi Langit PELITA yang Bersih & Minimalis */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 select-none z-0">
+        <img
+          src="/dekorasi/bg-langit-pelita.webp"
+          alt=""
+          className="h-full w-full object-cover object-center opacity-80"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 70% at 52% 42%, rgba(255,248,235,0.68) 0%, rgba(246,204,148,0.45) 60%, rgba(234,123,48,0.18) 100%)",
+          }}
+        />
+
+        {/* 1 Awan Halus di Kanan Atas & 1 Awan Cakrawala Lembut di Bawah */}
+        <motion.img
+          src="/dekorasi/awan-3.webp"
+          alt=""
+          animate={kurangiGerak ? undefined : { x: [0, -10, 0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-3 -right-6 w-52 opacity-55"
+        />
+        <img
+          src="/dekorasi/awan-13.webp"
+          alt=""
+          className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[640px] max-w-none opacity-40"
+        />
+
+        {/* 2 Bintang Kecil sebagai Aksen Lembut */}
+        <BintangKilau
+          varian={2}
+          ukuran={30}
+          delay={0.2}
+          className="absolute top-12 right-[18%]"
+        />
+        <BintangKilau
+          varian={3}
+          ukuran={24}
+          delay={1.1}
+          className="absolute top-[36%] left-[16%]"
+        />
       </div>
 
-      <ul className="relative mx-auto mt-8 flex w-full max-w-sm flex-col gap-3">
-        {KEUNGGULAN.map(({ ikon: Ikon, teks }, i) => (
-          <motion.li
-            key={teks}
-            initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.25 + i * 0.12, type: "spring", stiffness: 240, damping: 24 }}
-            className="flex items-center gap-3 rounded-2xl bg-white/75 px-4 py-3 text-left text-[15px] font-bold text-teks"
-          >
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-bata text-white">
-              <Ikon className="size-5" aria-hidden />
-            </span>
-            {teks}
-          </motion.li>
-        ))}
-      </ul>
+      {/* Bagian Tengah: Maskot Pijar & 3 Daftar Keunggulan PELITA Dinaikkan Lebih Proporsional */}
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-center">
+        <div className="relative flex items-center justify-center">
+          <div
+            aria-hidden
+            className="absolute size-48 rounded-full bg-[#FFFDF9]/70 blur-2xl"
+          />
+          <MascotPijar
+            ekspresi="sambut"
+            gerak="idle"
+            ukuran={180}
+            className="relative drop-shadow-[0_14px_28px_rgba(74,21,32,0.15)]"
+          />
+        </div>
+
+        <ul className="mx-auto mt-7 flex w-full max-w-sm flex-col gap-3">
+          {KEUNGGULAN.map(({ ikon: Ikon, teks }, i) => (
+            <motion.li
+              key={teks}
+              initial={{ opacity: 0, x: 14 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                delay: 0.2 + i * 0.1,
+                type: "spring",
+                stiffness: 240,
+                damping: 24,
+              }}
+              className="flex items-center gap-3 rounded-2xl bg-[#FFFDF9]/90 backdrop-blur-xs border border-[#E5B97F]/75 px-4 py-3 text-left text-[14px] font-bold text-teks shadow-[0_8px_20px_rgba(74,21,32,0.06)]"
+            >
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-bata text-white">
+                <Ikon className="size-4" aria-hidden />
+              </span>
+              {teks}
+            </motion.li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

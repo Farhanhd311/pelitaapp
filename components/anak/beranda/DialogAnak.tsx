@@ -1,12 +1,11 @@
 "use client";
 
 // Dialog kecil di Beranda Anak: panduan cara bermain.
-// Teks pendek, ada tombol speaker, dan tombol tutup besar (>= 56px).
+// Teks pendek dan tombol tutup besar (>= 56px).
 
 import type { ReactNode } from "react";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { MascotPijar, type EkspresiPijar, type GerakPijar } from "@/components/anak/MascotPijar";
-import { TombolSpeaker } from "@/components/anak/TombolSpeaker";
 
 type Props = { pemicu: ReactNode; className?: string };
 
@@ -52,7 +51,6 @@ function DialogDasar(props: {
   children?: ReactNode;
 }) {
   const { pemicu, className, ekspresi, gerak, judul, deskripsi, tombolTutup, children } = props;
-  const teksDibaca = [judul, ...(children ? LANGKAH_PANDUAN : []), deskripsi].join(". ");
 
   return (
     <Dialog>
@@ -63,7 +61,6 @@ function DialogDasar(props: {
         </div>
         <div className="flex items-center justify-center gap-3">
           <DialogTitle className="font-heading text-2xl font-extrabold text-teks">{judul}</DialogTitle>
-          <TombolSpeaker teks={teksDibaca} />
         </div>
         {children}
         <DialogDescription className="text-[15px] leading-relaxed text-teks-2">{deskripsi}</DialogDescription>

@@ -55,20 +55,25 @@ type KasusUji = {
 const data = bacaData<DataMatematika>("data_awal_matematika_fase_A_B.json");
 const kasus = bacaData<KasusUji>("tes_kasus_bkt.json");
 const graf = buatGraf(data.tujuan_pembelajaran, data.prasyarat_tp);
-const param: ParameterAsesmen = data.meta.parameter_bkt;
+// Batas soal asesmen Matematika (mapel_id 1) dari nilai awal PENGATURAN_SISTEM.
+const pengaturanAwal = bacaData<{ pengaturan: { "asesmen.maks_soal_per_mapel": Record<string, number> } }>("seed_pengaturan_sistem.json");
+const param: ParameterAsesmen = { ...data.meta.parameter_bkt, maks_soal_asesmen: pengaturanAwal.pengaturan["asesmen.maks_soal_per_mapel"]["1"] };
 const paramSesi: ParameterSesi = data.meta.parameter_bkt;
 
 function dekat(nyata: number, harapan: number) {
   expect(Math.abs(nyata - harapan)).toBeLessThan(TOLERANSI);
 }
 
+// Kelas terakhir Raka di sekolah (data anak demo). Dipilih sebelum asesmen; TP pertama ada di kelas ini.
+const KELAS_TERAKHIR_RAKA = 3;
+
 // Putar asesmen: anak menjawab benar jika TP-nya ia kuasai, salah jika tidak.
-function putarAsesmen(menguasai: string[], kelasSeharusnya: number, p: ParameterAsesmen) {
-  let keadaan: KeadaanAsesmen = mulaiAsesmen(graf, kelasSeharusnya, p);
+function putarAsesmen(menguasai: string[], kelasTerakhir: number, p: ParameterAsesmen, g = graf) {
+  let keadaan: KeadaanAsesmen = mulaiAsesmen(g, kelasTerakhir, p);
   const jejak = [];
   while (!keadaan.selesai) {
     const benar = menguasai.includes(keadaan.tp_sekarang!);
-    const hasil = setelahJawab(keadaan, graf, benar, p);
+    const hasil = setelahJawab(keadaan, g, benar, p);
     jejak.push({ ...hasil.langkah, benar, soal_ke: hasil.keadaan.tp[hasil.langkah.tp_kode].jumlah_soal });
     keadaan = hasil.keadaan;
     if (jejak.length > 100) throw new Error("Asesmen tidak pernah selesai");
@@ -108,12 +113,13 @@ describe("graf prasyarat", () => {
     expect([...cariKeturunan(graf, "B3")].sort()).toEqual(["B4", "B5", "B7", "B8"]);
   });
 
-  it("TP pertama untuk kelas seharusnya 4 adalah B3", () => {
-    expect(pilihTpPertama(graf, kasus.asesmen_raka.kelas_seharusnya)).toBe(kasus.asesmen_raka.tp_pertama);
+  it("TP pertama untuk kelas terakhir 3 adalah B3", () => {
+    expect(pilihTpPertama(graf, KELAS_TERAKHIR_RAKA)).toBe(kasus.asesmen_raka.tp_pertama);
   });
 
   it("kelas yang tidak punya TP memakai kelas terdekat", () => {
-    expect(graf.tp.get(pilihTpPertama(graf, 1))!.kelas).toBe(1); // kelas 0 tidak ada
+    expect(graf.tp.get(pilihTpPertama(graf, 0))!.kelas).toBe(1); // kelas 0 tidak ada
+    expect(graf.tp.get(pilihTpPertama(graf, 6))!.kelas).toBe(4); // data belum punya kelas 5-6
   });
 
   it("menolak relasi ke TP yang tidak ada", () => {
@@ -124,7 +130,7 @@ describe("graf prasyarat", () => {
 describe("asesmen Raka (data/tes_kasus_bkt.json)", () => {
   const harapan = kasus.asesmen_raka;
   const p = { ...param, ...harapan.parameter };
-  const { keadaan, jejak } = putarAsesmen(harapan.menguasai, harapan.kelas_seharusnya, p);
+  const { keadaan, jejak } = putarAsesmen(harapan.menguasai, KELAS_TERAKHIR_RAKA, p);
 
   it(`urutan TP diuji ${harapan.urutan_tp_diuji.join(" → ")}`, () => {
     expect([...new Set(jejak.map((j) => j.tp_kode))]).toEqual(harapan.urutan_tp_diuji);
@@ -161,22 +167,68 @@ describe("asesmen Raka (data/tes_kasus_bkt.json)", () => {
 });
 
 describe("asesmen kasus lain", () => {
-  it("anak yang menguasai semua TP: selesai tanpa titik mulai", () => {
-    const semua = data.tujuan_pembelajaran.map((t) => t.kode);
-    const { keadaan } = putarAsesmen(semua, 4, param);
-    expect(keadaan.titik_mulai).toBeNull();
-    expect(Object.values(keadaan.tp).every((s) => s.status === "tercapai")).toBe(true);
+  const semua = data.tujuan_pembelajaran.map((t) => t.kode);
+  const kelasTp = (kode: string) => data.tujuan_pembelajaran.find((t) => t.kode === kode)!.kelas;
+
+  it("tidak pernah menguji TP di atas kelas terakhir (Raka: kelas 3)", () => {
+    const { jejak } = putarAsesmen(kasus.asesmen_raka.menguasai, KELAS_TERAKHIR_RAKA, param);
+    expect(jejak.every((j) => kelasTp(j.tp_kode) <= KELAS_TERAKHIR_RAKA)).toBe(true);
   });
 
-  it("tanpa berhenti dini: semua TP diketahui, titik mulai tetap B3", () => {
-    const { keadaan } = putarAsesmen(kasus.asesmen_raka.menguasai, 4, { ...param, berhenti_dini: false });
-    expect(Object.values(keadaan.tp).every((s) => s.status !== "belum_diketahui")).toBe(true);
+  it("menguasai semua TP sampai kelas terakhir -> titik mulai TP pertama kelas berikutnya (Kelasku)", () => {
+    const { keadaan, jejak } = putarAsesmen(semua, 2, param);
+    expect(jejak.every((j) => kelasTp(j.tp_kode) <= 2)).toBe(true);
+    expect(keadaan.titik_mulai).toBe("B1"); // TP kelas 3 pertama yang prasyaratnya (A7) tercapai
+    expect(data.tujuan_pembelajaran.filter((t) => t.kelas > 2).every((t) => keadaan.tp[t.kode].status === "belum_diketahui")).toBe(true);
+  });
+
+  it("menguasai semua TP sampai kelas tertinggi di data: tanpa titik mulai", () => {
+    const { keadaan } = putarAsesmen(semua, 4, param);
+    expect(keadaan.titik_mulai).toBeNull();
+    expect(data.tujuan_pembelajaran.filter((t) => t.kelas === 4).every((t) => keadaan.tp[t.kode].status === "tercapai")).toBe(true);
+    expect(Object.values(keadaan.tp).every((s) => s.status !== "belum")).toBe(true);
+  });
+
+  it("tanpa berhenti dini: semua TP kelas terakhir diketahui, titik mulai tetap B3", () => {
+    const { keadaan } = putarAsesmen(kasus.asesmen_raka.menguasai, KELAS_TERAKHIR_RAKA, { ...param, berhenti_dini: false });
+    expect(data.tujuan_pembelajaran.filter((t) => t.kelas === KELAS_TERAKHIR_RAKA).every((t) => keadaan.tp[t.kode].status !== "belum_diketahui")).toBe(true);
     expect(keadaan.titik_mulai).toBe("B3");
-    expect(keadaan.tp["B6"].status).toBe("tercapai"); // Raka menguasai B6
+    expect(keadaan.tp["B6"].status).toBe("belum_diketahui"); // kelas 4: belum diajarkan, tidak diuji
+  });
+
+  it("lancar di kelas pilihan -> tidak ada soal dari kelas bawah (kelas 3 semua benar: titik mulai B6)", () => {
+    const { keadaan, jejak } = putarAsesmen(semua, 3, param);
+    expect(jejak.every((j) => kelasTp(j.tp_kode) === 3)).toBe(true);
+    expect(keadaan.titik_mulai).toBe("B6"); // prasyarat A8 tidak diuji (belum_diketahui), tidak menghalangi
+    expect(keadaan.tp["A8"].status).toBe("belum_diketahui");
+  });
+
+  it.each([1, 2, 3, 4])("kelas %i: TP kelas bawah yang diuji selalu prasyarat TP yang diuji dan belum dikuasai", (kelas) => {
+    for (const menguasai of [[], semua, kasus.asesmen_raka.menguasai]) {
+      const { keadaan, jejak } = putarAsesmen(menguasai, kelas, param);
+      const gagal = Object.entries(keadaan.tp).filter(([, s]) => s.status === "belum" && s.sumber_status === "diuji").map(([k]) => k);
+      const boleh = new Set(gagal.flatMap((k) => [...cariLeluhur(graf, k)]));
+      for (const j of jejak) if (kelasTp(j.tp_kode) < kelas) expect(boleh.has(j.tp_kode), j.tp_kode).toBe(true);
+    }
+  });
+
+  it("batas soal asesmen tercapai -> asesmen berhenti dengan titik mulai", () => {
+    const { keadaan, jejak } = putarAsesmen([], 3, { ...param, maks_soal_asesmen: 5 });
+    expect(jejak).toHaveLength(5);
+    expect(keadaan.selesai).toBe(true);
+    expect(keadaan.titik_mulai).not.toBeNull();
+  });
+
+  it("batas soal dari pengaturan tidak pernah terlampaui di semua kasus", () => {
+    for (const kelas of [1, 2, 3, 4]) {
+      for (const menguasai of [[], semua, kasus.asesmen_raka.menguasai]) {
+        expect(putarAsesmen(menguasai, kelas, param).keadaan.jumlah_soal).toBeLessThanOrEqual(param.maks_soal_asesmen);
+      }
+    }
   });
 
   it("keadaan lama tidak ikut berubah (fungsi murni)", () => {
-    const awal = mulaiAsesmen(graf, 4, param);
+    const awal = mulaiAsesmen(graf, KELAS_TERAKHIR_RAKA, param);
     const salinan = JSON.parse(JSON.stringify(awal));
     setelahJawab(awal, graf, false, param);
     expect(awal).toEqual(salinan);
@@ -189,40 +241,65 @@ describe("putarUlangAsesmen (keadaan dari jawaban tersimpan)", () => {
   const jawabanRaka = raka.jejak.map((j, i) => ({ soal_id: `${j.tp}-${i}`, tp_kode: j.tp, benar: j.benar, waktu }));
 
   it("belum ada jawaban -> null", () => {
-    expect(putarUlangAsesmen(graf, 4, [], () => param)).toBeNull();
+    expect(putarUlangAsesmen(graf, [], () => param)).toBeNull();
   });
 
-  it("17 jawaban Raka menghasilkan keadaan yang sama dengan memutar mesin langsung", () => {
-    const putaran = putarUlangAsesmen(graf, raka.kelas_seharusnya, jawabanRaka, () => param)!;
-    const langsung = putarAsesmen(raka.menguasai, raka.kelas_seharusnya, param).keadaan;
+  it(`${raka.jumlah_soal} jawaban Raka menghasilkan keadaan yang sama dengan memutar mesin langsung`, () => {
+    const putaran = putarUlangAsesmen(graf, jawabanRaka, () => param)!;
+    const langsung = putarAsesmen(raka.menguasai, KELAS_TERAKHIR_RAKA, param).keadaan;
     expect(putaran.keadaan).toEqual(langsung);
-    expect(putaran.soal_dipakai).toHaveLength(17);
+    expect(putaran.soal_dipakai).toHaveLength(raka.jumlah_soal);
   });
 
   it("separuh jalan: asesmen bisa dilanjutkan dari TP yang benar", () => {
-    const putaran = putarUlangAsesmen(graf, 4, jawabanRaka.slice(0, 12), () => param)!;
+    const separuh = Math.floor(raka.jumlah_soal / 2);
+    const putaran = putarUlangAsesmen(graf, jawabanRaka.slice(0, separuh), () => param)!;
     expect(putaran.keadaan.selesai).toBe(false);
-    expect(putaran.keadaan.tp_sekarang).toBe(raka.jejak[12].tp);
+    expect(putaran.keadaan.tp_sekarang).toBe(raka.jejak[separuh].tp);
   });
 
   it("jawaban setelah asesmen selesai memulai putaran baru dengan parameter saat itu", () => {
     const nanti = new Date("2026-12-01T00:00:00Z");
     const paramBaru = { ...param, ambang_tercapai: 0.9 };
     const jawaban = [...jawabanRaka, { soal_id: "B3-baru", tp_kode: "B3", benar: true, waktu: nanti }];
-    const putaran = putarUlangAsesmen(graf, 4, jawaban, (w) => (w >= nanti ? paramBaru : param))!;
+    const putaran = putarUlangAsesmen(graf, jawaban, (w) => (w >= nanti ? paramBaru : param))!;
     expect(putaran.soal_dipakai).toEqual(["B3-baru"]);
     expect(putaran.param.ambang_tercapai).toBe(0.9);
     expect(putaran.mulai_pada).toEqual(nanti);
   });
 
+  it("kelas terakhir dibaca dari jawaban pertama (anak kelas 2), hasil sama dengan memutar langsung", () => {
+    const semua = data.tujuan_pembelajaran.map((t) => t.kode);
+    const { keadaan, jejak } = putarAsesmen(semua, 2, param);
+    const jawaban = jejak.map((j, i) => ({ soal_id: `${j.tp_kode}-${i}`, tp_kode: j.tp_kode, benar: j.benar, waktu }));
+    expect(putarUlangAsesmen(graf, jawaban, () => param)!.keadaan).toEqual(keadaan);
+  });
+
   it("menolak jawaban yang tidak cocok dengan urutan mesin", () => {
     const salahUrut = [{ soal_id: "A1-x", tp_kode: "A1", benar: true, waktu }];
-    expect(() => putarUlangAsesmen(graf, 4, salahUrut, () => param)).toThrow();
+    expect(() => putarUlangAsesmen(graf, salahUrut, () => param)).toThrow();
+  });
+});
+
+// Mesin yang sama untuk Bahasa Indonesia: tidak ada kode TP atau mapel_id di mesin (PANDUAN 9).
+describe("asesmen Bahasa Indonesia (mapel kedua, data saja)", () => {
+  const bi = bacaData<DataMatematika>("data_awal_bahasa_indonesia_fase_A_B.json");
+  const grafBi = buatGraf(bi.tujuan_pembelajaran, bi.prasyarat_tp);
+  const paramBi = { ...bi.meta.parameter_bkt, maks_soal_asesmen: pengaturanAwal.pengaturan["asesmen.maks_soal_per_mapel"]["2"] };
+  const kelasBi = (kode: string) => grafBi.tp.get(kode)!.kelas;
+
+  it.each([1, 2, 3, 4])("kelas %i: selesai, tidak menguji di atas kelas pilihan, dalam batas soal", (kelas) => {
+    for (const menguasai of [[], bi.tujuan_pembelajaran.map((t) => t.kode)]) {
+      const { keadaan, jejak } = putarAsesmen(menguasai, kelas, paramBi, grafBi);
+      expect(keadaan.selesai).toBe(true);
+      expect(jejak.every((j) => kelasBi(j.tp_kode) <= kelas)).toBe(true);
+      expect(keadaan.jumlah_soal).toBeLessThanOrEqual(paramBi.maks_soal_asesmen);
+    }
   });
 });
 
 describe("susunPeta (Kelasku dan Pos Dasar) setelah asesmen Raka", () => {
-  const { keadaan } = putarAsesmen(kasus.asesmen_raka.menguasai, 4, param);
+  const { keadaan } = putarAsesmen(kasus.asesmen_raka.menguasai, KELAS_TERAKHIR_RAKA, param);
   const daftarTp = data.tujuan_pembelajaran.map((t) => ({ ...t, deskripsi: t.kode, esensial_transisi: true }));
   const peta = susunPeta({
     daftar_tp: daftarTp,
@@ -247,6 +324,12 @@ describe("susunPeta (Kelasku dan Pos Dasar) setelah asesmen Raka", () => {
     expect(peta.kelasku.find((k) => k.kode === "B7")!.terkunci).toBe(true);
     expect(peta.pos_dasar.find((p) => p.kode === "B4")!.terkunci).toBe(true);
     expect(peta.pos_dasar.find((p) => p.kode === "B3")!.terkunci).toBe(false);
+  });
+
+  it("A8 tidak diuji (belum_diketahui): pos opsional, tidak mengunci B6", () => {
+    expect(keadaan.tp["A8"].status).toBe("belum_diketahui");
+    expect(peta.pos_dasar.find((p) => p.kode === "A8")!.wajib).toBe(false);
+    expect(peta.kelasku.find((k) => k.kode === "B6")!.terkunci).toBe(false);
   });
 
   it("hanya TP yang punya konten yang tersedia", () => {

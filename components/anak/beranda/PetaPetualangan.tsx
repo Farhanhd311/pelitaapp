@@ -17,7 +17,6 @@ import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Footprints, Hourglass, Lock, MapPin } from "lucide-react";
 import { MascotPijar, type EkspresiPijar } from "@/components/anak/MascotPijar";
-import { TombolSpeaker } from "@/components/anak/TombolSpeaker";
 import { KemajuanPos, LingkaranSekarang, SimpulSekarang, SimpulTercapai, SimpulTerkunci } from "./SimpulPeta";
 import type { DataBeranda, PosBeranda } from "./jenis";
 
@@ -129,6 +128,7 @@ function JejakKaki({ x, y, sudut, urutan, fase }: { x: number | string; y: numbe
   );
 }
 
+// Tanpa tombol speaker (keputusan tim): pendamping yang membacakan.
 function GelembungPijar({ namaAnak, sekarang, style }: { namaAnak: string; sekarang: DataBeranda["sekarang"]; style?: CSSProperties }) {
   const { ajakan } = sekarang;
   const teks = `Hai, ${namaAnak}! Aku Pijar.`;
@@ -138,10 +138,6 @@ function GelembungPijar({ namaAnak, sekarang, style }: { namaAnak: string; sekar
         <p className="font-heading text-[15px] font-extrabold text-teks">{teks}{" "}🔥</p>
         <p className="mt-0.5 text-[13px] text-teks-2">{ajakan}</p>
       </div>
-      <TombolSpeaker
-        teks={`${teks} ${ajakan} Ketuk tombol ${sekarang.labelTombol} kalau kamu sudah siap.`}
-        className="size-[calc(56px/var(--s,1))] shrink-0"
-      />
       {/* ekor gelembung, menunjuk Pijar di kanannya */}
       <span className="absolute top-1/2 -right-[9px] size-4 -translate-y-1/2 rotate-45 border-t border-r border-garis bg-white" aria-hidden />
     </div>

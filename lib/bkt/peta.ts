@@ -9,6 +9,11 @@ import { cariLeluhur, type GrafPrasyarat } from "./graph";
 
 export type StatusPeta = "belum_diketahui" | "belum" | "jembatan" | "tercapai";
 
+// Status yang berarti anak jelas belum menguasai TP ini (dari asesmen atau sedang dikejar di Pos Dasar).
+function perluDikejar(s: StatusPeta): boolean {
+  return s === "belum" || s === "jembatan";
+}
+
 export type TpPeta = { kode: string; kelas: number; urutan: number; deskripsi: string; esensial_transisi: boolean };
 
 export type KotakPetaHasil = TpPeta & {
@@ -46,20 +51,22 @@ export function susunPeta(m: {
     status: status(t.kode),
     sumber_status: m.progres.get(t.kode)?.sumber_status ?? null,
     tersedia: m.tp_dengan_konten.has(t.kode),
-    terkunci: m.graf.prasyarat.get(t.kode)!.some((pr) => status(pr) !== "tercapai"),
+    // Terkunci hanya jika ada prasyarat langsung yang JELAS belum dikuasai (belum/jembatan).
+    // Prasyarat belum_diketahui (TP kelas bawah yang tidak perlu diuji saat asesmen) tidak mengunci.
+    terkunci: m.graf.prasyarat.get(t.kode)!.some((pr) => perluDikejar(status(pr))),
   });
 
   const tampil = m.daftar_tp.filter((t) => !m.fase_intensif || t.esensial_transisi);
   const kelasku = tampil.filter((t) => t.kelas === kelasKelasku).map(kotak);
 
-  // Prasyarat semua TP Kelasku yang belum tercapai = pos wajib.
+  // Prasyarat semua TP Kelasku yang jelas belum dikuasai = pos wajib. Yang belum_diketahui = pos opsional.
   const prasyaratKelasku = new Set<string>();
   for (const t of kelasku) for (const k of cariLeluhur(m.graf, t.kode)) prasyaratKelasku.add(k);
   const posDasar = tampil
     .filter((t) => t.kelas < kelasKelasku)
     .map((t) => {
       const k = kotak(t);
-      return { ...k, wajib: prasyaratKelasku.has(t.kode) && k.status !== "tercapai" };
+      return { ...k, wajib: prasyaratKelasku.has(t.kode) && perluDikejar(k.status) };
     });
 
   // Rekomendasi: TP yang sedang dikejar (jembatan) dulu, lalu TP belum terendah yang tidak terkunci.
