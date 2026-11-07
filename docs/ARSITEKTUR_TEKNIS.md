@@ -29,7 +29,7 @@ Proyek ini menggunakan arsitektur **Full-Stack Monorepo** dengan **Next.js (App 
 | **Framework Inti** | Next.js (App Router) + TypeScript | — | Routing halaman (`anak`, `pendamping`, `admin`) & Server API Routes |
 | **Database** | **MySQL 8** (`utf8mb4`) | `mysql2` + satu file `schema.sql`; **Drizzle ORM (mysql)** hanya jika ada anggota yang sudah familiar | Mengelola 20 tabel relasional & skrip *seed* |
 | **Login** | Buatan sendiri | `bcryptjs` + `iron-session` | Hash password & PIN, sesi di cookie terenkripsi `httpOnly`. Tidak memakai Supabase Auth |
-| **Styling & UI** | Tailwind CSS + shadcn/ui | `lucide-react` | Komponen UI aksesibel dengan palet warna hangat (*teal*, *peach*, *lavender*, krem, *amber*) |
+| **Styling & UI** | Tailwind CSS + shadcn/ui | `lucide-react` | Komponen UI aksesibel dengan palet tema api hangat (krem, pasir, jingga, emas, bata; lihat PANDUAN bagian 13) |
 | **Animasi & Audio** | `motion` (Framer Motion) | **Web Speech API** (`window.speechSynthesis`) | Animasi ekspresi maskot **Pijar** & fitur baca suara otomatis (`id-ID`) untuk mode ramah mata |
 | **State Management** | React State / `useReducer` | — (tanpa Zustand) | Cukup untuk *state* kuis dan interval otomatis (±1,5 detik/soal) pada **Mode Demo Asesmen**. Satu pustaka lebih sedikit untuk dijelaskan |
 | **AI & Validasi** | LLM API (Server-side) | **Vercel AI SDK (`ai`)** + **Zod** | Memaksa keluaran JSON sesuai skema, mengatur *timeout*, *fallback*, dan mencatat ke `LOG_AI` |
@@ -158,7 +158,7 @@ Semua pemanggilan LLM untuk AI Tutor, Draf Laporan Sekolah, Generator Variasi So
 ## 5. Arsitektur Frontend & Prinsip UI/UX
 
 ### 5.1. Antarmuka Mode Anak (`/app/anak`)
-* **Desain Hangat & Non-Klinis:** Menggunakan latar warna krem hangat dengan warna utama *teal* lembut, aksen *peach*, dan *lavender* untuk Teman Cerita. Tidak boleh terlihat seperti aplikasi medis/rumah sakit.
+* **Desain Hangat & Non-Klinis:** Tema api hangat: latar krem terang, permukaan pasir, aksen emas dan jingga, tombol aksi bata, dan merah muda lembut untuk Teman Cerita (palet lengkap di PANDUAN bagian 13). Merah tidak dipakai untuk menandai kesalahan. Tidak boleh terlihat seperti aplikasi medis/rumah sakit.
 * **Aksesibilitas Anak Sedang Pengobatan:** Semua tombol memiliki area sentuh minimal `56px` dan dilengkapi `TombolSpeaker.tsx` (memanfaatkan `window.speechSynthesis` bahasa Indonesia) agar anak dengan keluhan `"mata lelah"` tetap bisa belajar lewat mode audio. **Suara `id-ID` tidak tersedia di semua perangkat/peramban**: cek di laptop demo sejak H0 (Chrome biasanya punya). Jika tidak ada, siapkan rekaman audio untuk kartu belajar B3 dan audio sesi ringan.
 * **Psikologi Positif Tanpa Hukuman:**
   * Tidak ada tanda silang merah (❌), kata `"Salah"`, *timer* hitung mundur, atau papan peringkat.
@@ -167,7 +167,7 @@ Semua pemanggilan LLM untuk AI Tutor, Draf Laporan Sekolah, Generator Variasi So
   * **Yang di-skrip hanya jawaban Raka**, diturunkan dari daftar TP yang ia kuasai (benar jika dikuasai, salah jika tidak). Pemilihan TP berikutnya, angka peluang, penyimpulan, dan titik mulai **harus dihitung oleh mesin BKT yang sama** lewat `/api/asesmen`, bukan diputar dari rekaman 17 langkah. Dengan begitu tim bisa jujur berkata ke juri: "ini mesin sungguhan, hanya jawabannya yang otomatis". Hasilnya harus sama dengan `data/tes_kasus_bkt.json`.
 
 ### 5.2. Animasi Maskot "Pijar" (`components/anak/MascotPijar.tsx`)
-Menggunakan satu aset PNG transparan lentera kecil bernama **Pijar** yang dianimasikan dengan pustaka `motion` (Metode A — Bahasa Tubuh & Elemen Melayang):
+Menggunakan satu aset PNG transparan nyala api kecil bernama **Pijar** yang dianimasikan dengan pustaka `motion` (Metode A — Bahasa Tubuh & Elemen Melayang):
 
 ```tsx
 // Varian animasi yang telah disesuaikan dengan Bagian 13 PANDUAN_PROYEK.md

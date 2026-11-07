@@ -7,10 +7,30 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+<<<<<<< HEAD
   --font-sans: var(--font-jakarta), var(--font-geist-sans), sans-serif;
   --font-serif: var(--font-fraunces), Georgia, serif;
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-fraunces), Georgia, serif;
+=======
+  --font-sans: var(--font-nunito);
+  --font-heading: var(--font-nunito);
+
+  /* Palet PELITA, tema api hangat (PANDUAN bagian 13). Dipakai sebagai bg-krem, text-bata, dll.
+     Bata/merah hanya untuk tombol aksi, ikon, dan hiasan; tidak pernah untuk menandai kesalahan. */
+  --color-krem: #fff4e4; /* latar */
+  --color-pasir: #f9daac; /* kartu, tombol pilihan */
+  --color-pasir-muda: #fde9cc; /* permukaan lembut, sidebar */
+  --color-jingga: #dc895b; /* garis tepi, aksen */
+  --color-emas: #ecac54; /* chip, sorotan, "perlu perhatian" */
+  --color-bata: #bf4338; /* tombol aksi utama, ikon */
+  --color-bata-tua: #8c2b29; /* bayangan tombol, hover */
+  --color-merah-muda: #e79ca2; /* hiasan, fitur emosi/chat */
+  --color-garis: #efc9a2; /* garis tepi tipis */
+  --color-teks: #2e0b07;
+  --color-teks-2: #7a4335;
+  --color-perhatian: #ecac54; /* emas, bukan merah */
+>>>>>>> f178466816c828d30a3e039f2d29ed7fc8613079
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -50,6 +70,7 @@
 }
 
 :root {
+<<<<<<< HEAD
   /* Color Palette: Api Merah Keemasan (Cerah Keemasan Dominant) */
   --merah-marun: #7F1D2B;
   --merah-tua: #8E1F2E;
@@ -100,6 +121,40 @@
   --sidebar-accent-foreground: #7F1D2B;
   --sidebar-border: #F2D5B0;
   --sidebar-ring: #EDB664;
+=======
+  --background: #fff4e4;
+  --foreground: #2e0b07;
+  --card: #ffffff;
+  --card-foreground: #2e0b07;
+  --popover: #fff4e4;
+  --popover-foreground: #2e0b07;
+  --primary: #bf4338;
+  --primary-foreground: #ffffff;
+  --secondary: #f9daac;
+  --secondary-foreground: #2e0b07;
+  --muted: #fde9cc;
+  --muted-foreground: #7a4335;
+  --accent: #f9daac;
+  --accent-foreground: #2e0b07;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #efc9a2;
+  --input: #efc9a2;
+  --ring: #ecac54;
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.875rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+>>>>>>> f178466816c828d30a3e039f2d29ed7fc8613079
 }
 
 .dark {
@@ -145,5 +200,8 @@
   }
   html {
     @apply font-sans;
+  }
+  h1, h2, h3, h4 {
+    @apply font-heading;
   }
 }
