@@ -12,11 +12,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "seed": "node --env-file=.env --experimental-strip-types scripts/seed.mts",
-<<<<<<< HEAD
+    "impor-kurikulum": "node --env-file=.env --experimental-strip-types scripts/seed.mts --impor-kurikulum",
     "reset-demo": "node --env-file=.env --experimental-strip-types scripts/reset-demo.mts"
-=======
-    "impor-kurikulum": "node --env-file=.env --experimental-strip-types scripts/seed.mts --impor-kurikulum"
->>>>>>> 8fa8747a4e8c9c9837290b48e123bf04e371a288
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.6.0",

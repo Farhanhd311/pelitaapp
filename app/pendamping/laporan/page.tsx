@@ -4,14 +4,14 @@
 // Memetakan progres belajar anak ke CP & TP Kurikulum Merdeka resmi (BSKAP 046/H/KR/2025).
 // Mendukung penyuntingan draf narasi buatan AI (F-LAP-2) dan pencetakan PDF via window.print() (F-LAP-3).
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, Edit3, FileDown, Info, Loader2, Printer, ShieldCheck } from "lucide-react";
 import { GalatKlien, panggilApi, pesanGalat } from "@/lib/api/klien";
 import type { ResponsDataLaporan } from "@/lib/kontrak/pendamping";
 
-export default function HalamanLaporanSekolah() {
+function KontenLaporanSekolah() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -308,5 +308,19 @@ export default function HalamanLaporanSekolah() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function HalamanLaporanSekolah() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FFFDF9] flex items-center justify-center">
+          <Loader2 className="w-8 h-8 text-[#BF4338] animate-spin" />
+        </div>
+      }
+    >
+      <KontenLaporanSekolah />
+    </Suspense>
   );
 }

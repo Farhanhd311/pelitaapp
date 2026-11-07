@@ -172,3 +172,4 @@ export function GrafikTrenCheckin({ riwayat }: { riwayat: ItemCheckin[] }) {
     </section>
   );
 }
+
