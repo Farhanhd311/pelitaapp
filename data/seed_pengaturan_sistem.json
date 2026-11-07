@@ -22,7 +22,22 @@
     ],
     "llm.batas_waktu_detik": 8,
     "llm.maks_kalimat_tutor": 3,
-    "demo.pakai_cadangan": false
+    "demo.pakai_cadangan": false,
+    "kuis.jumlah_soal_ringan": 2,
+    "kuis.jumlah_soal_normal": 5,
+    "kuis.jumlah_soal_penuh": 8,
+    "rujukan.kode_kebutuhan": { "teman": 1, "cerita": 2 },
+    "rujukan.hari_tindak_lanjut": 7,
+    "generator_soal.maks_kata_per_kalimat": 20,
+    "generator_soal.ambang_kemiripan": 0.8,
+    "sesi.ambang_kartu_belajar": 0.4
+  },
+  "catatan_kunci_tambahan": {
+    "kuis.jumlah_soal_*": "PRD F-SESI-3: ringan 1-2 soal santai, normal 3-5 soal formatif, penuh kuis lengkap (8 = jumlah soal formatif B3 yang disiapkan).",
+    "rujukan.kode_kebutuhan": "Chip 'kebutuhan' di Teman Cerita -> level di rujukan.aturan_level. Level 3 tidak dipilih anak: ditentukan dari distres berulang (cuaca hati turun sesi.hari_mood_turun_pemicu_chatbot hari berturut-turut).",
+    "rujukan.hari_tindak_lanjut": "PANDUAN 8.2 langkah 6: tindak lanjut seminggu kemudian.",
+    "sesi.ambang_kartu_belajar": "PANDUAN 7.2: TP baru atau p_menguasai < 0,40 -> tampilkan kartu belajar dulu, baru kuis.",
+    "generator_soal.*": "PANDUAN 8.5: bahasa sesuai usia (kalimat pendek) dan tidak mirip berlebihan dengan soal yang ada (kemiripan kata 0-1)."
   },
   "catatan_belum_diisi": {
     "krisis.daftar_kata_kunci": "Belum di-seed. Menunggu daftar awal dari tim AI (draf, perlu tinjauan psikolog). Kunci ini TIDAK BOLEH kosong saat Teman Cerita dipakai."
