@@ -1,0 +1,872 @@
+
+# FIGMA AGENT MASTER PROMPT
+# PELITA — Adaptive Learning Platform
+
+You are a Senior Product Designer, UX Architect, and UI Design Specialist.
+
+Your task is to design a complete, high-fidelity, responsive web application for PELITA, an adaptive learning platform for children whose education has been interrupted by health-related circumstances.
+
+You must follow the provided `design.md` as the primary source of truth.
+
+You must also use the uploaded Pijar mascot reference image as the official character asset.
+
+Do not replace the mascot with a newly generated character.
+
+Do not ignore the product requirements.
+
+The final result must be a complete, organized, interactive Figma design system and prototype.
+
+---
+
+# 1. PROJECT OBJECTIVE
+
+Design PELITA as a modern educational web application with three distinct role-based experiences:
+
+1. PELITA Anak.
+2. PELITA Pendamping.
+3. PELITA Admin.
+
+The platform must be:
+
+- Desktop-first.
+- Fully responsive.
+- Mobile-friendly.
+- Tablet-compatible.
+- Accessible.
+- Consistent.
+- Interactive.
+- Ready to be translated into a frontend implementation.
+
+This is a RESPONSIVE WEB APPLICATION.
+
+Do not design it as three independent native mobile applications.
+
+Use a shared design system with role-specific navigation and experiences.
+
+---
+
+# 2. REQUIRED REFERENCE FILES
+
+Use these references:
+
+1. `design.md`
+   - Primary product specification.
+   - Page structure.
+   - User flows.
+   - Design system.
+   - Responsive requirements.
+   - Mascot specifications.
+
+2. Original Pijar mascot image uploaded by the user.
+   - Official mascot reference.
+   - Contains multiple character expressions.
+   - Must be preserved.
+
+Do not invent product features that contradict the PRD.
+
+When a requirement is unclear, prioritize the supplied PRD and mark unresolved items rather than silently changing product behavior.
+
+---
+
+# 3. VISUAL DIRECTION
+
+Create a visual identity that feels like a combination of:
+
+- Duolingo-inspired educational interaction.
+- Modern educational SaaS.
+- Warm and friendly illustration.
+- Minimal modern dashboard.
+- Soft and accessible interface.
+
+The interface should feel:
+
+- Warm.
+- Playful.
+- Optimistic.
+- Calm.
+- Professional.
+- Modern.
+- Trustworthy.
+
+The child experience must feel like a learning adventure.
+
+The guardian experience must feel like a reliable educational monitoring platform.
+
+The admin experience must feel like a professional SaaS dashboard.
+
+Do not make the application look like a hospital system.
+
+Do not make it look like a generic school management dashboard.
+
+Do not overuse gradients, shadows, glassmorphism, or decorative elements.
+
+Use whitespace intelligently.
+
+---
+
+# 4. RESPONSIVE ARCHITECTURE
+
+This is the most important structural requirement.
+
+DESIGN DESKTOP FIRST.
+
+Primary reference frame:
+1440 × 900 px.
+
+Secondary:
+- 1280 × 800 px.
+- 1024 × 768 px.
+- 768 × 1024 px.
+- 390 × 844 px.
+
+Every important screen must have:
+
+1. Desktop layout.
+2. Tablet adaptation.
+3. Mobile adaptation.
+
+Do not simply shrink desktop elements.
+
+Reorganize the layout based on the available screen space.
+
+## Desktop
+
+Child:
+- Learning sidebar or compact navigation.
+- Main learning content.
+- Optional contextual Pijar area.
+
+Guardian:
+- Persistent sidebar.
+- Header.
+- Dashboard cards.
+- Main data area.
+
+Admin:
+- Professional sidebar.
+- Header.
+- Data tables.
+- Filters.
+- Charts.
+- Management panels.
+
+## Tablet
+
+- Collapsible sidebar.
+- Flexible card grids.
+- Appropriate content stacking.
+- Accessible buttons.
+
+## Mobile
+
+Child:
+- Bottom navigation.
+- Large learning cards.
+- Single-column layout.
+- Touch-friendly interactions.
+
+Guardian:
+- Bottom navigation.
+- Stacked summary cards.
+- Responsive charts.
+- Full-screen detail pages.
+
+Admin:
+- Drawer navigation.
+- Responsive tables.
+- Simplified management forms.
+
+Ensure navigation remains predictable across devices.
+
+---
+
+# 5. DESIGN SYSTEM FIRST
+
+Before designing individual pages, create the complete design system.
+
+Create a dedicated Figma page:
+
+02 — Design Foundations.
+
+Include:
+
+## Color Tokens
+
+Theme: warm fire ("tema api hangat"). The background stays light; red is an accent, never a dominant background and never a mark for mistakes.
+
+Background Cream (krem):
+#FFF4E4
+
+Surface Sand (pasir) — cards, answer buttons:
+#F9DAAC
+
+Border Orange (jingga):
+#DC895B
+
+Accent Gold (emas) — chips, highlights, "needs attention":
+#ECAC54
+
+Primary Brick (bata) — main action buttons, icons:
+#BF4338
+
+Dark Brick (bata-tua) — button shadow, hover:
+#8C2B29
+
+Soft Pink (merah-muda) — decoration, emotion/chat features:
+#E79CA2
+
+White:
+#FFFFFF
+
+Primary Text:
+#2E0B07
+
+Secondary Text:
+#7A4335
+
+Decorative only (illustrations, flames, stars):
+#DA5447, #BE6352, #C77068
+
+## Typography
+
+Headings and body:
+Nunito.
+
+Create text styles for:
+- Display.
+- H1.
+- H2.
+- H3.
+- Body Large.
+- Body.
+- Caption.
+- Label.
+
+## Spacing
+
+Use an 8px-based spacing system.
+
+## Radius
+
+Cards:
+20px.
+
+Containers:
+24px.
+
+Buttons:
+14px.
+
+Inputs:
+12px.
+
+Badges:
+999px.
+
+## Components
+
+Create reusable components with variants.
+
+Include:
+- Buttons.
+- Inputs.
+- Cards.
+- Modals.
+- Drawers.
+- Tabs.
+- Navigation.
+- Badges.
+- Progress indicators.
+- Learning nodes.
+- Charts.
+- Tables.
+- Mascot.
+- Question cards.
+- Answer options.
+
+Use Auto Layout wherever possible.
+
+Use component properties and variants instead of duplicating components.
+
+---
+
+# 6. OFFICIAL MASCOT — PIJAR
+
+THIS SECTION IS CRITICAL.
+
+Use the uploaded original Pijar image as the official mascot.
+
+The reference image contains a 4-column × 3-row expression sheet.
+
+The character is a cute orange-yellow flame mascot with:
+- Orange-red flame hair.
+- Yellow glowing body.
+- Large brown eyes.
+- Red-orange cape/scarf.
+- Golden diamond chest accessory.
+- Rounded cartoon proportions.
+
+Do not redesign the mascot.
+
+Do not create a different mascot.
+
+Do not change its facial identity.
+
+Do not change its costume.
+
+Do not change its defining colors.
+
+Do not remove its golden chest accessory.
+
+## 6.1 Asset Preparation
+
+Separate the original 12 poses into individual image assets.
+
+Preserve the original illustration.
+
+Crop each pose carefully.
+
+Do not crop:
+- Flame details.
+- Hands.
+- Feet.
+- Cape.
+- Golden accessory.
+- Facial expressions.
+
+Remove white backgrounds only when technically possible without damaging the character.
+
+Use transparent PNG assets when available.
+
+If clean extraction is not possible, preserve the original reference sheet and request separate assets instead of recreating the mascot.
+
+## 6.2 Create Mascot Component
+
+Component name:
+
+Mascot/Pijar
+
+Create variants:
+
+- Welcome.
+- Happy.
+- Calm.
+- Curious.
+- Excited.
+- Surprised.
+- Empathetic.
+- Determined.
+- Resting.
+- Peek.
+- Caring.
+- Transition.
+
+## 6.3 Expression Mapping
+
+Use the expressions according to the situations below.
+
+| Expression | Usage |
+|---|---|
+| Welcome | Greeting and home |
+| Happy | Successful learning |
+| Calm | Learning instructions |
+| Curious | Hints and exploration |
+| Excited | Positive reinforcement |
+| Surprised | Interesting discoveries |
+| Empathetic | Emotional support |
+| Determined | Non-punitive motivational context |
+| Resting | Rest mode |
+| Peek | Tooltips and contextual guidance |
+| Caring | Teman Cerita |
+| Transition | Decorative transitions |
+
+The angry-looking expression must never be used when a child gives an incorrect answer or reports negative emotions.
+
+It may be omitted from child-facing screens.
+
+## 6.4 Mascot Interaction
+
+Pijar should appear contextually.
+
+Examples:
+
+Home:
+Pijar welcomes the child.
+
+Check-in:
+Pijar responds gently to the child's selected condition.
+
+Learning map:
+Pijar guides the child through the journey.
+
+Correct answer:
+Pijar celebrates.
+
+Incorrect answer:
+Pijar encourages another attempt.
+
+AI Tutor:
+Pijar accompanies the explanation.
+
+Rest:
+Pijar uses the sleeping expression.
+
+Teman Cerita:
+Pijar uses the caring expression.
+
+Session completed:
+Pijar celebrates.
+
+Guardian:
+Pijar appears sparingly.
+
+Admin:
+Pijar appears only as a brand accent.
+
+## 6.5 Mascot Motion
+
+Use subtle motion prototypes.
+
+Idle:
+Gentle floating.
+
+Happy:
+Small bounce.
+
+Curious:
+Gentle tilt.
+
+Rest:
+Slow downward movement.
+
+Empathetic:
+Subtle breathing-like movement.
+
+Avoid distracting or aggressive animation.
+
+---
+
+# 7. FIGMA FILE ORGANIZATION
+
+Create these Figma pages in the following order:
+
+01 — Cover & Product Overview
+
+02 — Design Foundations
+
+03 — Components & Variants
+
+04 — Authentication
+
+05 — PELITA Anak — Desktop
+
+06 — PELITA Anak — Mobile
+
+07 — PELITA Pendamping — Desktop
+
+08 — PELITA Pendamping — Mobile
+
+09 — PELITA Admin — Desktop
+
+10 — PELITA Admin — Responsive
+
+11 — Mascot Pijar Asset Library
+
+12 — Prototype & User Flows
+
+Each page must be clearly organized.
+
+Use consistent frame naming.
+
+Examples:
+
+ANAK / Desktop / Beranda
+
+ANAK / Desktop / Check-in
+
+ANAK / Desktop / Peta Kelasku
+
+ANAK / Mobile / Beranda
+
+ANAK / Mobile / Kuis
+
+PENDAMPING / Desktop / Dashboard
+
+PENDAMPING / Mobile / Progres
+
+ADMIN / Desktop / Dashboard
+
+ADMIN / Desktop / Bank Soal
+
+ADMIN / Responsive / Log Aktivitas
+
+---
+
+# 8. REQUIRED SCREEN DESIGNS
+
+Create all major screens specified in `design.md`.
+
+Do not stop after creating a landing page.
+
+Do not stop after creating a dashboard.
+
+The project requires the actual application interface.
+
+## 8.1 Authentication
+
+Design:
+1. Login.
+2. Select Profile.
+3. Guardian PIN.
+4. Access Denied.
+
+## 8.2 PELITA Anak
+
+Design:
+1. Beranda Anak.
+2. Check-in Harian.
+3. Pilih Energi.
+4. Pilih Cuaca Hati.
+5. Pilih Keluhan.
+6. Rencana Belajar.
+7. Petualangan Pertama.
+8. Asesmen Berlangsung.
+9. Hasil Asesmen.
+10. Peta Kelasku.
+11. Peta Pos Dasar.
+12. Detail Tujuan Pembelajaran.
+13. Kartu Belajar.
+14. Kuis Formatif.
+15. Jawaban Benar.
+16. Jawaban Belum Tepat.
+17. Bantuan Pijar / AI Tutor.
+18. Modal Masih Kuat?
+19. Sesi Selesai.
+20. Teman Cerita.
+21. Skrining Teman Cerita.
+
+## 8.3 PELITA Pendamping
+
+Design:
+1. Dashboard Pendamping.
+2. Profil Anak.
+3. Tren Check-in.
+4. Progres Belajar.
+5. Detail TP.
+6. Perlu Perhatian.
+7. Keputusan Menunggu.
+8. Detail Rujukan.
+9. Laporan Sekolah.
+10. Editor Laporan.
+11. Halaman Cetak.
+
+## 8.4 PELITA Admin
+
+Design:
+1. Dashboard Admin.
+2. Aturan AI.
+3. Detail Aturan AI.
+4. Bank Soal.
+5. Detail Soal.
+6. Buat Variasi Soal AI.
+7. Antrean Tinjauan Soal.
+8. Detail Tinjauan Soal.
+9. Evaluasi AI.
+10. Antrean Eskalasi.
+11. Detail Eskalasi.
+12. Log Aktivitas.
+13. Pengaturan Demo / Reset Demo.
+
+Follow the functional specifications in `design.md`.
+
+---
+
+# 9. VISUAL DESIGN REQUIREMENTS
+
+## 9.1 Child Interface
+
+The child interface is the most important visual experience.
+
+Use:
+- Light warm cream background.
+- Brick (#BF4338) for main actions; gold and orange as accents.
+- Sand surfaces for cards and answer buttons; soft pink for decoration.
+- Rounded cards.
+- Large buttons.
+- Friendly illustrations.
+- Learning journey paths.
+- Pijar as the main character guide.
+
+The learning map should be a central visual identity.
+
+Use a Duolingo-inspired learning path with:
+- Connected learning nodes.
+- Clear progress states.
+- Current learning position.
+- Friendly milestones.
+- Grade-based organization.
+
+Do not use:
+- Leaderboards.
+- Competitive rankings.
+- Punitive streaks.
+- Countdown timers.
+- Public performance comparisons.
+- Red incorrect-answer screens.
+
+## 9.2 Guardian Interface
+
+Use a more structured layout.
+
+Prioritize:
+- Information hierarchy.
+- Clear data visualization.
+- Readable charts.
+- Progress status.
+- Attention alerts.
+- Pending decisions.
+- Report generation.
+
+Use professional typography.
+
+Keep the interface warm and approachable.
+
+Avoid excessive cartoon illustrations.
+
+## 9.3 Admin Interface
+
+Use a modern SaaS dashboard.
+
+Prioritize:
+- Sidebar navigation.
+- Data tables.
+- Filters.
+- Parameter configuration.
+- Status badges.
+- Review queues.
+- Evaluation metrics.
+- Audit logs.
+
+The admin dashboard should look professional and operational.
+
+---
+
+# 10. SAMPLE DATA
+
+Use the demo characters and relationships from the PRD:
+
+- Raka.
+- Ibu Sari.
+- Kak Dina.
+
+Label all sample data:
+
+"Data Contoh"
+
+Use realistic demo information.
+
+Do not invent actual patient information.
+
+Use the example learning content from TP B3.
+
+Example:
+6 × 7
+
+If the child selects 13, AI Tutor explains that the child is adding rather than multiplying.
+
+Use the scenario to demonstrate gentle corrective feedback.
+
+---
+
+# 11. PROTOTYPE INTERACTIONS
+
+Create clickable prototypes.
+
+All main navigation elements should work.
+
+## Flow A — Child Learning
+
+Login
+-> Select Profile
+-> Beranda
+-> Check-in
+-> Rencana Belajar
+-> Peta Kelasku
+-> Select TP B3
+-> Kartu Belajar
+-> Kuis
+-> AI Tutor
+-> Sesi Selesai
+
+## Flow B — Guardian
+
+Login
+-> Select Pendamping
+-> PIN
+-> Dashboard
+-> Progres
+-> Detail TP
+-> Keputusan Menunggu
+-> Detail Rujukan
+-> Laporan
+-> Editor
+-> Print Preview
+
+## Flow C — Admin
+
+Admin Login
+-> Dashboard
+-> Bank Soal
+-> Generate AI Question
+-> Review Queue
+-> Review Detail
+-> Publish
+
+## Flow D — Teman Cerita
+
+Beranda
+-> Teman Cerita
+-> Skrining
+-> Result
+-> Referral
+-> Keputusan Menunggu
+
+Create realistic navigation transitions.
+
+Use modals and drawers where appropriate.
+
+Create working back-navigation.
+
+Create visible selected navigation states.
+
+Create clear success, error, disabled, and loading states.
+
+The prototype must demonstrate complete user journeys, not only isolated pages.
+
+---
+
+# 12. RESPONSIVE VALIDATION
+
+For every major page, check:
+
+Desktop:
+1440 × 900.
+
+Laptop:
+1280 × 800.
+
+Tablet:
+768 × 1024.
+
+Mobile:
+390 × 844.
+
+Check:
+- No horizontal overflow.
+- No overlapping content.
+- Navigation remains accessible.
+- Text remains readable.
+- Buttons remain touch-friendly.
+- Tables adapt appropriately.
+- Learning paths remain understandable.
+- Mascot is not cropped.
+- Main actions remain visible.
+
+---
+
+# 13. DESIGN PRIORITIES
+
+If the work must be completed in stages, follow this order:
+
+PHASE 1:
+Design system and reusable components.
+
+PHASE 2:
+Authentication and PELITA Anak desktop.
+
+PHASE 3:
+PELITA Anak mobile and tablet.
+
+PHASE 4:
+PELITA Pendamping desktop and responsive versions.
+
+PHASE 5:
+PELITA Admin desktop.
+
+PHASE 6:
+Admin responsive adaptations.
+
+PHASE 7:
+Mascot asset library.
+
+PHASE 8:
+Interactive prototypes.
+
+PHASE 9:
+Quality assurance.
+
+Do not sacrifice the core child learning experience to decorate the admin dashboard.
+
+---
+
+# 14. FINAL DELIVERABLES
+
+The completed Figma project must contain:
+
+1. Complete design foundations.
+2. Reusable component library.
+3. Three role-based application experiences.
+4. Desktop layouts.
+5. Tablet adaptations.
+6. Mobile adaptations.
+7. Original Pijar mascot asset library.
+8. Mascot expression variants.
+9. Interactive prototypes.
+10. Connected user flows.
+11. Loading and empty states.
+12. Error and success states.
+13. Print-ready school report.
+14. Organized and named Figma frames.
+
+---
+
+# 15. FINAL QUALITY CONTROL
+
+Before finishing, verify:
+
+[ ] The application is desktop-first.
+[ ] All major pages are responsive.
+[ ] The product is a web application, not a native app mockup.
+[ ] The three roles are clearly separated.
+[ ] Navigation works.
+[ ] All major user journeys are connected.
+[ ] Pijar uses the uploaded original mascot.
+[ ] The mascot is not redesigned.
+[ ] All 12 expressions are considered.
+[ ] Mascot expression usage is contextually correct.
+[ ] The learning map is visually engaging.
+[ ] The child experience is not stressful.
+[ ] The guardian dashboard is professional.
+[ ] The admin dashboard is operationally clear.
+[ ] All reusable components use Auto Layout.
+[ ] The prototype has working interactions.
+[ ] The responsive layouts have been validated.
+[ ] The design follows `design.md`.
+
+---
+
+# FINAL INSTRUCTION
+
+Think like a product designer, not just a visual designer.
+
+Do not create a collection of unrelated screens.
+
+Create a coherent, connected, responsive educational product.
+
+The application should feel like a real product that could be implemented by a frontend engineering team.
+
+The most important design experience is the child's journey through PELITA, guided by the original Pijar mascot.
+
+Make the experience memorable, warm, accessible, and emotionally safe.
+
+Start with the design system, then build the complete application architecture and user flows.

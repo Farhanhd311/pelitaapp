@@ -500,8 +500,8 @@ Struktur folder lengkap, konfigurasi lingkungan, dan pembagian modul ada di `doc
 - Mode anak: target sentuh besar (min. 56px), teks minim, ikon dan ilustrasi untuk setiap aksi, **tombol speaker di setiap instruksi**.
 - **Dilarang:** tanda X merah, kata "Salah", timer hitung mundur, papan peringkat, perbandingan dengan anak lain, label "tertinggal". Kesalahan ditampilkan lembut ("Yuk, coba lihat lagi").
 - Untuk anak: bingkai positif ("3 pos lagi menuju Pecahan!"). Untuk pendamping: data detail.
-- Palet: teal lembut (utama), peach (aksen), lavender (fitur emosi/chat), latar krem, amber lembut untuk "perlu perhatian" (bukan merah).
-- Maskot: lentera kecil bernama "Pijar", satu aset PNG. Ekspresi dibuat lewat gerak tubuh dengan `motion`: `idle` (mengambang pelan), `senang` (melompat + bintang), `coba_lagi` (miring lembut, **bukan** menggeleng), `lelah` (turun sedikit + "Zzz"). Jika aset wajah terpisah sudah dibuat sebelum hari-H, boleh memakai teknik tumpuk stiker wajah.
+- Palet (tema api hangat): latar krem `#FFF4E4`, permukaan pasir `#F9DAAC`, garis tepi jingga `#DC895B`, aksen emas `#ECAC54`, aksi utama bata `#BF4338` (bayangan/hover `#8C2B29`), teks cokelat tua `#2E0B07`, hiasan merah muda `#E79CA2` (juga untuk fitur emosi/chat). "Perlu perhatian" memakai emas, bukan merah. Warna bata/merah **hanya** untuk tombol aksi, ikon, dan hiasan; **tidak pernah** untuk menandai kesalahan. Latar tetap terang; merah tidak dipakai sebagai warna latar dominan. Huruf: Nunito.
+- Maskot: nyala api kecil bernama "Pijar" (api dari pelita), satu gambar per ekspresi di `/public/pijar`. Ekspresi dibuat lewat gerak tubuh dengan `motion`: `idle` (mengambang pelan), `senang` (melompat + bintang), `coba_lagi` (miring lembut, **bukan** menggeleng), `lelah` (turun sedikit + "Zzz"). Jika aset wajah terpisah sudah dibuat sebelum hari-H, boleh memakai teknik tumpuk stiker wajah.
 - Bintang dan poin boleh, tetapi **tanpa streak harian yang bisa putus** (lihat 7.1).
 - **Semua teks antarmuka dalam Bahasa Indonesia.**
 
