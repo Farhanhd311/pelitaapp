@@ -41,5 +41,18 @@ export const POST = tanganiApi(async (req: Request) => {
 
   // Masuk mode anak menutup mode pendamping: untuk kembali ke mode pendamping wajib PIN lagi.
   await perbaruiSesi({ anak_aktif: anak_id, mode_pendamping: false });
-  return Response.json({ mode: "anak", anak_id });
+
+  // Cek apakah anak sudah pernah menyelesaikan asesmen diagnostik awal ("Petualangan Pertama")
+  const progres = await query<{ count: number }[]>(
+    "SELECT COUNT(*) as count FROM progres_tp WHERE anak_id = ?",
+    [anak_id],
+  );
+  const perluAsesmen = (progres[0]?.count ?? 0) === 0;
+
+  return Response.json({
+    mode: "anak",
+    anak_id,
+    perlu_asesmen: perluAsesmen,
+    tujuan: perluAsesmen ? "/anak/asesmen" : "/anak",
+  });
 });

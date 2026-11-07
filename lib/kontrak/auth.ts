@@ -39,6 +39,13 @@ export const PermintaanPilihAnak = z.object({
   anak_id: z.number().int(),
 });
 
+export const ResponsPilihAnak = z.object({
+  mode: z.literal("anak"),
+  anak_id: z.number().int(),
+  perlu_asesmen: z.boolean().optional(),
+  tujuan: z.string().optional(),
+});
+
 export const PermintaanPin = z.object({
   pin: z.string().regex(/^\d{4,8}$/, "PIN berupa 4–8 angka"),
 });
@@ -56,6 +63,7 @@ export type ResponsProfil = z.infer<typeof ResponsProfil>;
 export type PermintaanPilihAnak = z.infer<typeof PermintaanPilihAnak>;
 export type PermintaanPin = z.infer<typeof PermintaanPin>;
 export type ResponsPin = z.infer<typeof ResponsPin>;
+export type ResponsPilihAnak = z.infer<typeof ResponsPilihAnak>;
 
 // ---------- Contoh ----------
 

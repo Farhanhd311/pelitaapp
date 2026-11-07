@@ -26,7 +26,7 @@ import {
 } from "@/components/anak/MascotPijar";
 import { BintangKilau } from "@/components/landing/InteraktifLanding";
 import { GalatKlien, panggilApi, pesanGalat } from "@/lib/api/klien";
-import type { ProfilAnak, ResponsPin, ResponsProfil } from "@/lib/kontrak/auth";
+import type { ProfilAnak, ResponsPilihAnak, ResponsPin, ResponsProfil } from "@/lib/kontrak/auth";
 import { PadPin } from "./PadPin";
 
 // Variasi tema visual & ekspresi untuk setiap profil anak agar tampil hidup dan variatif
@@ -118,8 +118,8 @@ export function PilihProfil() {
     if (memilih !== null) return;
     setMemilih(anak.anak_id);
     try {
-      await panggilApi("/api/auth/profil", { anak_id: anak.anak_id });
-      router.push("/anak");
+      const hasil = await panggilApi<ResponsPilihAnak>("/api/auth/profil", { anak_id: anak.anak_id });
+      router.push(hasil.tujuan ?? (hasil.perlu_asesmen ? "/anak/asesmen" : "/anak"));
     } catch (e) {
       setGalat(pesanGalat(e));
       setMemilih(null);
