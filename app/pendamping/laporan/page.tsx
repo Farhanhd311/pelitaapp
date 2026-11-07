@@ -11,7 +11,22 @@ import { ArrowLeft, Edit3, FileDown, Info, Loader2, Printer, ShieldCheck } from 
 import { GalatKlien, panggilApi, pesanGalat } from "@/lib/api/klien";
 import type { ResponsDataLaporan } from "@/lib/kontrak/pendamping";
 
-function KontenLaporanSekolah() {
+// Suspense wajib karena isi halaman membaca ?anak_id & ?mapel_id lewat useSearchParams (cacheComponents, Next 16).
+export default function HalamanLaporanSekolah() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FFFDF9] flex items-center justify-center">
+          <Loader2 className="w-8 h-8 text-[#BF4338] animate-spin" />
+        </div>
+      }
+    >
+      <IsiLaporanSekolah />
+    </Suspense>
+  );
+}
+
+function IsiLaporanSekolah() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -308,19 +323,5 @@ function KontenLaporanSekolah() {
         </div>
       </div>
     </div>
-  );
-}
-
-export default function HalamanLaporanSekolah() {
-  return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-[#FFFDF9] flex items-center justify-center">
-          <Loader2 className="w-8 h-8 text-[#BF4338] animate-spin" />
-        </div>
-      }
-    >
-      <KontenLaporanSekolah />
-    </Suspense>
   );
 }

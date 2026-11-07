@@ -18,7 +18,22 @@ import { GalatKlien, panggilApi, pesanGalat } from "@/lib/api/klien";
 import type { ResponsDashboard } from "@/lib/kontrak/pendamping";
 import type { ResponsProfil } from "@/lib/kontrak/auth";
 
-function KontenDashboardPendamping() {
+// Suspense wajib karena isi halaman memakai useSearchParams (cacheComponents, Next 16).
+export default function HalamanDashboardPendamping() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FFFDF9] flex items-center justify-center">
+          <Loader2 className="w-8 h-8 text-[#BF4338] animate-spin" />
+        </div>
+      }
+    >
+      <IsiDashboardPendamping />
+    </Suspense>
+  );
+}
+
+function IsiDashboardPendamping() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -159,19 +174,5 @@ function KontenDashboardPendamping() {
         )}
       </main>
     </div>
-  );
-}
-
-export default function HalamanDashboardPendamping() {
-  return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-[#FFFDF9] flex items-center justify-center">
-          <Loader2 className="w-8 h-8 text-[#BF4338] animate-spin" />
-        </div>
-      }
-    >
-      <KontenDashboardPendamping />
-    </Suspense>
   );
 }
