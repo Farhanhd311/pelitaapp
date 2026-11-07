@@ -24,6 +24,7 @@ import { butuhMasuk, GalatKlien, panggilApi, pesanGalat as teksGalat } from "@/l
 import type { PermintaanAsesmen, ResponsAsesmen } from "@/lib/kontrak/asesmen";
 import type { ResponsProfil } from "@/lib/kontrak/auth";
 import type { ResponsMapel, ResponsPeta } from "@/lib/kontrak/peta";
+import { denganMapel, HREF_PETA, mapelDariUrl } from "@/components/anak/sesi/jalur";
 
 // Tempo tampilan (bukan aturan bisnis): demo ±1,5 detik per soal (PANDUAN 5 A3), kilasan "Oke, lanjut!".
 const JEDA_DEMO_MS = 1500;
@@ -36,6 +37,7 @@ export default function HalamanAsesmen() {
   const router = useRouter();
   const [fase, setFase] = useState<Fase>("memuat");
   const [mapelId, setMapelId] = useState<number | null>(null);
+  const [namaMapel, setNamaMapel] = useState<string | null>(null);
   const [namaAnak, setNamaAnak] = useState<string | null>(null);
   const [respons, setRespons] = useState<ResponsAsesmen | null>(null);
   const [peta, setPeta] = useState<ResponsPeta | null>(null);
@@ -65,9 +67,13 @@ export default function HalamanAsesmen() {
           panggilApi<ResponsProfil>("/api/auth/profil"),
         ]);
         if (mapel.length === 0) throw new GalatKlien("TIDAK_DITEMUKAN", "Belum ada mata pelajaran.");
-        setMapelId(mapel[0].mapel_id); // MVP: Matematika (mapel pertama yang punya TP)
+        // Penempatan per mapel (PANDUAN 7.2): mapel dari ?mapel= (dipilih di Beranda), atau mapel pertama yang punya TP.
+        const dariUrl = mapelDariUrl();
+        const dipilih = mapel.find((m) => m.mapel_id === dariUrl) ?? mapel[0];
+        setMapelId(dipilih.mapel_id);
+        setNamaMapel(dipilih.nama);
         setNamaAnak(profil.anak_aktif?.nama_panggilan ?? null);
-        const p = await panggilApi<ResponsPeta>(`/api/peta?mapel_id=${mapel[0].mapel_id}`);
+        const p = await panggilApi<ResponsPeta>(`/api/peta?mapel_id=${dipilih.mapel_id}`);
         setPeta(p);
         setFase(p.asesmen_selesai ? "hasil" : "pembuka");
       } catch (g) {
@@ -160,12 +166,13 @@ export default function HalamanAsesmen() {
   }, [fase, modeDemo, demoBerjalan, sibuk, respons, kirimKeServer]);
 
   // ---------- Tampilan ----------
+  const hrefPeta = denganMapel(HREF_PETA, mapelId);
   const sedangMenjawab = fase === "soal" && respons?.soal;
   const tombolKiri = (
     <TombolBulat
       label={sedangMenjawab ? "Istirahat dulu" : "Keluar ke Beranda"}
       onClick={() => {
-        if (!sedangMenjawab) return router.push("/anak");
+        if (!sedangMenjawab) return router.push(hrefPeta);
         setDemoBerjalan(false);
         setTanyaBerhenti(true);
       }}
@@ -195,13 +202,13 @@ export default function HalamanAsesmen() {
           <div className="mx-auto flex max-w-md flex-1 flex-col items-center justify-center text-center">
             <MascotPijar ekspresi="empati" ukuran={150} />
             <p className="mt-3 text-[22px] font-extrabold">{pesanGalat ?? "Ada gangguan. Coba lagi, ya."}</p>
-            <TautanAnak varian="kedua" href="/anak" className="mt-6">
+            <TautanAnak varian="kedua" href={hrefPeta} className="mt-6">
               Kembali ke Beranda
             </TautanAnak>
           </div>
         ))}
 
-      {fase === "pembuka" && <LayarPembuka namaAnak={namaAnak} sibuk={sibuk} onMulai={() => mulai(false)} onMulaiDemo={() => mulai(true)} />}
+      {fase === "pembuka" && <LayarPembuka namaAnak={namaAnak} namaMapel={namaMapel} hrefPeta={hrefPeta} sibuk={sibuk} onMulai={() => mulai(false)} onMulaiDemo={() => mulai(true)} />}
 
       {sedangMenjawab && respons?.soal && (
         <div className="mx-auto mt-6 flex w-full max-w-3xl flex-col items-center gap-6 sm:mt-10">
@@ -216,13 +223,13 @@ export default function HalamanAsesmen() {
             />
           )}
           {/* key: setiap soal baru mengosongkan pilihan. Mode demo: pilihan dikunci (server yang menjawab). */}
-          <KartuSoal key={respons.soal.soal_id} soal={respons.soal} label="Petualangan Pertama" terkunci={modeDemo} sibuk={sibuk} onKirim={kirimJawaban} />
+          <KartuSoal key={respons.soal.soal_id} soal={respons.soal} label={namaMapel ? `Petualangan Pertama · ${namaMapel}` : "Petualangan Pertama"} terkunci={modeDemo} sibuk={sibuk} onKirim={kirimJawaban} />
         </div>
       )}
 
-      {fase === "akhir_sesi" && <LayarAkhirSesi jumlahSoal={respons?.jumlah_soal_dijawab ?? 0} sibuk={sibuk} onLanjut={() => mulai(false)} />}
+      {fase === "akhir_sesi" && <LayarAkhirSesi jumlahSoal={respons?.jumlah_soal_dijawab ?? 0} hrefPeta={hrefPeta} sibuk={sibuk} onLanjut={() => mulai(false)} />}
 
-      {fase === "hasil" && peta && <LayarHasil peta={peta} titikMulai={respons?.titik_mulai ?? null} onUlangi={() => setFase("pembuka")} />}
+      {fase === "hasil" && peta && <LayarHasil peta={peta} titikMulai={respons?.titik_mulai ?? null} hrefPeta={hrefPeta} onUlangi={() => setFase("pembuka")} />}
 
       {pesanGalat && fase !== "galat" && (
         <p role="alert" className="mx-auto mt-6 max-w-xl rounded-2xl bg-emas/25 px-4 py-3 text-center font-semibold">
@@ -231,7 +238,7 @@ export default function HalamanAsesmen() {
       )}
 
       <KilasanLanjut tampil={kilasan} />
-      {tanyaBerhenti && <DialogBerhentiAsesmen onLanjut={() => setTanyaBerhenti(false)} />}
+      {tanyaBerhenti && <DialogBerhentiAsesmen hrefPeta={hrefPeta} onLanjut={() => setTanyaBerhenti(false)} />}
     </LayarFokus>
   );
 }

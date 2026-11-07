@@ -19,11 +19,15 @@ const CARA_MENJAWAB = [
 
 export function LayarPembuka({
   namaAnak,
+  namaMapel,
+  hrefPeta,
   sibuk,
   onMulai,
   onMulaiDemo,
 }: {
   namaAnak: string | null;
+  namaMapel: string | null; // penempatan dilakukan per mapel (PANDUAN 7.2)
+  hrefPeta: string;
   sibuk: boolean;
   onMulai: () => void;
   onMulaiDemo: () => void;
@@ -33,7 +37,7 @@ export function LayarPembuka({
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center py-6 text-center">
       <MascotPijar ekspresi="sambut" gerak="idle" ukuran={150} />
-      <p className="mt-3 rounded-full bg-emas px-4 py-1.5 text-sm font-extrabold">Petualangan Pertama</p>
+      <p className="mt-3 rounded-full bg-emas px-4 py-1.5 text-sm font-extrabold">Petualangan Pertama{namaMapel ? ` · ${namaMapel}` : ""}</p>
       <div className="mt-3 flex items-center gap-3">
         <h1 className="text-[28px] leading-tight font-extrabold text-balance sm:text-[32px]">{judul}</h1>
         <TombolSpeaker teks={`${judul} ${isi}`} />
@@ -53,7 +57,7 @@ export function LayarPembuka({
       </ul>
 
       <div className="mt-8 flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-center">
-        <TautanAnak varian="kedua" href="/anak">
+        <TautanAnak varian="kedua" href={hrefPeta}>
           Nanti saja
         </TautanAnak>
         <TombolAnak onClick={onMulai} disabled={sibuk} className="sm:min-w-60">
@@ -70,7 +74,7 @@ export function LayarPembuka({
 
 // ---------- Akhir sesi: batas soal per sesi tercapai, progres tersimpan ----------
 
-export function LayarAkhirSesi({ jumlahSoal, sibuk, onLanjut }: { jumlahSoal: number; sibuk: boolean; onLanjut: () => void }) {
+export function LayarAkhirSesi({ jumlahSoal, hrefPeta, sibuk, onLanjut }: { jumlahSoal: number; hrefPeta: string; sibuk: boolean; onLanjut: () => void }) {
   const judul = "Kamu sudah berusaha. Itu langkah yang hebat!";
   const isi = `Kamu sudah menjawab ${jumlahSoal} soal dan semuanya tersimpan. Mau lanjut sekarang atau istirahat dulu?`;
   return (
@@ -85,7 +89,7 @@ export function LayarAkhirSesi({ jumlahSoal, sibuk, onLanjut }: { jumlahSoal: nu
         <b>Bukan tentang nilai atau peringkat.</b> Kita mencari titik mulai belajar yang pas untukmu.
       </p>
       <div className="mt-7 flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-center">
-        <TautanAnak varian="kedua" href="/anak">
+        <TautanAnak varian="kedua" href={hrefPeta}>
           Istirahat dulu
         </TautanAnak>
         <TombolAnak onClick={onLanjut} disabled={sibuk} className="sm:min-w-56">
@@ -121,7 +125,7 @@ export function KilasanLanjut({ tampil }: { tampil: boolean }) {
 
 // ---------- Dialog berhenti (gaya sama dengan dialog berhenti sesi belajar) ----------
 
-export function DialogBerhentiAsesmen({ onLanjut }: { onLanjut: () => void }) {
+export function DialogBerhentiAsesmen({ hrefPeta, onLanjut }: { hrefPeta: string; onLanjut: () => void }) {
   return (
     <div className="fixed inset-0 z-[60] flex items-end justify-center bg-teks/40 p-3 sm:items-center">
       <div role="dialog" aria-modal="true" aria-labelledby="judul-berhenti-asesmen" className="w-full max-w-md rounded-[28px] bg-krem p-6 text-center shadow-2xl">
@@ -136,7 +140,7 @@ export function DialogBerhentiAsesmen({ onLanjut }: { onLanjut: () => void }) {
           <TombolAnak onClick={onLanjut} autoFocus>
             Lanjut menjawab
           </TombolAnak>
-          <TautanAnak varian="kedua" href="/anak">
+          <TautanAnak varian="kedua" href={hrefPeta}>
             Ya, istirahat dulu
           </TautanAnak>
         </div>

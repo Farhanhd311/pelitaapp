@@ -5,10 +5,13 @@
 //   level & isi sesi    -> tentukanLevel()        cek "Masih kuat?" -> evaluasiCekMasihKuat()
 //   pembaruan status TP -> jawabFormatif()        tindakan pilihan  -> tindakanMasihKuat()
 // Sesi yang dihentikan di tengah tidak dihitung gagal. Status TP tercapai tidak pernah diturunkan.
+// Sesi materi baru TIDAK berakhir karena jatah soal habis: jatah level = jumlah minimal, lalu soal tambahan
+// sampai TP tercapai (keputusan tim, PANDUAN 7.1). Anak tetap bisa berhenti kapan saja (aksi selesai, atau
+// "Masih kuat?" -> istirahat), dan cek "Masih kuat?" tetap muncul. Sesi mengulang tetap berhenti di jatahnya.
 
 import { bacaBody, GalatApi, tanganiApi } from "@/lib/api/respons";
 import { perbaruiSesi, type KeadaanSesiBelajar } from "@/lib/auth/sesi";
-import { jawabFormatif } from "@/lib/bkt/engine";
+import { benarLagiUntukTercapai, jawabFormatif } from "@/lib/bkt/engine";
 import { susunPeta } from "@/lib/bkt/peta";
 import { denganTransaksi } from "@/lib/db";
 import {
@@ -28,6 +31,7 @@ import {
   ambilPembahasan,
   buatSesiBelajar,
   hitungJawabanBelajarTp,
+  hitungSisaBenar,
   pilihSoalSesi,
   tutupSesi,
   tutupSesiBelajarTerbuka,
@@ -46,6 +50,7 @@ const PESAN = {
   cobaLagi: "Yuk, coba lihat lagi. Kak Pijar bisa bantu menjelaskan.",
   cekKuat: "Kamu sudah belajar dengan rajin. Masih kuat?",
   tawarkanSelesai: "Kamu hebat hari ini! Mau selesai sekarang, atau lanjut satu soal lagi?",
+  lanjutSampaiKuasai: "Sedikit lagi! Yuk, kuasai materi ini supaya pos berikutnya terbuka.",
   tercapai: "Yeay! Kamu sudah menguasai materi ini. Pijar bangga sekali!",
   selesai: "Sesi selesai. Terima kasih sudah belajar hari ini!",
   berhenti: "Istirahat dulu, ya. Progresmu sudah tersimpan. Sampai nanti!",
@@ -76,6 +81,7 @@ function respons(k: Konteks, isi: Partial<ResponsSesi> & Pick<ResponsSesi, "stat
     alasan_cek_kuat: null,
     tawarkan_selesai: false,
     tp_tercapai: false,
+    benar_lagi_untuk_tercapai: null,
     ...isi,
   };
 }
@@ -229,6 +235,7 @@ async function jawab(k: Konteks, minta: Extract<PermintaanSesi, { aksi: "jawab" 
   const tpKode = keadaan.tp_kode!;
   const tp = await infoTp(keadaan.mapel_id, tpKode);
   let tpTercapai = false;
+  let sisaBenar: number | null = null; // untuk pesan "tinggal N jawaban benar lagi" (soal tambahan & layar akhir)
 
   // Dibaca SEBELUM jawaban ini disimpan: p lama dan jumlah soal formatif yang sudah dijawab untuk TP ini.
   const progres = (await ambilProgres(anak.id, keadaan.mapel_id)).get(tpKode);
@@ -248,6 +255,16 @@ async function jawab(k: Konteks, minta: Extract<PermintaanSesi, { aksi: "jawab" 
       min_soal_tercapai: atur.min_soal_tercapai,
     });
     tpTercapai = hasil.tercapai;
+    // Perkiraan memakai ceroboh biasa (sesi berikutnya dimulai tanpa status "Agak capek").
+    if (!hasil.tercapai) {
+      sisaBenar = benarLagiUntukTercapai(hasil.p_menguasai, hasil.jumlah_soal, {
+        tebakan: atur.tebakan,
+        ceroboh: atur.ceroboh,
+        belajar_saat_sesi: atur.belajar_saat_sesi,
+        ambang_tercapai_sesi: atur.ambang_tercapai_sesi,
+        min_soal_tercapai: atur.min_soal_tercapai,
+      });
+    }
     await simpanProgresTp(kueri, anak.id, tpKode, {
       status: hasil.tercapai ? "tercapai" : (progres?.status ?? "belum"),
       sumber_status: hasil.tercapai ? "diuji" : (progres?.sumber_status ?? "diuji"),
@@ -268,11 +285,22 @@ async function jawab(k: Konteks, minta: Extract<PermintaanSesi, { aksi: "jawab" 
   const selesaiDengan = async (pesan: string, tercapai: boolean) => {
     await denganTransaksi((kueri) => tutupSesi(kueri, keadaan.sesi_id));
     await perbaruiSesi({ sesi_belajar: null });
-    return respons(k, { status: "selesai", tp, umpan_balik: umpanBalik, nomor_soal: nomor, tp_tercapai: tercapai, pesan });
+    return respons(k, {
+      status: "selesai",
+      tp,
+      umpan_balik: umpanBalik,
+      nomor_soal: nomor,
+      tp_tercapai: tercapai,
+      benar_lagi_untuk_tercapai: tercapai ? null : sisaBenar,
+      pesan,
+    });
   };
 
   if (tpTercapai) return selesaiDengan(PESAN.tercapai, true);
-  if (nomor >= rencana) return selesaiDengan(PESAN.selesai, false); // kuis tuntas (dihitung untuk "kuis gagal" jika belum tercapai)
+  // Hanya sesi mengulang yang berhenti di jatah soal: jawabannya tidak memengaruhi status TP (PANDUAN 7.1).
+  // Sesi materi baru lanjut dengan soal tambahan sampai TP tercapai.
+  if (keadaan.ulang && nomor >= rencana) return selesaiDengan(PESAN.selesai, false);
+  const soalTambahan = nomor >= rencana;
 
   // Cek "Masih kuat?" (aturan tetap).
   let salahBeruntun = 0;
@@ -306,7 +334,15 @@ async function jawab(k: Konteks, minta: Extract<PermintaanSesi, { aksi: "jawab" 
 
   const soal = await soalBerikutnya(k);
   await perbaruiSesi({ sesi_belajar: { ...keadaan, soal_sekarang: soal!.soal_id } });
-  return respons(k, { status: "kuis", tp, soal, umpan_balik: umpanBalik, nomor_soal: nomor + 1, pesan: PESAN.kuis });
+  return respons(k, {
+    status: "kuis",
+    tp,
+    soal,
+    umpan_balik: umpanBalik,
+    nomor_soal: nomor + 1,
+    benar_lagi_untuk_tercapai: sisaBenar,
+    pesan: soalTambahan ? PESAN.lanjutSampaiKuasai : PESAN.kuis,
+  });
 }
 
 // ---------- aksi: masih_kuat ----------
@@ -343,6 +379,7 @@ async function masihKuat(k: Konteks, pilihan: Extract<PermintaanSesi, { aksi: "m
     soal,
     nomor_soal: nomor,
     tawarkan_selesai: t.tawarkan_selesai,
+    benar_lagi_untuk_tercapai: await sisaBenarSesi(k),
     pesan: t.tawarkan_selesai ? PESAN.tawarkanSelesai : PESAN.kuis,
   });
 }
@@ -353,7 +390,22 @@ async function selesai(k: Konteks): Promise<ResponsSesi> {
   await denganTransaksi((kueri) => tutupSesi(kueri, k.keadaan.sesi_id));
   await perbaruiSesi({ sesi_belajar: null });
   const nomor = (await ambilJawabanSesi(k.keadaan.sesi_id)).length;
-  return respons(k, { status: "selesai", tp: await infoTp(k.keadaan.mapel_id, k.keadaan.tp_kode), nomor_soal: nomor, pesan: PESAN.selesai });
+  return respons(k, {
+    status: "selesai",
+    tp: await infoTp(k.keadaan.mapel_id, k.keadaan.tp_kode),
+    nomor_soal: nomor,
+    benar_lagi_untuk_tercapai: await sisaBenarSesi(k),
+    pesan: PESAN.selesai,
+  });
+}
+
+// Sisa jawaban benar untuk TP sesi ini (null untuk sesi istirahat/mengulang atau TP yang sudah tercapai).
+async function sisaBenarSesi(k: Konteks): Promise<number | null> {
+  const { tp_kode, ulang, mapel_id } = k.keadaan;
+  if (!tp_kode || ulang) return null;
+  const progres = (await ambilProgres(k.anak.id, mapel_id)).get(tp_kode);
+  if (progres?.status === "tercapai") return null;
+  return hitungSisaBenar(k.anak.id, tp_kode, progres?.p_menguasai, k.atur);
 }
 
 export const POST = tanganiApi(async (req: Request) => {

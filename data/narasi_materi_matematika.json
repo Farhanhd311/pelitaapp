@@ -1,0 +1,345 @@
+{
+  "meta": {
+    "judul": "Narasi materi Matematika: kartu belajar bercerita per TP",
+    "versi": "0.1-draf",
+    "status": "Draf. Wajib ditinjau guru SD sebelum dipakai di luar demo.",
+    "keterangan": "Satu narasi per tp_kode, ditampilkan sebelum soal (kartu belajar). Adegan 'tebak' tidak dinilai dan tidak memengaruhi status TP. visual: emoji/teks, kelompok dipisah ' | '."
+  },
+  "narasi": [
+    {
+      "tp_kode": "A1",
+      "judul": "Kupu-kupu di Kebun Bunga",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Halo, aku Pijar! Yuk, jalan-jalan ke kebun bunga dan menghitung apa saja yang kita temui.", "visual": "🌷🌼🌻" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Lihat, ada kupu-kupu! Sentuh satu per satu sambil menyebut angkanya, setiap kupu-kupu dihitung tepat satu kali.",
+          "visual": "🦋🦋🦋🦋🦋🦋",
+          "tebak": { "pertanyaan": "Ada berapa kupu-kupu?", "pilihan": ["5", "6", "7"], "jawaban": "6", "penjelasan": "Kalau disentuh satu per satu: 1, 2, 3, 4, 5, 6. Ada 6 kupu-kupu yang menari!" }
+        },
+        {
+          "ekspresi": "tenang",
+          "teks": "Di sini ada satu baris berisi 10 bunga, ditambah 5 bunga lagi. Sepuluh dan lima menjadi lima belas.",
+          "visual": "🌼🌼🌼🌼🌼🌼🌼🌼🌼🌼 | 🌼🌼🌼🌼🌼",
+          "tebak": { "pertanyaan": "Lima belas ditulis bagaimana?", "pilihan": ["15", "51"], "jawaban": "15", "penjelasan": "Angka 1 di depan artinya satu sepuluhan, angka 5 di belakang artinya lima. Jadi lima belas ditulis 15." }
+        },
+        { "ekspresi": "terkejut", "teks": "Eh, pot ini kosong, tidak ada bunganya sama sekali! Banyaknya nol, ditulis 0.", "visual": "0" },
+        { "ekspresi": "senang", "teks": "Hitung benda satu per satu tepat sekali, dan 0 artinya tidak ada sama sekali.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "A2",
+      "judul": "Pasangan di Tepi Kolam",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar sedang bermain di tepi kolam. Bebek dan katak ingin bermain berpasangan!", "visual": "🦆🦆🦆🦆 | 🐸🐸🐸" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Pasangkan satu bebek dengan satu katak. Yang tersisa tanpa pasangan, itulah yang lebih banyak.",
+          "visual": "🦆🐸 | 🦆🐸 | 🦆🐸 | 🦆",
+          "tebak": { "pertanyaan": "Mana yang lebih banyak?", "pilihan": ["Bebek", "Katak", "Sama banyak"], "jawaban": "Bebek", "penjelasan": "Ada satu bebek yang tidak punya pasangan. Jadi bebek lebih banyak: 4 lebih banyak dari 3." }
+        },
+        { "ekspresi": "tenang", "teks": "Bebek dan katak memang berbeda, tetapi banyaknya tetap bisa dibandingkan. Yang dilihat banyaknya, bukan besar kecilnya gambar." },
+        {
+          "ekspresi": "mengintip",
+          "teks": "Sekarang kita ke garis bilangan. Makin ke kanan, bilangannya makin besar.",
+          "visual": "7 · 8 · 9 · 10 · 11 · 12",
+          "tebak": { "pertanyaan": "Mana yang lebih besar?", "pilihan": ["7", "12"], "jawaban": "12", "penjelasan": "12 punya satu sepuluhan dan dua satuan, jadi lebih besar dari 7. Di garis bilangan, 12 ada lebih jauh di kanan." }
+        },
+        { "ekspresi": "senang", "teks": "Pasangkan satu per satu atau lihat garis bilangan: makin ke kanan, bilangannya makin besar.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "A3",
+      "judul": "Panen Jagung Berikat",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar ikut panen jagung di ladang. Jagungnya diikat, setiap ikat berisi 10 jagung!", "visual": "🌽🌽🌽🌽🌽🌽🌽🌽🌽🌽" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Ada 1 ikat jagung dan 7 jagung lepas. Ingat, satu ikat itu 10 jagung, bukan 1 jagung.",
+          "visual": "🌽🌽🌽🌽🌽🌽🌽🌽🌽🌽 | 🌽🌽🌽🌽🌽🌽🌽",
+          "tebak": { "pertanyaan": "Berapa semua jagungnya?", "pilihan": ["8", "17", "71"], "jawaban": "17", "penjelasan": "Satu ikat berisi 10, ditambah 7 lepas, jadi 17. Angka 1 untuk satu puluhan, angka 7 untuk tujuh satuan." }
+        },
+        { "ekspresi": "tenang", "teks": "Lalu 3 jagung digabung dengan 4 jagung. Hitung semuanya: ada 7 jagung, angkanya tidak ditulis berjejer menjadi 34.", "visual": "🌽🌽🌽 | 🌽🌽🌽🌽" },
+        {
+          "ekspresi": "semangat",
+          "teks": "Bilangan juga bisa diurai dengan banyak cara. 9 jagung bisa menjadi 6 dan 3, atau 4 dan 5.",
+          "visual": "🌽🌽🌽🌽🌽🌽 | 🌽🌽🌽",
+          "tebak": { "pertanyaan": "9 bisa diurai menjadi 7 dan berapa?", "pilihan": ["2", "3", "16"], "jawaban": "2", "penjelasan": "Dari 7, hitung maju sampai 9: delapan, sembilan. Ada 2 langkah, jadi 9 adalah 7 dan 2." }
+        },
+        { "ekspresi": "senang", "teks": "Satu ikat berisi 10, jadi 17 adalah 1 puluhan dan 7 satuan.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "A4",
+      "judul": "Kue Hangat di Dapur",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar dan Nenek membuat kue di dapur. Wanginya harum sekali!", "visual": "🧁" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Ada 5 kue, lalu datang 3 kue lagi. Simpan 5 di kepala, lalu hitung maju tiga langkah.",
+          "visual": "🧁🧁🧁🧁🧁 | 🧁🧁🧁",
+          "tebak": { "pertanyaan": "Jadi 5 + 3 = ...", "pilihan": ["7", "8", "53"], "jawaban": "8", "penjelasan": "Mulai dari 5, lalu melangkah tiga kali: 6, 7, 8. Jadi 5 + 3 = 8." }
+        },
+        { "ekspresi": "tenang", "teks": "Kakak mengambil 2 kue untuk bekal. Dari 8, hitung mundur dua langkah: 7, 6, jadi sisa 6 kue.", "visual": "8 − 2 = 6" },
+        {
+          "ekspresi": "semangat",
+          "teks": "Untuk 9 + 4, genapkan dulu menjadi 10. Ambil 1 dari 4 untuk 9, sisanya 3, jadi 10 + 3 = 13.",
+          "visual": "🧁🧁🧁🧁🧁🧁🧁🧁🧁🧁 | 🧁🧁🧁",
+          "tebak": { "pertanyaan": "Coba 7 + 5. Hasilnya ...", "pilihan": ["11", "12", "13"], "jawaban": "12", "penjelasan": "Ambil 3 dari 5 supaya 7 menjadi 10. Sisanya 2, jadi 10 + 2 = 12." }
+        },
+        { "ekspresi": "senang", "teks": "Menambah berarti hitung maju, mengurangi berarti hitung mundur, dan melewati 10 lebih mudah kalau digenapkan dulu.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "A5",
+      "judul": "Jungkat-jungkit Seimbang",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar sampai di taman bermain. Ada jungkat-jungkit ajaib yang suka seimbang!", "visual": "⚖️" },
+        { "ekspresi": "tenang", "teks": "Tanda = artinya kedua sisi sama nilainya, seperti jungkat-jungkit yang seimbang. 4 + 2 = 6 karena kiri dan kanan sama-sama 6.", "visual": "4 + 2 | = | 6" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Teka-teki jungkat-jungkit: 3 + 5 = 2 + berapa? Sisi kiri jumlahnya 8, jadi sisi kanan juga harus 8.",
+          "visual": "3 + 5 = 2 + ?",
+          "tebak": { "pertanyaan": "Berapa angka yang hilang?", "pilihan": ["6", "8", "10"], "jawaban": "6", "penjelasan": "Sisi kiri 3 + 5 = 8. Supaya seimbang, sisi kanan 2 + 6 = 8." }
+        },
+        {
+          "ekspresi": "mengintip",
+          "teks": "Di taman ada 9 burung, lalu 3 burung terbang pergi. Burungnya bertambah atau berkurang, ya?",
+          "visual": "🐦🐦🐦🐦🐦🐦 | 🐦🐦🐦",
+          "tebak": { "pertanyaan": "Kalimat matematika yang cocok adalah ...", "pilihan": ["9 − 3 = 6", "9 + 3 = 12", "3 − 9 = 6"], "jawaban": "9 − 3 = 6", "penjelasan": "Burung yang pergi membuat banyaknya berkurang, jadi pakai tanda kurang. Mulai dari banyak burung semula, yaitu 9." }
+        },
+        { "ekspresi": "senang", "teks": "Tanda = artinya sama nilainya; cerita bertambah pakai +, cerita berkurang pakai −.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "A6",
+      "judul": "Pijar Pengantar Surat",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Hari ini Pijar jadi pengantar surat. Setiap rumah punya nomor, ada yang sampai 100!", "visual": "🏠🏠🏠 | ✉️" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Surat pertama untuk rumah nomor enam puluh tiga. Bagaimana menulis nomornya, ya?",
+          "visual": "✉️ enam puluh tiga",
+          "tebak": { "pertanyaan": "Mana tulisan enam puluh tiga?", "pilihan": ["63", "36", "603"], "jawaban": "63", "penjelasan": "Enam puluh artinya 6 puluhan, jadi 6 di depan. Tiga satuan ditulis di belakang: 63." }
+        },
+        { "ekspresi": "tenang", "teks": "Rumah 48 dan rumah 84, mana yang nomornya lebih besar? Lihat puluhannya dulu: 8 puluhan lebih banyak dari 4 puluhan, jadi 84 lebih besar.", "visual": "48 | 84" },
+        {
+          "ekspresi": "terkejut",
+          "teks": "Sesudah rumah 58 ada rumah 59, lalu rumah 60! Satuan 9 tambah 1 menjadi 10, jadi puluhannya naik satu.",
+          "visual": "58 · 59 · 60",
+          "tebak": { "pertanyaan": "Bilangan sesudah 39 adalah ...", "pilihan": ["30", "40", "49"], "jawaban": "40", "penjelasan": "39 tambah 1 menjadi 40. Satuannya kembali ke 0 dan puluhannya naik dari 3 ke 4." }
+        },
+        { "ekspresi": "senang", "teks": "Untuk membandingkan, lihat angka puluhan dulu; kalau puluhannya sama, baru bandingkan angka satuan.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "A7",
+      "judul": "Kantong Kerang di Pantai",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar bermain di pantai dan mengumpulkan kerang. Setiap 10 kerang dimasukkan ke satu kantong!", "visual": "🐚🐚🐚🐚🐚🐚🐚🐚🐚🐚 → 👝" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Pijar punya 3 kantong dan 6 kerang lepas. Ingat, setiap kantong berisi 10 kerang, bukan 1.",
+          "visual": "👝👝👝 | 🐚🐚🐚🐚🐚🐚",
+          "tebak": { "pertanyaan": "Berapa semua kerang Pijar?", "pilihan": ["9", "36", "63"], "jawaban": "36", "penjelasan": "3 kantong berarti 3 puluhan, yaitu 30. Ditambah 6 kerang lepas, jadi 36." }
+        },
+        { "ekspresi": "tenang", "teks": "Pada bilangan 36, angka 3 ada di tempat puluhan, nilainya 30. Angka 6 ada di tempat satuan, nilainya 6.", "visual": "36 = 30 + 6" },
+        {
+          "ekspresi": "semangat",
+          "teks": "Tantangan berikutnya: 40 + 7. Ingat, 40 itu 4 puluhan dan 7 itu 7 satuan.",
+          "visual": "40 + 7",
+          "tebak": { "pertanyaan": "40 + 7 = ...", "pilihan": ["11", "47", "407"], "jawaban": "47", "penjelasan": "4 puluhan dan 7 satuan ditulis di tempatnya masing-masing. Jadi 40 + 7 = 47." }
+        },
+        { "ekspresi": "senang", "teks": "Angka depan menunjukkan puluhan dan angka belakang menunjukkan satuan, jadi 36 = 30 + 6.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "A8",
+      "judul": "Piknik Semangka Segar",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar piknik di bawah pohon rindang. Ada satu semangka bulat yang segar!", "visual": "🍉" },
+        { "ekspresi": "tenang", "teks": "Semangka dipotong menjadi 2 bagian yang sama besar. Satu bagian disebut setengah, ditulis ½.", "visual": "½ | ½" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Setiap setengah dipotong lagi menjadi dua. Sekarang ada 4 bagian sama besar, dan satu bagiannya disebut seperempat, ditulis ¼.",
+          "visual": "¼ | ¼ | ¼ | ¼",
+          "tebak": { "pertanyaan": "Makin banyak potongan dari semangka yang sama, setiap potongnya jadi ...", "pilihan": ["Lebih besar", "Lebih kecil"], "jawaban": "Lebih kecil", "penjelasan": "Semangkanya tetap satu, tetapi dibagi ke lebih banyak bagian. Jadi setiap potong menjadi lebih kecil." }
+        },
+        {
+          "ekspresi": "semangat",
+          "teks": "Setengah juga bisa untuk kumpulan benda. Ada 6 stroberi dibagi sama banyak ke 2 piring.",
+          "visual": "🍓🍓🍓 | 🍓🍓🍓",
+          "tebak": { "pertanyaan": "Setengah dari 6 stroberi adalah ...", "pilihan": ["2", "3", "6"], "jawaban": "3", "penjelasan": "6 stroberi dibagi menjadi 2 kelompok sama banyak. Setiap kelompok berisi 3, jadi setengah dari 6 adalah 3." }
+        },
+        { "ekspresi": "senang", "teks": "Setengah artinya 1 dari 2 bagian sama besar, dan seperempat artinya 1 dari 4 bagian sama besar.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "B1",
+      "judul": "Pasar Manik-manik Pijar",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar berkunjung ke pasar kerajinan manik-manik. Manik-maniknya dikemas dalam peti, kotak, untai, dan butir!", "visual": "peti 1.000 | kotak 100 | untai 10 | butir 1" },
+        { "ekspresi": "tenang", "teks": "Ibu penjual punya 2 peti, 6 kotak, 1 untai, dan 4 butir. Semuanya 2.000 + 600 + 10 + 4 = 2.614 butir.", "visual": "2.000 + 600 + 10 + 4 = 2.614" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Pembeli memesan 4 peti, 3 kotak, tanpa untai, dan 8 butir. Bagaimana menulis bilangannya?",
+          "visual": "4 peti | 3 kotak | 0 untai | 8 butir",
+          "tebak": { "pertanyaan": "Mana tulisan yang tepat?", "pilihan": ["4.380", "4.308", "438"], "jawaban": "4.308", "penjelasan": "Tidak ada untai, jadi tempat puluhan diisi 0. Angka 0 menjaga angka lain tetap di tempatnya: 4.308." }
+        },
+        {
+          "ekspresi": "mengintip",
+          "teks": "Toko A punya 5.172 butir, toko B punya 5.217 butir. Bandingkan mulai dari angka paling kiri, ya!",
+          "visual": "5.172 | 5.217",
+          "tebak": { "pertanyaan": "Toko mana yang punya lebih banyak?", "pilihan": ["Toko A", "Toko B"], "jawaban": "Toko B", "penjelasan": "Ribuannya sama-sama 5. Di tempat ratusan, 2 lebih besar dari 1, jadi 5.217 lebih banyak." }
+        },
+        { "ekspresi": "senang", "teks": "Nilai angka bergantung pada tempatnya: pada 2.614, angka 6 bernilai 600.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "B2",
+      "judul": "Festival Lampion Malam",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Malam ini ada festival lampion! Pijar membantu panitia menghitung lampion yang akan dipasang.", "visual": "🏮🏮🏮" },
+        { "ekspresi": "tenang", "teks": "Ada 356 lampion merah dan 127 lampion kuning. Jumlahkan satuan dulu: 6 + 7 = 13, tulis 3 dan simpan 1 ke puluhan.", "visual": "356 + 127" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Lanjut ke puluhan, jangan lupa simpanan 1 tadi. Setelah itu, jumlahkan ratusannya.",
+          "visual": "356 + 127 = ?",
+          "tebak": { "pertanyaan": "Jadi 356 + 127 = ...", "pilihan": ["473", "483", "4.713"], "jawaban": "483", "penjelasan": "Puluhan 5 + 2 + 1 = 8, ratusan 3 + 1 = 4. Jadi semuanya 483 lampion." }
+        },
+        {
+          "ekspresi": "tekad",
+          "teks": "Ada 403 lampion, lalu 165 dibagikan ke warga. Satuan 3 kurang dari 5, jadi pinjam: 403 menjadi 3 ratusan, 9 puluhan, dan 13 satuan.",
+          "visual": "403 − 165",
+          "tebak": { "pertanyaan": "Jadi 403 − 165 = ...", "pilihan": ["238", "248", "362"], "jawaban": "238", "penjelasan": "13 − 5 = 8, 9 − 6 = 3, dan 3 − 1 = 2. Jadi sisanya 238 lampion." }
+        },
+        { "ekspresi": "senang", "teks": "Hitung mulai dari satuan: simpan jika hasilnya lebih dari 9, dan pinjam dari kiri jika angka atasnya kurang.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "B3",
+      "judul": "Kotak Donat Om Budi",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar membantu Om Budi di toko kue. Donatnya dimasukkan ke kotak-kotak kecil!", "visual": "🍩📦" },
+        { "ekspresi": "tenang", "teks": "Ada 5 kotak, setiap kotak berisi 4 donat. Kalau dihitung: 4 + 4 + 4 + 4 + 4 = 20 donat.", "visual": "🍩🍩🍩🍩 | 🍩🍩🍩🍩 | 🍩🍩🍩🍩 | 🍩🍩🍩🍩 | 🍩🍩🍩🍩" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Penjumlahan berulang ini bisa ditulis singkat dengan perkalian. 5 kotak berisi 4 donat ditulis 5 × 4.",
+          "visual": "5 × 4",
+          "tebak": { "pertanyaan": "Jadi 5 × 4 = ...", "pilihan": ["9", "20", "54"], "jawaban": "20", "penjelasan": "5 × 4 artinya 5 kelompok berisi 4, yaitu 4 + 4 + 4 + 4 + 4 = 20. Kalau hanya 5 + 4, donatnya belum terhitung semua." }
+        },
+        {
+          "ekspresi": "mengintip",
+          "teks": "Ada pesanan baru: 3 kotak, setiap kotak berisi 6 donat. Hitung dulu ada berapa kotaknya, ya!",
+          "visual": "🍩🍩🍩🍩🍩🍩 | 🍩🍩🍩🍩🍩🍩 | 🍩🍩🍩🍩🍩🍩",
+          "tebak": { "pertanyaan": "Kalimat perkalian yang cocok adalah ...", "pilihan": ["3 × 6", "6 × 6", "3 + 6"], "jawaban": "3 × 6", "penjelasan": "Ada 3 kelompok, setiap kelompok berisi 6. Jadi 3 × 6 = 6 + 6 + 6 = 18 donat." }
+        },
+        { "ekspresi": "semangat", "teks": "5 × 4 artinya 5 kelompok yang masing-masing berisi 4, bukan 5 + 4.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "B4",
+      "judul": "Berbagi Bibit di Kebun",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar berkebun bersama teman-teman. Ada bibit sawi yang siap ditanam!", "visual": "🌱🪴" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Ada 15 bibit dan 3 pot. Bagikan satu-satu bergiliran sampai habis, supaya setiap pot mendapat sama banyak.",
+          "visual": "🌱🌱🌱🌱🌱 | 🌱🌱🌱🌱🌱 | 🌱🌱🌱🌱🌱",
+          "tebak": { "pertanyaan": "Setiap pot mendapat berapa bibit?", "pilihan": ["3", "5", "12"], "jawaban": "5", "penjelasan": "15 bibit dibagi rata ke 3 pot, setiap pot mendapat 5. Jadi 15 : 3 = 5." }
+        },
+        { "ekspresi": "tenang", "teks": "Pembagian adalah kebalikan perkalian. Karena 3 × 5 = 15, maka 15 : 3 = 5 dan 15 : 5 = 3.", "visual": "3 × 5 = 15 | 15 : 3 = 5" },
+        {
+          "ekspresi": "semangat",
+          "teks": "Sekarang ada 24 bibit untuk 4 pot. Cari bilangan yang jika dikali 4 hasilnya 24.",
+          "visual": "? × 4 = 24",
+          "tebak": { "pertanyaan": "24 : 4 = ...", "pilihan": ["4", "6", "20"], "jawaban": "6", "penjelasan": "Karena 6 × 4 = 24, maka 24 : 4 = 6. Setiap pot mendapat 6 bibit." }
+        },
+        { "ekspresi": "senang", "teks": "Membagi artinya membagi rata sama banyak, dan hasilnya bisa dicari lewat perkalian.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "B5",
+      "judul": "Lompat Batu di Sungai",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar sampai di sungai yang jernih. Ada batu-batu bernomor untuk dilompati!", "visual": "🪨🪨🪨🪨🪨" },
+        { "ekspresi": "tenang", "teks": "Pijar melompat 3 batu sekali lompat: 3, 6, 9, 12, 15. Itulah kelipatan 3, dan 13 bukan kelipatan 3 walau berakhiran 3.", "visual": "3 · 6 · 9 · 12 · 15" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Sekarang lompatannya lebih jauh, 5 batu sekali lompat. Di batu mana saja Pijar mendarat?",
+          "tebak": { "pertanyaan": "Tiga batu pertama tempat Pijar mendarat adalah ...", "pilihan": ["5, 10, 15", "5, 6, 7", "10, 15, 20"], "jawaban": "5, 10, 15", "penjelasan": "Lompatan pertama sudah sampai di 5. Setiap lompatan tambah 5, jadi 5, 10, 15." }
+        },
+        {
+          "ekspresi": "mengintip",
+          "teks": "Di seberang sungai, 8 teman ingin berbaris sama banyak tanpa sisa. Bilangan yang membagi 8 habis disebut faktor 8.",
+          "visual": "😊😊😊😊 | 😊😊😊😊",
+          "tebak": { "pertanyaan": "Mana yang faktor dari 8?", "pilihan": ["3", "4", "16"], "jawaban": "4", "penjelasan": "8 teman bisa dibagi menjadi 2 baris berisi 4, tanpa sisa. Jadi 4 faktor dari 8, sedangkan 16 adalah kelipatan 8." }
+        },
+        { "ekspresi": "senang", "teks": "Kelipatan 3 adalah 3, 6, 9, dan seterusnya, sedangkan faktor 8 adalah 1, 2, 4, dan 8 karena membagi 8 habis.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "B6",
+      "judul": "Benang Layang-layang",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar membuat layang-layang di lapangan. Ada beberapa utas benang yang sama panjang!", "visual": "🪁🪁" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Benang pertama dipotong 3 bagian sama panjang, benang kedua dipotong 10 bagian. Pijar mengambil satu potong dari masing-masing benang.",
+          "visual": "1/3 | 1/10",
+          "tebak": { "pertanyaan": "Potongan mana yang lebih panjang?", "pilihan": ["1/3 benang", "1/10 benang"], "jawaban": "1/3 benang", "penjelasan": "Makin banyak bagiannya, makin pendek setiap potongnya. Jadi 1/3 lebih panjang dari 1/10, walau angka 10 lebih besar." }
+        },
+        { "ekspresi": "tenang", "teks": "Kalau pembilangnya sama-sama 1, lihat penyebutnya. Penyebut makin besar berarti bendanya dibagi makin banyak, jadi setiap bagian makin kecil." },
+        {
+          "ekspresi": "mengintip",
+          "teks": "Benang lain dipotong 5 bagian sama panjang. Pijar memakai 2 potong untuk layang-layang merah dan 4 potong untuk layang-layang biru.",
+          "visual": "2/5 | 4/5",
+          "tebak": { "pertanyaan": "Benang mana yang dipakai lebih panjang?", "pilihan": ["2/5", "4/5", "Sama panjang"], "jawaban": "4/5", "penjelasan": "Potongannya sama besar, yaitu perlima. Jadi 4 potong lebih panjang daripada 2 potong." }
+        },
+        { "ekspresi": "senang", "teks": "Jika pembilangnya 1, penyebut lebih besar berarti bagian lebih kecil; jika penyebutnya sama, pembilang lebih besar berarti bagian lebih besar.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "B7",
+      "judul": "Lipatan Origami Ajaib",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar ikut kelas origami di balai desa. Kertasnya berwarna-warni dan siap dilipat!", "visual": "📄✨" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Pijar melipat kertas menjadi 4 bagian sama besar dan mewarnai 1 bagian, itu 1/4. Lalu kertas dilipat sekali lagi menjadi 8 bagian.",
+          "visual": "🟧⬜⬜⬜ | 🟧🟧⬜⬜⬜⬜⬜⬜",
+          "tebak": { "pertanyaan": "Sekarang bagian yang berwarna adalah ...", "pilihan": ["1/8", "2/8", "2/4"], "jawaban": "2/8", "penjelasan": "Bagian berwarnanya tidak berubah, hanya terlipat menjadi 2 bagian kecil. Dari 8 bagian, 2 berwarna, jadi 2/8." }
+        },
+        { "ekspresi": "tenang", "teks": "Luas bagian yang berwarna tetap sama, jadi 1/4 = 2/8. Potongannya lebih banyak, tetapi setiap potong lebih kecil.", "visual": "1/4 = 2/8" },
+        {
+          "ekspresi": "tekad",
+          "teks": "Teka-teki terakhir: 3/5 sama dengan berapa per 10? Pembilang dan penyebut harus dikali dengan bilangan yang sama.",
+          "visual": "3/5 = ?/10",
+          "tebak": { "pertanyaan": "3/5 = .../10", "pilihan": ["3", "6", "8"], "jawaban": "6", "penjelasan": "Penyebut 5 dikali 2 menjadi 10, jadi pembilang 3 juga dikali 2 menjadi 6. Jadi 3/5 = 6/10." }
+        },
+        { "ekspresi": "senang", "teks": "Pecahan senilai didapat dengan mengalikan pembilang dan penyebut dengan bilangan yang sama, misalnya 1/4 = 2/8.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "B8",
+      "judul": "Mengecat Pagar Taman",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar mengecat pagar taman yang punya 10 papan sama lebar. Warnanya kuning cerah!", "visual": "🎨🖌️" },
+        { "ekspresi": "tenang", "teks": "Pijar sudah mengecat 7 dari 10 papan, yaitu 7/10. Dalam desimal ditulis 0,7, dibaca nol koma tujuh.", "visual": "🟨🟨🟨🟨🟨🟨🟨⬜⬜⬜ | 7/10 = 0,7" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Pagar kedua sudah dicat 0,6 bagian, pagar ketiga 0,35 bagian. Pagar mana yang dicat lebih banyak?",
+          "visual": "0,6 | 0,35",
+          "tebak": { "pertanyaan": "Mana yang lebih besar?", "pilihan": ["0,6", "0,35", "Sama besar"], "jawaban": "0,6", "penjelasan": "0,6 sama dengan 0,60, yaitu 60 perseratus, lebih banyak dari 35 perseratus. Banyaknya angka di belakang koma tidak membuat bilangan lebih besar." }
+        },
+        {
+          "ekspresi": "semangat",
+          "teks": "Persen artinya per seratus. Lantai taman punya 100 ubin, dan 75 ubin sudah dihias gambar bunga.",
+          "visual": "75 dari 100 ubin",
+          "tebak": { "pertanyaan": "Berapa persen ubin yang sudah dihias?", "pilihan": ["7,5%", "75%", "0,75%"], "jawaban": "75%", "penjelasan": "75 dari 100 ubin berarti 75 perseratus. Jadi 75/100 = 0,75 = 75%." }
+        },
+        { "ekspresi": "senang", "teks": "Persepuluhan ditulis satu angka di belakang koma, dan persen artinya per seratus: 0,75 = 75/100 = 75%.", "kunci": true }
+      ]
+    }
+  ]
+}

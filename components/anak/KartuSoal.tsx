@@ -45,7 +45,7 @@ function BarisLidi({ b }: { b: Extract<BarisVisual, { jenis: "lidi" }> }) {
 
 // Visual soal (emoji pengganti gambar), dibaca oleh uraiVisual(): kelompok " | " jadi kotak "piring"
 // yang tidak terbelah saat layar sempit, beberapa baris, ikatan lidi, dan keterangan dalam kurung.
-function VisualSoal({ visual }: { visual: string }) {
+export function VisualSoal({ visual }: { visual: string }) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}

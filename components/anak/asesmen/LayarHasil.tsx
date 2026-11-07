@@ -33,7 +33,17 @@ function BarisTp({ tp, titikMulai }: { tp: KotakPeta; titikMulai: boolean }) {
   );
 }
 
-export function LayarHasil({ peta, titikMulai, onUlangi }: { peta: ResponsPeta; titikMulai: string | null; onUlangi: () => void }) {
+export function LayarHasil({
+  peta,
+  titikMulai,
+  hrefPeta,
+  onUlangi,
+}: {
+  peta: ResponsPeta;
+  titikMulai: string | null;
+  hrefPeta: string; // peta Beranda mapel yang sama
+  onUlangi: () => void;
+}) {
   const semua = [...peta.pos_dasar, ...peta.kelasku].sort((a, b) => a.urutan - b.urutan);
   const kelas = [...new Set(semua.map((t) => t.kelas))].sort((a, b) => a - b);
   const tpMulai = semua.find((t) => t.tp_kode === (titikMulai ?? peta.rekomendasi_tp));
@@ -72,12 +82,10 @@ export function LayarHasil({ peta, titikMulai, onUlangi }: { peta: ResponsPeta; 
         Bukan nilai atau peringkat. Hasil ini ditinjau bersama guru atau pendampingmu.
       </p>
 
-      <div className="mt-7 flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-center">
-        <TautanAnak varian="kedua" href="/anak">
-          Ke Beranda
-        </TautanAnak>
-        <TautanAnak href="/anak/peta" className="sm:min-w-60">
-          Lihat Peta Kelasku
+      {/* Peta penempatan (Pos Dasar -> Kelasku) ada di Beranda, disusun dari hasil ini. */}
+      <div className="mt-7 flex w-full justify-center">
+        <TautanAnak href={hrefPeta} className="w-full sm:w-auto sm:min-w-60">
+          Lihat petaku
         </TautanAnak>
       </div>
       <TombolAnak varian="lembut" onClick={onUlangi} className="mt-3 text-[15px]">

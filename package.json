@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "seed": "node --env-file=.env --experimental-strip-types scripts/seed.mts"
+    "seed": "node --env-file=.env --experimental-strip-types scripts/seed.mts",
+    "impor-kurikulum": "node --env-file=.env --experimental-strip-types scripts/seed.mts --impor-kurikulum"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.6.0",

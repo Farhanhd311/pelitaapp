@@ -1,0 +1,659 @@
+{
+  "meta": {
+    "judul": "Data awal IPAS kelas 4 (Fase B): TP dan soal latihan",
+    "versi": "0.1-draf",
+    "acuan_cp": "Keputusan Kepala BSKAP No. 046/H/KR/2025, VI IPAS Fase B",
+    "status": "Draf ditulis dengan bantuan AI. Wajib ditinjau guru SD sebelum dipakai di luar demo.",
+    "catatan": "Mapel pustaka: tanpa asesmen penempatan dan tanpa prasyarat. Satu TP per materi kelas 4 di data_materi_per_kelas_SD.json. ATP Transisi tidak memuat IPAS, jadi esensial_transisi diisi true agar semua TP tetap tampil. Kolom 'visual' berisi emoji sebagai pengganti gambar sementara.",
+    "pemetaan_materi": {
+      "IPAS-4-IPAS-01": ["IPAS-B1"],
+      "IPAS-4-IPAS-02": ["IPAS-B2"],
+      "IPAS-4-IPAS-03": ["IPAS-B3"],
+      "IPAS-4-IPAS-04": ["IPAS-B4"],
+      "IPAS-4-IPAS-05": ["IPAS-B5"],
+      "IPAS-4-IPAS-06": ["IPAS-B6"],
+      "IPAS-4-IPAS-07": ["IPAS-B7"]
+    }
+  },
+  "mapel": [
+    {
+      "id": 3,
+      "nama": "IPAS"
+    }
+  ],
+  "tujuan_pembelajaran": [
+    {
+      "kode": "IPAS-B1",
+      "mapel_id": 3,
+      "elemen": "Pemahaman IPAS",
+      "fase": "B",
+      "kelas": 4,
+      "urutan": 1,
+      "esensial_transisi": true,
+      "deskripsi": "Mengidentifikasi sumber dan bentuk energi serta menjelaskan perubahan bentuk energi dalam kehidupan sehari-hari"
+    },
+    {
+      "kode": "IPAS-B2",
+      "mapel_id": 3,
+      "elemen": "Pemahaman IPAS",
+      "fase": "B",
+      "kelas": 4,
+      "urutan": 2,
+      "esensial_transisi": true,
+      "deskripsi": "Mengidentifikasi jenis gaya (otot, gravitasi, magnet, gesek) serta menjelaskan pengaruhnya terhadap arah, gerak, dan bentuk benda"
+    },
+    {
+      "kode": "IPAS-B3",
+      "mapel_id": 3,
+      "elemen": "Pemahaman IPAS",
+      "fase": "B",
+      "kelas": 4,
+      "urutan": 3,
+      "esensial_transisi": true,
+      "deskripsi": "Membedakan sumber daya alam yang dapat dan tidak dapat diperbarui serta menentukan cara menghemat dan melestarikannya untuk mengurangi perubahan iklim"
+    },
+    {
+      "kode": "IPAS-B4",
+      "mapel_id": 3,
+      "elemen": "Pemahaman IPAS",
+      "fase": "B",
+      "kelas": 4,
+      "urutan": 4,
+      "esensial_transisi": true,
+      "deskripsi": "Menunjukkan letak kabupaten/kota dan provinsi tempat tinggal pada peta konvensional atau digital dengan bantuan mata angin dan legenda"
+    },
+    {
+      "kode": "IPAS-B5",
+      "mapel_id": 3,
+      "elemen": "Pemahaman IPAS",
+      "fase": "B",
+      "kelas": 4,
+      "urutan": 5,
+      "esensial_transisi": true,
+      "deskripsi": "Menjelaskan kaitan ragam bentang alam dengan profesi dan budaya masyarakat serta upaya melestarikannya"
+    },
+    {
+      "kode": "IPAS-B6",
+      "mapel_id": 3,
+      "elemen": "Pemahaman IPAS",
+      "fase": "B",
+      "kelas": 4,
+      "urutan": 6,
+      "esensial_transisi": true,
+      "deskripsi": "Menceritakan sejarah masyarakat di lingkungan tempat tinggal melalui cerita tetua, peninggalan, dan tradisi daerah"
+    },
+    {
+      "kode": "IPAS-B7",
+      "mapel_id": 3,
+      "elemen": "Pemahaman IPAS",
+      "fase": "B",
+      "kelas": 4,
+      "urutan": 7,
+      "esensial_transisi": true,
+      "deskripsi": "Membedakan kebutuhan dan keinginan serta mengelola uang dengan bijak melalui rencana belanja dan kebiasaan menabung"
+    }
+  ],
+  "prasyarat_tp": [],
+  "soal": [
+    {
+      "id": "IPAS-B1-F1",
+      "tp_kode": "IPAS-B1",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Sumber energi utama bagi bumi adalah ...",
+      "bacaan": null,
+      "visual": "☀️ | 🌍",
+      "pilihan": [
+        { "teks": "Matahari", "benar": true },
+        { "teks": "Bulan", "benar": false, "miskonsepsi": "Mengira bulan memancarkan cahayanya sendiri" },
+        { "teks": "Lampu jalan", "benar": false, "miskonsepsi": "Mengira sumber energi hanya benda buatan manusia" },
+        { "teks": "Awan", "benar": false, "miskonsepsi": "Mengira awan menghasilkan energi karena membawa hujan" }
+      ],
+      "pembahasan": "Matahari memberi cahaya dan panas untuk bumi. Tumbuhan, hewan, dan manusia memerlukan energi dari matahari."
+    },
+    {
+      "id": "IPAS-B1-F2",
+      "tp_kode": "IPAS-B1",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Lampu belajar dinyalakan agar kamar terang. Energi listrik pada lampu berubah menjadi energi ...",
+      "bacaan": null,
+      "visual": "🔌 ➡️ 💡",
+      "pilihan": [
+        { "teks": "bunyi", "benar": false, "miskonsepsi": "Mengira semua alat listrik menghasilkan suara" },
+        { "teks": "cahaya", "benar": true },
+        { "teks": "gerak", "benar": false, "miskonsepsi": "Belum membedakan lampu dengan alat yang berputar seperti kipas" },
+        { "teks": "kimia", "benar": false, "miskonsepsi": "Mengira lampu menyimpan energi seperti baterai" }
+      ],
+      "pembahasan": "Lampu dibuat untuk menerangi. Energi listrik di lampu berubah menjadi energi cahaya."
+    },
+    {
+      "id": "IPAS-B1-F3",
+      "tp_kode": "IPAS-B1",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Kipas angin berputar saat dinyalakan. Perubahan energi pada kipas angin adalah ...",
+      "bacaan": null,
+      "visual": "🔌 ➡️ 💨",
+      "pilihan": [
+        { "teks": "Gerak menjadi listrik", "benar": false, "miskonsepsi": "Membalik arah perubahan energi" },
+        { "teks": "Listrik menjadi cahaya", "benar": false, "miskonsepsi": "Menyamakan semua alat listrik dengan lampu" },
+        { "teks": "Listrik menjadi gerak", "benar": true },
+        { "teks": "Panas menjadi gerak", "benar": false, "miskonsepsi": "Mengira kipas berputar karena udara panas" }
+      ],
+      "pembahasan": "Kipas angin memakai listrik untuk memutar baling-balingnya. Jadi energi listrik berubah menjadi energi gerak."
+    },
+    {
+      "id": "IPAS-B1-F4",
+      "tp_kode": "IPAS-B1",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Saat udara dingin, Nisa menggosok-gosok kedua telapak tangannya. Tangannya terasa hangat. Mengapa?",
+      "bacaan": null,
+      "visual": "🙌",
+      "pilihan": [
+        { "teks": "Energi cahaya berubah menjadi energi panas", "benar": false, "miskonsepsi": "Mengira panas selalu berasal dari cahaya matahari" },
+        { "teks": "Tangan menyimpan energi listrik", "benar": false, "miskonsepsi": "Mengira tubuh mengalirkan listrik seperti kabel" },
+        { "teks": "Angin membawa energi panas ke tangan", "benar": false, "miskonsepsi": "Mengira rasa hangat datang dari luar, bukan dari gerakan" },
+        { "teks": "Energi gerak berubah menjadi energi panas", "benar": true }
+      ],
+      "pembahasan": "Gerakan menggosok tangan menghasilkan panas. Itulah perubahan energi gerak menjadi energi panas."
+    },
+    {
+      "id": "IPAS-B1-F5",
+      "tp_kode": "IPAS-B1",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Senter menyala setelah baterainya dipasang. Urutan perubahan energi yang tepat adalah ...",
+      "bacaan": null,
+      "visual": "🔋 | 🔦",
+      "pilihan": [
+        { "teks": "Kimia → listrik → cahaya", "benar": true },
+        { "teks": "Cahaya → listrik → kimia", "benar": false, "miskonsepsi": "Membalik urutan perubahan energi" },
+        { "teks": "Listrik → kimia → cahaya", "benar": false, "miskonsepsi": "Belum tahu bahwa baterai menyimpan energi kimia" },
+        { "teks": "Kimia → gerak → cahaya", "benar": false, "miskonsepsi": "Mengira ada bagian senter yang bergerak untuk menghasilkan cahaya" }
+      ],
+      "pembahasan": "Baterai menyimpan energi kimia yang berubah menjadi listrik. Listrik itu lalu membuat lampu senter bercahaya."
+    },
+    {
+      "id": "IPAS-B2-F1",
+      "tp_kode": "IPAS-B2",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Mendorong pintu dan menarik laci sama-sama disebut memberikan ...",
+      "bacaan": null,
+      "visual": "🚪 | 🗄️",
+      "pilihan": [
+        { "teks": "cahaya", "benar": false, "miskonsepsi": "Belum memahami bahwa dorongan dan tarikan adalah gaya" },
+        { "teks": "suhu", "benar": false, "miskonsepsi": "Menyamakan gaya dengan rasa panas atau dingin" },
+        { "teks": "bunyi", "benar": false, "miskonsepsi": "Mengira gaya harus menghasilkan suara" },
+        { "teks": "gaya", "benar": true }
+      ],
+      "pembahasan": "Dorongan dan tarikan disebut gaya. Gaya bisa membuat benda bergerak, berhenti, berbelok, atau berubah bentuk."
+    },
+    {
+      "id": "IPAS-B2-F2",
+      "tp_kode": "IPAS-B2",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Buah mangga yang matang jatuh dari pohon ke tanah. Mangga jatuh karena gaya ...",
+      "bacaan": null,
+      "visual": "🌳🥭 | ⬇️",
+      "pilihan": [
+        { "teks": "magnet", "benar": false, "miskonsepsi": "Mengira bumi menarik benda seperti magnet menarik besi" },
+        { "teks": "gravitasi", "benar": true },
+        { "teks": "gesek", "benar": false, "miskonsepsi": "Belum membedakan gaya gesek dengan tarikan bumi" },
+        { "teks": "otot", "benar": false, "miskonsepsi": "Mengira benda jatuh karena ada yang mendorongnya" }
+      ],
+      "pembahasan": "Bumi menarik semua benda ke bawah. Tarikan bumi ini disebut gaya gravitasi."
+    },
+    {
+      "id": "IPAS-B2-F3",
+      "tp_kode": "IPAS-B2",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Benda manakah yang akan ditarik oleh magnet?",
+      "bacaan": null,
+      "visual": "🧲",
+      "pilihan": [
+        { "teks": "Penghapus karet", "benar": false, "miskonsepsi": "Mengira magnet menarik semua benda kecil" },
+        { "teks": "Sendok plastik", "benar": false, "miskonsepsi": "Mengira magnet menarik semua benda keras" },
+        { "teks": "Paku besi", "benar": true },
+        { "teks": "Kertas lipat", "benar": false, "miskonsepsi": "Mengira benda ringan mudah ditarik magnet" }
+      ],
+      "pembahasan": "Magnet hanya menarik benda tertentu, misalnya yang terbuat dari besi. Plastik, karet, dan kertas tidak ditarik magnet."
+    },
+    {
+      "id": "IPAS-B2-F4",
+      "tp_kode": "IPAS-B2",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Rina menekan dan memilin plastisin bulat sampai menjadi panjang. Pengaruh gaya yang terlihat adalah ...",
+      "bacaan": null,
+      "visual": "🟠 ➡️ 〰️",
+      "pilihan": [
+        { "teks": "Bentuk benda berubah", "benar": true },
+        { "teks": "Benda diam menjadi bergerak", "benar": false, "miskonsepsi": "Belum membedakan perubahan bentuk dengan perubahan gerak" },
+        { "teks": "Arah gerak benda berubah", "benar": false, "miskonsepsi": "Mengira gaya hanya bisa mengubah arah benda" },
+        { "teks": "Warna benda berubah", "benar": false, "miskonsepsi": "Mengira gaya bisa mengubah warna benda" }
+      ],
+      "pembahasan": "Tekanan dan pilinan tangan adalah gaya. Gaya itu mengubah bentuk plastisin dari bulat menjadi panjang."
+    },
+    {
+      "id": "IPAS-B2-F5",
+      "tp_kode": "IPAS-B2",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Raka meluncurkan mobil mainan di lantai keramik dan di karpet. Di karpet, mobil lebih cepat berhenti. Mengapa?",
+      "bacaan": null,
+      "visual": "🚗 ⬜ | 🚗 🟫",
+      "pilihan": [
+        { "teks": "Gaya gesek karpet lebih kecil", "benar": false, "miskonsepsi": "Membalik hubungan permukaan kasar dan gesekan" },
+        { "teks": "Gaya gesek karpet lebih besar", "benar": true },
+        { "teks": "Karpet menarik mobil seperti magnet", "benar": false, "miskonsepsi": "Mengira karpet memiliki gaya magnet" },
+        { "teks": "Gravitasi tidak bekerja di atas karpet", "benar": false, "miskonsepsi": "Mengira gravitasi hanya bekerja di tempat tertentu" }
+      ],
+      "pembahasan": "Permukaan karpet lebih kasar daripada keramik. Gesekannya lebih besar, jadi mobil mainan lebih cepat berhenti."
+    },
+    {
+      "id": "IPAS-B3-F1",
+      "tp_kode": "IPAS-B3",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Sumber daya alam yang dapat diperbarui adalah ...",
+      "bacaan": null,
+      "visual": null,
+      "pilihan": [
+        { "teks": "Minyak bumi", "benar": false, "miskonsepsi": "Mengira minyak bumi cepat terbentuk kembali" },
+        { "teks": "Tumbuhan", "benar": true },
+        { "teks": "Batu bara", "benar": false, "miskonsepsi": "Mengira batu bara bisa ditanam atau dibuat lagi dengan cepat" },
+        { "teks": "Gas alam", "benar": false, "miskonsepsi": "Mengira gas alam selalu ada dan tidak bisa habis" }
+      ],
+      "pembahasan": "Tumbuhan bisa ditanam lagi sehingga dapat diperbarui. Minyak bumi, batu bara, dan gas alam butuh waktu sangat lama untuk terbentuk."
+    },
+    {
+      "id": "IPAS-B3-F2",
+      "tp_kode": "IPAS-B3",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Saat menyikat gigi, cara menghemat air adalah ...",
+      "bacaan": null,
+      "visual": "🪥 | 💧",
+      "pilihan": [
+        { "teks": "Membiarkan keran terus mengalir", "benar": false, "miskonsepsi": "Mengira air bersih tidak akan habis" },
+        { "teks": "Memakai air sebanyak-banyaknya", "benar": false, "miskonsepsi": "Mengira makin banyak air makin bersih giginya" },
+        { "teks": "Membuka keran besar agar cepat selesai", "benar": false, "miskonsepsi": "Mengira keran besar lebih hemat karena cepat" },
+        { "teks": "Menampung air di gelas, lalu menutup keran", "benar": true }
+      ],
+      "pembahasan": "Air bersih perlu dihemat. Menampung air di gelas dan menutup keran membuat air tidak terbuang."
+    },
+    {
+      "id": "IPAS-B3-F3",
+      "tp_kode": "IPAS-B3",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Mengapa menanam pohon dapat membantu mengurangi perubahan iklim?",
+      "bacaan": null,
+      "visual": "🌱 | 🌳🌳",
+      "pilihan": [
+        { "teks": "Pohon menyerap karbon dioksida dari udara", "benar": true },
+        { "teks": "Pohon membuat hujan turun setiap hari", "benar": false, "miskonsepsi": "Melebih-lebihkan pengaruh pohon terhadap cuaca" },
+        { "teks": "Pohon hanya berguna sebagai hiasan taman", "benar": false, "miskonsepsi": "Mengira pohon hanya berguna untuk keindahan" },
+        { "teks": "Pohon membuat angin bertiup sangat kencang", "benar": false, "miskonsepsi": "Mengira pohon menghasilkan angin" }
+      ],
+      "pembahasan": "Karbon dioksida yang terlalu banyak membuat bumi makin panas. Pohon menyerapnya dan menghasilkan oksigen."
+    },
+    {
+      "id": "IPAS-B3-F4",
+      "tp_kode": "IPAS-B3",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Kegiatan berikut yang menghemat energi listrik adalah ...",
+      "bacaan": null,
+      "visual": "💡 | 🔌",
+      "pilihan": [
+        { "teks": "Menyalakan televisi walau tidak ditonton", "benar": false, "miskonsepsi": "Mengira alat yang tidak ditonton tidak memakai listrik" },
+        { "teks": "Mematikan lampu saat keluar kamar", "benar": true },
+        { "teks": "Membiarkan pengisi daya terpasang tanpa ponsel", "benar": false, "miskonsepsi": "Mengira pengisi daya tanpa ponsel tidak memakai listrik" },
+        { "teks": "Membuka pintu kulkas lama-lama", "benar": false, "miskonsepsi": "Belum tahu bahwa kulkas memakai lebih banyak listrik saat sering dibuka" }
+      ],
+      "pembahasan": "Lampu yang tidak dipakai sebaiknya dimatikan. Listrik jadi hemat dan bahan bakar pembangkit listrik juga lebih awet."
+    },
+    {
+      "id": "IPAS-B3-F5",
+      "tp_kode": "IPAS-B3",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Keluarga Fadil ingin mengurangi sampah plastik saat belanja ke pasar. Pilihan yang paling tepat adalah ...",
+      "bacaan": null,
+      "visual": "🛍️ | 🧺",
+      "pilihan": [
+        { "teks": "Meminta kantong plastik untuk setiap barang", "benar": false, "miskonsepsi": "Mengira kantong plastik tidak memengaruhi lingkungan" },
+        { "teks": "Membakar kantong plastik setelah dipakai", "benar": false, "miskonsepsi": "Mengira membakar plastik membersihkan lingkungan" },
+        { "teks": "Membawa tas kain sendiri dari rumah", "benar": true },
+        { "teks": "Membuang kantong plastik ke sungai", "benar": false, "miskonsepsi": "Mengira sampah di sungai akan hilang sendiri" }
+      ],
+      "pembahasan": "Tas kain bisa dipakai berkali-kali, jadi sampah plastik berkurang. Membakar plastik menghasilkan asap yang mengotori udara."
+    },
+    {
+      "id": "IPAS-B4-F1",
+      "tp_kode": "IPAS-B4",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Raka tinggal di Kota Padang. Padang adalah ibu kota provinsi ...",
+      "bacaan": null,
+      "visual": "🗺️ | 📍",
+      "pilihan": [
+        { "teks": "Sumatera Barat", "benar": true },
+        { "teks": "Sumatera Utara", "benar": false, "miskonsepsi": "Tertukar dengan provinsi tetangga di sebelah utara" },
+        { "teks": "Riau", "benar": false, "miskonsepsi": "Tertukar dengan provinsi tetangga di sebelah timur" },
+        { "teks": "Bukittinggi", "benar": false, "miskonsepsi": "Mengira kota sebagai provinsi" }
+      ],
+      "pembahasan": "Padang adalah ibu kota Provinsi Sumatera Barat. Bukittinggi juga ada di Sumatera Barat, tetapi Bukittinggi adalah kota."
+    },
+    {
+      "id": "IPAS-B4-F2",
+      "tp_kode": "IPAS-B4",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Nisa ingin melihat jalan di dekat rumahnya lebih jelas pada peta digital. Apa yang sebaiknya Nisa lakukan?",
+      "bacaan": null,
+      "visual": "📱 | 🗺️",
+      "pilihan": [
+        { "teks": "Memperkecil tampilan peta", "benar": false, "miskonsepsi": "Tertukar antara memperbesar dan memperkecil tampilan" },
+        { "teks": "Memutar layar sampai terbalik", "benar": false, "miskonsepsi": "Mengira membalik layar membuat peta lebih jelas" },
+        { "teks": "Memperbesar tampilan peta", "benar": true },
+        { "teks": "Mengganti dengan peta dunia", "benar": false, "miskonsepsi": "Mengira peta yang lebih luas menunjukkan jalan lebih jelas" }
+      ],
+      "pembahasan": "Peta digital bisa diperbesar dengan dua jari. Jalan-jalan kecil di dekat rumah pun terlihat lebih jelas."
+    },
+    {
+      "id": "IPAS-B4-F3",
+      "tp_kode": "IPAS-B4",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Pada peta ada gambar segitiga kecil. Untuk mengetahui artinya, kita melihat bagian peta yang disebut ...",
+      "bacaan": null,
+      "visual": "🔺",
+      "pilihan": [
+        { "teks": "Skala", "benar": false, "miskonsepsi": "Tertukar antara legenda dan skala" },
+        { "teks": "Judul peta", "benar": false, "miskonsepsi": "Mengira arti simbol ditulis pada judul peta" },
+        { "teks": "Mata angin", "benar": false, "miskonsepsi": "Mengira mata angin menjelaskan arti simbol" },
+        { "teks": "Legenda", "benar": true }
+      ],
+      "pembahasan": "Legenda berisi keterangan simbol pada peta. Misalnya, segitiga bisa berarti gunung."
+    },
+    {
+      "id": "IPAS-B4-F4",
+      "tp_kode": "IPAS-B4",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Pada peta, Kota Bukittinggi terletak di atas Kota Padang. Bukittinggi berada di sebelah mana dari Padang?",
+      "bacaan": null,
+      "visual": "🧭",
+      "pilihan": [
+        { "teks": "Selatan", "benar": false, "miskonsepsi": "Membalik arah atas dan bawah pada peta" },
+        { "teks": "Utara", "benar": true },
+        { "teks": "Barat", "benar": false, "miskonsepsi": "Mengira arah atas peta adalah barat" },
+        { "teks": "Timur", "benar": false, "miskonsepsi": "Tertukar antara utara dan timur" }
+      ],
+      "pembahasan": "Arah atas pada peta umumnya utara. Jadi Bukittinggi berada di sebelah utara Padang."
+    },
+    {
+      "id": "IPAS-B4-F5",
+      "tp_kode": "IPAS-B4",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Raka tinggal di sebuah kelurahan di Kota Padang, Sumatera Barat. Urutan wilayah dari yang paling luas ke yang paling sempit adalah ...",
+      "bacaan": null,
+      "visual": "🗺️ ➡️ 🏙️ ➡️ 🏘️ ➡️ 🏠",
+      "pilihan": [
+        { "teks": "Kota, provinsi, kecamatan, kelurahan", "benar": false, "miskonsepsi": "Mengira kota lebih luas daripada provinsi" },
+        { "teks": "Kelurahan, kecamatan, kota, provinsi", "benar": false, "miskonsepsi": "Mengurutkan dari yang paling sempit" },
+        { "teks": "Provinsi, kecamatan, kota, kelurahan", "benar": false, "miskonsepsi": "Mengira kecamatan lebih luas daripada kota" },
+        { "teks": "Provinsi, kota, kecamatan, kelurahan", "benar": true }
+      ],
+      "pembahasan": "Provinsi terdiri dari beberapa kabupaten dan kota. Kota terdiri dari kecamatan, dan kecamatan terdiri dari kelurahan."
+    },
+    {
+      "id": "IPAS-B5-F1",
+      "tp_kode": "IPAS-B5",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Masyarakat yang tinggal di daerah pantai banyak yang bekerja sebagai ...",
+      "bacaan": null,
+      "visual": "🏖️ | 🌊 | 🚣",
+      "pilihan": [
+        { "teks": "Nelayan", "benar": true },
+        { "teks": "Pekebun teh", "benar": false, "miskonsepsi": "Mengira kebun teh cocok di tepi pantai" },
+        { "teks": "Pemandu pendaki gunung", "benar": false, "miskonsepsi": "Tertukar antara pantai dan pegunungan" },
+        { "teks": "Petani sayur dataran tinggi", "benar": false, "miskonsepsi": "Belum mengaitkan bentang alam dengan pekerjaan warganya" }
+      ],
+      "pembahasan": "Di pantai ada laut yang kaya ikan. Karena itu, banyak warga pantai bekerja sebagai nelayan."
+    },
+    {
+      "id": "IPAS-B5-F2",
+      "tp_kode": "IPAS-B5",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Bentang alam berupa air yang luas dan dikelilingi daratan disebut ...",
+      "bacaan": null,
+      "visual": "🏞️",
+      "pilihan": [
+        { "teks": "laut", "benar": false, "miskonsepsi": "Mengira semua perairan luas adalah laut" },
+        { "teks": "danau", "benar": true },
+        { "teks": "sungai", "benar": false, "miskonsepsi": "Belum membedakan danau dengan sungai yang airnya mengalir" },
+        { "teks": "pantai", "benar": false, "miskonsepsi": "Tertukar antara perairan dan tepi laut" }
+      ],
+      "pembahasan": "Danau adalah air luas yang dikelilingi daratan. Sumatera Barat punya danau terkenal, misalnya Danau Maninjau dan Danau Singkarak."
+    },
+    {
+      "id": "IPAS-B5-F3",
+      "tp_kode": "IPAS-B5",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Di kota ada banyak pasar, toko, dan kantor. Pekerjaan yang banyak ditemui di kota adalah ...",
+      "bacaan": null,
+      "visual": "🏙️ | 🏪",
+      "pilihan": [
+        { "teks": "Petambak garam", "benar": false, "miskonsepsi": "Mengira tambak garam ada di tengah kota" },
+        { "teks": "Penggembala ternak", "benar": false, "miskonsepsi": "Mengira kota punya padang rumput yang luas" },
+        { "teks": "Pencari rotan", "benar": false, "miskonsepsi": "Mengira kota punya hutan yang lebat" },
+        { "teks": "Pedagang", "benar": true }
+      ],
+      "pembahasan": "Kota punya banyak pasar dan toko. Karena itu, banyak warga kota bekerja sebagai pedagang."
+    },
+    {
+      "id": "IPAS-B5-F4",
+      "tp_kode": "IPAS-B5",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Cara yang tepat untuk melestarikan budaya daerah adalah ...",
+      "bacaan": null,
+      "visual": "💃 | 🍽️",
+      "pilihan": [
+        { "teks": "Malu memakai pakaian adat", "benar": false, "miskonsepsi": "Mengira budaya daerah sudah kuno dan tidak perlu" },
+        { "teks": "Belajar Tari Piring di sanggar", "benar": true },
+        { "teks": "Membiarkan rumah gadang tua rusak", "benar": false, "miskonsepsi": "Mengira bangunan adat tidak perlu dijaga" },
+        { "teks": "Hanya mengenal budaya dari luar negeri", "benar": false, "miskonsepsi": "Mengira budaya daerah sendiri kurang menarik" }
+      ],
+      "pembahasan": "Budaya terjaga jika kita mau mempelajarinya. Belajar tarian daerah adalah contoh melestarikan budaya."
+    },
+    {
+      "id": "IPAS-B5-F5",
+      "tp_kode": "IPAS-B5",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Kampung Uni Sari berada di perbukitan. Tanahnya subur dan udaranya sejuk. Hasil yang paling mungkin dijual warganya adalah ...",
+      "bacaan": null,
+      "visual": "⛰️ | 🌿",
+      "pilihan": [
+        { "teks": "Ikan laut segar", "benar": false, "miskonsepsi": "Mengira hasil laut bisa didapat di perbukitan" },
+        { "teks": "Garam dari air laut", "benar": false, "miskonsepsi": "Belum tahu bahwa garam dibuat di tepi pantai" },
+        { "teks": "Sayur dan kopi", "benar": true },
+        { "teks": "Rumput laut", "benar": false, "miskonsepsi": "Mengira rumput laut tumbuh di tanah perbukitan" }
+      ],
+      "pembahasan": "Tanah subur dan udara sejuk cocok untuk berkebun. Karena itu, warga perbukitan banyak menjual sayur dan kopi."
+    },
+    {
+      "id": "IPAS-B6-F1",
+      "tp_kode": "IPAS-B6",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Rumah adat masyarakat Minangkabau disebut ...",
+      "bacaan": null,
+      "visual": "🏠",
+      "pilihan": [
+        { "teks": "Rumah joglo", "benar": false, "miskonsepsi": "Tertukar dengan rumah adat Jawa" },
+        { "teks": "Rumah gadang", "benar": true },
+        { "teks": "Honai", "benar": false, "miskonsepsi": "Tertukar dengan rumah adat Papua" },
+        { "teks": "Rumah bolon", "benar": false, "miskonsepsi": "Tertukar dengan rumah adat Batak di Sumatera Utara" }
+      ],
+      "pembahasan": "Rumah gadang adalah rumah adat Minangkabau. Atapnya runcing melengkung ke atas dan disebut gonjong."
+    },
+    {
+      "id": "IPAS-B6-F2",
+      "tp_kode": "IPAS-B6",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Jam Gadang adalah menara jam bersejarah yang terkenal. Jam Gadang berada di kota ...",
+      "bacaan": null,
+      "visual": "🕰️",
+      "pilihan": [
+        { "teks": "Padang", "benar": false, "miskonsepsi": "Mengira semua bangunan terkenal ada di ibu kota provinsi" },
+        { "teks": "Medan", "benar": false, "miskonsepsi": "Tertukar dengan kota di provinsi tetangga" },
+        { "teks": "Bukittinggi", "benar": true },
+        { "teks": "Jakarta", "benar": false, "miskonsepsi": "Mengira bangunan terkenal hanya ada di kota besar di Pulau Jawa" }
+      ],
+      "pembahasan": "Jam Gadang berdiri di tengah Kota Bukittinggi. Menara jam ini menjadi ikon kota yang banyak dikunjungi."
+    },
+    {
+      "id": "IPAS-B6-F3",
+      "tp_kode": "IPAS-B6",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Raka ingin tahu sejarah kampung neneknya. Cara yang paling tepat adalah ...",
+      "bacaan": null,
+      "visual": "👵 | 🏡",
+      "pilihan": [
+        { "teks": "Bertanya kepada tetua kampung", "benar": true },
+        { "teks": "Menebak sendiri tanpa bertanya", "benar": false, "miskonsepsi": "Mengira sejarah boleh dikarang sendiri" },
+        { "teks": "Membaca komik pahlawan super", "benar": false, "miskonsepsi": "Mengira cerita khayalan sama dengan sejarah" },
+        { "teks": "Melihat ramalan cuaca", "benar": false, "miskonsepsi": "Belum membedakan berita hari ini dengan cerita masa lalu" }
+      ],
+      "pembahasan": "Tetua kampung menyimpan banyak cerita masa lalu. Bertanya kepada mereka adalah cara yang baik untuk belajar sejarah."
+    },
+    {
+      "id": "IPAS-B6-F4",
+      "tp_kode": "IPAS-B6",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Warga kampung bersama-sama memperbaiki jalan dan membersihkan balai warga. Tradisi bekerja bersama ini disebut ...",
+      "bacaan": null,
+      "visual": "🧹 | 🤝",
+      "pilihan": [
+        { "teks": "Musyawarah", "benar": false, "miskonsepsi": "Tertukar antara bekerja bersama dan berunding bersama" },
+        { "teks": "Merantau", "benar": false, "miskonsepsi": "Tertukar dengan tradisi pergi bekerja ke daerah lain" },
+        { "teks": "Berlomba", "benar": false, "miskonsepsi": "Mengira bekerja bersama berarti saling berlomba" },
+        { "teks": "Gotong royong", "benar": true }
+      ],
+      "pembahasan": "Gotong royong artinya bekerja bersama untuk kepentingan bersama. Tradisi ini sudah ada sejak dulu dan masih dijaga hingga sekarang."
+    },
+    {
+      "id": "IPAS-B6-F5",
+      "tp_kode": "IPAS-B6",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Kakek Fadil menyimpan foto lama pasar di kampungnya. Foto itu menunjukkan keadaan pasar puluhan tahun lalu. Foto tersebut termasuk ...",
+      "bacaan": null,
+      "visual": "🖼️ | 🏪",
+      "pilihan": [
+        { "teks": "Benda yang tidak berguna", "benar": false, "miskonsepsi": "Mengira benda lama tidak bernilai" },
+        { "teks": "Sumber sejarah", "benar": true },
+        { "teks": "Ramalan masa depan", "benar": false, "miskonsepsi": "Tertukar antara masa lalu dan masa depan" },
+        { "teks": "Cerita khayalan", "benar": false, "miskonsepsi": "Mengira foto lama hanyalah cerita karangan" }
+      ],
+      "pembahasan": "Foto lama, bangunan tua, dan cerita tetua adalah sumber sejarah. Dari sana kita tahu kehidupan masyarakat pada masa lalu."
+    },
+    {
+      "id": "IPAS-B7-F1",
+      "tp_kode": "IPAS-B7",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Mata uang negara Indonesia adalah ...",
+      "bacaan": null,
+      "visual": "💵 | 🪙",
+      "pilihan": [
+        { "teks": "Ringgit", "benar": false, "miskonsepsi": "Tertukar dengan mata uang Malaysia" },
+        { "teks": "Dolar", "benar": false, "miskonsepsi": "Mengira semua uang disebut dolar" },
+        { "teks": "Yen", "benar": false, "miskonsepsi": "Tertukar dengan mata uang Jepang" },
+        { "teks": "Rupiah", "benar": true }
+      ],
+      "pembahasan": "Indonesia memakai rupiah, ditulis dengan tanda Rp. Ada uang kertas dan uang logam."
+    },
+    {
+      "id": "IPAS-B7-F2",
+      "tp_kode": "IPAS-B7",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 1,
+      "pertanyaan": "Yang termasuk kebutuhan adalah ...",
+      "bacaan": null,
+      "visual": "🍚 | 🧸 | 🎈",
+      "pilihan": [
+        { "teks": "Mainan robot baru", "benar": false, "miskonsepsi": "Mengira semua barang yang diinginkan adalah kebutuhan" },
+        { "teks": "Makanan sehari-hari", "benar": true },
+        { "teks": "Stiker lucu", "benar": false, "miskonsepsi": "Mengira barang yang lucu pasti dibutuhkan" },
+        { "teks": "Balon warna-warni", "benar": false, "miskonsepsi": "Belum membedakan kebutuhan dan keinginan" }
+      ],
+      "pembahasan": "Kebutuhan adalah hal yang harus ada untuk hidup, seperti makanan, pakaian, dan rumah. Mainan dan stiker termasuk keinginan."
+    },
+    {
+      "id": "IPAS-B7-F3",
+      "tp_kode": "IPAS-B7",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Uang saku Tiara Rp5.000 sehari. Ia menabung Rp2.000 setiap hari. Berapa uang yang bisa ia pakai sehari?",
+      "bacaan": null,
+      "visual": "🪙 | 🐷",
+      "pilihan": [
+        { "teks": "Rp7.000", "benar": false, "miskonsepsi": "Menjumlahkan, bukan mengurangi" },
+        { "teks": "Rp3.000", "benar": true },
+        { "teks": "Rp2.000", "benar": false, "miskonsepsi": "Mengira uang tabungan adalah uang yang dipakai" },
+        { "teks": "Rp5.000", "benar": false, "miskonsepsi": "Lupa bahwa sebagian uang sudah ditabung" }
+      ],
+      "pembahasan": "Dari Rp5.000, sebanyak Rp2.000 ditabung. Sisanya Rp5.000 − Rp2.000 = Rp3.000 untuk dipakai."
+    },
+    {
+      "id": "IPAS-B7-F4",
+      "tp_kode": "IPAS-B7",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 2,
+      "pertanyaan": "Sebelum ke toko buku, Bima membuat daftar belanja. Apa gunanya daftar belanja?",
+      "bacaan": null,
+      "visual": "📝 | 📚",
+      "pilihan": [
+        { "teks": "Agar membeli barang yang benar-benar diperlukan", "benar": true },
+        { "teks": "Agar bisa membeli semua barang di toko", "benar": false, "miskonsepsi": "Mengira daftar belanja untuk membeli sebanyak-banyaknya" },
+        { "teks": "Agar uangnya cepat habis", "benar": false, "miskonsepsi": "Mengira uang harus selalu dihabiskan" },
+        { "teks": "Agar tidak perlu membawa uang", "benar": false, "miskonsepsi": "Mengira daftar belanja bisa menggantikan uang" }
+      ],
+      "pembahasan": "Daftar belanja membantu kita membeli yang perlu saja. Uang jadi tidak terpakai untuk barang yang tidak direncanakan."
+    },
+    {
+      "id": "IPAS-B7-F5",
+      "tp_kode": "IPAS-B7",
+      "penggunaan": "formatif",
+      "tingkat_kesulitan": 3,
+      "pertanyaan": "Raka ingin membeli buku cerita seharga Rp20.000. Ia menabung Rp4.000 setiap minggu. Berapa minggu Raka perlu menabung?",
+      "bacaan": null,
+      "visual": "📚 | 🐷",
+      "pilihan": [
+        { "teks": "4 minggu", "benar": false, "miskonsepsi": "Memakai jumlah tabungan per minggu sebagai jawaban" },
+        { "teks": "16 minggu", "benar": false, "miskonsepsi": "Mengurangi, bukan membagi" },
+        { "teks": "5 minggu", "benar": true },
+        { "teks": "24 minggu", "benar": false, "miskonsepsi": "Menjumlahkan, bukan membagi" }
+      ],
+      "pembahasan": "Rp20.000 dibagi Rp4.000 sama dengan 5. Jadi Raka perlu menabung selama 5 minggu."
+    }
+  ]
+}

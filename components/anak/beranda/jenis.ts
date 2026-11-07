@@ -1,14 +1,25 @@
 // Bentuk data yang dibutuhkan Beranda Anak. Semua teks datang dari data, bukan ditulis di komponen.
 
+/** Satu pos di peta. chip: keterangan singkat di bawah judul (misalnya "Pos Dasar" atau "Kelas 4").
+ *  segera: materi belum punya soal (tanpa TP adaptif), ditampilkan "Segera hadir" dan tidak bisa dibuka. */
+export type PosBeranda = { id: string; judul: string; chip: string; tercapai: boolean; segera?: boolean };
+
 export type DataBeranda = {
   namaAnak: string;
   judulPetualangan: string;
-  /** Pos yang sudah tercapai sebelum pos sekarang (boleh tidak ada untuk anak baru). */
-  sebelumnya?: { judul: string };
-  /** Pos yang sedang dikerjakan ("Kamu di sini"). */
-  sekarang: { judul: string; keterangan: string; ajakan: string };
-  /** Pos-pos berikutnya yang belum terbuka, urut dari yang terdekat (boleh kosong). */
-  berikutnya: { judul: string }[];
-  /** Target dihitung per minggu, bukan per hari (PANDUAN 7.1). */
-  mekarMingguIni: { selesai: number; target: number };
+  /** Seluruh peta, urut dari awal sampai akhir. Posisi pos tetap; hanya tombol play yang berpindah. */
+  pos: PosBeranda[];
+  /** Pos bertombol play ("Kamu di sini"). */
+  indeksSekarang: number;
+  /** Isi pos bertombol play. Tanpa href = materinya belum tersedia.
+   *  kemajuan: bagian (TP) yang sudah tuntas di pos ini; pos berikutnya terbuka setelah semuanya tuntas. */
+  sekarang: {
+    judul: string;
+    keterangan: string;
+    ajakan: string;
+    pesan: string;
+    href?: string;
+    labelTombol: string;
+    kemajuan?: { tuntas: number; total: number };
+  };
 };

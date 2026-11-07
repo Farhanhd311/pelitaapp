@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "judul": "Narasi materi IPAS kelas 4: kartu belajar bercerita per TP",
+    "versi": "0.1-draf",
+    "status": "Draf ditulis dengan bantuan AI. Wajib ditinjau guru SD sebelum dipakai di luar demo.",
+    "keterangan": "Satu narasi per tp_kode (IPAS-B1 sampai IPAS-B7 di data_awal_ipas_kelas_4.json), ditampilkan sebelum soal (kartu belajar). Adegan 'tebak' tidak dinilai dan tidak memengaruhi status TP. visual: emoji/teks, kelompok dipisah ' | '."
+  },
+  "narasi": [
+    {
+      "tp_kode": "IPAS-B1",
+      "judul": "Berburu Energi di Kampung",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Halo, aku Pijar, nyala api kecil yang memberi cahaya dan hangat! Yuk, berburu energi yang membuat benda bergerak, menyala, berbunyi, atau hangat.", "visual": "🔥 | ☀️ | 💨 | 🔋" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Matahari bersinar di atas sawah. Panasnya mengeringkan jemuran, dan cahayanya membantu padi tumbuh.",
+          "visual": "☀️ | 🌾 | 👕",
+          "tebak": { "pertanyaan": "Energi apa saja yang diberikan matahari?", "pilihan": ["Cahaya dan panas", "Bunyi dan gerak"], "jawaban": "Cahaya dan panas", "penjelasan": "Siang hari terang dan udara terasa hangat. Itu tanda matahari memberi energi cahaya dan energi panas." }
+        },
+        { "ekspresi": "tenang", "teks": "Di rumah, Ibu menyalakan setrika. Energi listrik berubah menjadi energi panas sehingga baju kusut menjadi licin.", "visual": "🔌 ➡️ ♨️ | 👕" },
+        {
+          "ekspresi": "mengintip",
+          "teks": "Pijar menemukan mobil mainan bertenaga baterai. Baterai menyimpan energi kimia yang berubah menjadi energi listrik.",
+          "visual": "🔋 ➡️ ⚡ | 🚗",
+          "tebak": { "pertanyaan": "Roda mobil mainan berputar. Energi listrik berubah menjadi energi ...", "pilihan": ["gerak", "cahaya"], "jawaban": "gerak", "penjelasan": "Roda yang berputar menandakan ada gerakan. Jadi energi listrik berubah menjadi energi gerak." }
+        },
+        { "ekspresi": "senang", "teks": "Energi tidak hilang, tetapi berubah bentuk, misalnya listrik menjadi cahaya, panas, gerak, atau bunyi.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "IPAS-B2",
+      "judul": "Seru-seruan Agustusan di Lapangan",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar datang ke lapangan kampung untuk acara Agustusan. Tarik tambang dan dorong gerobak sama-sama memakai gaya, yaitu tarikan atau dorongan.", "visual": "🇮🇩 | 🪢 | 🛒" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Bola menggelinding ke arah Uda Rafi, lalu ia menendangnya ke samping. Lihat, bolanya berbelok!",
+          "visual": "⚽ ➡️ | ↗️",
+          "tebak": { "pertanyaan": "Saat bola ditendang ke samping, apa yang berubah?", "pilihan": ["Arah geraknya", "Warna bolanya"], "jawaban": "Arah geraknya", "penjelasan": "Tendangan adalah gaya. Gaya itu membuat bola berbelok ke arah lain." }
+        },
+        { "ekspresi": "terkejut", "teks": "Bola dilempar ke atas, tetapi selalu turun lagi karena gaya gravitasi bumi. Bola yang menggelinding di rumput pun pelan-pelan berhenti karena gaya gesek.", "visual": "⚽ ⬆️ | ⬇️ 🌍" },
+        {
+          "ekspresi": "mengintip",
+          "teks": "Di meja hadiah ada sebuah magnet. Magnet itu menempel pada penjepit kertas dari besi, tetapi tidak pada gelas kertas.",
+          "visual": "🧲 | 📎",
+          "tebak": { "pertanyaan": "Apakah magnet menarik semua benda?", "pilihan": ["Ya, semua benda", "Tidak, hanya benda tertentu"], "jawaban": "Tidak, hanya benda tertentu", "penjelasan": "Magnet menarik benda tertentu, misalnya yang terbuat dari besi. Kertas, kayu, dan plastik tidak ditarik magnet." }
+        },
+        { "ekspresi": "senang", "teks": "Gaya adalah tarikan atau dorongan yang bisa menggerakkan, menghentikan, membelokkan, atau mengubah bentuk benda.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "IPAS-B3",
+      "judul": "Liburan Hemat di Rumah Paman",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar menginap di rumah Paman di kaki bukit. Kata Paman, alam memberi kita air, tumbuhan, hewan, dan udara segar.", "visual": "⛰️🏡 | 💧 | 🌳 | 🐟" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Pohon yang ditebang bisa ditanam lagi. Namun, minyak bumi dan batu bara butuh waktu sangat lama untuk terbentuk, jadi bisa habis.",
+          "visual": "🌱 ➡️ 🌳 | 🛢️",
+          "tebak": { "pertanyaan": "Ikan di kolam Paman bisa bertelur dan bertambah banyak. Ikan termasuk sumber daya alam yang ...", "pilihan": ["dapat diperbarui", "tidak dapat diperbarui"], "jawaban": "dapat diperbarui", "penjelasan": "Ikan bisa berkembang biak, jadi jumlahnya bisa bertambah lagi. Asalkan tidak ditangkap berlebihan, ikan tidak akan habis." }
+        },
+        { "ekspresi": "tenang", "teks": "Paman menampung air hujan di ember untuk menyiram tanaman. Air bersih dari keran jadi lebih hemat.", "visual": "🌧️ ➡️ 🪣 ➡️ 🪴" },
+        {
+          "ekspresi": "tekad",
+          "teks": "Asap kendaraan dan pabrik membuat bumi makin hangat. Pohon membantu menyerap gas dari asap itu, dan kita bisa ikut membantu!",
+          "visual": "🌍 | 🌳 | 🚲",
+          "tebak": { "pertanyaan": "Mana yang mengurangi sampah plastik?", "pilihan": ["Membawa botol minum sendiri", "Membeli air kemasan setiap hari"], "jawaban": "Membawa botol minum sendiri", "penjelasan": "Botol minum bisa diisi ulang berkali-kali. Sampah plastik pun jadi berkurang." }
+        },
+        { "ekspresi": "senang", "teks": "Gunakan alam secukupnya, hemat air dan listrik, kurangi sampah, dan tanam pohon supaya bumi tetap nyaman.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "IPAS-B4",
+      "judul": "Pijar Membaca Peta Sumatera Barat",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar menemukan peta Provinsi Sumatera Barat! Ada titik besar bertuliskan Padang, ibu kota provinsi ini.", "visual": "🗺️ | 📍 Padang" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Di pojok peta ada mata angin: U utara, S selatan, T timur, dan B barat. Biasanya, utara berada di bagian atas peta.",
+          "visual": "🧭",
+          "tebak": { "pertanyaan": "Laut luas di sisi kiri peta Sumatera Barat berada di arah ...", "pilihan": ["barat", "timur"], "jawaban": "barat", "penjelasan": "Jika utara di atas, sisi kiri adalah barat. Laut di barat Sumatera Barat itu bernama Samudra Hindia." }
+        },
+        { "ekspresi": "tenang", "teks": "Di pojok bawah ada kotak berisi simbol dan artinya, namanya legenda. Pada peta ini, garis biru berarti sungai dan bulatan hitam berarti kota.", "visual": "〰️ sungai | ⚫ kota" },
+        {
+          "ekspresi": "semangat",
+          "teks": "Kakak membuka peta digital di tablet. Petanya bisa diperbesar sampai terlihat kota, kecamatan, kelurahan, bahkan jalan dekat rumah!",
+          "visual": "📱 | 🔍",
+          "tebak": { "pertanyaan": "Mana yang lebih luas?", "pilihan": ["Provinsi Sumatera Barat", "Kota Padang"], "jawaban": "Provinsi Sumatera Barat", "penjelasan": "Kota Padang adalah bagian dari Provinsi Sumatera Barat. Satu provinsi berisi banyak kabupaten dan kota." }
+        },
+        { "ekspresi": "senang", "teks": "Mata angin menunjukkan arah, legenda menjelaskan simbol, dan peta membantu kita menemukan letak daerah kita.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "IPAS-B5",
+      "judul": "Bus Wisata Keliling Sumatera Barat",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar ikut bus wisata keliling Sumatera Barat. Setiap bentang alam punya pekerjaan dan budaya warganya sendiri!", "visual": "🚌 | 🏖️ | ⛰️ | 🏙️" },
+        { "ekspresi": "tenang", "teks": "Di pantai, perahu-perahu pulang membawa ikan segar. Laut yang kaya ikan memberi pekerjaan bagi warga di sana.", "visual": "🏖️ | 🚣 | 🐟🐟" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Bus mendaki perbukitan yang sejuk. Di lerengnya ada kebun teh dan kebun sayur yang hijau.",
+          "visual": "⛰️ | 🍃 | 🥬🥕",
+          "tebak": { "pertanyaan": "Mengapa banyak kebun sayur di perbukitan?", "pilihan": ["Udaranya sejuk dan tanahnya subur", "Letaknya dekat laut"], "jawaban": "Udaranya sejuk dan tanahnya subur", "penjelasan": "Banyak jenis sayur tumbuh baik di udara sejuk. Karena itu, banyak warga perbukitan bekerja sebagai pekebun." }
+        },
+        {
+          "ekspresi": "mengintip",
+          "teks": "Di Kota Padang, pasar ramai oleh pedagang. Malamnya, Pijar menonton anak-anak berlatih Tari Piring di sanggar.",
+          "visual": "🏙️ | 🛍️ | 💃🍽️",
+          "tebak": { "pertanyaan": "Anak-anak berlatih Tari Piring. Apa artinya bagi budaya daerah?", "pilihan": ["Budaya tetap terjaga", "Budaya jadi terlupa"], "jawaban": "Budaya tetap terjaga", "penjelasan": "Budaya terus hidup kalau ada yang mempelajarinya. Berlatih tari daerah termasuk melestarikan budaya." }
+        },
+        { "ekspresi": "senang", "teks": "Bentang alam memengaruhi pekerjaan dan budaya warganya, dan kita ikut menjaga alam serta budaya itu.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "IPAS-B6",
+      "judul": "Cerita dari Rumah Gadang",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar berlibur ke kampung Nenek dekat Bukittinggi. Rumah Nenek adalah rumah gadang dengan atap runcing seperti tanduk kerbau.", "visual": "🏠 | 🐃" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Malam itu, Nenek bercerita tentang kampung pada masa lalu. Pijar penasaran, dari mana kita tahu cerita masa lalu?",
+          "visual": "👵 | 📜",
+          "tebak": { "pertanyaan": "Dari mana kita bisa mengenal masa lalu kampung?", "pilihan": ["Cerita tetua dan benda peninggalan", "Mimpi semalam"], "jawaban": "Cerita tetua dan benda peninggalan", "penjelasan": "Tetua, foto lama, dan bangunan tua menyimpan jejak masa lalu. Semuanya membantu kita belajar sejarah." }
+        },
+        { "ekspresi": "tenang", "teks": "Esok harinya, Pijar mengunjungi Jam Gadang di Bukittinggi. Menara jam tua ini menjadi kebanggaan warga Sumatera Barat.", "visual": "🕰️" },
+        {
+          "ekspresi": "semangat",
+          "teks": "Minggu pagi, warga bergotong royong membersihkan jalan kampung. Pijar ikut membawa sapu kecil!",
+          "visual": "🧹 | 🤝",
+          "tebak": { "pertanyaan": "Mengapa pekerjaan terasa ringan saat dikerjakan bersama?", "pilihan": ["Tugasnya dibagi bersama", "Pekerjaannya dibiarkan saja"], "jawaban": "Tugasnya dibagi bersama", "penjelasan": "Saat bergotong royong, setiap orang membantu sedikit. Pekerjaan berat pun cepat selesai." }
+        },
+        { "ekspresi": "senang", "teks": "Sejarah masyarakat bisa kita kenali dari cerita tetua, bangunan tua, dan tradisi yang masih dijaga.", "kunci": true }
+      ]
+    },
+    {
+      "tp_kode": "IPAS-B7",
+      "judul": "Celengan Ayam Pijar",
+      "adegan": [
+        { "ekspresi": "sambut", "teks": "Pijar punya celengan ayam berisi uang rupiah. Hari ini Pijar belajar mengatur uang saku dengan bijak!", "visual": "🐔 | 🪙" },
+        {
+          "ekspresi": "penasaran",
+          "teks": "Di pasar, ada banyak barang menarik. Ada yang kita butuhkan, ada juga yang hanya kita inginkan.",
+          "visual": "🛒 | 📒 | 🧸",
+          "tebak": { "pertanyaan": "Mana yang termasuk kebutuhan?", "pilihan": ["Buku tulis untuk belajar", "Gantungan kunci lucu"], "jawaban": "Buku tulis untuk belajar", "penjelasan": "Buku tulis diperlukan untuk belajar. Gantungan kunci lucu boleh dibeli nanti kalau uangnya cukup." }
+        },
+        { "ekspresi": "tenang", "teks": "Sebelum berangkat, Pijar menulis daftar belanja dan membandingkan harga. Uangnya cukup untuk semua yang direncanakan!", "visual": "📝 | 🏷️" },
+        {
+          "ekspresi": "tekad",
+          "teks": "Pijar ingin membeli buku gambar seharga Rp12.000. Setiap hari, Pijar menabung Rp2.000 di celengan.",
+          "visual": "📒 | 🐔🪙",
+          "tebak": { "pertanyaan": "Berapa hari Pijar perlu menabung?", "pilihan": ["6 hari", "10 hari", "14 hari"], "jawaban": "6 hari", "penjelasan": "Rp12.000 dibagi Rp2.000 sama dengan 6. Sedikit demi sedikit, lama-lama uangnya cukup!" }
+        },
+        { "ekspresi": "senang", "teks": "Dahulukan kebutuhan, buat rencana belanja, dan sisihkan uang untuk ditabung sedikit demi sedikit.", "kunci": true }
+      ]
+    }
+  ]
+}

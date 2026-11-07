@@ -1,7 +1,9 @@
 // Akses database untuk sesi belajar (dipakai app/api/sesi/route.ts). Semua query berparameter.
 
 import { GalatApi } from "@/lib/api/respons";
+import { benarLagiUntukTercapai } from "@/lib/bkt/engine";
 import { query, type JalankanKueri } from "@/lib/db";
+import type { ParameterSesiLengkap } from "@/lib/pengaturan";
 import type { Level } from "@/lib/sesi/aturan";
 import type { Konten } from "@/lib/kontrak/sesi";
 import type { SoalTampil } from "@/lib/kontrak/umum";
@@ -55,6 +57,37 @@ export async function hitungJawabanBelajarTp(anakId: number, tpKode: string): Pr
     [anakId, tpKode],
   );
   return Number(baris[0].jumlah);
+}
+
+// Sisa jawaban benar berturut-turut sampai TP ini tercapai, dengan aturan sesi yang sama (benarLagiUntukTercapai
+// -> jawabFormatif). Untuk pesan "tinggal N jawaban benar lagi" di sesi dan Beranda; bukan angka peluang (PANDUAN 7.2).
+// Memakai ceroboh biasa: perkiraan untuk sesi berikutnya, yang dimulai tanpa status "Agak capek".
+export async function hitungSisaBenar(
+  anakId: number,
+  tpKode: string,
+  p: number | null | undefined,
+  atur: Pick<ParameterSesiLengkap, "peluang_awal" | "tebakan" | "ceroboh" | "belajar_saat_sesi" | "ambang_tercapai_sesi" | "min_soal_tercapai">,
+): Promise<number> {
+  return benarLagiUntukTercapai(p ?? atur.peluang_awal, await hitungJawabanBelajarTp(anakId, tpKode), {
+    tebakan: atur.tebakan,
+    ceroboh: atur.ceroboh,
+    belajar_saat_sesi: atur.belajar_saat_sesi,
+    ambang_tercapai_sesi: atur.ambang_tercapai_sesi,
+    min_soal_tercapai: atur.min_soal_tercapai,
+  });
+}
+
+// TP yang pernah dilatih sebagai materi baru (untuk peta Beranda: pos yang pernah dilatih tetap tampil).
+// Hanya sesi level normal/penuh, karena materi baru hanya muncul di level itu (PANDUAN 7.1); sesi ringan
+// mengulang TP yang sudah tercapai dan tidak dihitung.
+export async function ambilTpPernahDilatih(anakId: number): Promise<Set<string>> {
+  const baris = await query<{ tp_kode: string }[]>(
+    `SELECT DISTINCT s.tp_kode FROM jawaban j
+     JOIN sesi se ON se.id = j.sesi_id JOIN pilihan p ON p.id = j.pilihan_id JOIN soal s ON s.id = p.soal_id
+     WHERE se.anak_id = ? AND se.jenis = 'belajar' AND se.level IN ('normal', 'penuh')`,
+    [anakId],
+  );
+  return new Set(baris.map((b) => b.tp_kode));
 }
 
 // ---------- Konten ----------

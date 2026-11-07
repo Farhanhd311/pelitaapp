@@ -109,6 +109,13 @@ Aturan memilih fitur: **(A)** tampil di demo ±130 detik → bangun penuh; **(B)
 15. Admin log aktivitas (tabel + filter) dan antrean eskalasi.
 16. Onboarding: data Raka di-seed; formulir survei satu halaman hanya jika sempat.
 
+### Tambahan atas keputusan tim (8 November, dekat titik bekukan fitur)
+Peta Beranda memuat keempat mapel, masing-masing minimal 5 sesi untuk demo:
+- **Matematika** dan **Bahasa Indonesia** adaptif, masing-masing dengan asesmen penempatan sendiri.
+- **IPAS** dan **Pendidikan Pancasila** pustaka: tanpa asesmen, langsung materi kelasnya.
+
+Soal dan narasi IPAS/PP ditulis dengan bantuan AI dan **diterbitkan langsung tanpa antrean tinjauan** (sumber `ai` di `SOAL`). Ini **pengecualian dari bagian 8**, diputuskan tim untuk demo; soal-soal itu tetap wajib ditinjau guru sebelum dipakai di luar demo.
+
 ### Di luar MVP (roadmap, dijawab lisan atau di slide)
 OTP SMS, verifikasi guru, mode offline/PWA, lapis koreksi otomatis (desainnya ada di 7.2), checkpoint retensi, tipe soal benar/salah dan susun kata (dengan `tebakan` per tipe), laporan naratif harian, pratinjau dampak perubahan ambang, Bahasa Indonesia elemen Membaca, IPAS dan Pendidikan Pancasila sebagai pustaka materi, kalibrasi BKT dari data, personalisasi dari pola check-in, komunitas orang tua, kode rujukan rumah sakit.
 
@@ -148,10 +155,12 @@ Check-in → sistem menentukan level sesi → modul + kuis per TP → update sta
 |---|---|---|---|
 | `istirahat` | 0 menit | Hanya konten santai opsional (cerita, musik) | Tidak ada |
 | `ringan` | 5–10 menit | Mengulang TP yang **sudah tercapai**, format audio/video pendek | 1–2 soal santai, **tidak memengaruhi status TP** |
-| `normal` | 15–20 menit | Materi baru atau modul jembatan | 3–5 soal formatif |
-| `penuh` | 25–30 menit dengan jeda | Materi baru + latihan + tantangan | Kuis lengkap |
+| `normal` | 15–20 menit | Materi baru atau modul jembatan | Minimal 3–5 soal formatif, lalu soal tambahan sampai TP tercapai |
+| `penuh` | 25–30 menit dengan jeda | Materi baru + latihan + tantangan | Kuis lengkap, lalu soal tambahan sampai TP tercapai |
 
 Materi baru **hanya** muncul di level `normal` dan `penuh`. Angka durasi adalah nilai awal yang perlu divalidasi tenaga kesehatan.
+
+**Soal tambahan (keputusan tim, perlu persetujuan seluruh tim):** di sesi materi baru, jatah soal level (`kuis.jumlah_soal_*`) adalah jumlah **minimal**. Sesi tidak berakhir karena jatah habis; soal tambahan diberikan sampai TP tercapai (`bkt.ambang_tercapai_sesi`, minimal `bkt.min_soal_tercapai` soal), dengan penanda "Tinggal N jawaban benar lagi" (jumlah jawaban, bukan angka peluang). Anak tetap bisa berhenti kapan saja, cek "Masih kuat?" tetap berlaku, dan progres tersimpan. Sesi `ringan` tetap berhenti di jatahnya.
 
 Urutan aturan (yang lebih atas menang):
 ```
@@ -253,7 +262,7 @@ Kejujuran klaim: di MVP parameter ditetapkan manual, jadi ini **model probabilis
 - Label `esensial_transisi` diadopsi dari prinsip **ATP Transisi** Kemendikdasmen (ATP yang dipadatkan untuk murid terdampak bencana). Saat fase pengobatan `intensif`, tampilkan hanya TP esensial.
 
 ### 7.4 Status TP (`PROGRES_TP.status`)
-`belum` → `jembatan` (sedang dikejar di Pos Dasar) → `tercapai`. Simpan juga `sumber_status` (`diuji` / `disimpulkan`) dan `p_menguasai`. Kuis gagal 2 kali → tandai untuk ditinjau guru pendamping, jangan paksa anak mengulang terus.
+`belum` → `jembatan` (sedang dikejar di Pos Dasar) → `tercapai`. Simpan juga `sumber_status` (`diuji` / `disimpulkan`) dan `p_menguasai`. Kuis gagal 2 kali → tandai untuk ditinjau guru pendamping, jangan paksa anak mengulang terus. (Dengan aturan soal tambahan di 7.1, "kuis gagal" berarti sesi yang dihentikan anak sebelum TP tercapai. Penandaan untuk guru belum dibangun di MVP.)
 
 ---
 
@@ -428,7 +437,9 @@ Catatan desain:
 ### Data awal
 File **`data/data_awal_matematika_fase_A_B.json`** berisi 16 TP Matematika elemen Bilangan (A1–A8, B1–B8), 19 relasi prasyarat, dan 64 soal diagnostik (4 per TP) lengkap dengan `miskonsepsi` dan `pembahasan`. Status: **draf**, perlu ditinjau guru SD. Buat skrip seed yang mengimpor file ini ke database.
 
-File **`data/data_awal_bahasa_indonesia_fase_A_B.json`** (mapel_id 2) berisi 12 TP elemen Membaca dan Memirsa (BI-A1–BI-A6, BI-B1–BI-B6), 13 relasi prasyarat, dan 48 soal diagnostik dengan format yang sama. Bedanya hanya kolom **`bacaan`**: teks yang dibaca anak sebelum menjawab (34 soal memakainya); tampilkan di atas pertanyaan dengan tombol speaker. Status: **draf**, pembagian kelas masih perkiraan dari CP. Mapel ini **di luar lingkup 24 jam**: impor hanya jika fitur bagian 5 sudah selesai, dan hanya jika kode asesmen tidak menulis `mapel_id` atau kode TP langsung di kode. Simulasi siswa virtual pada peta ini: rata-rata 12 soal (90% anak ≤ 16), akurasi status TP 94,7%.
+File **`data/data_awal_bahasa_indonesia_fase_A_B.json`** (mapel_id 2) berisi 12 TP elemen Membaca dan Memirsa (BI-A1–BI-A6, BI-B1–BI-B6), 13 relasi prasyarat, dan 48 soal diagnostik dengan format yang sama. Bedanya hanya kolom **`bacaan`**: teks yang dibaca anak sebelum menjawab (34 soal memakainya); tampilkan di atas pertanyaan dengan tombol speaker. Status: **draf**, pembagian kelas masih perkiraan dari CP. Mapel ini semula di luar lingkup 24 jam; kini diimpor untuk demo (lihat bagian 5, "Tambahan atas keputusan tim"). Kode asesmen dan sesi memakai `mapel_id` dari data (`?mapel=` di URL), tidak ditulis langsung di kode.
+
+File **`data/data_awal_ipas_kelas_4.json`** (mapel_id 3, IPAS-B1–B7) dan **`data/data_awal_pendidikan_pancasila_kelas_4.json`** (mapel_id 4, PP-B1–B5) adalah mapel pustaka kelas 4: tanpa prasyarat, 5 soal latihan per TP. Kaitannya dengan materi ada di `tp_terkait` pada `data_materi_per_kelas_SD.json`. Status: **draf ditulis dengan bantuan AI**, wajib ditinjau guru. Semua kurikulum diimpor oleh `npm run seed`; untuk database yang sudah terisi tanpa menghapus data, pakai `npm run impor-kurikulum`. Simulasi siswa virtual pada peta ini: rata-rata 12 soal (90% anak ≤ 16), akurasi status TP 94,7%.
 
 Rantai penting untuk demo:
 - Operasi hitung: A1 → A3 → A4 → B3 → B4 → B5

@@ -2,7 +2,7 @@
 
 import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
-import { Check, Lock, Play } from "lucide-react";
+import { Check, Hourglass, Lock, Play } from "lucide-react";
 import { cn } from "cn";
 
 type LabelDi = "bawah" | "kiri" | "kanan";
@@ -35,7 +35,21 @@ function gayaLabelSamping(labelDi: "kiri" | "kanan"): CSSProperties {
   };
 }
 
-export function SimpulTercapai({ judul, labelDi = "bawah" }: { judul: string; labelDi?: LabelDi }) {
+// Judul materi bisa panjang ("Penjumlahan dan pengurangan sampai 1.000"): dibatasi lebarnya lalu
+// dilipat, rata ke sisi pos. Ditulis sebagai style langsung dengan alasan yang sama seperti di atas.
+// Latar krem tipis di belakang judul supaya tetap terbaca di atas ilustrasi peta (bagian bawahnya gelap).
+function gayaJudul(labelDi: LabelDi): CSSProperties {
+  return {
+    maxWidth: 230,
+    textWrap: "balance",
+    textAlign: labelDi === "kiri" ? "right" : labelDi === "kanan" ? "left" : "center",
+    background: "rgb(255 244 228 / 0.88)",
+    borderRadius: 10,
+    padding: "2px 8px",
+  };
+}
+
+export function SimpulTercapai({ judul, chip = "Tercapai", labelDi = "bawah" }: { judul: string; chip?: string; labelDi?: LabelDi }) {
   return (
     <BingkaiSimpul
       labelDi={labelDi}
@@ -46,16 +60,29 @@ export function SimpulTercapai({ judul, labelDi = "bawah" }: { judul: string; la
       }
       label={
         <>
-          <p className="font-heading text-[15px] font-extrabold whitespace-nowrap text-teks">{judul}</p>
-          <span className="mt-2 rounded-full bg-emas/35 px-3 py-1 text-[13px] font-bold text-teks">Tercapai</span>
+          <p className="font-heading text-[15px] leading-snug font-extrabold text-teks" style={gayaJudul(labelDi)}>
+            {judul}
+          </p>
+          <span className="mt-2 rounded-full bg-emas/35 px-3 py-1 text-[13px] font-bold text-teks">{chip}</span>
         </>
       }
     />
   );
 }
 
-/** Tombol bulat pos yang sedang dikerjakan (tanpa label). */
-export function LingkaranSekarang({ judul, href }: { judul: string; href: string }) {
+/** Tombol bulat pos yang sedang dikerjakan (tanpa label). Tanpa href = materinya belum tersedia ("segera hadir"). */
+export function LingkaranSekarang({ judul, href }: { judul: string; href?: string }) {
+  if (!href) {
+    return (
+      <span
+        role="img"
+        aria-label={`${judul}, segera hadir`}
+        className="flex size-[104px] items-center justify-center rounded-full border-[6px] border-emas bg-pasir text-jingga shadow-[0_8px_0_var(--color-garis)]"
+      >
+        <Hourglass className="size-10" strokeWidth={2} aria-hidden />
+      </span>
+    );
+  }
   return (
     <Link
       href={href}
@@ -67,29 +94,63 @@ export function LingkaranSekarang({ judul, href }: { judul: string; href: string
   );
 }
 
-export function SimpulSekarang({ judul, keterangan, href }: { judul: string; keterangan: string; href: string }) {
+// Kemajuan di dalam pos: satu ruas per bagian (TP), yang tuntas berwarna emas. Tanpa angka peluang (PANDUAN 7.2).
+export function KemajuanPos({ tuntas, total, tengah = false }: { tuntas: number; total: number; tengah?: boolean }) {
   return (
-    <div className="flex flex-col items-center">
-      <LingkaranSekarang judul={judul} href={href} />
-      <p className="mt-4 font-heading text-[19px] font-extrabold text-teks">{judul}</p>
-      <p className="mt-1 text-[13px] text-teks-2">{keterangan}</p>
+    <div className={cn("mt-2 flex flex-col gap-1", tengah && "items-center")}>
+      <div
+        role="progressbar"
+        aria-label="Bagian pos yang sudah tuntas"
+        aria-valuemin={0}
+        aria-valuemax={total}
+        aria-valuenow={tuntas}
+        className="flex w-36 gap-1"
+      >
+        {Array.from({ length: total }, (_, i) => (
+          <span key={i} className={cn("h-2.5 flex-1 rounded-full", i < tuntas ? "bg-emas" : "bg-pasir")} />
+        ))}
+      </div>
+      <p className="text-[12px] font-bold text-teks-2">
+        {tuntas} dari {total} bagian tuntas
+      </p>
     </div>
   );
 }
 
-export function SimpulTerkunci({ judul, labelDi = "bawah" }: { judul: string; labelDi?: LabelDi }) {
+export function SimpulSekarang({ judul, keterangan, href }: { judul: string; keterangan: string; href?: string }) {
+  return (
+    <div className="flex flex-col items-center">
+      <LingkaranSekarang judul={judul} href={href} />
+      <p className="mt-4 text-center font-heading text-[19px] leading-snug font-extrabold text-teks" style={{ textWrap: "balance" }}>
+        {judul}
+      </p>
+      <p className="mt-1 text-center text-[13px] text-teks-2">{keterangan}</p>
+    </div>
+  );
+}
+
+// Pos terkunci (gembok) atau "segera hadir" (jam pasir, materinya belum punya soal). Bentuknya sama, hanya ikonnya beda.
+export function SimpulTerkunci({ judul, chip, labelDi = "bawah", segera = false }: { judul: string; chip: string; labelDi?: LabelDi; segera?: boolean }) {
+  const Ikon = segera ? Hourglass : Lock;
   return (
     <BingkaiSimpul
       labelDi={labelDi}
       lingkaran={
-        <span className="flex size-[72px] shrink-0 items-center justify-center rounded-full border-4 border-white bg-pasir-muda text-teks-2 shadow-[0_5px_0_var(--color-garis)]">
-          <Lock className="size-6" strokeWidth={1.75} aria-hidden />
+        <span
+          className={cn(
+            "flex size-[72px] shrink-0 items-center justify-center rounded-full border-4 border-white shadow-[0_5px_0_var(--color-garis)]",
+            segera ? "bg-pasir text-jingga" : "bg-pasir-muda text-teks-2",
+          )}
+        >
+          <Ikon className="size-6" strokeWidth={1.75} aria-hidden />
         </span>
       }
       label={
         <>
-          <p className="font-heading text-[15px] font-bold whitespace-nowrap text-teks-2">{judul}</p>
-          <span className="mt-2 rounded-full bg-pasir px-3 py-1 text-[13px] font-semibold text-teks-2">Segera Hadir</span>
+          <p className="font-heading text-[15px] leading-snug font-bold text-teks-2" style={gayaJudul(labelDi)}>
+            {judul}
+          </p>
+          <span className="mt-2 rounded-full bg-pasir px-3 py-1 text-[13px] font-semibold text-teks-2">{chip}</span>
         </>
       }
     />

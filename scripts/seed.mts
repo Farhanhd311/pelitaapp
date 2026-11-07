@@ -3,13 +3,14 @@
 //
 // Jalankan: npm run seed
 // Untuk database demo di internet (misalnya yang dipakai Vercel): npm run seed -- --izinkan-remote
+// Hanya menambah kurikulum ke database yang sudah ada (tanpa menghapus apa pun): npm run impor-kurikulum
 //
 // Isi yang dimasukkan:
-//   1. Kurikulum Matematika dari data/data_awal_matematika_fase_A_B.json (mapel, TP, prasyarat, soal + pilihan).
-//      Soal diimpor berstatus 'terbit' dengan sumber 'manual' (PANDUAN 8.5).
-//   2. PENGATURAN_SISTEM versi 1 dari meta.parameter_bkt + data/seed_pengaturan_sistem.json (PANDUAN 8.4).
+//   1. Kurikulum semua mapel dari KURIKULUM di bawah (mapel, TP, prasyarat, soal + pilihan), berstatus 'terbit'.
+//      Matematika dan Bahasa Indonesia: data awal tim (sumber 'manual'). IPAS dan Pendidikan Pancasila: ditulis
+//      dengan bantuan AI (sumber 'ai'), diterbitkan langsung atas keputusan tim untuk demo; tetap wajib ditinjau guru.
+//   2. PENGATURAN_SISTEM versi 1 dari meta.parameter_bkt Matematika + data/seed_pengaturan_sistem.json (PANDUAN 8.4).
 //   3. Akun demo (Admin, Ibu Sari, Kak Dina) dan profil anak Raka beserta relasi pendampingannya.
-// Data Bahasa Indonesia sengaja TIDAK diimpor (di luar lingkup 24 jam).
 //
 // Catatan: dijalankan langsung oleh Node (--experimental-strip-types), jadi pakai `import type`
 // untuk impor yang hanya berupa tipe.
@@ -18,11 +19,18 @@ import fs from "node:fs";
 import path from "node:path";
 import bcrypt from "bcryptjs";
 import mysql from "mysql2/promise";
-import type { Connection, ResultSetHeader } from "mysql2/promise";
+import type { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 
 const AKAR = path.resolve(import.meta.dirname, "..");
 const FILE_SKEMA = path.join(AKAR, "lib", "db", "schema.sql");
 const FILE_MATEMATIKA = path.join(AKAR, "data", "data_awal_matematika_fase_A_B.json");
+// Semua kurikulum yang diimpor. Menambah mapel = menambah satu baris di sini (dan file datanya).
+const KURIKULUM: { file: string; sumber: "manual" | "ai" }[] = [
+  { file: FILE_MATEMATIKA, sumber: "manual" },
+  { file: path.join(AKAR, "data", "data_awal_bahasa_indonesia_fase_A_B.json"), sumber: "manual" },
+  { file: path.join(AKAR, "data", "data_awal_ipas_kelas_4.json"), sumber: "ai" },
+  { file: path.join(AKAR, "data", "data_awal_pendidikan_pancasila_kelas_4.json"), sumber: "ai" },
+];
 const FILE_PENGATURAN = path.join(AKAR, "data", "seed_pengaturan_sistem.json");
 
 const HOST_LOKAL = ["localhost", "127.0.0.1", "::1", "[::1]"];
@@ -67,7 +75,7 @@ type SoalData = {
   pembahasan?: string;
 };
 type DataKurikulum = {
-  meta: { parameter_bkt: Record<string, unknown> };
+  meta: { parameter_bkt?: Record<string, unknown> };
   mapel: { id: number; nama: string }[];
   tujuan_pembelajaran: {
     kode: string;
@@ -136,14 +144,16 @@ async function buatUlangTabel(db: Connection, namaDatabase: string): Promise<voi
   console.log(`✓ ${tabel.length} tabel dibuat ulang dari schema.sql`);
 }
 
-async function imporKurikulum(db: Connection, data: DataKurikulum): Promise<void> {
+// INSERT IGNORE + lewati soal yang sudah ada: aman dijalankan berulang di database yang sudah terisi
+// (mode --impor-kurikulum). Data yang sudah ada tidak diubah.
+async function imporKurikulum(db: Connection, data: DataKurikulum, sumber: "manual" | "ai"): Promise<void> {
   for (const m of data.mapel) {
-    await db.query("INSERT INTO mapel (id, nama) VALUES (?, ?)", [m.id, m.nama]);
+    await db.query("INSERT IGNORE INTO mapel (id, nama) VALUES (?, ?)", [m.id, m.nama]);
   }
 
   for (const tp of data.tujuan_pembelajaran) {
     await db.query(
-      `INSERT INTO tujuan_pembelajaran
+      `INSERT IGNORE INTO tujuan_pembelajaran
          (kode, mapel_id, elemen, fase, kelas, urutan, deskripsi, esensial_transisi)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [tp.kode, tp.mapel_id, tp.elemen, tp.fase, tp.kelas, tp.urutan, tp.deskripsi, tp.esensial_transisi ? 1 : 0],
@@ -151,18 +161,22 @@ async function imporKurikulum(db: Connection, data: DataKurikulum): Promise<void
   }
 
   for (const p of data.prasyarat_tp) {
-    await db.query("INSERT INTO prasyarat_tp (tp_kode, prasyarat_kode) VALUES (?, ?)", [
+    await db.query("INSERT IGNORE INTO prasyarat_tp (tp_kode, prasyarat_kode) VALUES (?, ?)", [
       p.tp_kode,
       p.prasyarat_kode,
     ]);
   }
 
   let jumlahPilihan = 0;
+  let jumlahSoal = 0;
   for (const s of data.soal) {
+    const [ada] = await db.query<RowDataPacket[]>("SELECT id FROM soal WHERE id = ?", [s.id]);
+    if (ada.length > 0) continue;
+    jumlahSoal++;
     await db.query(
       `INSERT INTO soal
          (id, tp_kode, penggunaan, tingkat_kesulitan, pertanyaan, bacaan, visual, pembahasan, sumber, status)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'manual', 'terbit')`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'terbit')`,
       [
         s.id,
         s.tp_kode,
@@ -172,6 +186,7 @@ async function imporKurikulum(db: Connection, data: DataKurikulum): Promise<void
         s.bacaan ?? null,
         s.visual ?? null,
         s.pembahasan ?? null,
+        sumber,
       ],
     );
     for (const pil of s.pilihan) {
@@ -186,8 +201,8 @@ async function imporKurikulum(db: Connection, data: DataKurikulum): Promise<void
   }
 
   console.log(
-    `✓ Kurikulum: ${data.mapel.length} mapel, ${data.tujuan_pembelajaran.length} TP, ` +
-      `${data.prasyarat_tp.length} prasyarat, ${data.soal.length} soal, ${jumlahPilihan} pilihan`,
+    `✓ Kurikulum ${data.mapel.map((m) => m.nama).join(", ")}: ${data.tujuan_pembelajaran.length} TP, ` +
+      `${data.prasyarat_tp.length} prasyarat, ${jumlahSoal} soal baru (${jumlahPilihan} pilihan), sumber '${sumber}'`,
   );
 }
 
@@ -267,7 +282,8 @@ async function main(): Promise<void> {
   if (!/^\d+$/.test(pin)) {
     throw new Error("DEMO_PIN harus berupa angka");
   }
-  cekDatabaseAman(url);
+  const hanyaKurikulum = process.argv.includes("--impor-kurikulum");
+  if (!hanyaKurikulum) cekDatabaseAman(url); // mode impor tidak menghapus apa pun
 
   const namaDatabase = decodeURIComponent(url.pathname.replace(/^\//, ""));
   const db = await mysql.createConnection({
@@ -281,15 +297,17 @@ async function main(): Promise<void> {
     await db.query("SET time_zone = '+00:00'");
     console.log(`Seed ke database "${namaDatabase}" di ${url.hostname}`);
 
-    await buatUlangTabel(db, namaDatabase);
+    if (!hanyaKurikulum) await buatUlangTabel(db, namaDatabase);
 
     const dataMatematika = bacaJson<DataKurikulum>(FILE_MATEMATIKA);
     const dataPengaturan = bacaJson<DataPengaturan>(FILE_PENGATURAN);
 
     await db.beginTransaction();
-    await imporKurikulum(db, dataMatematika);
-    await isiPengaturan(db, dataMatematika.meta.parameter_bkt, dataPengaturan);
-    await buatDataDemo(db, password, pin);
+    for (const k of KURIKULUM) await imporKurikulum(db, bacaJson<DataKurikulum>(k.file), k.sumber);
+    if (!hanyaKurikulum) {
+      await isiPengaturan(db, dataMatematika.meta.parameter_bkt ?? {}, dataPengaturan);
+      await buatDataDemo(db, password, pin);
+    }
     await db.commit();
 
     console.log("Seed selesai.");

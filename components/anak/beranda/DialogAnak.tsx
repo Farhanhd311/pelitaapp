@@ -1,6 +1,6 @@
 "use client";
 
-// Dua dialog kecil di Beranda Anak: panduan cara bermain dan ajakan istirahat.
+// Dialog kecil di Beranda Anak: panduan cara bermain.
 // Teks pendek, ada tombol speaker, dan tombol tutup besar (>= 56px).
 
 import type { ReactNode } from "react";
@@ -38,20 +38,6 @@ export function DialogPanduan({ pemicu, className }: Props) {
         ))}
       </ol>
     </DialogDasar>
-  );
-}
-
-export function DialogIstirahat({ pemicu, className }: Props) {
-  return (
-    <DialogDasar
-      pemicu={pemicu}
-      className={className}
-      ekspresi="istirahat"
-      gerak="lelah"
-      judul="Istirahat dulu, ya"
-      deskripsi="Tarik napas pelan-pelan, minum air, lalu rebahan sebentar. Petualanganmu aman dan tetap menunggu di sini."
-      tombolTutup="Oke, Pijar!"
-    />
   );
 }
 

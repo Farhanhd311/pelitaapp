@@ -22,6 +22,7 @@ import {
   type ResponsCheckin,
   type ResponsCheckinHariIni,
 } from "@/lib/kontrak/checkin";
+import { mapelDariUrl } from "@/components/anak/sesi/jalur";
 import { HasilCheckin } from "./HasilCheckin";
 import { KartuPilihan } from "./KartuPilihan";
 
@@ -63,12 +64,18 @@ export function AlurCheckin() {
   const [tanpaKeluhan, setTanpaKeluhan] = useState(false);
   const [mengirim, setMengirim] = useState(false);
   const [galat, setGalat] = useState<string | null>(null);
+  const [mapelId, setMapelId] = useState<number | null>(null); // dari ?mapel= (Beranda), diteruskan ke sesi
 
   // Sudah check-in hari ini? Langsung tampilkan hasilnya (anak boleh mengubah kondisinya).
+  // Mapel dibaca dari URL setelah data termuat (di dalam callback, bukan langsung di efek).
   useEffect(() => {
     panggilApi<ResponsCheckinHariIni>("/api/checkin")
-      .then(({ checkin }) => setTampilan(checkin ? { jenis: "hasil", hasil: checkin, sudahSebelumnya: true } : { jenis: "isi" }))
+      .then(({ checkin }) => {
+        setMapelId(mapelDariUrl());
+        setTampilan(checkin ? { jenis: "hasil", hasil: checkin, sudahSebelumnya: true } : { jenis: "isi" });
+      })
       .catch((e) => {
+        setMapelId(mapelDariUrl());
         if (butuhMasuk(e)) return setTampilan({ jenis: "perlu_masuk", galat: e });
         setGalat(pesanGalat(e));
         setTampilan({ jenis: "isi" });
@@ -138,7 +145,7 @@ export function AlurCheckin() {
 
       {tampilan.jenis === "perlu_masuk" && <LayarPerluMasuk galat={tampilan.galat} />}
 
-      {tampilan.jenis === "hasil" && <HasilCheckin hasil={tampilan.hasil} sudahSebelumnya={tampilan.sudahSebelumnya} onUbah={ulangi} />}
+      {tampilan.jenis === "hasil" && <HasilCheckin hasil={tampilan.hasil} sudahSebelumnya={tampilan.sudahSebelumnya} mapelId={mapelId} onUbah={ulangi} />}
 
       {tampilan.jenis === "isi" && (
         <AnimatePresence mode="wait" custom={arah} initial={false}>
